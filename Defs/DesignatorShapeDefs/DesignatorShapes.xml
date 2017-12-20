@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs> 
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>Line</defName>
+        <label>line</label>
+        <description>Designate in a line</description>
+        <uiIconPath>UI/Commands/line</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawLine</drawMethodName>
+        <designationCategory>Shapes</designationCategory>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>Rectangle</defName>
+        <label>rectangle</label>
+        <description>Designate in a rectangle</description>
+        <uiIconPath>UI/Commands/rectangle</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawRectangle</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>RectangleFilled</defName>
+        <label>filled rectangle</label>
+        <description>Designate in a filled rectangle</description>
+        <uiIconPath>UI/Commands/rectangle_filled</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawRectangleFilled</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>Ellipse</defName>
+        <label>ellipse</label>
+        <description>Designate in an ellipse</description>
+        <uiIconPath>UI/Commands/ellipse</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawEllipse</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>EllipseFilled</defName>
+        <label>filled ellipse</label>
+        <description>Designate in a filled ellipse</description>
+        <uiIconPath>UI/Commands/ellipse_filled</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawEllipseFilled</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>Hexagon</defName>
+        <label>hexagon</label>
+        <description>Designate in a hexagon</description>
+        <uiIconPath>UI/Commands/hexagon</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawHexagon</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>HexagonFilled</defName>
+        <label>filled hexagon</label>
+        <description>Designate in a filled hexagon</description>
+        <uiIconPath>UI/Commands/hexagon_filled</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawHexagonFilled</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>Circle</defName>
+        <label>circle</label>
+        <description>Designate in a circle</description>
+        <uiIconPath>UI/Commands/circle</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawCircle</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>CircleFilled</defName>
+        <label>filled circle</label>
+        <description>Designate in a filled circle</description>
+        <uiIconPath>UI/Commands/circle_filled</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawCircleFilled</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <!--Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>FloodFill</defName>
+        <label>flood fill</label>
+        <description>Fill between a walled-in area.</description>
+        <uiIconPath>UI/Commands/fill</uiIconPath>
+        <draggable>false</draggable>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.FloodFill</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef-->
+</Defs>

@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merthsoft.DesignatorShapes", "Source\Merthsoft.DesignatorShapes.csproj", "{EB853EAD-4C5C-4F16-96FC-501F16C907A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{4C3D7EE9-1392-4025-9749-1DAB268F467A}"
+	ProjectSection(SolutionItems) = preProject
+		About\About.xml = About\About.xml
+		About\Preview.png = About\Preview.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Defs", "Defs", "{7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThingsDefs_Misc", "ThingsDefs_Misc", "{14D49CF6-42A2-4B85-9614-440681C49258}"
+	ProjectSection(SolutionItems) = preProject
+		Defs\ThingDefs_Misc\DesignationCategory_ShapeTool.xml = Defs\ThingDefs_Misc\DesignationCategory_ShapeTool.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Textures", "Textures", "{CF7751B8-F1D4-4054-9B17-7CEAE45C6097}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{82E883B5-F29F-41AA-91DF-2F5C4FBDBED8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{B02A2588-7637-43FC-925D-CEFE26D4109B}"
+	ProjectSection(SolutionItems) = preProject
+		Textures\UI\Commands\hexagon_filled.png = Textures\UI\Commands\hexagon_filled.png
+		Textures\UI\Commands\hexagon.png = Textures\UI\Commands\hexagon.png
+		Textures\UI\Commands\line.png = Textures\UI\Commands\line.png
+		Textures\UI\Commands\circle_filled.png = Textures\UI\Commands\circle_filled.png
+		Textures\UI\Commands\circle.png = Textures\UI\Commands\circle.png
+		Textures\UI\Commands\ellipse_filled.png = Textures\UI\Commands\ellipse_filled.png
+		Textures\UI\Commands\ellipse.png = Textures\UI\Commands\ellipse.png
+		Textures\UI\Commands\fill.png = Textures\UI\Commands\fill.png
+		Textures\UI\Commands\rectangle_filled.png = Textures\UI\Commands\rectangle_filled.png
+		Textures\UI\Commands\rectangle.png = Textures\UI\Commands\rectangle.png
+		Textures\UI\Commands\settings.png = Textures\UI\Commands\settings.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DesignatorShapeDefs", "DesignatorShapeDefs", "{5BFAB17E-CD44-4D3C-8278-0AA402254456}"
+	ProjectSection(SolutionItems) = preProject
+		Defs\DesignatorShapeDefs\DesignatorShapes.xml = Defs\DesignatorShapeDefs\DesignatorShapes.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB853EAD-4C5C-4F16-96FC-501F16C907A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB853EAD-4C5C-4F16-96FC-501F16C907A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB853EAD-4C5C-4F16-96FC-501F16C907A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB853EAD-4C5C-4F16-96FC-501F16C907A1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14D49CF6-42A2-4B85-9614-440681C49258} = {7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}
+		{82E883B5-F29F-41AA-91DF-2F5C4FBDBED8} = {CF7751B8-F1D4-4054-9B17-7CEAE45C6097}
+		{B02A2588-7637-43FC-925D-CEFE26D4109B} = {82E883B5-F29F-41AA-91DF-2F5C4FBDBED8}
+		{5BFAB17E-CD44-4D3C-8278-0AA402254456} = {7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}
+	EndGlobalSection
+EndGlobal
