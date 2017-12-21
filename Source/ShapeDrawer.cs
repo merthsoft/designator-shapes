@@ -394,6 +394,7 @@ namespace Merthsoft.DesignatorShapes {
             var wallAtMouse = getWallAt(map, t);
             var blueprintAtMouse = getBlueprintAt(map, t);
             var designationsAtMouse = getDesignaionsAt(map, t);
+            var mineableAtMouse = getMineableAt(map, t);
 
             var cells = new Queue<IntVec3>();
             cells.Enqueue(t);
@@ -405,17 +406,36 @@ namespace Merthsoft.DesignatorShapes {
                 var cellWall = getWallAt(map, cell);
                 var cellDes = getDesignaionsAt(map, cell);
                 var cellBlueprint = getBlueprintAt(map, cell);
+                var cellMineableAt = getMineableAt(map, cell);
 
-                if (wallAtMouse == null) {
-                    if (cellWall != null && designator is Designator_Build) {
-                        ret.Add(cell);
-                    } else if (cellWall == null && cellDes.Count() == 0 && cellBlueprint == null) {
-                        ret.Add(cell);
-						cells.Enqueue(cell + IntVec3.North);
-                        cells.Enqueue(cell + IntVec3.East);
-                        cells.Enqueue(cell + IntVec3.South);
-                        cells.Enqueue(cell + IntVec3.West);
+                var addFlag = false;
+                var neighborsFlag = false;
+
+                if (wallAtMouse != null) {
+                    if (cellWall?.def == wallAtMouse.def) {
+                        addFlag = true;
+                        neighborsFlag = true;
                     }
+                } else if (mineableAtMouse != null) {
+                    if (cellMineableAt?.def == mineableAtMouse.def) {
+                        addFlag = true;
+                        neighborsFlag = true;
+                    }
+                } else {
+                    if (cellWall != null && designator is Designator_Build) {
+                        addFlag = true;
+                    } else if (cellWall == null && cellDes.Count() == 0 && cellBlueprint == null) {
+                        addFlag = true;
+                        neighborsFlag = true;
+                    }
+                }
+
+                if (addFlag) { ret.Add(cell); }
+                if (neighborsFlag) {
+                    cells.Enqueue(cell + IntVec3.North);
+                    cells.Enqueue(cell + IntVec3.East);
+                    cells.Enqueue(cell + IntVec3.South);
+                    cells.Enqueue(cell + IntVec3.West);
                 }
             }
 
