@@ -69,12 +69,12 @@
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawCircleFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
-    <!--Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
         <defName>FloodFill</defName>
         <label>flood fill</label>
         <description>Fill between a walled-in area.</description>
         <uiIconPath>UI/Commands/fill</uiIconPath>
         <draggable>false</draggable>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.FloodFill</drawMethodName>
-    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef-->
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 </Defs>

@@ -42,6 +42,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DesignatorShapeDefs", "Desi
 		Defs\DesignatorShapeDefs\DesignatorShapes.xml = Defs\DesignatorShapeDefs\DesignatorShapes.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ArchitectIcons", "ArchitectIcons", "{B50E6CCE-1907-4E43-B6DB-843C6193B40B}"
+	ProjectSection(SolutionItems) = preProject
+		Textures\ArchitectIcons\Shapes.png = Textures\ArchitectIcons\Shapes.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,5 +66,6 @@ Global
 		{82E883B5-F29F-41AA-91DF-2F5C4FBDBED8} = {CF7751B8-F1D4-4054-9B17-7CEAE45C6097}
 		{B02A2588-7637-43FC-925D-CEFE26D4109B} = {82E883B5-F29F-41AA-91DF-2F5C4FBDBED8}
 		{5BFAB17E-CD44-4D3C-8278-0AA402254456} = {7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}
+		{B50E6CCE-1907-4E43-B6DB-843C6193B40B} = {CF7751B8-F1D4-4054-9B17-7CEAE45C6097}
 	EndGlobalSection
 EndGlobal
