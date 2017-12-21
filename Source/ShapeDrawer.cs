@@ -427,8 +427,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         static Thing getMineableAt(Map map, IntVec3 cell) {
-            //return map.thingGrid
-            return null;
+            return map.thingGrid.ThingsListAtFast(cell).FirstOrDefault(t => t is Mineable);
         }
 
         static Thing getWallAt(Map map, IntVec3 cell) {

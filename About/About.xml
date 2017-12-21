@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Designator Shapes</name>
+	<name>Designator Shapes - dev</name>
 	<author>Shaun McFall</author>
-	<url></url>
+	<url>http://merthsoft.com/RimWorld/DesignatorShapes.zip</url>
 	<targetVersion>0.18.0</targetVersion>
 	<description>Allows you to draw all designators in different shapes.
 

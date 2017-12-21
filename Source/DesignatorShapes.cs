@@ -19,6 +19,7 @@ namespace Merthsoft.DesignatorShapes {
         public static Texture2D Icon_Settings;
 
         public static GlobalSettings globalSettings;
+        public static HarmonyInstance Harmony;
 
         public override string SettingsCategory() => "Designator Shapes";
 
@@ -36,8 +37,8 @@ namespace Merthsoft.DesignatorShapes {
             Log.Message("Designator Shapes static initialization started");
             var timestamp = DateTime.Now;
 
-            var harmony = HarmonyInstance.Create("com.Merthsoft.DesignatorShapes");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            Harmony = HarmonyInstance.Create("com.Merthsoft.DesignatorShapes");
+            Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             //Icon_Settings = getIcon("UI/Commands/settings");
 
@@ -55,6 +56,24 @@ namespace Merthsoft.DesignatorShapes {
             globalSettings.Write();
         }
 
+        public static void LoadDefs() {
+            var shapes = Merthsoft.DesignatorShapes.Defs.DesignationCategoryDefOf.Shapes;
+            var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
+
+            var numShapeDefs = shapeDefs.Count;
+            var numShapeDes = shapes.AllResolvedDesignators?.Count ?? 0;
+
+            if (numShapeDefs > numShapeDes) {
+                shapes.ResolveReferences();
+                shapeDefs.ForEach(d => shapes.AllResolvedDesignators.Add(new Designator_Shape(d)));
+
+                var sb = new StringBuilder("Shapes resolved: ");
+                shapes.AllResolvedDesignators.ForEach(d => sb.Append($"{d.LabelCap}, "));
+                sb.Length -= 2;
+                Log.Message(sb.ToString());
+            }
+        }
+
         public static void Rotate(float degrees) {
             Rotation += degrees;
             if (Rotation < 0) {
@@ -70,7 +89,7 @@ namespace Merthsoft.DesignatorShapes {
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true) {
             if (announce && CurrentTool != def) {
-                Messages.Message($"{def.LabelCap} designation shape selected.", MessageTypeDefOf.NeutralEvent);
+                Messages.Message($"{def.LabelCap} designation shape selected.", MessageTypeDefOf.SilentInput);
             }
             DesignatorShapes.CurrentTool = def;
             if (!def.draggable) {}

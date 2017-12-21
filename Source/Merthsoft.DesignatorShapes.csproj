@@ -60,11 +60,10 @@
     <Compile Include="Defs\DesignatorShapeDefOf.cs" />
     <Compile Include="Patches\DesignatorManager_Select_Patch.cs" />
     <Compile Include="Patches\DesignationDragger_UpdateDragCellsIfNeeded_Patch.cs" />
-    <Compile Include="Patches\DesignationCategoryDef_ResolveReferences_Patch.cs" />
-    <Compile Include="Defs\DesignatorCategoryDefOf.cs" />
-    <Compile Include="Patches\ArchitectCategoryTab_DesignationTabOnGUI_Patch.cs" />
     <Compile Include="Patches\DesignatorManager_ProcessInputEvents_Patch.cs" />
     <Compile Include="GlobalSettings.cs" />
+    <Compile Include="Defs\DesignationCategoryDef.cs" />
+    <Compile Include="Patches\Game_FinalizeInit_Patch.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Defs\" />
