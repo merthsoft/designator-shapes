@@ -27,7 +27,7 @@ namespace Merthsoft.DesignatorShapes.Patches {
             var start = (IntVec3)__instance.GetInstanceField<object>("startDragCell");
             var end = UI.MouseCell();
 
-            var points = DesignatorShapes.CurrentTool?.drawMethod(start, end);
+            var points = DesignatorShapes.CurrentTool?.drawMethod(start, end, DesignatorShapes.Rotation);
             points = points?.Rotate(start, end, DesignatorShapes.Rotation);
 
             foreach (var vec in points) {

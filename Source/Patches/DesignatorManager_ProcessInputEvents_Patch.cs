@@ -45,12 +45,12 @@ namespace Merthsoft.DesignatorShapes.Patches {
         }
 
         private static void rotateShapePositive(Event ev) {
-            DesignatorShapes.Rotate(15f);
+            DesignatorShapes.Rotate(1);
             ev.Use();
         }
 
         private static void rotateShapeNegative(Event ev) {
-            DesignatorShapes.Rotate(-15f);
+            DesignatorShapes.Rotate(-1);
             ev.Use();
         }
     }

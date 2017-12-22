@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using RimWorld;
 using Verse;
 
@@ -18,7 +19,7 @@ namespace Merthsoft.DesignatorShapes {
             item2 = temp;
         }
 
-        public static IEnumerable<IntVec3> DrawLine(IntVec3 vert1, IntVec3 vert2) {
+        public static IEnumerable<IntVec3> DrawLine(IntVec3 vert1, IntVec3 vert2, int rotation = 0) {
             return DrawLine(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z);
         }
 
@@ -84,11 +85,11 @@ namespace Merthsoft.DesignatorShapes {
             return Enumerable.Range(z1, z2 - z1 + 1).Select(z => new IntVec3(x, y, z));
         }
 
-        public static IEnumerable<IntVec3> DrawRectangle(IntVec3 s, IntVec3 t) {
+        public static IEnumerable<IntVec3> DrawRectangle(IntVec3 s, IntVec3 t, int rotation) {
             return DrawRectangle(s.x, s.y, s.z, t.x, t.y, t.z, false);
         }
 
-        public static IEnumerable<IntVec3> DrawRectangleFilled(IntVec3 s, IntVec3 t) {
+        public static IEnumerable<IntVec3> DrawRectangleFilled(IntVec3 s, IntVec3 t, int rotation) {
             return DrawRectangle(s.x, s.y, s.z, t.x, t.y, t.z, true);
         }
 
@@ -144,11 +145,11 @@ namespace Merthsoft.DesignatorShapes {
             return vec;
         }
 
-        public static IEnumerable<IntVec3> DrawHexagon(IntVec3 s, IntVec3 t) {
+        public static IEnumerable<IntVec3> DrawHexagon(IntVec3 s, IntVec3 t, int rotation) {
             return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, false);
         }
 
-        public static IEnumerable<IntVec3> DrawHexagonFilled(IntVec3 s, IntVec3 t) {
+        public static IEnumerable<IntVec3> DrawHexagonFilled(IntVec3 s, IntVec3 t, int rotation) {
             return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, true);
         }
 
@@ -213,21 +214,8 @@ namespace Merthsoft.DesignatorShapes {
             for (int i = 0; i < numSides; i++) {
                 float angle = (((360f / (float)numSides) * i) % 360) * (float)(Math.PI / 180d);
                 float x, z;
-                //if (flipped) {
-                //    z = center.z + (float)(radiusWidth * Math.Sin(angle) + errorWidth);
-                //    x = center.x + (float)(radiusHeight * Math.Cos(angle) + errorHeight);
-                //    //z = center.x + (float)(radiusWidth * Math.Sin(angle));
-                //    //x = center.z + (float)(radiusHeight * Math.Cos(angle));
-                //} else {
                 x = center.x + (float)(radiusWidth * Math.Sin(angle) + errorWidth);
                 z = center.z + (float)(radiusHeight * Math.Cos(angle) + errorHeight);
-                //x = center.x + (float)(radiusWidth * Math.Sin(angle));
-                //z = center.z + (float)(radiusHeight * Math.Cos(angle));
-                //}
-
-                //Correct errors
-                //x = (float)Math.Round(x, MidpointRounding.ToEven);
-                //z = (float)Math.Round(z, MidpointRounding.ToEven);
 
                 ret.Add(new IntVec3((int)x, 0, (int)z));
             }
@@ -251,21 +239,17 @@ namespace Merthsoft.DesignatorShapes {
             return ret;
         }
 
-        //private static bool addVector(this HashSet<IntVec3> vectors, IntVec3 vec) {
-        //    return vectors.Add(vec);
-        //}
-
         private static void AddRange(this HashSet<IntVec3> vectors, IEnumerable<IntVec3> newVectors) {
             foreach (var vec in newVectors) {
                 vectors.Add(vec);
             }
         }
 
-        public static IEnumerable<IntVec3> DrawEllipse(IntVec3 s, IntVec3 t) {
+        public static IEnumerable<IntVec3> DrawEllipse(IntVec3 s, IntVec3 t, int rotation) {
             return DrawEllipse(s.x, s.y, s.z, t.x, t.y, t.z, false);
         }
 
-        public static IEnumerable<IntVec3> DrawEllipseFilled(IntVec3 s, IntVec3 t) {
+        public static IEnumerable<IntVec3> DrawEllipseFilled(IntVec3 s, IntVec3 t, int rotation) {
             return DrawEllipse(s.x, s.y, s.z, t.x, t.y, t.z, true);
         }
 
@@ -345,7 +329,7 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        public static IEnumerable<IntVec3> DrawCircle(IntVec3 s, IntVec3 t) {
+        public static IEnumerable<IntVec3> DrawCircle(IntVec3 s, IntVec3 t, int rotation) {
             var x1 = s.x;
             var y1 = s.y;
             var z1 = s.z;
@@ -360,7 +344,7 @@ namespace Merthsoft.DesignatorShapes {
             return DrawCircle(s.x, s.z, r);
         }
 
-        public static IEnumerable<IntVec3> DrawCircleFilled(IntVec3 s, IntVec3 t) {
+        public static IEnumerable<IntVec3> DrawCircleFilled(IntVec3 s, IntVec3 t, int rotation) {
             var x1 = s.x;
             var y1 = s.y;
             var z1 = s.z;
@@ -386,15 +370,16 @@ namespace Merthsoft.DesignatorShapes {
             return DrawEllipseUsingRadius(x, y, r, r, fill);
         }
 
-        public static IEnumerable<IntVec3> FloodFill(IntVec3 s, IntVec3 t) {
-            HashSet<IntVec3> ret = new HashSet<IntVec3>();
+        public static IEnumerable<IntVec3> FloodFill(IntVec3 s, IntVec3 t, int rotation) {
+            var ret = new HashSet<IntVec3>();
             var designator = Find.DesignatorManager.SelectedDesignator;
-            Map map = Find.VisibleMap;
+            var map = Find.VisibleMap;
 
             var wallAtMouse = getWallAt(map, t);
             var blueprintAtMouse = getBlueprintAt(map, t);
             var designationsAtMouse = getDesignaionsAt(map, t);
             var mineableAtMouse = getMineableAt(map, t);
+            var floorAtMouse = getFloorAt(map, t);
 
             var cells = new Queue<IntVec3>();
             cells.Enqueue(t);
@@ -402,11 +387,14 @@ namespace Merthsoft.DesignatorShapes {
                 var cell = cells.Dequeue();
                 if (!cell.InBounds(map)) { continue; }
                 if (ret.Contains(cell)) { continue; }
-
+                if (!Find.DesignatorManager.SelectedDesignator.CanDesignateCell(cell).Accepted) { continue; }
+                     
                 var cellWall = getWallAt(map, cell);
                 var cellDes = getDesignaionsAt(map, cell);
                 var cellBlueprint = getBlueprintAt(map, cell);
-                var cellMineableAt = getMineableAt(map, cell);
+                var cellMineable = getMineableAt(map, cell);
+                var cellFloor = getFloorAt(map, cell);
+                var cellThings = map.thingGrid.ThingsListAtFast(cell);
 
                 var addFlag = false;
                 var neighborsFlag = false;
@@ -417,20 +405,33 @@ namespace Merthsoft.DesignatorShapes {
                         neighborsFlag = true;
                     }
                 } else if (mineableAtMouse != null) {
-                    if (cellMineableAt?.def == mineableAtMouse.def) {
+                    if (cellMineable?.def == mineableAtMouse.def) {
                         addFlag = true;
                         neighborsFlag = true;
                     }
-                } else {
-                    if (cellWall != null && designator is Designator_Build) {
-                        addFlag = true;
-                    } else if (cellWall == null && cellDes.Count() == 0 && cellBlueprint == null) {
+                } else if (designationsAtMouse?.Count() > 0) {
+                    if (cellDes.Count() > 0) {
                         addFlag = true;
                         neighborsFlag = true;
                     }
+                } else if (blueprintAtMouse != null) {
+                    if (cellBlueprint != null) {
+                        addFlag = true;
+                        neighborsFlag = true;
+                    }
+                } else if (cellWall == null && cellMineable == null) {
+                    if (!cellThings.Exists(thing => thing.def.altitudeLayer == AltitudeLayer.Building)) {
+                        addFlag = true;
+                        if (!cellThings.Exists(thing => thing.def.passability == Traversability.Impassable)) {
+                            neighborsFlag = true;
+                        }
+                    }
+                    
                 }
 
-                if (addFlag) { ret.Add(cell); }
+                if (addFlag) { 
+                    ret.Add(cell);
+                }
                 if (neighborsFlag) {
                     cells.Enqueue(cell + IntVec3.North);
                     cells.Enqueue(cell + IntVec3.East);
@@ -440,6 +441,10 @@ namespace Merthsoft.DesignatorShapes {
             }
 
             return ret;
+        }
+
+        static TerrainDef getFloorAt(Map map, IntVec3 cell) {
+            return map.terrainGrid.TerrainAt(cell);
         }
 
         static IEnumerable<Designation> getDesignaionsAt(Map map, IntVec3 cell) {

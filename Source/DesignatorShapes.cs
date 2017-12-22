@@ -14,7 +14,7 @@ namespace Merthsoft.DesignatorShapes {
     [StaticConstructorOnStartup]
     public class DesignatorShapes : Mod {
         public static DesignatorShapeDef CurrentTool { get; set; }
-        public static float Rotation { get; internal set; }
+        public static int Rotation { get; internal set; }
 
         public static Texture2D Icon_Settings;
 
@@ -42,7 +42,7 @@ namespace Merthsoft.DesignatorShapes {
 
             //Icon_Settings = getIcon("UI/Commands/settings");
 
-            Rotation = 0f;
+            Rotation = 0;
 
             var duration = DateTime.Now - timestamp;
             Log.Message($"Designator Shapes static initialization completed in {duration.TotalMilliseconds} ms");
@@ -74,12 +74,12 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        public static void Rotate(float degrees) {
-            Rotation += degrees;
+        public static void Rotate(int amount) {
+            Rotation += amount;
             if (Rotation < 0) {
-                Rotation = 360 + Rotation;
+                Rotation = CurrentTool.numRotations + Rotation;
             } else {
-                Rotation %= 360;
+                Rotation %= CurrentTool.numRotations;
             }
         }
 
@@ -92,7 +92,7 @@ namespace Merthsoft.DesignatorShapes {
                 Messages.Message($"{def.LabelCap} designation shape selected.", MessageTypeDefOf.SilentInput);
             }
             DesignatorShapes.CurrentTool = def;
-            if (!def.draggable) {}
+            Rotation = 0;
         }
     }
 }
