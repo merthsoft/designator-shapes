@@ -8,14 +8,20 @@ using System.Text;
 using Verse;
 using Merthsoft.DesignatorShapes.Designators;
 using Merthsoft.DesignatorShapes.Defs;
+using System.Collections;
 
 namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignatorManager), "Select", new[] { typeof(Designator) })]
     class DesignatorManager_Select_Patch {
-        public static void Postfix(DesignatorManager __instance, Designator des) {
+        public static void Prefix(ref Designator __state) {
+            __state = Find.DesignatorManager.SelectedDesignator;
+        }
+
+        public static void Postfix(DesignatorManager __instance, Designator des, ref Designator __state) {
             var selectedDesignator = __instance.SelectedDesignator;
             if (selectedDesignator == null) { return; }
-
+            if (__state == selectedDesignator) { return; }
+                
             DesignatorShapeDef shape = null;
             var announce = true;
 
@@ -34,10 +40,15 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             DesignatorShapes.SelectTool(shape, announce);
 
-            var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
-            var panels = archWindow?.GetInstanceField<List<ArchitectCategoryTab>>("desPanelsCached");
-            if (panels != null && DesignatorShapes.globalSettings.ShowShapesPanelOnDesignationSelection) {
-                archWindow.selectedDesPanel = panels.Find(p => p.def.defName == "Shapes");
+            if (DesignatorShapes.globalSettings.ShowShapesPanelOnDesignationSelection) {
+                var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
+                var panels = archWindow?.GetInstanceField("desPanelsCached") as IEnumerable;
+
+                Log.Message(panels.ToString());
+
+                if (panels != null) {
+                    archWindow.selectedDesPanel = panels.Cast<ArchitectCategoryTab>().FirstOrDefault(p => p.def.defName == "Shapes");
+                }
             }
         }
     }

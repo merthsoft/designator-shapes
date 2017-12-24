@@ -20,16 +20,16 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             if (__instance.SelectedDesignator.DraggableDimensions == 0) { return; }
 
-            //if (Event.current.type == EventType.keyDown) {
-            //    switch (Event.current.keyCode) {
-            //        case KeyCode.Q:
-            //            rotateShapePositive(Event.current);
-            //            break;
-            //        case KeyCode.E:
-            //            rotateShapeNegative(Event.current);
-            //            break;
-            //    }
-            //}
+            if (Event.current.type == EventType.keyDown) {
+                switch (Event.current.keyCode) {
+                    case KeyCode.Q:
+                        rotateShapePositive(Event.current);
+                        break;
+                    case KeyCode.E:
+                        rotateShapeNegative(Event.current);
+                        break;
+                }
+            }
         }
 
         public static void Postfix(DesignatorManager __instance) {

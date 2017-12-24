@@ -14,6 +14,7 @@
         <label>rectangle</label>
         <description>Designate in a rectangle</description>
         <uiIconPath>UI/Commands/rectangle</uiIconPath>
+        <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawRectangle</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -21,6 +22,7 @@
         <label>filled rectangle</label>
         <description>Designate in a filled rectangle</description>
         <uiIconPath>UI/Commands/rectangle_filled</uiIconPath>
+        <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawRectangleFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
@@ -44,6 +46,7 @@
         <label>hexagon</label>
         <description>Designate in a hexagon</description>
         <uiIconPath>UI/Commands/hexagon</uiIconPath>
+        <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawHexagon</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -51,6 +54,7 @@
         <label>filled hexagon</label>
         <description>Designate in a filled hexagon</description>
         <uiIconPath>UI/Commands/hexagon_filled</uiIconPath>
+        <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawHexagonFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 

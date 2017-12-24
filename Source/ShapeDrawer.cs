@@ -86,11 +86,11 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static IEnumerable<IntVec3> DrawRectangle(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawRectangle(s.x, s.y, s.z, t.x, t.y, t.z, false);
+            return DrawRectangle(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
         }
 
         public static IEnumerable<IntVec3> DrawRectangleFilled(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawRectangle(s.x, s.y, s.z, t.x, t.y, t.z, true);
+            return DrawRectangle(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
         }
 
         /// <summary>
@@ -101,76 +101,102 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="x2"></param>
         /// <param name="z2"></param>
         /// <param name="color">The color to draw.</param>
-        public static IEnumerable<IntVec3> DrawRectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill) {
+        public static IEnumerable<IntVec3> DrawRectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation) {
             var ret = new HashSet<IntVec3>();
 
-            if (!fill) {
-                ret.AddRange(DrawHorizontalLine(x1, x2, y1, z1));
-                ret.AddRange(DrawHorizontalLine(x1, x2, y1, z2));
-                ret.AddRange(DrawVerticalLine(x1, y1, z1, z2));
-                ret.AddRange(DrawVerticalLine(x2, y1, z1, z2));
+            if (rotation == 0) {
+                if (!fill) {
+                    ret.AddRange(DrawHorizontalLine(x1, x2, y1, z1));
+                    ret.AddRange(DrawHorizontalLine(x1, x2, y1, z2));
+                    ret.AddRange(DrawVerticalLine(x1, y1, z1, z2));
+                    ret.AddRange(DrawVerticalLine(x2, y1, z1, z2));
+
+                } else {
+                    if (x1 > x2) {
+                        swap(ref x1, ref x2);
+                    }
+                    for (int x = x1; x <= x2; x++) {
+                        ret.AddRange(DrawVerticalLine(x, y1, z1, z2));
+                    }
+                }
+
+                return ret;
             } else {
                 if (x1 > x2) {
                     swap(ref x1, ref x2);
                 }
-                for (int x = x1; x <= x2; x++) {
-                    ret.AddRange(DrawVerticalLine(x, y1, z1, z2));
+
+                if (z1 > z2) {
+                    swap(ref z1, ref z2);
+                }
+
+                var hr = (x2 - x1) / 2;
+                var kr = (z2 - z1) / 2;
+
+                var A = toIntVec(x1, y1, z1 + kr);
+                var B = toIntVec(x1 + hr, y1, z1);
+                var C = toIntVec(x2, y2, z1 + kr);
+                var D = toIntVec(x1 + hr, y1, z2);
+
+                ret.AddRange(DrawLine(A, B));
+                ret.AddRange(DrawLine(C, B));
+                ret.AddRange(DrawLine(A, D));
+                ret.AddRange(DrawLine(C, D));
+
+                if (fill) {
+                    return Fill(ret);
+                } else {
+                    return ret;
                 }
             }
-
-            return ret;
-        }
-
-        public static IEnumerable<IntVec3> DrawPolygon(int x1, int y1, int x2, int y2, int numSides, bool fill = false) {
-            if (x2 < x1) { swap(ref x1, ref x2); }
-            if (y2 < y1) { swap(ref y1, ref y2); }
-
-            int hr = (x2 - x1) / 2;
-            int kr = (y2 - y1) / 2;
-            int h = x1 + hr;
-            int k = y1 + kr;
-
-            return DrawPolygonUsingRadius(h, 0, k, hr, kr, numSides, fill);
         }
 
         private static IntVec3 toIntVec(decimal x, decimal y, decimal z) {
             return new IntVec3((int)(x), (int)(y), (int)(z));
         }
 
-        private static IntVec3 getPolygonVertex(int x, int z, int xRadius, int zRadius, int numSides, int i) {
-            var theta = 2.0 * Math.PI * i / numSides;
-            int xVert = x + (int)Math.Round(xRadius * Math.Cos(theta));
-            int zVert = z + (int)Math.Round(zRadius * Math.Sin(theta));
-            var vec = new IntVec3(xVert, 0, zVert);
-            return vec;
-        }
-
         public static IEnumerable<IntVec3> DrawHexagon(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, false);
+            return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
         }
 
         public static IEnumerable<IntVec3> DrawHexagonFilled(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, true);
+            return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
         }
 
-        public static IEnumerable<IntVec3> DrawHexagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill = false) {
+        public static IEnumerable<IntVec3> DrawHexagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
             if (tx < sx) { swap(ref sx, ref tx); }
             if (tz < sz) { swap(ref sz, ref tz); }
 
-            var w = tx - sx;
-            var h = tz - sz;
-            var mx = Math.Floor(w / 2M) + sx;
-            var mz = Math.Floor(h / 2M) + sz;
-            var wt = Math.Floor(w / 4M);
+            IntVec3 A, B, C, D, E, F;
 
-            var A = toIntVec(sx, sy, mz);
-            var B = toIntVec(sx + wt, sy, sz);
-            var C = toIntVec(sx + wt, sy, tz);
-            var D = toIntVec(tx - wt, sy, sz);
-            var E = toIntVec(tx - wt, sy, tz);
-            var F = toIntVec(tx, sy, mz);
+            if (rotation == 0) {
+                var w = tx - sx;
+                var h = tz - sz;
+                var mz = h / 2 + sz;
+                var wt = w / 4;
+
+                A = toIntVec(sx, sy, mz);
+                B = toIntVec(sx + wt, sy, sz);
+                C = toIntVec(sx + wt, sy, tz);
+                D = toIntVec(tx - wt, sy, sz);
+                E = toIntVec(tx - wt, sy, tz);
+                F = toIntVec(tx, sy, mz);
+            } else {
+                var w = tx - sx;
+                var h = tz - sz;
+                var mx = w / 2 + sx;
+                var ht = h / 4;
+
+                A = toIntVec(mx, sy, sz);
+                B = toIntVec(tx, ty, sz + ht);
+                C = toIntVec(sx, sy, sz + ht);
+                D = toIntVec(tx, ty, tz - ht);
+                E = toIntVec(sx, sy, tz - ht);
+                F = toIntVec(mx, ty, tz);
+            }
             
             var ret = new HashSet<IntVec3>();
+
             ret.AddRange(DrawLine(A, B));
             ret.AddRange(DrawLine(B, D));
             ret.AddRange(DrawLine(F, D));
@@ -474,31 +500,6 @@ namespace Merthsoft.DesignatorShapes {
                     var point2 = lineGroup.Last();
                     ret.AddRange(DrawHorizontalLine(point1.x, point2.x, point1.y, lineGroup.Key));
                 }
-            }
-
-            return ret;
-        }
-
-        public static IEnumerable<IntVec3> Rotate(this IEnumerable<IntVec3> shape, IntVec3 s, IntVec3 t, float angle) {
-            return shape.Rotate(s.x, s.y, s.z, t.x, t.y, t.z, angle);
-        }
-
-        public static IEnumerable<IntVec3> Rotate(this IEnumerable<IntVec3> shape, int x1, int y1, int z1, int x2, int y2, int z2, float angle) {
-            if (x2 < x1) { swap(ref x1, ref x2); }
-            if (z2 < z1) { swap(ref z1, ref z2); }
-
-            var deltaX = (int)(x1 + (x2 - x1) / 2f);
-            var deltaZ = (int)(z1 + (z1 - z1) / 2f);
-
-            var ret = new HashSet<IntVec3>();
-            foreach (var vec in shape) {
-                var x = vec.x - deltaX;
-                var z = vec.z - deltaZ;
-
-                var rotX = (int)Math.Round(x * Math.Cos(angle) - z * Math.Sin(angle));
-                var rotZ = (int)Math.Round(x * Math.Sin(angle) + z * Math.Cos(angle));
-
-                ret.Add(new IntVec3(rotX + deltaX, y1, rotZ + deltaZ));
             }
 
             return ret;

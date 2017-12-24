@@ -28,7 +28,6 @@ namespace Merthsoft.DesignatorShapes.Patches {
             var end = UI.MouseCell();
 
             var points = DesignatorShapes.CurrentTool?.drawMethod(start, end, DesignatorShapes.Rotation);
-            points = points?.Rotate(start, end, DesignatorShapes.Rotation);
 
             foreach (var vec in points) {
                 if (vec == null) { continue; }
