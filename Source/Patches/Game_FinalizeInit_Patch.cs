@@ -14,5 +14,5 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             harmony.Patch(original, new HarmonyMethod(prefix), null);
         }
-    }
+    } 
 }

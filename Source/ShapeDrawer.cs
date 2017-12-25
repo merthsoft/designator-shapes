@@ -20,15 +20,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static IEnumerable<IntVec3> DrawLine(IntVec3 vert1, IntVec3 vert2, int rotation = 0) {
-            return DrawLine(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z);
-        }
-
-        public static IEnumerable<IntVec3> DrawLine(int x1, int y1, int z1, int x2, int y2, int z2) {
-            return DrawLine(x1, y1, z1, x2, y2, z2, true);
-        }
-
-        public static IEnumerable<IntVec3> DrawLineNoCorners(int x1, int y1, int z1, int x2, int y2, int z2) {
-            return DrawLine(x1, y1, z1, x2, y2, z2, false);
+            return DrawLine(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, true);
         }
 
         /// <summary>
@@ -40,6 +32,8 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="z2">The Y coordinate of the second end point.</param>
         public static IEnumerable<IntVec3> DrawLine(int x1, int y1, int z1, int x2, int y2, int z2, bool fillCorners) {
             var ret = new HashSet<IntVec3>();
+            ret.Add(toIntVec(x1, y1, z1));
+            ret.Add(toIntVec(x2, y2, z2));
 
             int deltaX = Math.Abs(x1 - x2);
             int deltaZ = Math.Abs(z1 - z2);
@@ -151,7 +145,7 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        private static IntVec3 toIntVec(decimal x, decimal y, decimal z) {
+        static IntVec3 toIntVec(decimal x, decimal y, decimal z) {
             return new IntVec3((int)(x), (int)(y), (int)(z));
         }
 
@@ -203,53 +197,12 @@ namespace Merthsoft.DesignatorShapes {
             ret.AddRange(DrawLine(A, C));
             ret.AddRange(DrawLine(C, E));
             ret.AddRange(DrawLine(F, E));
+            //ret.AddRange(new[] { A, B, C, D, E, F });
 
             if (fill) {
                 return Fill(ret);
             } else {
                 return ret;
-            }
-        }
-
-        public static IEnumerable<IntVec3> DrawPolygonUsingRadius(int x, int y, int z, int width, int height, int numSides, bool fill = false) {
-            return DrawPolygonUsingRadius(new IntVec3(x, y, z), width, height, numSides, fill);
-        }
-
-        // ChJees
-        public static IEnumerable<IntVec3> DrawPolygonUsingRadius(IntVec3 center, int width, int height, int numSides, bool fill = false) {
-            HashSet<IntVec3> ret = new HashSet<IntVec3>();
-            
-            //Make points.
-            float radiusWidth = width / 2f;
-            float radiusHeight = height / 2f;
-
-            float errorWidth = radiusWidth % 1;
-
-            if (errorWidth > 0.5f)
-                errorWidth = 1f;
-            else
-                errorWidth = 0f;
-
-            float errorHeight = radiusHeight % 1;
-
-            if (errorHeight > 0.5f)
-                errorHeight = 1f;
-            else
-                errorHeight = 0f;
-
-            for (int i = 0; i < numSides; i++) {
-                float angle = (((360f / (float)numSides) * i) % 360) * (float)(Math.PI / 180d);
-                float x, z;
-                x = center.x + (float)(radiusWidth * Math.Sin(angle) + errorWidth);
-                z = center.z + (float)(radiusHeight * Math.Cos(angle) + errorHeight);
-
-                ret.Add(new IntVec3((int)x, 0, (int)z));
-            }
-
-            if (fill) {
-                return Fill(TraceShape(ret));
-            } else {
-                return ret; // TraceShape(ret);
             }
         }
 
@@ -446,13 +399,12 @@ namespace Merthsoft.DesignatorShapes {
                         neighborsFlag = true;
                     }
                 } else if (cellWall == null && cellMineable == null) {
-                    if (!cellThings.Exists(thing => thing.def.altitudeLayer == AltitudeLayer.Building)) {
+                    if (!cellThings.Exists(thing => thing.def.coversFloor)) {
                         addFlag = true;
-                        if (!cellThings.Exists(thing => thing.def.passability == Traversability.Impassable)) {
+                        if (!(cellBlueprint != null && !cellBlueprint.def.coversFloor)) {
                             neighborsFlag = true;
                         }
                     }
-                    
                 }
 
                 if (addFlag) { 

@@ -44,8 +44,6 @@ namespace Merthsoft.DesignatorShapes.Patches {
                 var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
                 var panels = archWindow?.GetInstanceField("desPanelsCached") as IEnumerable;
 
-                Log.Message(panels.ToString());
-
                 if (panels != null) {
                     archWindow.selectedDesPanel = panels.Cast<ArchitectCategoryTab>().FirstOrDefault(p => p.def.defName == "Shapes");
                 }
