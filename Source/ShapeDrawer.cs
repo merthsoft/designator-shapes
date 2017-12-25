@@ -149,6 +149,49 @@ namespace Merthsoft.DesignatorShapes {
             return new IntVec3((int)(x), (int)(y), (int)(z));
         }
 
+        public static IEnumerable<IntVec3> DrawPentagon(IntVec3 s, IntVec3 t, int rotation) {
+            return DrawPentagon(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
+        }
+
+        public static IEnumerable<IntVec3> DrawPentagonFilled(IntVec3 s, IntVec3 t, int rotation) {
+            return DrawPentagon(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
+        }
+
+        public static IEnumerable<IntVec3> DrawPentagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
+            var ret = new HashSet<IntVec3>();
+
+            //if (tx < sx) { swap(ref sx, ref tx); }
+            //if (tz < sz) { swap(ref sz, ref tz); }
+
+            IntVec3 A, B, C, D, E;
+
+            if (rotation == 0) {
+                var w = tx - sx;
+                var h = tz - sz;
+                var mx = w / 2 + sx;
+                var ht = h / 2;
+                var wt = w / 3;
+
+                A = toIntVec(mx, sy, sz);
+                B = toIntVec(sx, sy, sz + ht);
+                C = toIntVec(tx, ty, sz + ht);
+                D = toIntVec(sx + wt, sy, tz);
+                E = toIntVec(tx - wt, sy, tz);
+            } else { return ret; }
+
+            ret.AddRange(DrawLine(A, B));
+            ret.AddRange(DrawLine(A, C));
+            ret.AddRange(DrawLine(B, D));
+            ret.AddRange(DrawLine(C, E));
+            ret.AddRange(DrawLine(D, E));
+
+            if (fill) {
+                return Fill(ret);
+            } else {
+                return ret;
+            }
+        }
+
         public static IEnumerable<IntVec3> DrawHexagon(IntVec3 s, IntVec3 t, int rotation) {
             return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
         }

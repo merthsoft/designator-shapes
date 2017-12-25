@@ -59,6 +59,23 @@
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>Pentagon</defName>
+        <label>pentagon</label>
+        <description>Designate in a pentagon</description>
+        <uiIconPath>UI/Commands/pentagon</uiIconPath>
+        <numRotations>2</numRotations>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawPentagon</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>PentagonFilled</defName>
+        <label>filled pentagon</label>
+        <description>Designate in a filled pentagon</description>
+        <uiIconPath>UI/Commands/pentagon_filled</uiIconPath>
+        <numRotations>2</numRotations>
+        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawPentagonFilled</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
         <defName>Circle</defName>
         <label>circle</label>
         <description>Designate in a circle</description>
