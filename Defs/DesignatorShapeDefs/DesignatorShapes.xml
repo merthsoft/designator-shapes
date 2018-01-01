@@ -96,6 +96,7 @@
         <description>Fill between a walled-in area.</description>
         <uiIconPath>UI/Commands/fill</uiIconPath>
         <draggable>false</draggable>
+        <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.FloodFill</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 </Defs>

@@ -20,6 +20,13 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             if (__instance.SelectedDesignator.DraggableDimensions == 0) { return; }
 
+            var place = __instance.SelectedDesignator as Designator_Place;
+            var placeDef = place?.PlacingDef as ThingDef;
+            var rotatable = placeDef?.rotatable;
+            if (rotatable.HasValue && rotatable.Value) {
+                return;
+            }
+
             if (Event.current.type == EventType.keyDown) {
                 switch (Event.current.keyCode) {
                     case KeyCode.Q:
