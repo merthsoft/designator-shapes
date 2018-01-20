@@ -9,6 +9,7 @@ using RimWorld;
 using Merthsoft.DesignatorShapes.Designators;
 using Harmony;
 using System.Reflection;
+using Merthsoft;
 
 namespace Merthsoft.DesignatorShapes {
     [StaticConstructorOnStartup]
@@ -24,36 +25,35 @@ namespace Merthsoft.DesignatorShapes {
         public override string SettingsCategory() => "Designator Shapes";
 
         public DesignatorShapes(ModContentPack content) : base(content) {
-            Log.Message("Designator Shapes instance initialization started");
             var timestamp = DateTime.Now;
 
             globalSettings = GetSettings<GlobalSettings>();
-
-            var duration = DateTime.Now - timestamp;
-            Log.Message($"Designator Shapes instance initialization completed in {duration.TotalMilliseconds} ms");
         }
 
         static DesignatorShapes() {
-            Log.Message("Designator Shapes static initialization started");
-            var timestamp = DateTime.Now;
-
             Harmony = HarmonyInstance.Create("com.Merthsoft.DesignatorShapes");
             Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             //Icon_Settings = getIcon("UI/Commands/settings");
 
             Rotation = 0;
-
-            var duration = DateTime.Now - timestamp;
-            Log.Message($"Designator Shapes static initialization completed in {duration.TotalMilliseconds} ms");
         }
 
         public override void DoSettingsWindowContents(Rect inRect) {
             Listing_Standard listing_Standard = new Listing_Standard();
             listing_Standard.Begin(inRect);
             listing_Standard.CheckboxLabeled("Show shapes panel when designation is selected", ref globalSettings.ShowShapesPanelOnDesignationSelection);
+            listing_Standard.CheckboxLabeled("Move shapes tap to end of list", ref globalSettings.MoveDesignationTabToEndOfList);
             listing_Standard.End();
             globalSettings.Write();
+
+            if (globalSettings.MoveDesignationTabToEndOfList) {
+                DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 1;
+            } else {
+                DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 9999;
+            }
+            var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
+            archWindow.InvokeMethod("CacheDesPanels");
         }
 
         public static void LoadDefs() {
@@ -71,6 +71,12 @@ namespace Merthsoft.DesignatorShapes {
                 shapes.AllResolvedDesignators.ForEach(d => sb.Append($"{d.LabelCap}, "));
                 sb.Length -= 2;
                 Log.Message(sb.ToString());
+            }
+
+            if (globalSettings.MoveDesignationTabToEndOfList) {
+                DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 1;
+                var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
+                archWindow.InvokeMethod("CacheDesPanels");
             }
         }
 
@@ -91,7 +97,7 @@ namespace Merthsoft.DesignatorShapes {
             if (announce && CurrentTool != def) {
                 Messages.Message($"{def.LabelCap} designation shape selected.", MessageTypeDefOf.SilentInput);
             }
-            DesignatorShapes.CurrentTool = def;
+            CurrentTool = def;
             Rotation = 0;
         }
     }

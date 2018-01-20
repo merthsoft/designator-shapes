@@ -311,15 +311,7 @@ namespace Merthsoft.DesignatorShapes {
             int d2xt = 2 * yRadiusSquared, d2yt = 2 * xRadiusSquared;
 
             while (plotY >= 0 && plotX <= xRadius) {
-                ret.Add(new IntVec3(x + plotX, 0, y + plotY));
-                if (plotX != 0 || plotY != 0) {
-                    ret.Add(new IntVec3(x - plotX, 0, y - plotY));
-                }
-
-                if (plotX != 0 && plotY != 0) {
-                    ret.Add(new IntVec3(x + plotX, 0, y - plotY));
-                    ret.Add(new IntVec3(x - plotX, 0, y + plotY));
-                }
+                circlePlot(x, y, ret, plotX, plotY);
 
                 if (t + yRadiusSquared * plotX <= crit1 || t + xRadiusSquared * plotY <= crit3) {
                     incrementX(ref plotX, ref dxt, ref d2xt, ref t);
@@ -327,7 +319,8 @@ namespace Merthsoft.DesignatorShapes {
                     incrementY(ref plotY, ref dyt, ref d2yt, ref t);
                 } else {
                     incrementX(ref plotX, ref dxt, ref d2xt, ref t);
-                    //incrementY(ref plotY, ref dyt, ref d2yt, ref t);
+                    circlePlot(x, y, ret, plotX, plotY);
+                    incrementY(ref plotY, ref dyt, ref d2yt, ref t);
                 }
             }
 
@@ -335,6 +328,18 @@ namespace Merthsoft.DesignatorShapes {
                 return Fill(ret);
             } else {
                 return ret;
+            }
+        }
+
+        private static void circlePlot(int x, int y, HashSet<IntVec3> ret, int plotX, int plotY) {
+            ret.Add(new IntVec3(x + plotX, 0, y + plotY));
+            if (plotX != 0 || plotY != 0) {
+                ret.Add(new IntVec3(x - plotX, 0, y - plotY));
+            }
+
+            if (plotX != 0 && plotY != 0) {
+                ret.Add(new IntVec3(x + plotX, 0, y - plotY));
+                ret.Add(new IntVec3(x - plotX, 0, y + plotY));
             }
         }
 
@@ -414,7 +419,7 @@ namespace Merthsoft.DesignatorShapes {
 
             var cells = new Queue<IntVec3>();
             cells.Enqueue(t);
-            while (cells.Count() > 0 && cells.Count() < 900) {
+            while (cells.Count() > 0 && cells.Count() < 9000) {
                 var cell = cells.Dequeue();
                 if (!cell.InBounds(map)) { continue; }
                 if (ret.Contains(cell)) { continue; }

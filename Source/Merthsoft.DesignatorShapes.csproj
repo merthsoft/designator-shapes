@@ -33,7 +33,7 @@
       <CustomCommands>
         <Command>
           <type>AfterBuild</type>
-          <command>csharp /Users/smcfall/Documents/release.csharp</command>
+          <command>csharp /Users/smcfall/Documents/release.csx</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
       </CustomCommands>
