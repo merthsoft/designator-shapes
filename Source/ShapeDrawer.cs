@@ -384,28 +384,50 @@ namespace Merthsoft.DesignatorShapes {
             return DrawEllipseUsingRadius(x, y, r, r, fill);
         }
 
+        private static int numWallNeighbors(Map map, IntVec3 cell) {
+            int wallCount = 0;
+            foreach (var cellAdj in GenAdjFast.AdjacentCells8Way(cell)) {
+                var cellWall = getWallAt(map, cellAdj);
+                var cellBlueprint = getBlueprintAt(map, cellAdj);
+                var cellMineable = getMineableAt(map, cellAdj);
+                var cellThings = map.thingGrid.ThingsListAtFast(cellAdj);
+
+                if (cellWall != null) {
+                    wallCount++;
+                } else if (cellBlueprint != null && cellBlueprint.def.coversFloor) {
+                    wallCount++;
+                } else if (cellMineable != null) {
+                    wallCount++;
+                } else if (cellThings.Exists(t => t.def.coversFloor)) {
+                    wallCount++;
+                }
+            }
+
+            return wallCount;
+        }
+
         public static IEnumerable<IntVec3> FloodFill(IntVec3 s, IntVec3 t, int rotation) {
             var ret = new HashSet<IntVec3>();
             var designator = Find.DesignatorManager.SelectedDesignator;
             var map = Find.VisibleMap;
 
-            var wallAtMouse = getWallDefAt(map, t);
+            var wallAtMouse = getWallAt(map, t);
+            var blueprintAtMouse = getBlueprintAt(map, t);
             var designationsAtMouse = getDesignaionsAt(map, t);
             var mineableAtMouse = getMineableAt(map, t);
             var floorAtMouse = getFloorAt(map, t);
 
-            Log.Message($"Wall at mouse: {wallAtMouse?.defName ?? "<null>"}");
-
             var cells = new Queue<IntVec3>();
             cells.Enqueue(t);
-            while (cells.Count() > 0 && cells.Count() < 1000) {
+            while (cells.Count() > 0 && cells.Count() < 9000) {
                 var cell = cells.Dequeue();
                 if (!cell.InBounds(map)) { continue; }
                 if (ret.Contains(cell)) { continue; }
                 if (!Find.DesignatorManager.SelectedDesignator.CanDesignateCell(cell).Accepted) { continue; }
                      
-                var cellWall = getWallDefAt(map, cell);
+                var cellWall = getWallAt(map, cell);
                 var cellDes = getDesignaionsAt(map, cell);
+                var cellBlueprint = getBlueprintAt(map, cell);
                 var cellMineable = getMineableAt(map, cell);
                 var cellFloor = getFloorAt(map, cell);
                 var cellThings = map.thingGrid.ThingsListAtFast(cell);
@@ -414,9 +436,7 @@ namespace Merthsoft.DesignatorShapes {
                 var neighborsFlag = false;
 
                 if (wallAtMouse != null) {
-                    Log.Message($"Wall at mouse: {wallAtMouse.defName} Wall at cell: {cellWall?.defName ?? "<null>"}");
-                    if (cellWall == null) { continue; }
-                    if (cellWall.defName == wallAtMouse.defName) {
+                    if (cellWall?.def == wallAtMouse.def) {
                         addFlag = true;
                         neighborsFlag = true;
                     }
@@ -430,17 +450,24 @@ namespace Merthsoft.DesignatorShapes {
                         addFlag = true;
                         neighborsFlag = true;
                     }
-                } else {
-                    if (cellWall == null && cellMineable == null) {
+                } else if (blueprintAtMouse != null) {
+                    if (cellBlueprint != null) {
                         addFlag = true;
                         neighborsFlag = true;
-                        foreach (var thing in cellThings) {
-                            var def = thing.def.entityDefToBuild == null ? thing.def : thing.def.entityDefToBuild as ThingDef;
-                            if (def.coversFloor || def.designationCategory == DesignationCategoryDefOf.Structure) {
-                                addFlag = false;
-                                neighborsFlag = false;
-                                break;
+                    }
+                } else {
+                    if (cellWall == null && cellMineable == null) {
+                        if (!cellThings.Exists(thing => thing.def.coversFloor)) {
+                            if (rotation == 0) {
+                                addFlag = true;
                             }
+                            if (!(cellBlueprint != null && !cellBlueprint.def.coversFloor)) {
+                                neighborsFlag = true;
+                            }
+                        }
+                    } else if (rotation == 1) {
+                        if (cellMineable != null || cellWall != null && cellWall.def != ThingDefOf.Door) {
+                            addFlag = true;
                         }
                     }
                 }
@@ -471,22 +498,12 @@ namespace Merthsoft.DesignatorShapes {
             return map.thingGrid.ThingsListAtFast(cell).FirstOrDefault(t => t is Mineable);
         }
 
-        static Def getWallDefAt(Map map, IntVec3 cell) {
-            var things = cell.GetThingList(map);
-            foreach (var thing in things) {
-                switch (thing) {
-                    case Blueprint b when b.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Structure:
-                        return b.def.entityDefToBuild as ThingDef;
-                    case Frame f when f.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Structure:
-                        return f.def.entityDefToBuild as ThingDef;
-                    case Thing t when (t.def as BuildableDef)?.designationCategory == DesignationCategoryDefOf.Structure:
-                        return t.def;
-                    default:
-                        continue;
-                }
-            }
+        static Thing getWallAt(Map map, IntVec3 cell) {
+            return map.thingGrid.ThingsListAtFast(cell).FirstOrDefault(t => (t.def as BuildableDef)?.designationCategory == DesignationCategoryDefOf.Structure);
+        }
 
-            return null;
+        static Thing getBlueprintAt(Map map, IntVec3 cell) {
+            return map.thingGrid.ThingsListAtFast(cell).FirstOrDefault(t => ((t as Blueprint)?.def.entityDefToBuild as BuildableDef)?.designationCategory ==DesignationCategoryDefOf.Structure);
         }
 
         public static IEnumerable<IntVec3> Fill(IEnumerable<IntVec3> outLine) {
