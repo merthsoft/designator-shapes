@@ -28,13 +28,11 @@ namespace Merthsoft.DesignatorShapes.Patches {
             }
 
             if (Event.current.type == EventType.keyDown) {
-                switch (Event.current.keyCode) {
-                    case KeyCode.Q:
-                        rotateShapePositive(Event.current);
-                        break;
-                    case KeyCode.E:
-                        rotateShapeNegative(Event.current);
-                        break;
+                var key = Event.current.keyCode;
+                if (key == KeyBindingDefOf.DesignatorRotateLeft.MainKey) {
+                    rotateShapePositive(Event.current);
+                } else if (key == KeyBindingDefOf.DesignatorRotateRight.MainKey) {
+                    rotateShapeNegative(Event.current);
                 }
             }
         }
