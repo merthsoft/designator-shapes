@@ -158,13 +158,16 @@ namespace Merthsoft.DesignatorShapes {
             var thirdWidth = width / 3;
             var thirdHeight = height / 3;
 
-            if (rotation == 0) {
-                A = toIntVec(middleX, sy, sz);
-                B = toIntVec(sx, sy, middleZ);
-                C = toIntVec(tx, ty, middleZ);
-                D = toIntVec(sx + thirdWidth, sy, tz);
-                E = toIntVec(tx - thirdWidth, sy, tz);
-            } else { return ret; }
+            switch (rotation) {
+                case 0:
+                default:
+                    A = toIntVec(middleX, sy, sz);
+                    B = toIntVec(sx, sy, middleZ);
+                    C = toIntVec(tx, ty, middleZ);
+                    D = toIntVec(sx + thirdWidth, sy, tz);
+                    E = toIntVec(tx - thirdWidth, sy, tz);
+                    break;
+            }
 
             ret.AddRange(DrawLine(A, B));
             ret.AddRange(DrawLine(A, C));
@@ -307,8 +310,10 @@ namespace Merthsoft.DesignatorShapes {
             int crit3 = -(yRadiusSquared / 4 + yRadius % 2);
 
             int t = -xRadiusSquared * plotY;
-            int dxt = 2 * yRadiusSquared * plotX, dyt = -2 * xRadiusSquared * plotY;
-            int d2xt = 2 * yRadiusSquared, d2yt = 2 * xRadiusSquared;
+            int dxt = 2 * yRadiusSquared * plotX;
+            int dyt = -2 * xRadiusSquared * plotY;
+            int d2xt = 2 * yRadiusSquared;
+            int d2yt = 2 * xRadiusSquared;
 
             while (plotY >= 0 && plotX <= xRadius) {
                 circlePlot(x, y, ret, plotX, plotY);
@@ -398,7 +403,8 @@ namespace Merthsoft.DesignatorShapes {
 
             var cells = new Queue<IntVec3>();
             cells.Enqueue(t);
-            while (cells.Count() > 0 && cells.Count() < 1000) {
+            
+            while (cells.Count() > 0 && ret.Count() < DesignatorShapes.GlobalSettings.FloodFillCellLimit) {
                 var cell = cells.Dequeue();
                 if (!cell.InBounds(map)) { continue; }
                 if (ret.Contains(cell)) { continue; }

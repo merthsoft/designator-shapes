@@ -19,15 +19,13 @@ namespace Merthsoft.DesignatorShapes {
 
         public static Texture2D Icon_Settings;
 
-        public static GlobalSettings globalSettings;
+        public static GlobalSettings GlobalSettings;
         public static HarmonyInstance Harmony;
 
         public override string SettingsCategory() => "Designator Shapes";
 
         public DesignatorShapes(ModContentPack content) : base(content) {
-            var timestamp = DateTime.Now;
-
-            globalSettings = GetSettings<GlobalSettings>();
+            GlobalSettings = GetSettings<GlobalSettings>();
         }
 
         static DesignatorShapes() {
@@ -42,16 +40,21 @@ namespace Merthsoft.DesignatorShapes {
         public override void DoSettingsWindowContents(Rect inRect) {
             Listing_Standard listing_Standard = new Listing_Standard();
             listing_Standard.Begin(inRect);
-            listing_Standard.CheckboxLabeled("Show shapes panel when designation is selected", ref globalSettings.ShowShapesPanelOnDesignationSelection);
-            listing_Standard.CheckboxLabeled("Move shapes tap to end of list", ref globalSettings.MoveDesignationTabToEndOfList);
-            listing_Standard.End();
-            globalSettings.Write();
+            listing_Standard.CheckboxLabeled("Show shapes panel when designation is selected", ref GlobalSettings.ShowShapesPanelOnDesignationSelection);
+            listing_Standard.CheckboxLabeled("Move shapes tab to end of list", ref GlobalSettings.MoveDesignationTabToEndOfList);
 
-            if (globalSettings.MoveDesignationTabToEndOfList) {
+            var maxBuffer = GlobalSettings.FloodFillCellLimit.ToString();
+            listing_Standard.TextFieldNumericLabeled<int>("Maximum cells to select in flood fill", ref GlobalSettings.FloodFillCellLimit, ref maxBuffer);
+
+            listing_Standard.End();
+            GlobalSettings.Write();
+
+            if (GlobalSettings.MoveDesignationTabToEndOfList) {
                 DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 1;
             } else {
                 DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 9999;
             }
+
             var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
             archWindow.InvokeMethod("CacheDesPanels");
         }
@@ -73,7 +76,7 @@ namespace Merthsoft.DesignatorShapes {
                 Log.Message(sb.ToString());
             }
 
-            if (globalSettings.MoveDesignationTabToEndOfList) {
+            if (GlobalSettings.MoveDesignationTabToEndOfList) {
                 DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 1;
                 var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
                 archWindow.InvokeMethod("CacheDesPanels");
