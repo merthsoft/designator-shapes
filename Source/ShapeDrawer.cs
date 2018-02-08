@@ -282,7 +282,7 @@ namespace Merthsoft.DesignatorShapes {
             int h = x1 + hr;
             int k = z1 + kr;
 
-            return DrawEllipseUsingRadius(h, k, hr, kr, fill);
+            return DrawEllipseUsingRadius(h, y1, k, hr, kr, fill);
         }
 
         private static void incrementX(ref int x, ref int dxt, ref int d2xt, ref int t) { x++; dxt += d2xt; t += dxt; }
@@ -293,58 +293,63 @@ namespace Merthsoft.DesignatorShapes {
         /// </summary>
         /// <remarks>Taken from http://enchantia.com/graphapp/doc/tech/ellipses.html. </remarks>
         /// <param name="x">The center point X coordinate.</param>
-        /// <param name="y">The center point Y coordinate.</param>
+        /// <param name="z">The center point Z coordinate.</param>
         /// <param name="xRadius">The x radius.</param>
-        /// <param name="yRadius">The y radius.</param>
+        /// <param name="zRadius">The z radius.</param>
         /// <param name="fill">True to fill the ellipse.</param>
-        public static IEnumerable<IntVec3> DrawEllipseUsingRadius(int x, int y, int xRadius, int yRadius, bool fill = false) {
+        public static IEnumerable<IntVec3> DrawEllipseUsingRadius(int x, int y, int z, int xRadius, int zRadius, bool fill = false) {
             var ret = new HashSet<IntVec3>();
 
             int plotX = 0;
-            int plotY = yRadius;
+            int plotZ = zRadius;
 
             int xRadiusSquared = xRadius * xRadius;
-            int yRadiusSquared = yRadius * yRadius;
-            int crit1 = -(xRadiusSquared / 4 + xRadius % 2 + yRadiusSquared);
-            int crit2 = -(yRadiusSquared / 4 + yRadius % 2 + xRadiusSquared);
-            int crit3 = -(yRadiusSquared / 4 + yRadius % 2);
+            int zRadiusSquared = zRadius * zRadius;
+            int crit1 = -(xRadiusSquared / 4 + xRadius % 2 + zRadiusSquared);
+            int crit2 = -(zRadiusSquared / 4 + zRadius % 2 + xRadiusSquared);
+            int crit3 = -(zRadiusSquared / 4 + zRadius % 2);
 
-            int t = -xRadiusSquared * plotY;
-            int dxt = 2 * yRadiusSquared * plotX;
-            int dyt = -2 * xRadiusSquared * plotY;
-            int d2xt = 2 * yRadiusSquared;
-            int d2yt = 2 * xRadiusSquared;
+            int t = -xRadiusSquared * plotZ;
+            int dxt = 2 * zRadiusSquared * plotX;
+            int dzt = -2 * xRadiusSquared * plotZ;
+            int d2xt = 2 * zRadiusSquared;
+            int d2zt = 2 * xRadiusSquared;
 
-            while (plotY >= 0 && plotX <= xRadius) {
-                circlePlot(x, y, ret, plotX, plotY);
+            while (plotZ >= 0 && plotX <= xRadius) {
+                circlePlot(x, y, z, ret, plotX, plotZ, fill);
 
-                if (t + yRadiusSquared * plotX <= crit1 || t + xRadiusSquared * plotY <= crit3) {
+                if (t + zRadiusSquared * plotX <= crit1 || t + xRadiusSquared * plotZ <= crit3) {
                     incrementX(ref plotX, ref dxt, ref d2xt, ref t);
-                } else if (t - xRadiusSquared * plotY > crit2) {
-                    incrementY(ref plotY, ref dyt, ref d2yt, ref t);
+                } else if (t - xRadiusSquared * plotZ > crit2) {
+                    incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
                 } else {
                     incrementX(ref plotX, ref dxt, ref d2xt, ref t);
-                    circlePlot(x, y, ret, plotX, plotY);
-                    incrementY(ref plotY, ref dyt, ref d2yt, ref t);
+                    circlePlot(x, y, z, ret, plotX, plotZ, fill);
+                    incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
                 }
             }
 
-            if (fill) {
-                return Fill(ret);
-            } else {
-                return ret;
+            return ret;
+        }
+
+        private static void circlePlot(int x, int y, int z, HashSet<IntVec3> ret, int plotX, int plotZ, bool fill) {
+            var center = new IntVec3(x, y, z);
+            ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z + plotZ), fill));
+            if (plotX != 0 || plotZ != 0) {
+                ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z - plotZ), fill));
+            }
+
+            if (plotX != 0 && plotZ != 0) {
+                ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z - plotZ), fill));
+                ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z + plotZ), fill));
             }
         }
 
-        private static void circlePlot(int x, int y, HashSet<IntVec3> ret, int plotX, int plotY) {
-            ret.Add(new IntVec3(x + plotX, 0, y + plotY));
-            if (plotX != 0 || plotY != 0) {
-                ret.Add(new IntVec3(x - plotX, 0, y - plotY));
-            }
-
-            if (plotX != 0 && plotY != 0) {
-                ret.Add(new IntVec3(x + plotX, 0, y - plotY));
-                ret.Add(new IntVec3(x - plotX, 0, y + plotY));
+        private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line) {
+            if (line) {
+                return DrawLine(point1, point2, 0);
+            } else {
+                return new[] { point2 };
             }
         }
 
@@ -360,7 +365,7 @@ namespace Merthsoft.DesignatorShapes {
             if (z2 < z1) { swap(ref z1, ref z2); }
 
             var r = Math.Max(x2 - x1, z2 - z1);
-            return DrawCircle(s.x, s.z, r);
+            return DrawCircle(s.x, s.y, s.z, r);
         }
 
         public static IEnumerable<IntVec3> DrawCircleFilled(IntVec3 s, IntVec3 t, int rotation) {
@@ -375,7 +380,7 @@ namespace Merthsoft.DesignatorShapes {
             if (z2 < z1) { swap(ref z1, ref z2); }
 
             var r = Math.Max(x2 - x1, z2 - z1);
-            return DrawCircle(s.x, s.z, r, true);
+            return DrawCircle(s.x, s.y, s.z, r, true);
         }
 
         /// <summary>
@@ -385,8 +390,8 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="y"></param>
         /// <param name="r"></param>
         /// <param name="fill">True to fill the circle.</param>
-        public static IEnumerable<IntVec3> DrawCircle(int x, int y, int r, bool fill = false) {
-            return DrawEllipseUsingRadius(x, y, r, r, fill);
+        public static IEnumerable<IntVec3> DrawCircle(int x, int y, int z, int r, bool fill = false) {
+            return DrawEllipseUsingRadius(x, y, z, r, r, fill);
         }
 
         public static IEnumerable<IntVec3> FloodFill(IntVec3 s, IntVec3 t, int rotation) {
