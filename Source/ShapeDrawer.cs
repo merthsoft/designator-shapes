@@ -167,6 +167,13 @@ namespace Merthsoft.DesignatorShapes {
                     D = toIntVec(sx + thirdWidth, sy, tz);
                     E = toIntVec(tx - thirdWidth, sy, tz);
                     break;
+                case 1:
+                    A = toIntVec(sx, sy, middleZ);
+                    B = toIntVec(middleX, sy, sz);
+                    C = toIntVec(middleX, ty, tz);
+                    D = toIntVec(tx, sy, sz + thirdHeight);
+                    E = toIntVec(tx, sy, tz - thirdHeight);
+                    break;
             }
 
             ret.AddRange(DrawLine(A, B));
@@ -507,8 +514,8 @@ namespace Merthsoft.DesignatorShapes {
                     ret.Add(lineGroup.First());
                 } else {
                     var sorted = lineGroup.OrderBy(v => v.x);
-                    var point1 = lineGroup.First();
-                    var point2 = lineGroup.Last();
+                    var point1 = sorted.First();
+                    var point2 = sorted.Last();
                     ret.AddRange(DrawHorizontalLine(point1.x, point2.x, point1.y, lineGroup.Key));
                 }
             }

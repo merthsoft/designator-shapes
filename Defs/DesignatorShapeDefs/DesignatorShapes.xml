@@ -63,7 +63,7 @@
         <label>pentagon</label>
         <description>Designate in a pentagon</description>
         <uiIconPath>UI/Commands/pentagon</uiIconPath>
-        <numRotations>4</numRotations>
+        <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawPentagon</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -71,7 +71,7 @@
         <label>filled pentagon</label>
         <description>Designate in a filled pentagon</description>
         <uiIconPath>UI/Commands/pentagon_filled</uiIconPath>
-        <numRotations>4</numRotations>
+        <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawPentagonFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
@@ -96,7 +96,7 @@
         <description>Fill between a walled-in area.</description>
         <uiIconPath>UI/Commands/fill</uiIconPath>
         <draggable>false</draggable>
-        <numRotations>2</numRotations>
+        <numRotations>1</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.FloodFill</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 </Defs>
