@@ -6,7 +6,7 @@ namespace Merthsoft.DesignatorShapes.Designators {
         public Undo() {
             defaultLabel = "undo";
             defaultDesc = "Undo";
-            icon = DesignatorShapes.Icon_Settings;
+            icon = DesignatorShapes.Icon_Undo;
             useMouseIcon = true;
         }
 
