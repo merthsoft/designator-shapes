@@ -67,12 +67,16 @@
     <Compile Include="Designators\Designator_Shape.cs" />
     <Compile Include="Defs\DesignatorShapeDef.cs" />
     <Compile Include="Defs\DesignatorShapeDefOf.cs" />
-    <Compile Include="Patches\DesignatorManager_Select_Patch.cs" />
-    <Compile Include="Patches\DesignationDragger_UpdateDragCellsIfNeeded_Patch.cs" />
-    <Compile Include="Patches\DesignatorManager_ProcessInputEvents_Patch.cs" />
+    <Compile Include="Patches\DesignatorManager_Select.cs" />
+    <Compile Include="Patches\DesignationDragger_UpdateDragCellsIfNeeded.cs" />
+    <Compile Include="Patches\DesignatorManager_ProcessInputEvents.cs" />
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="Defs\DesignationCategoryDef.cs" />
-    <Compile Include="Patches\Game_FinalizeInit_Patch.cs" />
+    <Compile Include="Patches\Game_FinalizeInit.cs" />
+    <Compile Include="Designators\Undo.cs" />
+    <Compile Include="Designators\Redo.cs" />
+    <Compile Include="HistoryManager.cs" />
+    <Compile Include="Patches\DesignationManager_AddDesignation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Defs\" />

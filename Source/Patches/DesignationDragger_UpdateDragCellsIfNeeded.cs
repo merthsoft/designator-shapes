@@ -10,7 +10,7 @@ using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignationDragger), "UpdateDragCellsIfNeeded")]
-    public static class DesignationDragger_UpdateDragCellsIfNeeded_Patch {
+    public static class DesignationDragger_UpdateDragCellsIfNeeded {
         public static void Prefix(DesignationDragger __instance) {
             if (__instance == null) { return; }
 

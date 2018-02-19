@@ -9,7 +9,7 @@ using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignatorManager), "ProcessInputEvents")]
-    static class DesignatorManager_ProcessInputEvents_Patch {
+    static class DesignatorManager_ProcessInputEvents {
         public static void Prefix(DesignatorManager __instance) {
             if (__instance.SelectedDesignator == null) { return; }
 
@@ -47,6 +47,8 @@ namespace Merthsoft.DesignatorShapes.Patches {
             if (!DesignatorShapes.CurrentTool.draggable && __instance.Dragger.Dragging) {
                 __instance.Dragger.SetInstanceField("startDragCell", UI.MouseCell());
             }
+
+            HistoryManager.FinishBuilding();
         }
 
         private static void rotateShapePositive(Event ev) {

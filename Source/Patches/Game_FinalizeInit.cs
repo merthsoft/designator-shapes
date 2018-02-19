@@ -5,7 +5,7 @@ using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(Game), "FinalizeInit")]
-    public static class Game_FinalizeInit_Patch {
+    public static class Game_FinalizeInit {
         public static void Postfix() {
             var harmony = DesignatorShapes.Harmony;
             var architectTab = MainButtonDefOf.Architect.TabWindow;

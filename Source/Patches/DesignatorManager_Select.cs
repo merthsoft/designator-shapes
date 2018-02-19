@@ -12,7 +12,7 @@ using System.Collections;
 
 namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignatorManager), "Select", new[] { typeof(Designator) })]
-    class DesignatorManager_Select_Patch {
+    class DesignatorManager_Select {
         public static void Prefix(ref Designator __state) {
             __state = Find.DesignatorManager.SelectedDesignator;
         }
