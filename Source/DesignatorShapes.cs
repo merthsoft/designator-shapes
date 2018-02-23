@@ -36,7 +36,7 @@ namespace Merthsoft.DesignatorShapes {
             //Icon_Settings = getIcon("UI/Commands/settings");
             LongEventHandler.ExecuteWhenFinished(() => Icon_Undo = getIcon("UI/Commands/undo"));
 
-            Rotation = 0;
+            Rotation = 0;       
         }
 
         public override void DoSettingsWindowContents(Rect inRect) {
@@ -71,12 +71,12 @@ namespace Merthsoft.DesignatorShapes {
             if (numShapeDefs > numShapeDes) {
                 shapes.ResolveReferences();
                 shapeDefs.ForEach(d => shapes.AllResolvedDesignators.Add(new Designator_Shape(d)));
-            }
 
-            var sb = new StringBuilder("Shapes resolved: ");
-            shapes.AllResolvedDesignators.ForEach(d => sb.Append($"{d.LabelCap}, "));
-            sb.Length -= 2;
-            Log.Message(sb.ToString());
+                var sb = new StringBuilder("Shapes resolved: ");
+                shapes.AllResolvedDesignators.ForEach(d => sb.Append($"{d.LabelCap}, "));
+                sb.Length -= 2;
+                Log.Message(sb.ToString());
+            }
 
             if (GlobalSettings.MoveDesignationTabToEndOfList) {
                 DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 1;

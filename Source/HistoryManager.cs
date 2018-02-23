@@ -71,7 +71,7 @@ namespace Merthsoft.DesignatorShapes {
             //        ^
             // Count = 3, index = 2
             if (history.Count > historyIndex + 1) {
-                history.RemoveRange(historyIndex + 1, histories.Count - historyIndex);
+                history.RemoveRange(historyIndex + 1, histories.Count - historyIndex - 1);
             }
             historyIndex++;
             history.Add(new Entry());
