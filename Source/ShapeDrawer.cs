@@ -404,7 +404,7 @@ namespace Merthsoft.DesignatorShapes {
         public static IEnumerable<IntVec3> FloodFill(IntVec3 s, IntVec3 t, int rotation) {
             var ret = new HashSet<IntVec3>();
             var designator = Find.DesignatorManager.SelectedDesignator;
-            var map = Find.VisibleMap;
+            var map = Find.CurrentMap;
 
             var wallAtMouse = getWallDefAt(map, t);
             var designationsAtMouse = getDesignaionsAt(map, t);

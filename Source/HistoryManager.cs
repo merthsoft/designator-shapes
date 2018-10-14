@@ -95,7 +95,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         private static HistoryManager getManager() {
-            var map = Find.VisibleMap;
+            var map = Find.CurrentMap;
             if (!histories.ContainsKey(map)) {
                 histories[map] = new HistoryManager(map.designationManager);
             }

@@ -41,8 +41,6 @@ namespace Merthsoft.DesignatorShapes.Defs {
             }
         }
 
-        public override Color IconDrawColor => Color.white;
-
         public DesignatorShapeDef() {
             draggable = true;
             numRotations = 0;

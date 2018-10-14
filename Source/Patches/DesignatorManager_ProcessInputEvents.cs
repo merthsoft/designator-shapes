@@ -29,9 +29,9 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             if (Event.current.type == EventType.keyDown) {
                 var key = Event.current.keyCode;
-                if (key == KeyBindingDefOf.DesignatorRotateLeft.MainKey) {
+                if (key == KeyBindingDefOf.Designator_RotateLeft.MainKey) {
                     rotateShapePositive(Event.current);
-                } else if (key == KeyBindingDefOf.DesignatorRotateRight.MainKey) {
+                } else if (key == KeyBindingDefOf.Designator_RotateRight.MainKey) {
                     rotateShapeNegative(Event.current);
                 }
             }
