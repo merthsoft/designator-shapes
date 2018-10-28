@@ -40,7 +40,7 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             DesignatorShapes.SelectTool(shape, announce);
 
-            if (DesignatorShapes.GlobalSettings.ShowShapesPanelOnDesignationSelection) {
+            if (DesignatorShapes.Settings.ShowShapesPanelOnDesignationSelection) {
                 var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
                 var panels = archWindow?.GetInstanceField("desPanelsCached") as IEnumerable;
 

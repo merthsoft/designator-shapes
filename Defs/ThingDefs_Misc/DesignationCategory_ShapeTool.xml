@@ -6,9 +6,6 @@
     <description>Define what shape you designate in.</description>
     <order>9999</order>
     <specialDesignatorClasses>
-      <!--li>Merthsoft.DesignatorShapes.Designators.FillSettings</li-->
-        <li>Merthsoft.DesignatorShapes.Designators.Undo</li>
-        <!--li>Merthsoft.DesignatorShapes.Designators.Redo</li-->
     </specialDesignatorClasses>
   </DesignationCategoryDef>
 </Defs>

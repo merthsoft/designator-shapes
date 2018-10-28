@@ -411,12 +411,10 @@ namespace Merthsoft.DesignatorShapes {
             var mineableAtMouse = getMineableAt(map, t);
             var floorAtMouse = getFloorAt(map, t);
 
-            Log.Message($"Wall at mouse: {wallAtMouse?.defName ?? "<null>"}");
-
             var cells = new Queue<IntVec3>();
             cells.Enqueue(t);
             
-            while (cells.Count() > 0 && ret.Count() < DesignatorShapes.GlobalSettings.FloodFillCellLimit) {
+            while (cells.Count() > 0 && ret.Count() < DesignatorShapes.Settings.FloodFillCellLimit) {
                 var cell = cells.Dequeue();
                 if (!cell.InBounds(map)) { continue; }
                 if (ret.Contains(cell)) { continue; }
@@ -432,7 +430,6 @@ namespace Merthsoft.DesignatorShapes {
                 var neighborsFlag = false;
 
                 if (wallAtMouse != null) {
-                    Log.Message($"Wall at mouse: {wallAtMouse.defName} Wall at cell: {cellWall?.defName ?? "<null>"}");
                     if (cellWall == null) { continue; }
                     if (cellWall.defName == wallAtMouse.defName) {
                         addFlag = true;

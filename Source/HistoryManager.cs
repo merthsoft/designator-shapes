@@ -8,31 +8,61 @@ namespace Merthsoft.DesignatorShapes {
     public class HistoryManager {
         public class Entry {
             public List<Designation> Designations = new List<Designation>();
-            public Entry() {}
+            public List<Blueprint> Blueprints = new List<Blueprint>();
         }
 
         static Dictionary<Map, HistoryManager> histories = new Dictionary<Map, HistoryManager>();
 
         DesignationManager designationManager;
-        int historyIndex = -1;
-        List<Entry> history = new List<Entry>();
         private bool building = false;
         private static bool inRedo = false;
+
+        Stack<Entry> undoStack = new Stack<Entry>();
+        Stack<Entry> redoStack = new Stack<Entry>();
 
         public HistoryManager(DesignationManager designationManager) {
             this.designationManager = designationManager;
         }
 
-        public static void AddEntry(Designation des) {
-            if (inRedo) { return; }
-            getManager().addEntry(des);
+        public static void Clear() {
+            getManager()?.clear();
         }
 
-        private void addEntry(Designation des) {
+        private void clear() {
+            undoStack.Clear();
+            redoStack.Clear();
+        }
+
+        public static void AddEntry(Designation des) {
+            AddEntry(des, null);
+        }
+
+        public static void AddEntry(Blueprint bp) {
+            AddEntry(null, bp);
+        }
+
+        public static void AddEntry(Designation des, Blueprint bp) {
+            if (inRedo) { return; }
+            getManager()?.addEntry(des, bp);
+        }
+
+        private void addEntry(Designation des, Blueprint bp) {
+            if (!Find.TickManager.Paused) { return; }
+
             if (!building) {
                 StartBuilding();
             }
-            history[historyIndex].Designations.Add(des);
+            if (undoStack.Count == 0) {
+                Log.Message("Somehow the undo stack is empty even though we've started building...");
+                return;
+            }
+
+            if (des != null) {
+                undoStack.Peek().Designations.Add(des);
+            }
+            if (bp != null) {
+                undoStack.Peek().Blueprints.Add(bp);
+            }
         }
 
         public static void StartBuilding() {
@@ -40,46 +70,16 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         private void startBuilding() {
-            //
-            // Start:
-            // []
-            // Count = 0, index = -1
+            if (!Find.TickManager.Paused) { return; }
+            if (building) { return; }
 
-            // [A]
-            //  ^
-            // Count = 1, index = 0
-
-            // [A, B]
-            //     ^
-            // Count = 2, index = 1
-
-            // ...
-
-            // [A, B, C, D]
-            //           ^
-            // Count = 4, index = 3
-
-            // [A, B, C, D]
-            //        ^
-            // Count = 4, index = 2
-
-            // [A, B, C, D]
-            //     ^
-            // Count = 4, index = 1
-
-            // [A, B, E]
-            //        ^
-            // Count = 3, index = 2
-            if (history.Count > historyIndex + 1) {
-                history.RemoveRange(historyIndex + 1, histories.Count - historyIndex - 1);
-            }
-            historyIndex++;
-            history.Add(new Entry());
+            redoStack.Clear();
+            undoStack.Push(new Entry());
             building = true;
         }
 
         public static void FinishBuilding() {
-            getManager().finishBuilding();
+            getManager()?.finishBuilding();
         }
 
         public void finishBuilding() {
@@ -96,6 +96,7 @@ namespace Merthsoft.DesignatorShapes {
 
         private static HistoryManager getManager() {
             var map = Find.CurrentMap;
+            if (map == null) { return null; }
             if (!histories.ContainsKey(map)) {
                 histories[map] = new HistoryManager(map.designationManager);
             }
@@ -104,25 +105,44 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         private void undo() {
-            if (historyIndex == -1) { return; }
-            var entry = history[historyIndex];
-            historyIndex--;
-            foreach (var des in entry.Designations) {
-                des.Delete();
+            if (undoStack.Count == 0) { return; }
+            var entry = undoStack.Pop();
+            foreach (var designation in entry.Designations) {
+                designation.Delete();
             }
+            foreach (var blueprint in entry.Blueprints) {
+                if (blueprint.Spawned) {
+                    blueprint.DeSpawn();
+                }
+            }
+            redoStack.Push(entry);
         }
 
         private void redo() {
-            if (historyIndex == -1) { return; }
-            if (history.Count == historyIndex + 1) { return; }
+            if (redoStack.Count == 0) { return; }
 
-            historyIndex++;
-            var entry = history[historyIndex];
+            var entry = redoStack.Pop();
             inRedo = true;
             foreach (var des in entry.Designations) {
                 designationManager.AddDesignation(des);
             }
+            var map = Find.CurrentMap;
+            var generatedBlueprints = new List<Blueprint>();
+            foreach (var blueprint in entry.Blueprints) {
+                if (!blueprint.Spawned) {
+                    var build = blueprint as Blueprint_Build;
+                    if (build != null) {
+                        var blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(build.def);
+                        blueprint_Build.SetFactionDirect(Faction.OfPlayer);
+                        blueprint_Build.stuffToUse = build.stuffToUse;
+                        GenSpawn.Spawn(blueprint_Build, build.Position, map, build.Rotation);
+                        generatedBlueprints.Add(blueprint_Build);
+                    }
+                }
+            }
+            entry.Blueprints = generatedBlueprints;
             inRedo = false;
+            undoStack.Push(entry);
         }
     }
 }

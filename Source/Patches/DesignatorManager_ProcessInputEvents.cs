@@ -27,7 +27,7 @@ namespace Merthsoft.DesignatorShapes.Patches {
                 return;
             }
 
-            if (Event.current.type == EventType.keyDown) {
+            if (Event.current.type == EventType.KeyDown) {
                 var key = Event.current.keyCode;
                 if (key == KeyBindingDefOf.Designator_RotateLeft.MainKey) {
                     rotateShapePositive(Event.current);
@@ -38,17 +38,15 @@ namespace Merthsoft.DesignatorShapes.Patches {
         }
 
         public static void Postfix(DesignatorManager __instance) {
-            if (__instance.SelectedDesignator == null) { return; }
-
-            if (DesignatorShapes.CurrentTool == null) { return; }
-
-            if (__instance.Dragger == null) { return; }
+            if (__instance.SelectedDesignator == null
+                || DesignatorShapes.CurrentTool == null
+                || __instance.Dragger == null) {
+                return;
+            }
 
             if (!DesignatorShapes.CurrentTool.draggable && __instance.Dragger.Dragging) {
                 __instance.Dragger.SetInstanceField("startDragCell", UI.MouseCell());
             }
-
-            HistoryManager.FinishBuilding();
         }
 
         private static void rotateShapePositive(Event ev) {

@@ -6,7 +6,7 @@ namespace Merthsoft.DesignatorShapes.Designators {
         public Redo() {
             defaultLabel = "redo";
             defaultDesc = "Redo";
-            icon = DesignatorShapes.Icon_Undo;
+            icon = DesignatorShapes.Icon_Redo;
             useMouseIcon = true;
         }
 

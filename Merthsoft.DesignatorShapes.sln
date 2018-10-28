@@ -24,16 +24,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{82E883B5-F29F-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{B02A2588-7637-43FC-925D-CEFE26D4109B}"
 	ProjectSection(SolutionItems) = preProject
-		Textures\UI\Commands\hexagon_filled.png = Textures\UI\Commands\hexagon_filled.png
-		Textures\UI\Commands\hexagon.png = Textures\UI\Commands\hexagon.png
-		Textures\UI\Commands\line.png = Textures\UI\Commands\line.png
-		Textures\UI\Commands\circle_filled.png = Textures\UI\Commands\circle_filled.png
 		Textures\UI\Commands\circle.png = Textures\UI\Commands\circle.png
-		Textures\UI\Commands\ellipse_filled.png = Textures\UI\Commands\ellipse_filled.png
+		Textures\UI\Commands\circle_filled.png = Textures\UI\Commands\circle_filled.png
 		Textures\UI\Commands\ellipse.png = Textures\UI\Commands\ellipse.png
+		Textures\UI\Commands\ellipse_filled.png = Textures\UI\Commands\ellipse_filled.png
 		Textures\UI\Commands\fill.png = Textures\UI\Commands\fill.png
-		Textures\UI\Commands\rectangle_filled.png = Textures\UI\Commands\rectangle_filled.png
+		Textures\UI\Commands\hexagon.png = Textures\UI\Commands\hexagon.png
+		Textures\UI\Commands\hexagon_filled.png = Textures\UI\Commands\hexagon_filled.png
+		Textures\UI\Commands\line.png = Textures\UI\Commands\line.png
 		Textures\UI\Commands\rectangle.png = Textures\UI\Commands\rectangle.png
+		Textures\UI\Commands\rectangle_filled.png = Textures\UI\Commands\rectangle_filled.png
+		Textures\UI\Commands\redo.png = Textures\UI\Commands\redo.png
 		Textures\UI\Commands\settings.png = Textures\UI\Commands\settings.png
 		Textures\UI\Commands\undo.png = Textures\UI\Commands\undo.png
 	EndProjectSection
@@ -68,5 +69,8 @@ Global
 		{B02A2588-7637-43FC-925D-CEFE26D4109B} = {82E883B5-F29F-41AA-91DF-2F5C4FBDBED8}
 		{5BFAB17E-CD44-4D3C-8278-0AA402254456} = {7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}
 		{50DF9C22-919A-4F30-A719-DDBD326A8BFF} = {82E883B5-F29F-41AA-91DF-2F5C4FBDBED8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1AA6B7A3-4125-47F9-88DD-2DFFBB7046B6}
 	EndGlobalSection
 EndGlobal
