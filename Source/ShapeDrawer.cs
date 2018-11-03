@@ -56,7 +56,7 @@ namespace Merthsoft.DesignatorShapes {
         public static IEnumerable<IntVec3> GenRadialCircle(IntVec3 vert1, float radius, bool filled) {
             var innerCells = RadialCellsAround(vert1, radius);
 
-            if (!filled) {
+            if (filled) {
                 return innerCells;
             } else {
                 return RadialCellsAround(vert1, radius + 1).Except(innerCells).FillCorners(vert1);
