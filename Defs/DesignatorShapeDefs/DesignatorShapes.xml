@@ -119,7 +119,7 @@
         <defName>SunLamp</defName>
         <label>sun lamp</label>
         <description>Designate in a sun-lamp-radius shape</description>
-        <uiIconPath>UI/Commands/circle</uiIconPath>
+        <uiIconPath>Things/Building/Production/LampSun</uiIconPath>
         <draggable>false</draggable>
         <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.Shapes.SunLamp</drawMethodName>
@@ -128,7 +128,7 @@
         <defName>TradeBeacon</defName>
         <label>trade beacon</label>
         <description>Designate in a trade-beacon-radius shape</description>
-        <uiIconPath>UI/Commands/circle</uiIconPath>
+        <uiIconPath>Things/Building/Misc/DropBeacon</uiIconPath>
         <draggable>false</draggable>
         <numRotations>2</numRotations>
         <drawMethodName>Merthsoft.DesignatorShapes.Shapes.TradeBeacon</drawMethodName>

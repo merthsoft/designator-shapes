@@ -87,7 +87,6 @@ namespace Merthsoft.DesignatorShapes {
             var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
 
             var numShapeDefs = shapeDefs.Count;
-            Log.Message($"{numShapeDefs} shape defs found.");
 
             shapes.ResolveReferences();
             if (Settings.ShowUndoAndRedoButtons) {
@@ -96,18 +95,16 @@ namespace Merthsoft.DesignatorShapes {
             }
 
             shapeDefs.ForEach(d => shapes.AllResolvedDesignators.Add(new Designator_Shape(d)));
-            Log.Message($"{numShapeDefs} shape defs added.");
+            Log.Message($"{numShapeDefs} shape defs added: {string.Join(",", shapeDefs.Select(s => s.defName).ToArray())}");
 
             var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
             if (sunlampDef != null) {
                 SunLampRadius = sunlampDef.specialDisplayRadius;
-                Log.Message($"Got sun lamp radius of {SunLampRadius}");
             }
 
             var tradeRadiusInfo = AccessTools.Field(typeof(Building_OrbitalTradeBeacon), "TradeRadius");
             if (tradeRadiusInfo != null) {
                 TradeBeaconRadius = (float)tradeRadiusInfo.GetValue(null);
-                Log.Message($"Got trade beacon radius of {TradeBeaconRadius}");
             }
         }
 
