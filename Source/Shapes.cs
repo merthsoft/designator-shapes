@@ -39,10 +39,16 @@ namespace Merthsoft.DesignatorShapes {
             Circle(s, t, true);
 
         public static IEnumerable<IntVec3> SunLamp(IntVec3 vert1, IntVec3 vert2, int rotation) =>
-            GenRadialCircle(vert1, DesignatorShapes.SunLampRadius, rotation == 0);
+            GenRadialCircle(vert1, DesignatorShapes.SunLampRadius, true);
+
+        public static IEnumerable<IntVec3> SunLampOutline(IntVec3 vert1, IntVec3 vert2, int rotation) =>
+            GenRadialCircle(vert1, DesignatorShapes.SunLampRadius, false);
 
         public static IEnumerable<IntVec3> TradeBeacon(IntVec3 vert1, IntVec3 vert2, int rotation) =>
-            GenRadialCircle(vert1, DesignatorShapes.TradeBeaconRadius, rotation == 0);
+            GenRadialCircle(vert1, DesignatorShapes.TradeBeaconRadius, true);
+
+        public static IEnumerable<IntVec3> TradeBeaconOutline(IntVec3 vert1, IntVec3 vert2, int rotation) =>
+            GenRadialCircle(vert1, DesignatorShapes.TradeBeaconRadius, false);
 
         public static IEnumerable<IntVec3> FloodFill(IntVec3 s, IntVec3 t, int rotation) {
             var ret = new HashSet<IntVec3>();

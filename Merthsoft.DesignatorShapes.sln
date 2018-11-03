@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{4C3D7EE9
 	ProjectSection(SolutionItems) = preProject
 		About\About.xml = About\About.xml
 		About\Preview.png = About\Preview.png
+		About\PublishedFileId.txt = About\PublishedFileId.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Defs", "Defs", "{7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}"
