@@ -5,7 +5,7 @@
         <label>line</label>
         <description>Designate in a line</description>
         <uiIconPath>UI/Commands/line</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawLine</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Line</drawMethodName>
         <designationCategory>Shapes</designationCategory>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     
@@ -15,7 +15,7 @@
         <description>Designate in a rectangle</description>
         <uiIconPath>UI/Commands/rectangle</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawRectangle</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Rectangle</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
         <defName>RectangleFilled</defName>
@@ -23,7 +23,7 @@
         <description>Designate in a filled rectangle</description>
         <uiIconPath>UI/Commands/rectangle_filled</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawRectangleFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.RectangleFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -31,14 +31,14 @@
         <label>ellipse</label>
         <description>Designate in an ellipse</description>
         <uiIconPath>UI/Commands/ellipse</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawEllipse</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Ellipse</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
         <defName>EllipseFilled</defName>
         <label>filled ellipse</label>
         <description>Designate in a filled ellipse</description>
         <uiIconPath>UI/Commands/ellipse_filled</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawEllipseFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.EllipseFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -47,7 +47,7 @@
         <description>Designate in a hexagon</description>
         <uiIconPath>UI/Commands/hexagon</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawHexagon</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Hexagon</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
         <defName>HexagonFilled</defName>
@@ -55,7 +55,7 @@
         <description>Designate in a filled hexagon</description>
         <uiIconPath>UI/Commands/hexagon_filled</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawHexagonFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.HexagonFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -64,7 +64,7 @@
         <description>Designate in a pentagon</description>
         <uiIconPath>UI/Commands/pentagon</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawPentagon</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Pentagon</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
         <defName>PentagonFilled</defName>
@@ -72,7 +72,7 @@
         <description>Designate in a filled pentagon</description>
         <uiIconPath>UI/Commands/pentagon_filled</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawPentagonFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.PentagonFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -80,14 +80,29 @@
         <label>circle</label>
         <description>Designate in a circle</description>
         <uiIconPath>UI/Commands/circle</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawCircle</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Circle</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
         <defName>CircleFilled</defName>
         <label>filled circle</label>
         <description>Designate in a filled circle</description>
         <uiIconPath>UI/Commands/circle_filled</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.DrawCircleFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.CircleFilled</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+  
+  <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>RadialCircle</defName>
+        <label>radial circle</label>
+        <description>Designate in a radial circle</description>
+        <uiIconPath>UI/Commands/circle</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.RadialCircle</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>RadialCircleFilled</defName>
+        <label>filled radial circle</label>
+        <description>Designate in a filled radial circle</description>
+        <uiIconPath>UI/Commands/circle_filled</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.RadialCircleFilled</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -97,6 +112,25 @@
         <uiIconPath>UI/Commands/fill</uiIconPath>
         <draggable>false</draggable>
         <numRotations>1</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.ShapeDrawer.FloodFill</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.FloodFill</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>SunLamp</defName>
+        <label>sun lamp</label>
+        <description>Designate in a sun-lamp-radius shape</description>
+        <uiIconPath>UI/Commands/circle</uiIconPath>
+        <draggable>false</draggable>
+        <numRotations>2</numRotations>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.SunLamp</drawMethodName>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>TradeBeacon</defName>
+        <label>trade beacon</label>
+        <description>Designate in a trade-beacon-radius shape</description>
+        <uiIconPath>UI/Commands/circle</uiIconPath>
+        <draggable>false</draggable>
+        <numRotations>2</numRotations>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.TradeBeacon</drawMethodName>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 </Defs>

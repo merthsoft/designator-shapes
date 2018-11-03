@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RimWorld;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes {
-    public static class ShapeDrawer {
+    public static partial class Shapes {
         /// <summary>
         /// Swaps two values.
         /// </summary>
@@ -19,11 +17,53 @@ namespace Merthsoft.DesignatorShapes {
             item2 = temp;
         }
 
-        public static IEnumerable<IntVec3> DrawLine(IntVec3 vert1, IntVec3 vert2, int rotation = 0) {
-            return DrawLine(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, true);
+        private static IEnumerable<IntVec3> FillCorners(this IEnumerable<IntVec3> shape, IntVec3 center) {
+            foreach (var cell in shape) {
+                yield return cell;
+                if (cell.x == center.x || cell.z == center.z) { continue; }
+                var quadrant = cell.x < center.x && cell.z > center.z ? 0 :
+                               cell.x < center.x && cell.z < center.z ? 1 :
+                               cell.x > center.x && cell.z < center.z ? 2 :
+                               cell.x > center.x && cell.z > center.z ? 3 : throw new Exception($"{cell.x},{cell.y} : {center.x},{center.y}");
+                switch (quadrant) {
+                    case 0:
+                        if (shape.Contains(cell + IntVec3.NorthEast) && !shape.Contains(cell + IntVec3.East) && !shape.Contains(cell + IntVec3.North)) {
+                            yield return cell + IntVec3.North;
+                        }
+                        break;
+                    case 1:
+                        if (shape.Contains(cell + IntVec3.SouthEast) && !shape.Contains(cell + IntVec3.East) && !shape.Contains(cell + IntVec3.South)) {
+                            yield return cell + IntVec3.South;
+                        }
+                        break;
+                    case 2:
+                        if (shape.Contains(cell + IntVec3.SouthWest) && !shape.Contains(cell + IntVec3.West) && !shape.Contains(cell + IntVec3.South)) {
+                            yield return cell + IntVec3.South;
+                        }
+                        break;
+                    case 3:
+                        if (shape.Contains(cell + IntVec3.NorthWest) && !shape.Contains(cell + IntVec3.West) && !shape.Contains(cell + IntVec3.North)) {
+                            yield return cell + IntVec3.North;
+                        }
+                        break;
+                }
+            }
         }
 
-        public static IEnumerable<IntVec3> DrawLine(int x1, int y1, int z1, int x2, int y2, int z2, bool fillCorners) {
+        public static IEnumerable<IntVec3> RadialCellsAround(IntVec3 center, float radius) =>
+            GenRadial.RadialCellsAround(center, radius, true);
+
+        public static IEnumerable<IntVec3> GenRadialCircle(IntVec3 vert1, float radius, bool filled) {
+            var innerCells = RadialCellsAround(vert1, radius);
+
+            if (!filled) {
+                return innerCells;
+            } else {
+                return RadialCellsAround(vert1, radius + 1).Except(innerCells).FillCorners(vert1);
+            }
+        }
+
+        public static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, bool fillCorners) {
             var ret = new HashSet<IntVec3>();
             ret.Add(toIntVec(x1, y1, z1));
             ret.Add(toIntVec(x2, y2, z2));
@@ -40,7 +80,7 @@ namespace Merthsoft.DesignatorShapes {
                 if (x2 == x1 && z2 == z1) { break; }
 
                 int e2 = 2 * err;
-                
+
                 ret.Add(new IntVec3(x2, y1, z2));
 
                 if (e2 > -deltaZ) {
@@ -62,40 +102,35 @@ namespace Merthsoft.DesignatorShapes {
             return ret;
         }
 
-        public static IEnumerable<IntVec3> DrawHorizontalLine(int x1, int x2, int y, int z) {
+        public static IEnumerable<IntVec3> HorizontalLine(int x1, int x2, int y, int z) {
             if (x1 > x2) { swap(ref x1, ref x2); }
             return Enumerable.Range(x1, x2 - x1 + 1).Select(x => new IntVec3(x, y, z));
         }
 
-        public static IEnumerable<IntVec3> DrawVerticalLine(int x, int y, int z1, int z2) {
+        public static IEnumerable<IntVec3> VerticalLine(int x, int y, int z1, int z2) {
             if (z1 > z2) { swap(ref z1, ref z2); }
             return Enumerable.Range(z1, z2 - z1 + 1).Select(z => new IntVec3(x, y, z));
         }
 
-        public static IEnumerable<IntVec3> DrawRectangle(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawRectangle(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
-        }
+        public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2) =>
+            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, true);
 
-        public static IEnumerable<IntVec3> DrawRectangleFilled(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawRectangle(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
-        }
-
-        public static IEnumerable<IntVec3> DrawRectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation) {
+        public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation) {
             var ret = new HashSet<IntVec3>();
 
             if (rotation == 0) {
                 if (!fill) {
-                    ret.AddRange(DrawHorizontalLine(x1, x2, y1, z1));
-                    ret.AddRange(DrawHorizontalLine(x1, x2, y1, z2));
-                    ret.AddRange(DrawVerticalLine(x1, y1, z1, z2));
-                    ret.AddRange(DrawVerticalLine(x2, y1, z1, z2));
+                    ret.AddRange(HorizontalLine(x1, x2, y1, z1));
+                    ret.AddRange(HorizontalLine(x1, x2, y1, z2));
+                    ret.AddRange(VerticalLine(x1, y1, z1, z2));
+                    ret.AddRange(VerticalLine(x2, y1, z1, z2));
 
                 } else {
                     if (x1 > x2) {
                         swap(ref x1, ref x2);
                     }
                     for (int x = x1; x <= x2; x++) {
-                        ret.AddRange(DrawVerticalLine(x, y1, z1, z2));
+                        ret.AddRange(VerticalLine(x, y1, z1, z2));
                     }
                 }
 
@@ -117,10 +152,10 @@ namespace Merthsoft.DesignatorShapes {
                 var C = toIntVec(x2, y2, z1 + kr);
                 var D = toIntVec(x1 + hr, y1, z2);
 
-                ret.AddRange(DrawLine(A, B));
-                ret.AddRange(DrawLine(C, B));
-                ret.AddRange(DrawLine(A, D));
-                ret.AddRange(DrawLine(C, D));
+                ret.AddRange(Line(A, B));
+                ret.AddRange(Line(C, B));
+                ret.AddRange(Line(A, D));
+                ret.AddRange(Line(C, D));
 
                 if (fill) {
                     return Fill(ret);
@@ -134,15 +169,7 @@ namespace Merthsoft.DesignatorShapes {
             return new IntVec3((int)(x), (int)(y), (int)(z));
         }
 
-        public static IEnumerable<IntVec3> DrawPentagon(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawPentagon(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
-        }
-
-        public static IEnumerable<IntVec3> DrawPentagonFilled(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawPentagon(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
-        }
-
-        public static IEnumerable<IntVec3> DrawPentagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
+        public static IEnumerable<IntVec3> Pentagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
             var ret = new HashSet<IntVec3>();
 
             //if (tx < sx) { swap(ref sx, ref tx); }
@@ -176,11 +203,11 @@ namespace Merthsoft.DesignatorShapes {
                     break;
             }
 
-            ret.AddRange(DrawLine(A, B));
-            ret.AddRange(DrawLine(A, C));
-            ret.AddRange(DrawLine(B, D));
-            ret.AddRange(DrawLine(C, E));
-            ret.AddRange(DrawLine(D, E));
+            ret.AddRange(Line(A, B));
+            ret.AddRange(Line(A, C));
+            ret.AddRange(Line(B, D));
+            ret.AddRange(Line(C, E));
+            ret.AddRange(Line(D, E));
 
             if (fill) {
                 return Fill(ret);
@@ -189,15 +216,7 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        public static IEnumerable<IntVec3> DrawHexagon(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
-        }
-
-        public static IEnumerable<IntVec3> DrawHexagonFilled(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawHexagon(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
-        }
-
-        public static IEnumerable<IntVec3> DrawHexagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
+        public static IEnumerable<IntVec3> Hexagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
             if (tx < sx) { swap(ref sx, ref tx); }
             if (tz < sz) { swap(ref sz, ref tz); }
 
@@ -228,15 +247,15 @@ namespace Merthsoft.DesignatorShapes {
                 E = toIntVec(sx, sy, tz - ht);
                 F = toIntVec(mx, ty, tz);
             }
-            
+
             var ret = new HashSet<IntVec3>();
 
-            ret.AddRange(DrawLine(A, B));
-            ret.AddRange(DrawLine(B, D));
-            ret.AddRange(DrawLine(F, D));
-            ret.AddRange(DrawLine(A, C));
-            ret.AddRange(DrawLine(C, E));
-            ret.AddRange(DrawLine(F, E));
+            ret.AddRange(Line(A, B));
+            ret.AddRange(Line(B, D));
+            ret.AddRange(Line(F, D));
+            ret.AddRange(Line(A, C));
+            ret.AddRange(Line(C, E));
+            ret.AddRange(Line(F, E));
             //ret.AddRange(new[] { A, B, C, D, E, F });
 
             if (fill) {
@@ -246,32 +265,12 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        public static IEnumerable<IntVec3> TraceShape(this IEnumerable<IntVec3> vertices) {
-            var ret = new HashSet<IntVec3>();
-            var prev = vertices.First();
-            foreach (var current in vertices.Skip(1)) {
-                ret.AddRange(DrawLine(prev, current));
-                prev = current;
-            }
-            ret.AddRange(DrawLine(vertices.First(), vertices.Last()));
-
-            return ret;
-        }
-
         private static void AddRange(this HashSet<IntVec3> vectors, IEnumerable<IntVec3> newVectors) {
             foreach (var vec in newVectors) {
                 vectors.Add(vec);
             }
         }
-
-        public static IEnumerable<IntVec3> DrawEllipse(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawEllipse(s.x, s.y, s.z, t.x, t.y, t.z, false);
-        }
-
-        public static IEnumerable<IntVec3> DrawEllipseFilled(IntVec3 s, IntVec3 t, int rotation) {
-            return DrawEllipse(s.x, s.y, s.z, t.x, t.y, t.z, true);
-        }
-
+        
         /// <summary>
         /// Draws an ellipse to the sprite.
         /// </summary>
@@ -280,7 +279,7 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="x2"></param>
         /// <param name="z2"></param>
         /// <param name="fill">True to fill the ellipse.</param>
-        public static IEnumerable<IntVec3> DrawEllipse(int x1, int y1, int z1, int x2, int y2, int z2, bool fill = false) {
+        public static IEnumerable<IntVec3> Ellipse(int x1, int y1, int z1, int x2, int y2, int z2, bool fill = false) {
             if (x2 < x1) { swap(ref x1, ref x2); }
             if (z2 < z1) { swap(ref z1, ref z2); }
 
@@ -289,7 +288,7 @@ namespace Merthsoft.DesignatorShapes {
             int h = x1 + hr;
             int k = z1 + kr;
 
-            return DrawEllipseUsingRadius(h, y1, k, hr, kr, fill);
+            return RadialEllipse(h, y1, k, hr, kr, fill);
         }
 
         private static void incrementX(ref int x, ref int dxt, ref int d2xt, ref int t) { x++; dxt += d2xt; t += dxt; }
@@ -304,7 +303,7 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="xRadius">The x radius.</param>
         /// <param name="zRadius">The z radius.</param>
         /// <param name="fill">True to fill the ellipse.</param>
-        public static IEnumerable<IntVec3> DrawEllipseUsingRadius(int x, int y, int z, int xRadius, int zRadius, bool fill = false) {
+        public static IEnumerable<IntVec3> RadialEllipse(int x, int y, int z, int xRadius, int zRadius, bool fill = false) {
             var ret = new HashSet<IntVec3>();
 
             int plotX = 0;
@@ -354,13 +353,13 @@ namespace Merthsoft.DesignatorShapes {
 
         private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line) {
             if (line) {
-                return DrawLine(point1, point2, 0);
+                return Line(point1, point2);
             } else {
                 return new[] { point2 };
             }
         }
 
-        public static IEnumerable<IntVec3> DrawCircle(IntVec3 s, IntVec3 t, int rotation) {
+        public static IEnumerable<IntVec3> Circle(IntVec3 s, IntVec3 t, bool filled) {
             var x1 = s.x;
             var y1 = s.y;
             var z1 = s.z;
@@ -372,23 +371,11 @@ namespace Merthsoft.DesignatorShapes {
             if (z2 < z1) { swap(ref z1, ref z2); }
 
             var r = Math.Max(x2 - x1, z2 - z1);
-            return DrawCircle(s.x, s.y, s.z, r);
+            return Circle(s.x, s.y, s.z, r, filled);
         }
 
-        public static IEnumerable<IntVec3> DrawCircleFilled(IntVec3 s, IntVec3 t, int rotation) {
-            var x1 = s.x;
-            var y1 = s.y;
-            var z1 = s.z;
-            var x2 = t.x;
-            var y2 = t.y;
-            var z2 = t.z;
-
-            if (x2 < x1) { swap(ref x1, ref x2); }
-            if (z2 < z1) { swap(ref z1, ref z2); }
-
-            var r = Math.Max(x2 - x1, z2 - z1);
-            return DrawCircle(s.x, s.y, s.z, r, true);
-        }
+        public static IEnumerable<IntVec3> Circle(IntVec3 center, int r, bool fill = false) =>
+            Circle(center.x, center.y, center.z, r, fill);
 
         /// <summary>
         /// Draws a circle to the sprite.
@@ -397,113 +384,10 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="y"></param>
         /// <param name="r"></param>
         /// <param name="fill">True to fill the circle.</param>
-        public static IEnumerable<IntVec3> DrawCircle(int x, int y, int z, int r, bool fill = false) {
-            return DrawEllipseUsingRadius(x, y, z, r, r, fill);
-        }
+        public static IEnumerable<IntVec3> Circle(int x, int y, int z, int r, bool fill = false) =>
+            RadialEllipse(x, y, z, r, r, fill);
 
-        public static IEnumerable<IntVec3> FloodFill(IntVec3 s, IntVec3 t, int rotation) {
-            var ret = new HashSet<IntVec3>();
-            var designator = Find.DesignatorManager.SelectedDesignator;
-            var map = Find.CurrentMap;
-
-            var wallAtMouse = getWallDefAt(map, t);
-            var designationsAtMouse = getDesignaionsAt(map, t);
-            var mineableAtMouse = getMineableAt(map, t);
-            var floorAtMouse = getFloorAt(map, t);
-
-            var cells = new Queue<IntVec3>();
-            cells.Enqueue(t);
-            
-            while (cells.Count() > 0 && ret.Count() < DesignatorShapes.Settings.FloodFillCellLimit) {
-                var cell = cells.Dequeue();
-                if (!cell.InBounds(map)) { continue; }
-                if (ret.Contains(cell)) { continue; }
-                if (!Find.DesignatorManager.SelectedDesignator.CanDesignateCell(cell).Accepted) { continue; }
-                     
-                var cellWall = getWallDefAt(map, cell);
-                var cellDes = getDesignaionsAt(map, cell);
-                var cellMineable = getMineableAt(map, cell);
-                var cellFloor = getFloorAt(map, cell);
-                var cellThings = map.thingGrid.ThingsListAtFast(cell);
-
-                var addFlag = false;
-                var neighborsFlag = false;
-
-                if (wallAtMouse != null) {
-                    if (cellWall == null) { continue; }
-                    if (cellWall.defName == wallAtMouse.defName) {
-                        addFlag = true;
-                        neighborsFlag = true;
-                    }
-                } else if (mineableAtMouse != null) {
-                    if (cellMineable?.def == mineableAtMouse.def) {
-                        addFlag = true;
-                        neighborsFlag = true;
-                    }
-                } else if (designationsAtMouse?.Count() > 0) {
-                    if (cellDes.Count() > 0) {
-                        addFlag = true;
-                        neighborsFlag = true;
-                    }
-                } else {
-                    if (cellWall == null && cellMineable == null) {
-                        addFlag = true;
-                        neighborsFlag = true;
-                        foreach (var thing in cellThings) {
-                            var def = thing.def.entityDefToBuild == null ? thing.def : thing.def.entityDefToBuild as ThingDef;
-                            if (def.coversFloor || def.designationCategory == DesignationCategoryDefOf.Structure) {
-                                addFlag = false;
-                                neighborsFlag = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (addFlag) { 
-                    ret.Add(cell);
-                }
-                if (neighborsFlag) {
-                    cells.Enqueue(cell + IntVec3.North);
-                    cells.Enqueue(cell + IntVec3.East);
-                    cells.Enqueue(cell + IntVec3.South);
-                    cells.Enqueue(cell + IntVec3.West);
-                }
-            }
-
-            return ret;
-        }
-
-        static TerrainDef getFloorAt(Map map, IntVec3 cell) {
-            return map.terrainGrid.TerrainAt(cell);
-        }
-
-        static IEnumerable<Designation> getDesignaionsAt(Map map, IntVec3 cell) {
-            return map.designationManager.AllDesignationsAt(cell);
-        }
-
-        static Thing getMineableAt(Map map, IntVec3 cell) {
-            return map.thingGrid.ThingsListAtFast(cell).FirstOrDefault(t => t is Mineable);
-        }
-
-        static Def getWallDefAt(Map map, IntVec3 cell) {
-            var things = cell.GetThingList(map);
-            foreach (var thing in things) {
-                switch (thing) {
-                    case Blueprint b when b.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Structure:
-                        return b.def.entityDefToBuild as ThingDef;
-                    case Frame f when f.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Structure:
-                        return f.def.entityDefToBuild as ThingDef;
-                    case Thing t when (t.def as BuildableDef)?.designationCategory == DesignationCategoryDefOf.Structure:
-                        return t.def;
-                    default:
-                        continue;
-                }
-            }
-
-            return null;
-        }
-
+        
         public static IEnumerable<IntVec3> Fill(IEnumerable<IntVec3> outLine) {
             var ret = new HashSet<IntVec3>();
             foreach (var lineGroup in outLine.GroupBy(vec => vec.z)) {
@@ -513,7 +397,7 @@ namespace Merthsoft.DesignatorShapes {
                     var sorted = lineGroup.OrderBy(v => v.x);
                     var point1 = sorted.First();
                     var point2 = sorted.Last();
-                    ret.AddRange(DrawHorizontalLine(point1.x, point2.x, point1.y, lineGroup.Key));
+                    ret.AddRange(HorizontalLine(point1.x, point2.x, point1.y, lineGroup.Key));
                 }
             }
 

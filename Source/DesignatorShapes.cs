@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Harmony;
+using Merthsoft.DesignatorShapes.Defs;
+using Merthsoft.DesignatorShapes.Designators;
+using RimWorld;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using UnityEngine;
 using Verse;
-using Merthsoft.DesignatorShapes.Defs;
-using RimWorld;
-using Merthsoft.DesignatorShapes.Designators;
-using Harmony;
-using System.Reflection;
-using Merthsoft;
 
 namespace Merthsoft.DesignatorShapes {
     [StaticConstructorOnStartup]
@@ -24,19 +20,21 @@ namespace Merthsoft.DesignatorShapes {
         public static Texture2D Icon_Redo { get; private set; }
 
         public static DesignatorSettings Settings { get; private set; }
-        public static HarmonyInstance Harmony { get; private set; }
+        public static HarmonyInstance HarmonyInstance { get; private set; }
 
         public override string SettingsCategory() => "Designator Shapes";
+
+        public static float SunLampRadius;
+        public static float TradeBeaconRadius;
 
         public DesignatorShapes(ModContentPack content) : base(content) {
             Settings = GetSettings<DesignatorSettings>();
         }
 
         static DesignatorShapes() {
-            Harmony = HarmonyInstance.Create("Merthsoft.DesignatorShapes");
-            Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            HarmonyInstance = HarmonyInstance.Create("Merthsoft.DesignatorShapes");
+            HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
-            //Icon_Settings = getIcon("UI/Commands/settings");
             LongEventHandler.ExecuteWhenFinished(() => {
                 Icon_Undo = getIcon("UI/Commands/undo");
                 Icon_Redo = getIcon("UI/Commands/redo");
@@ -89,6 +87,7 @@ namespace Merthsoft.DesignatorShapes {
             var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
 
             var numShapeDefs = shapeDefs.Count;
+            Log.Message($"{numShapeDefs} shape defs found.");
 
             shapes.ResolveReferences();
             if (Settings.ShowUndoAndRedoButtons) {
@@ -97,6 +96,19 @@ namespace Merthsoft.DesignatorShapes {
             }
 
             shapeDefs.ForEach(d => shapes.AllResolvedDesignators.Add(new Designator_Shape(d)));
+            Log.Message($"{numShapeDefs} shape defs added.");
+
+            var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
+            if (sunlampDef != null) {
+                SunLampRadius = sunlampDef.specialDisplayRadius;
+                Log.Message($"Got sun lamp radius of {SunLampRadius}");
+            }
+
+            var tradeRadiusInfo = AccessTools.Field(typeof(Building_OrbitalTradeBeacon), "TradeRadius");
+            if (tradeRadiusInfo != null) {
+                TradeBeaconRadius = (float)tradeRadiusInfo.GetValue(null);
+                Log.Message($"Got trade beacon radius of {TradeBeaconRadius}");
+            }
         }
 
         public static void Rotate(int amount) {
