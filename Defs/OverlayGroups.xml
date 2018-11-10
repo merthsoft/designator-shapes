@@ -9,6 +9,7 @@
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
         <defName>Rectangle</defName>
         <uiIconPath>UI/Commands/Smol/rectangle_more</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/rectangle_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
