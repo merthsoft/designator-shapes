@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <DesignationCategoryDef>
+    <defName>Shapes</defName>
+    <label>shapes</label>
+    <description>Define what shape you designate in.</description>
+    <order>9999</order>
+    <specialDesignatorClasses>
+    </specialDesignatorClasses>
+  </DesignationCategoryDef>
+</Defs>

@@ -25,17 +25,21 @@ namespace Merthsoft.DesignatorShapes.Patches {
             DesignatorShapeDef shape = null;
             var announce = true;
 
-            switch (selectedDesignator.DraggableDimensions) {
-                default:
-                    shape = DesignatorShapeDefOf.Line;
-                    announce = false;
-                    break;
-                case 1:
-                    shape = DesignatorShapeDefOf.Rectangle;
-                    break;
-                case 2:
-                    shape = DesignatorShapeDefOf.RectangleFilled;
-                    break;
+            if (DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null) {
+                switch (selectedDesignator.DraggableDimensions) {
+                    default:
+                        shape = DesignatorShapeDefOf.Line;
+                        announce = false;
+                        break;
+                    case 1:
+                        shape = DesignatorShapeDefOf.Rectangle;
+                        break;
+                    case 2:
+                        shape = DesignatorShapeDefOf.RectangleFilled;
+                        break;
+                }
+            } else {
+                shape = DesignatorShapes.CachedTool;
             }
 
             DesignatorShapes.SelectTool(shape, announce);

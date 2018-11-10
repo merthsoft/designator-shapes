@@ -94,6 +94,9 @@ namespace Merthsoft.DesignatorShapes {
             getManager().undo();
         }
 
+        public static bool CanUndo => getManager().undoStack.Any();
+        public static bool CanRedo => getManager().redoStack.Any();
+
         private static HistoryManager getManager() {
             var map = Find.CurrentMap;
             if (map == null) { return null; }

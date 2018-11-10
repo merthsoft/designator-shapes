@@ -112,5 +112,7 @@ namespace Merthsoft {
                 action(t);
             }
         }
+
+        public static List<TResult> SelectList<T, TResult>(this List<T> i, Func<T, TResult> f) => i.Select(f).ToList();
     }
 }

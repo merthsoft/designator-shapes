@@ -13,10 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{4C3D7EE9
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Defs", "Defs", "{7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThingsDefs_Misc", "ThingsDefs_Misc", "{14D49CF6-42A2-4B85-9614-440681C49258}"
 	ProjectSection(SolutionItems) = preProject
-		Defs\ThingDefs_Misc\DesignationCategory_ShapeTool.xml = Defs\ThingDefs_Misc\DesignationCategory_ShapeTool.xml
+		Defs\DesignationCategory_ShapeTool.xml = Defs\DesignationCategory_ShapeTool.xml
+		Defs\DesignatorShapes.xml = Defs\DesignatorShapes.xml
+		Defs\OverlayGroups.xml = Defs\OverlayGroups.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Textures", "Textures", "{CF7751B8-F1D4-4054-9B17-7CEAE45C6097}"
@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{B0
 		Textures\UI\Commands\hexagon.png = Textures\UI\Commands\hexagon.png
 		Textures\UI\Commands\hexagon_filled.png = Textures\UI\Commands\hexagon_filled.png
 		Textures\UI\Commands\line.png = Textures\UI\Commands\line.png
+		Textures\UI\Commands\pentagon.png = Textures\UI\Commands\pentagon.png
+		Textures\UI\Commands\pentagon_filled.png = Textures\UI\Commands\pentagon_filled.png
 		Textures\UI\Commands\rectangle.png = Textures\UI\Commands\rectangle.png
 		Textures\UI\Commands\rectangle_filled.png = Textures\UI\Commands\rectangle_filled.png
 		Textures\UI\Commands\redo.png = Textures\UI\Commands\redo.png
@@ -40,14 +42,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{B0
 		Textures\UI\Commands\undo.png = Textures\UI\Commands\undo.png
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DesignatorShapeDefs", "DesignatorShapeDefs", "{5BFAB17E-CD44-4D3C-8278-0AA402254456}"
-	ProjectSection(SolutionItems) = preProject
-		Defs\DesignatorShapeDefs\DesignatorShapes.xml = Defs\DesignatorShapeDefs\DesignatorShapes.xml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ArchitectIcons", "ArchitectIcons", "{50DF9C22-919A-4F30-A719-DDBD326A8BFF}"
 	ProjectSection(SolutionItems) = preProject
 		Textures\UI\ArchitectIcons\Shapes.png = Textures\UI\ArchitectIcons\Shapes.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Smol", "Smol", "{801592A4-4609-4878-937B-84DC91501F65}"
+	ProjectSection(SolutionItems) = preProject
+		Textures\UI\Commands\Smol\circle.png = Textures\UI\Commands\Smol\circle.png
+		Textures\UI\Commands\Smol\circle_filled.png = Textures\UI\Commands\Smol\circle_filled.png
+		Textures\UI\Commands\Smol\ellipse.png = Textures\UI\Commands\Smol\ellipse.png
+		Textures\UI\Commands\Smol\ellipse_filled.png = Textures\UI\Commands\Smol\ellipse_filled.png
+		Textures\UI\Commands\Smol\etc.png = Textures\UI\Commands\Smol\etc.png
+		Textures\UI\Commands\Smol\fill.png = Textures\UI\Commands\Smol\fill.png
+		Textures\UI\Commands\Smol\hexagon.png = Textures\UI\Commands\Smol\hexagon.png
+		Textures\UI\Commands\Smol\hexagon_filled.png = Textures\UI\Commands\Smol\hexagon_filled.png
+		Textures\UI\Commands\Smol\line.png = Textures\UI\Commands\Smol\line.png
+		Textures\UI\Commands\Smol\pentagon.png = Textures\UI\Commands\Smol\pentagon.png
+		Textures\UI\Commands\Smol\pentagon_filled.png = Textures\UI\Commands\Smol\pentagon_filled.png
+		Textures\UI\Commands\Smol\rectangle.png = Textures\UI\Commands\Smol\rectangle.png
+		Textures\UI\Commands\Smol\rectangle_filled.png = Textures\UI\Commands\Smol\rectangle_filled.png
+		Textures\UI\Commands\Smol\redo.png = Textures\UI\Commands\Smol\redo.png
+		Textures\UI\Commands\Smol\settings.png = Textures\UI\Commands\Smol\settings.png
+		Textures\UI\Commands\Smol\undo.png = Textures\UI\Commands\Smol\undo.png
 	EndProjectSection
 EndProject
 Global
@@ -65,11 +82,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{14D49CF6-42A2-4B85-9614-440681C49258} = {7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}
 		{82E883B5-F29F-41AA-91DF-2F5C4FBDBED8} = {CF7751B8-F1D4-4054-9B17-7CEAE45C6097}
 		{B02A2588-7637-43FC-925D-CEFE26D4109B} = {82E883B5-F29F-41AA-91DF-2F5C4FBDBED8}
-		{5BFAB17E-CD44-4D3C-8278-0AA402254456} = {7B3D6CAE-2579-4CB8-BA75-7ABB57208CD7}
 		{50DF9C22-919A-4F30-A719-DDBD326A8BFF} = {82E883B5-F29F-41AA-91DF-2F5C4FBDBED8}
+		{801592A4-4609-4878-937B-84DC91501F65} = {B02A2588-7637-43FC-925D-CEFE26D4109B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1AA6B7A3-4125-47F9-88DD-2DFFBB7046B6}

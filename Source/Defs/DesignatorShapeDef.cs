@@ -11,6 +11,12 @@ namespace Merthsoft.DesignatorShapes.Defs {
         public string drawMethodName;
         public bool draggable;
         public int numRotations;
+        public string overlayGroup;
+        public string selectedUiIconPath;
+
+        [Unsaved] public OverlayGroupDef Group;
+
+        [Unsaved] public Texture2D selectedUiIcon;
 
         [Unsaved]
         private Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>> drawMethodCached;
@@ -44,6 +50,18 @@ namespace Merthsoft.DesignatorShapes.Defs {
         public DesignatorShapeDef() {
             draggable = true;
             numRotations = 0;
+        }
+
+        public override void ResolveReferences() {
+            base.ResolveReferences();
+
+            LongEventHandler.ExecuteWhenFinished(() => {
+                selectedUiIcon = DesignatorShapes.GetIcon(selectedUiIconPath);
+            });
+        }
+
+        public void Select() {
+            DesignatorShapes.SelectTool(this);
         }
     }
 }
