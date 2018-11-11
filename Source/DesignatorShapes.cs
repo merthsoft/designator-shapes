@@ -2,6 +2,7 @@
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Designators;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,7 @@ namespace Merthsoft.DesignatorShapes {
     [StaticConstructorOnStartup]
     public class DesignatorShapes : Mod {
         private static bool defsLoaded = false;
+        private static DesignationCategoryDef shapeCategoryDef;
 
         public static DesignatorShapeDef CurrentTool { get; set; }
         public static DesignatorShapeDef CachedTool { get; set; }
@@ -27,7 +29,7 @@ namespace Merthsoft.DesignatorShapes {
         public static Texture2D Icon_UndoDisabled { get; private set; }
         public static Texture2D Icon_RedoDisabled { get; private set; }
 
-        public static DesignatorSettings Settings { get; private set; }
+        public static DesignatorSettings Settings => LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>();
         public static HarmonyInstance HarmonyInstance { get; private set; }
 
         public override string SettingsCategory() => "Designator Shapes";
@@ -38,7 +40,9 @@ namespace Merthsoft.DesignatorShapes {
         public static ShapeControls ShapeControls;
 
         public DesignatorShapes(ModContentPack content) : base(content) {
-            Settings = GetSettings<DesignatorSettings>();
+            if (GetSettings<DesignatorSettings>() == null) {
+                Log.Error("Unable to load DesignatorSettings.");
+            }
         }
 
         static DesignatorShapes() {
@@ -61,6 +65,8 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public override void DoSettingsWindowContents(Rect inRect) {
+            LoadDefs();
+
             Listing_Standard ls = new Listing_Standard();
             ls.Begin(inRect);
 
@@ -69,6 +75,7 @@ namespace Merthsoft.DesignatorShapes {
 
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
+            ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
 
             ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
 
@@ -80,38 +87,29 @@ namespace Merthsoft.DesignatorShapes {
             ls.End();
             Settings.Write();
 
-            if (Settings.UseOldUi) {
-                if (Settings.MoveDesignationTabToEndOfList) {
-                    DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 1;
-                } else {
-                    DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 9999;
-                }
-            }
-
             resolveShapes();
-
-            var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
-            archWindow.InvokeMethod("CacheDesPanels");
-
-            if (!Settings.UseOldUi) {
-                archWindow.GetInstanceField<List<ArchitectCategoryTab>>("desPanelsCached").RemoveAll(s => s.def.defName == "Shapes");
-            }
         }
 
         public static void LoadDefs() {
             if (!defsLoaded) {
+                shapeCategoryDef = shapeCategoryDef ?? DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
                 defsLoaded = true;
                 resolveShapes();
             }
 
+            var archWindow = MainButtonDefOf.Architect.TabWindow;
             if (!Settings.UseOldUi) {
-                var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
-                archWindow.GetInstanceField<List<ArchitectCategoryTab>>("desPanelsCached").RemoveAll(s => s.def.defName == "Shapes");
-            } else if (Settings.MoveDesignationTabToEndOfList) {
-                DefDatabase<DesignationCategoryDef>.GetNamed("Shapes").order = 1;
-                var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
-                archWindow.InvokeMethod("CacheDesPanels");
+                typeof(DefDatabase<DesignationCategoryDef>).InvokeStaticMethod("Remove", shapeCategoryDef);
+            } else {
+                if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef)) {
+                    DefDatabase<DesignationCategoryDef>.Add(shapeCategoryDef);
+                }
+                if (Settings.MoveDesignationTabToEndOfList) {
+                    shapeCategoryDef.order = 1;
+                }
             }
+
+            archWindow.InvokeMethod("CacheDesPanels");
         }
 
         private static void resolveShapes() {

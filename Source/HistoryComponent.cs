@@ -13,6 +13,10 @@ namespace Merthsoft.DesignatorShapes {
         public override void GameComponentTick() {
             base.GameComponentTick();
             HistoryManager.Clear();
+
+            if (DesignatorShapes.Settings.ResetShapeOnResume) {
+                DesignatorShapes.CachedTool = null;
+            }
         }
     }
 }

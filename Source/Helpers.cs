@@ -39,6 +39,11 @@ namespace Merthsoft {
             field.SetValue(instance, value);
         }
 
+        public static void InvokeStaticMethod(this Type type, string methodName, params object[] methodParams) {
+            MethodInfo dynMethod = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+            dynMethod.Invoke(null, methodParams);
+        }
+
         public static void InvokeMethod(this object obj, string methodName, params object[] methodParams) {
             MethodInfo dynMethod = obj.GetType().GetMethod(methodName, fieldFlags);
             dynMethod.Invoke(obj, methodParams);
