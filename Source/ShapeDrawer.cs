@@ -113,7 +113,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2) =>
-            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, true);
+            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, DesignatorShapes.FillCorners);
 
         public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation) {
             var ret = new HashSet<IntVec3>();
@@ -330,7 +330,9 @@ namespace Merthsoft.DesignatorShapes {
                     incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
                 } else {
                     incrementX(ref plotX, ref dxt, ref d2xt, ref t);
-                    circlePlot(x, y, z, ret, plotX, plotZ, fill);
+                    if (DesignatorShapes.FillCorners) {
+                        circlePlot(x, y, z, ret, plotX, plotZ, fill);
+                    }
                     incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
                 }
             }

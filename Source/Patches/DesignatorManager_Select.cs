@@ -28,9 +28,6 @@ namespace Merthsoft.DesignatorShapes.Patches {
             if (DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null) {
                 switch (selectedDesignator.DraggableDimensions) {
                     default:
-                        shape = DesignatorShapeDefOf.Line;
-                        announce = false;
-                        break;
                     case 1:
                         shape = DesignatorShapeDefOf.Rectangle;
                         break;
@@ -44,7 +41,7 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             DesignatorShapes.SelectTool(shape, announce);
 
-            if (DesignatorShapes.Settings.ShowShapesPanelOnDesignationSelection) {
+            if (DesignatorShapes.Settings.UseOldUi && DesignatorShapes.Settings.ShowShapesPanelOnDesignationSelection) {
                 var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
                 var panels = archWindow?.GetInstanceField("desPanelsCached") as IEnumerable;
 

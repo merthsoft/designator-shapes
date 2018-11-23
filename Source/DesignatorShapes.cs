@@ -38,6 +38,7 @@ namespace Merthsoft.DesignatorShapes {
         public static float TradeBeaconRadius;
 
         public static ShapeControls ShapeControls;
+        public static bool FillCorners = true;
 
         public DesignatorShapes(ModContentPack content) : base(content) {
             if (GetSettings<DesignatorSettings>() == null) {
