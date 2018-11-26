@@ -1,9 +1,7 @@
 ﻿using Harmony;
 using RimWorld;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -29,12 +27,16 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             if (Event.current.type == EventType.KeyDown) {
                 var key = Event.current.keyCode;
+
                 if (key == KeyBindingDefOf.Designator_RotateLeft.MainKey) {
                     rotateShapePositive(Event.current);
                 } else if (key == KeyBindingDefOf.Designator_RotateRight.MainKey) {
                     rotateShapeNegative(Event.current);
+                } else if (key == KeyBindingDefOf.Command_ItemForbid.MainKey) {
+                    DesignatorShapes.FillCorners = !DesignatorShapes.FillCorners;
                 }
             }
+
         }
 
         public static void Postfix(DesignatorManager __instance) {
