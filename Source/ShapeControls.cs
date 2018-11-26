@@ -25,11 +25,12 @@ namespace Merthsoft.DesignatorShapes {
         public static int NumButtons = 8;
         public static int NumRows = 2;
         public static int LabelHeight = 20;
+        public static int LineHeight = 3;
 
         private bool dragging;
 
         public static int Width => NumButtons / NumRows * IconSize;
-        public static int Height => NumRows * IconSize + LabelHeight;
+        public static int Height => NumRows * IconSize + LabelHeight + LineHeight;
 
         public ShapeControls(int x, int y) {
             IsHorizontal = true;
@@ -83,7 +84,7 @@ namespace Merthsoft.DesignatorShapes {
 
             Widgets.Label(new Rect(offset, offset, Width, LabelHeight), "Shapes");
             Widgets.DrawLineHorizontal(offset + 3, offset + LabelHeight, Width - 6);
-            drawIcons(new Rect(offset, offset + LabelHeight + 3, Width, Height - LabelHeight), generateIcons());
+            drawIcons(new Rect(offset, offset + LabelHeight + LineHeight, Width, Height - LabelHeight), generateIcons());
 
 
             if (Event.current.isMouse) {
