@@ -73,6 +73,20 @@ namespace Merthsoft.DesignatorShapes {
             var maxBuffer = Settings.FloodFillCellLimit.ToString();
             ls.TextFieldNumericLabeled<int>("Maximum cells to select in flood fill", ref Settings.FloodFillCellLimit, ref maxBuffer);
 
+            ls.CheckboxLabeled("Draw background", ref Settings.DrawBackground);
+            ls.Label($"Icon size: {Settings.IconSize}");
+            Settings.IconSize = (int)ls.Slider(Settings.IconSize, 20, 80);
+
+            ls.Label("Window position, set to -1, -1 to use default location.");
+
+            ls.Label("Window X:");
+            var buffer = Settings.WindowX.ToString();
+            ls.IntEntry(ref Settings.WindowX, ref buffer);
+
+            ls.Label("Window Y:");
+            buffer = Settings.WindowY.ToString();
+            ls.IntEntry(ref Settings.WindowY, ref buffer);
+
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
@@ -88,6 +102,8 @@ namespace Merthsoft.DesignatorShapes {
             Settings.Write();
 
             resolveShapes();
+
+            ShapeControls.WindowRect = new Rect(Settings.WindowX, Settings.WindowY, ShapeControls.Width, ShapeControls.Height);
         }
 
         public static void LoadDefs() {
@@ -137,7 +153,7 @@ namespace Merthsoft.DesignatorShapes {
                 g.Shapes.ForEach(s => s.Group = g);
             });
 
-            ShapeControls = new ShapeControls();
+            ShapeControls = new ShapeControls(Settings.WindowX, Settings.WindowY);
 
             var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
             if (sunlampDef != null) {

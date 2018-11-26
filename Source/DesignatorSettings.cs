@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes {
@@ -11,6 +12,10 @@ namespace Merthsoft.DesignatorShapes {
         public bool UseSubMenus = true;
         public bool AutoSelectShape = false;
         public bool ResetShapeOnResume = false;
+        public bool DrawBackground = true;
+        public int IconSize = 40;
+        public int WindowX = -1;
+        public int WindowY = -1;
 
         public override void ExposeData() {
             base.ExposeData();
@@ -22,6 +27,10 @@ namespace Merthsoft.DesignatorShapes {
             Scribe_Values.Look(ref UseSubMenus, nameof(UseSubMenus), true);
             Scribe_Values.Look(ref AutoSelectShape, nameof(AutoSelectShape), false);
             Scribe_Values.Look(ref ResetShapeOnResume, nameof(ResetShapeOnResume), false);
+            Scribe_Values.Look(ref DrawBackground, nameof(DrawBackground), false);
+            Scribe_Values.Look(ref IconSize, nameof(IconSize), 40);
+            Scribe_Values.Look(ref WindowX, nameof(WindowX), -1);
+            Scribe_Values.Look(ref WindowY, nameof(WindowY), -1);
         }
     }
 }
