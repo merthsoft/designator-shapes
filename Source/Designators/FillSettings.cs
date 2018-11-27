@@ -5,7 +5,7 @@ namespace Merthsoft.DesignatorShapes.Designators {
         public FillSettings() {
             defaultLabel = "settings";
             defaultDesc = "";
-            icon = DesignatorShapes.Icon_Settings;
+            icon = Icons.Settings;
             useMouseIcon = true;
         }
 

@@ -10,6 +10,7 @@ using UnityEngine;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes {
+
     [StaticConstructorOnStartup]
     public class DesignatorShapes : Mod {
         private static bool defsLoaded = false;
@@ -18,16 +19,6 @@ namespace Merthsoft.DesignatorShapes {
         public static DesignatorShapeDef CurrentTool { get; set; }
         public static DesignatorShapeDef CachedTool { get; set; }
         public static int Rotation { get; internal set; }
-
-        public static Texture2D Icon_Settings { get; private set; }
-        public static Texture2D Icon_Undo { get; private set; }
-        public static Texture2D Icon_Redo { get; private set; }
-
-        public static Texture2D Icon_UndoEnabled { get; private set; }
-        public static Texture2D Icon_RedoEnabled { get; private set; }
-
-        public static Texture2D Icon_UndoDisabled { get; private set; }
-        public static Texture2D Icon_RedoDisabled { get; private set; }
 
         public static DesignatorSettings Settings => LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>();
         public static HarmonyInstance HarmonyInstance { get; private set; }
@@ -51,15 +42,6 @@ namespace Merthsoft.DesignatorShapes {
             HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
             LongEventHandler.ExecuteWhenFinished(() => {
-                Icon_Undo = GetIcon("UI/Commands/undo");
-                Icon_Redo = GetIcon("UI/Commands/redo");
-
-                Icon_UndoEnabled = GetIcon("UI/Commands/Smol/undo");
-                Icon_RedoEnabled = GetIcon("UI/Commands/Smol/redo");
-
-
-                Icon_UndoDisabled = GetIcon("UI/Commands/Smol/undo_disabled");
-                Icon_RedoDisabled = GetIcon("UI/Commands/Smol/redo_disabled");
             });
 
             Rotation = 0;
@@ -144,10 +126,10 @@ namespace Merthsoft.DesignatorShapes {
 
             var groups = DefDatabase<OverlayGroupDef>.AllDefsListForReading;
             groups.ForEach(g => {
-                g.uiIcon = GetIcon(g.uiIconPath);
+                g.uiIcon = Icons.GetIcon(g.uiIconPath);
 
                 if (g.closeUiIconPath != null) {
-                    g.closeUiIcon = GetIcon(g.closeUiIconPath);
+                    g.closeUiIcon = Icons.GetIcon(g.closeUiIconPath);
                 }
 
                 g.Shapes = shapeDefs.Where(s => s.overlayGroup == g.defName).ToList();
@@ -174,10 +156,6 @@ namespace Merthsoft.DesignatorShapes {
             } else {
                 Rotation %= CurrentTool.numRotations;
             }
-        }
-
-        public static Texture2D GetIcon(string path) {
-            return ContentFinder<Texture2D>.Get(path, true);
         }
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true) {

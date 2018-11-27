@@ -56,7 +56,7 @@ namespace Merthsoft.DesignatorShapes.Defs {
             base.ResolveReferences();
 
             LongEventHandler.ExecuteWhenFinished(() => {
-                selectedUiIcon = DesignatorShapes.GetIcon(selectedUiIconPath);
+                selectedUiIcon = Icons.GetIcon(selectedUiIconPath);
             });
         }
 

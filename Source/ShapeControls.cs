@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Merthsoft.DesignatorShapes.Defs;
+using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Merthsoft.DesignatorShapes.Defs;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes {
     public class ShapeControls {
         private List<OverlayGroupDef> groupDefs => DefDatabase<OverlayGroupDef>.AllDefsListForReading;
-        private List<DesignatorShapeDef> shapeDefs => DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
 
         public Rect WindowRect { get; set; }
         public Rect DraggingWindowRect => new Rect(WindowRect.x - 100, WindowRect.y - 100, WindowRect.width + 200, WindowRect.height + 200);
@@ -18,6 +16,7 @@ namespace Merthsoft.DesignatorShapes {
         public bool IsHorizontal { get; set; }
 
         public OverlayGroupDef SelectedGroup { get; set; }
+        private Stack<OverlayGroupDef> previousGroups;
 
         private const int ID = 12341234;
 
@@ -34,6 +33,7 @@ namespace Merthsoft.DesignatorShapes {
 
         public ShapeControls(int x, int y) {
             IsHorizontal = true;
+            previousGroups = new Stack<OverlayGroupDef>();
 
             WindowRect = new Rect(x, y, Width, Height);
         }
@@ -55,13 +55,7 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        private class actionicon {
-            public Texture2D icon;
-            public Action action;
-            public Color? highlightColor;
-        }
-
-        private void drawIcons(Rect rect, List<actionicon> icons) {
+        private void drawIcons(Rect rect, List<ActionIcon> icons) {
             var x = 0;
             var y = 0;
             foreach (var icon in icons) {
@@ -108,32 +102,32 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        private List<actionicon> generateIcons() {
-            List<actionicon> icons;
+        private List<ActionIcon> generateIcons() {
+            List<ActionIcon> icons;
             if (SelectedGroup == null) {
-                icons = groupDefs.SelectList(g => new actionicon {
+                icons = groupDefs.SelectList(g => new ActionIcon {
                     icon = DesignatorShapes.CurrentTool?.Group.defName == g.defName
                             ? DesignatorShapes.CurrentTool.selectedUiIcon
                             : g.uiIcon,
                     action = GetAction(g)
 
                 });
-                icons.Add(new actionicon {
-                    icon = HistoryManager.CanUndo ? DesignatorShapes.Icon_UndoEnabled : DesignatorShapes.Icon_UndoDisabled,
+                icons.Add(new ActionIcon {
+                    icon = HistoryManager.CanUndo ? Icons.UndoEnabled : Icons.UndoDisabled,
                     action = HistoryManager.Undo,
                     highlightColor = HistoryManager.CanUndo ? GenUI.MouseoverColor : Color.grey
                 });
-                icons.Add(new actionicon {
-                    icon = HistoryManager.CanRedo ? DesignatorShapes.Icon_RedoEnabled : DesignatorShapes.Icon_RedoDisabled,
+                icons.Add(new ActionIcon {
+                    icon = HistoryManager.CanRedo ? Icons.RedoEnabled : Icons.RedoDisabled,
                     action = HistoryManager.Redo,
                     highlightColor = HistoryManager.CanRedo ? GenUI.MouseoverColor : Color.grey
                 });
             } else {
-                icons = new List<actionicon> { new actionicon {
-                    action = () => SelectedGroup = null,
+                icons = new List<ActionIcon> { new ActionIcon {
+                    action = () => SelectedGroup = previousGroups.Pop(),
                     icon = SelectedGroup.closeUiIcon
                 } };
-                icons.AddRange(SelectedGroup.Shapes.Select(s => new actionicon {
+                icons.AddRange(SelectedGroup.Shapes.Select(s => new ActionIcon {
                     icon = DesignatorShapes.CurrentTool.defName == s.defName ? s.selectedUiIcon : s.uiIcon,
                     action = () => DesignatorShapes.SelectTool(s)
                 }));
@@ -147,7 +141,10 @@ namespace Merthsoft.DesignatorShapes {
                 return () => DesignatorShapes.SelectTool(g.FirstShape);
             } else {
                 if (DesignatorShapes.Settings.UseSubMenus) {
-                    return () => SelectedGroup = g;
+                    return () => {
+                        previousGroups.Push(SelectedGroup);
+                        SelectedGroup = g;
+                    };
                 } else {
                     return () => Find.WindowStack.Add(new FloatMenu(g.Shapes.SelectList(s =>
                         new FloatMenuOption(s.LabelCap, s.Select)
