@@ -9,14 +9,17 @@ using Verse;
 namespace Merthsoft.DesignatorShapes.Defs {
     public class DesignatorShapeDef : BuildableDef {
         public string drawMethodName;
-        public bool draggable;
-        public int numRotations;
+        public bool draggable = true;
+        public int numRotations = 0;
         public string overlayGroup;
         public string selectedUiIconPath;
+        public bool useSizeInputs = false;
 
         [Unsaved] public OverlayGroupDef Group;
 
         [Unsaved] public Texture2D selectedUiIcon;
+
+        public bool AllowDragging => draggable && !useSizeInputs;
 
         [Unsaved]
         private Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>> drawMethodCached;
@@ -45,11 +48,6 @@ namespace Merthsoft.DesignatorShapes.Defs {
                 }
                 return drawMethodCached;
             }
-        }
-
-        public DesignatorShapeDef() {
-            draggable = true;
-            numRotations = 0;
         }
 
         public override void ResolveReferences() {

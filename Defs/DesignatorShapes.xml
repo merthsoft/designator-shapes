@@ -32,6 +32,29 @@
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>Rectangle_Input</defName>
+        <label>rectangle</label>
+        <description>Designate in a rectangle</description>
+        <uiIconPath>UI/Commands/Smol/rectangle</uiIconPath>
+        <numRotations>2</numRotations>
+        <drawMethodName>Merthsoft.DesignatorShapes.SizeInputShapes.Rectangle</drawMethodName>
+        <overlayGroup>Rectangle_Input</overlayGroup>
+        <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle</selectedUiIconPath>
+        <useSizeInputs>true</useSizeInputs>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>RectangleFilled_Input</defName>
+        <label>filled rectangle</label>
+        <description>Designate in a filled rectangle</description>
+        <uiIconPath>UI/Commands/Smol/rectangle_filled</uiIconPath>
+        <numRotations>2</numRotations>
+        <drawMethodName>Merthsoft.DesignatorShapes.SizeInputShapes.RectangleFilled</drawMethodName>
+        <overlayGroup>Rectangle_Input</overlayGroup>
+        <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_filled</selectedUiIconPath>
+        <useSizeInputs>true</useSizeInputs>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
         <defName>Ellipse</defName>
         <label>ellipse</label>
         <description>Designate in an ellipse</description>
@@ -48,6 +71,27 @@
         <drawMethodName>Merthsoft.DesignatorShapes.Shapes.EllipseFilled</drawMethodName>
         <overlayGroup>Ellipse</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_filled</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>Ellipse_Input</defName>
+        <label>ellipse</label>
+        <description>Designate in an ellipse</description>
+        <uiIconPath>UI/Commands/Smol/ellipse</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.SizeInputShapes.Ellipse</drawMethodName>
+        <overlayGroup>Ellipse_Input</overlayGroup>
+        <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse</selectedUiIconPath>
+        <useSizeInputs>true</useSizeInputs>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>EllipseFilled_Input</defName>
+        <label>filled ellipse</label>
+        <description>Designate in a filled ellipse</description>
+        <uiIconPath>UI/Commands/Smol/ellipse_filled</uiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.SizeInputShapes.EllipseFilled</drawMethodName>
+        <overlayGroup>Ellipse_Input</overlayGroup>
+        <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_filled</selectedUiIconPath>
+        <useSizeInputs>true</useSizeInputs>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
     <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>

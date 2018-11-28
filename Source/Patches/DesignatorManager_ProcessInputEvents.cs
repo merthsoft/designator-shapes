@@ -46,7 +46,7 @@ namespace Merthsoft.DesignatorShapes.Patches {
                 return;
             }
 
-            if (!DesignatorShapes.CurrentTool.draggable && __instance.Dragger.Dragging) {
+            if (!DesignatorShapes.CurrentTool.AllowDragging && __instance.Dragger.Dragging) {
                 __instance.Dragger.SetInstanceField("startDragCell", UI.MouseCell());
             }
         }

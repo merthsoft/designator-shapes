@@ -31,6 +31,11 @@ namespace Merthsoft.DesignatorShapes {
         public static int Width => NumButtons / NumRows * IconSize;
         public static int Height => NumRows * IconSize + LabelHeight + LineHeight;
 
+        private int inputWidth;
+        private int inputHeight;
+
+        public static IntVec3 InputVec => new IntVec3(DesignatorShapes.ShapeControls.inputWidth, 0, DesignatorShapes.ShapeControls.inputHeight);
+
         public ShapeControls(int x, int y) {
             IsHorizontal = true;
             previousGroups = new Stack<OverlayGroupDef>();
@@ -80,6 +85,24 @@ namespace Merthsoft.DesignatorShapes {
             Widgets.DrawLineHorizontal(offset + 3, offset + LabelHeight, Width - 6);
             drawIcons(new Rect(offset, offset + LabelHeight + LineHeight, Width, Height - LabelHeight), generateIcons());
 
+            if (DesignatorShapes.CurrentTool?.Group == SelectedGroup 
+                && (DesignatorShapes.CurrentTool?.useSizeInputs ?? false)) { 
+                var buffer = inputWidth.ToString();
+                var rect = new Rect(offset, offset + LabelHeight + LineHeight + IconSize + 10, Width / 2 - 25, IconSize - 20);
+                Widgets.Label(rect, "W");
+                rect.x += 20;
+                Widgets.TextFieldNumeric(rect, ref inputWidth, ref buffer);
+                rect.x = Width / 2;
+                Widgets.Label(rect, "H");
+                rect.x += 20;
+                buffer = inputHeight.ToString();
+                Widgets.TextFieldNumeric(rect, ref inputHeight, ref buffer);
+
+                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab) {
+                    GUI.FocusWindow(ID);
+                    Event.current.Use();
+                }
+            }
 
             if (Event.current.isMouse) {
                 switch (Event.current.type) {
@@ -105,13 +128,7 @@ namespace Merthsoft.DesignatorShapes {
         private List<ActionIcon> generateIcons() {
             List<ActionIcon> icons;
             if (SelectedGroup == null) {
-                icons = groupDefs.SelectList(g => new ActionIcon {
-                    icon = DesignatorShapes.CurrentTool?.Group.defName == g.defName
-                            ? DesignatorShapes.CurrentTool.selectedUiIcon
-                            : g.uiIcon,
-                    action = GetAction(g)
-
-                });
+                icons = groupDefs.Where(g => g.ParentGroup == null).SelectList(CreateActionIcon);
                 icons.Add(new ActionIcon {
                     icon = HistoryManager.CanUndo ? Icons.UndoEnabled : Icons.UndoDisabled,
                     action = HistoryManager.Undo,
@@ -125,16 +142,24 @@ namespace Merthsoft.DesignatorShapes {
             } else {
                 icons = new List<ActionIcon> { new ActionIcon {
                     action = () => SelectedGroup = previousGroups.Pop(),
-                    icon = SelectedGroup.closeUiIcon
+                    icon = SelectedGroup.CloseUiIcon
                 } };
                 icons.AddRange(SelectedGroup.Shapes.Select(s => new ActionIcon {
                     icon = DesignatorShapes.CurrentTool.defName == s.defName ? s.selectedUiIcon : s.uiIcon,
                     action = () => DesignatorShapes.SelectTool(s)
                 }));
+                icons.AddRange(SelectedGroup.ChildrenGroups.SelectList(CreateActionIcon));
             }
 
             return icons;
         }
+
+        static ActionIcon CreateActionIcon(OverlayGroupDef g) => new ActionIcon {
+            icon = DesignatorShapes.CurrentTool?.Group.defName == g.defName
+                    ? DesignatorShapes.CurrentTool.selectedUiIcon
+                    : g.UiIcon,
+            action = DesignatorShapes.ShapeControls.GetAction(g)
+        };
 
         Action GetAction(OverlayGroupDef g) {
             if (g.NumShapes == 1) {

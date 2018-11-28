@@ -4,9 +4,8 @@ using UnityEngine;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes {
+    [StaticConstructorOnStartup]
     public static class Icons {
-        public static Texture2D Settings { get; private set; }
-
         public static Texture2D Undo { get; private set; }
         public static Texture2D Redo { get; private set; }
 
@@ -18,15 +17,17 @@ namespace Merthsoft.DesignatorShapes {
 
         public static Texture2D GetIcon(string path) => ContentFinder<Texture2D>.Get(path, true);
 
-        public static void Load() {
-            Undo = GetIcon("UI/Commands/undo");
-            Redo = GetIcon("UI/Commands/redo");
+        static Icons() {
+            LongEventHandler.ExecuteWhenFinished(() => {
+                Undo = GetIcon("UI/Commands/undo");
+                Redo = GetIcon("UI/Commands/redo");
 
-            UndoEnabled = GetIcon("UI/Commands/Smol/undo");
-            RedoEnabled = GetIcon("UI/Commands/Smol/redo");
+                UndoEnabled = GetIcon("UI/Commands/Smol/undo");
+                RedoEnabled = GetIcon("UI/Commands/Smol/redo");
 
-            UndoDisabled = GetIcon("UI/Commands/Smol/undo_disabled");
-            RedoDisabled = GetIcon("UI/Commands/Smol/redo_disabled");
+                UndoDisabled = GetIcon("UI/Commands/Smol/undo_disabled");
+                RedoDisabled = GetIcon("UI/Commands/Smol/redo_disabled");
+            });
         }
     }
 }

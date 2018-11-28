@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
+using static UnityEngine.Mathf;
 
 namespace Merthsoft.DesignatorShapes {
     public static partial class Shapes {
@@ -389,7 +391,6 @@ namespace Merthsoft.DesignatorShapes {
         public static IEnumerable<IntVec3> Circle(int x, int y, int z, int r, bool fill = false) =>
             RadialEllipse(x, y, z, r, r, fill);
 
-        
         public static IEnumerable<IntVec3> Fill(IEnumerable<IntVec3> outLine) {
             var ret = new HashSet<IntVec3>();
             foreach (var lineGroup in outLine.GroupBy(vec => vec.z)) {

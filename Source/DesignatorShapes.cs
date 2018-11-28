@@ -41,9 +41,6 @@ namespace Merthsoft.DesignatorShapes {
             HarmonyInstance = HarmonyInstance.Create("Merthsoft.DesignatorShapes");
             HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
-            LongEventHandler.ExecuteWhenFinished(() => {
-            });
-
             Rotation = 0;
         }
 
@@ -91,9 +88,10 @@ namespace Merthsoft.DesignatorShapes {
 
         public static void LoadDefs() {
             if (!defsLoaded) {
-                shapeCategoryDef = shapeCategoryDef ?? DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
                 defsLoaded = true;
+                shapeCategoryDef = DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
                 resolveShapes();
+                ShapeControls = new ShapeControls(Settings.WindowX, Settings.WindowY);
             }
 
             var archWindow = MainButtonDefOf.Architect.TabWindow;
@@ -125,18 +123,25 @@ namespace Merthsoft.DesignatorShapes {
             shapeDefs.ForEach(d => shapes.AllResolvedDesignators.Add(new Designator_Shape(d)));
 
             var groups = DefDatabase<OverlayGroupDef>.AllDefsListForReading;
+            var groupCache = new Dictionary<string, OverlayGroupDef>();
             groups.ForEach(g => {
-                g.uiIcon = Icons.GetIcon(g.uiIconPath);
+                groupCache[g.defName] = g;
+
+                g.UiIcon = Icons.GetIcon(g.uiIconPath);
 
                 if (g.closeUiIconPath != null) {
-                    g.closeUiIcon = Icons.GetIcon(g.closeUiIconPath);
+                    g.CloseUiIcon = Icons.GetIcon(g.closeUiIconPath);
                 }
 
                 g.Shapes = shapeDefs.Where(s => s.overlayGroup == g.defName).ToList();
                 g.Shapes.ForEach(s => s.Group = g);
-            });
 
-            ShapeControls = new ShapeControls(Settings.WindowX, Settings.WindowY);
+                if (g.parentGroupName != null) {
+                    var parent = groupCache[g.parentGroupName];
+                    g.ParentGroup = parent;
+                    parent.ChildrenGroups.Add(g);
+                }
+            });
 
             var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
             if (sunlampDef != null) {
