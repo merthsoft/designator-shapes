@@ -161,13 +161,16 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        public static void Rotate(int amount) {
+        public static bool Rotate(int amount) {
+            if (CurrentTool.numRotations == 0) { return false; }
+
             Rotation += amount;
             if (Rotation < 0) {
                 Rotation = CurrentTool.numRotations + Rotation;
             } else {
                 Rotation %= CurrentTool.numRotations;
             }
+            return true;
         }
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true) {

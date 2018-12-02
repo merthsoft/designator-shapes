@@ -171,11 +171,13 @@ namespace Merthsoft.DesignatorShapes {
             return new IntVec3((int)(x), (int)(y), (int)(z));
         }
 
+        public static IEnumerable<IntVec3> Octagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
+            var ret = new HashSet<IntVec3>();
+            return ret;
+        }
+
         public static IEnumerable<IntVec3> Pentagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
             var ret = new HashSet<IntVec3>();
-
-            //if (tx < sx) { swap(ref sx, ref tx); }
-            //if (tz < sz) { swap(ref sz, ref tz); }
 
             IntVec3 A, B, C, D, E;
             var width = tx - sx;

@@ -29,9 +29,9 @@ namespace Merthsoft.DesignatorShapes.Patches {
                 var key = Event.current.keyCode;
 
                 if (key == KeyBindingDefOf.Designator_RotateLeft.MainKey) {
-                    rotateShapePositive(Event.current);
+                    rotateShape(Event.current, 1);
                 } else if (key == KeyBindingDefOf.Designator_RotateRight.MainKey) {
-                    rotateShapeNegative(Event.current);
+                    rotateShape(Event.current, -1);
                 } else if (key == KeyBindingDefOf.Command_ItemForbid.MainKey) {
                     DesignatorShapes.FillCorners = !DesignatorShapes.FillCorners;
                 }
@@ -51,14 +51,10 @@ namespace Merthsoft.DesignatorShapes.Patches {
             }
         }
 
-        private static void rotateShapePositive(Event ev) {
-            DesignatorShapes.Rotate(1);
-            ev.Use();
-        }
-
-        private static void rotateShapeNegative(Event ev) {
-            DesignatorShapes.Rotate(-1);
-            ev.Use();
+        private static void rotateShape(Event ev, int amount) {
+            if (DesignatorShapes.Rotate(amount)) {
+                ev.Use();
+            }
         }
     }
 }
