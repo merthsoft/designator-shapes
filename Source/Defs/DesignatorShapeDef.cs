@@ -23,31 +23,29 @@ namespace Merthsoft.DesignatorShapes.Defs {
 
         [Unsaved]
         private Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>> drawMethodCached;
-        public Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>>  drawMethod {
-            get {
-                if (drawMethodCached == null) {
-                    var splitName = drawMethodName.Split('.');
-                    var methodName = splitName[splitName.Length - 1];
-                    var typeName = string.Join(".", splitName.ToList().Take(splitName.Length - 1).ToArray());
+        public Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>> DrawMethod
+            => drawMethodCached ?? (drawMethodCached = generateDrawMethod());
 
-                    var type = this.GetType().Assembly.GetType(typeName);
-                    if (type == null) {
-                        throw new Exception($"Could not load type {typeName}");
-                    }
+        private Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>> generateDrawMethod() {
+            var splitName = drawMethodName.Split('.');
+            var methodName = splitName[splitName.Length - 1];
+            var typeName = string.Join(".", splitName.ToList().Take(splitName.Length - 1).ToArray());
 
-                    var method = type.GetMethod(methodName, new Type[] {typeof(IntVec3), typeof(IntVec3), typeof(int)});
-                    if (method == null) {
-                        throw new Exception($"Could not find {methodName} in {typeName}");
-                    }
-
-                    if (!(method.ReturnType == typeof(IEnumerable<IntVec3>))) {
-                        throw new Exception($"Return type for {methodName} is not IEnumberable<IntVec3>");
-                    }
-
-                    drawMethodCached = (arg1, arg2, arg3) => method.Invoke(null, new object[] {arg1, arg2, arg3}) as IEnumerable<IntVec3>;
-                }
-                return drawMethodCached;
+            var type = this.GetType().Assembly.GetType(typeName);
+            if (type == null) {
+                throw new Exception($"Could not load type {typeName}");
             }
+
+            var method = type.GetMethod(methodName, new Type[] { typeof(IntVec3), typeof(IntVec3), typeof(int) });
+            if (method == null) {
+                throw new Exception($"Could not find {methodName} in {typeName}");
+            }
+
+            if (!(method.ReturnType == typeof(IEnumerable<IntVec3>))) {
+                throw new Exception($"Return type for {methodName} is not IEnumberable<IntVec3>");
+            }
+
+            return (arg1, arg2, arg3) => method.Invoke(null, new object[] { arg1, arg2, arg3 }) as IEnumerable<IntVec3>;
         }
 
         public override void ResolveReferences() {
