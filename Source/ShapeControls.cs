@@ -77,22 +77,31 @@ namespace Merthsoft.DesignatorShapes {
         private void DoWindow() {
             var offset = dragging ? 100 : 0;
 
+            var rect = new Rect(offset, offset, Width, Height);
             if (DesignatorShapes.Settings.DrawBackground) {
-                Widgets.DrawWindowBackground(new Rect(offset, offset, Width, Height));
+                Widgets.DrawWindowBackground(rect);
             }
 
-            Widgets.Label(new Rect(offset, offset, Width, LabelHeight), "Shapes");
-            Widgets.DrawLineHorizontal(offset + 3, offset + LabelHeight, Width - 6);
-            drawIcons(new Rect(offset, offset + LabelHeight + LineHeight, Width, Height - LabelHeight), generateIcons());
+            Widgets.Label(rect, "Shapes");
+            Widgets.DrawLineHorizontal(rect.x + 3, rect.y + LabelHeight, rect.width - 6);
+            rect.y += LabelHeight + LineHeight;
+            rect.height -= LabelHeight;
+            drawIcons(rect, generateIcons());
 
             if (DesignatorShapes.CurrentTool?.Group == SelectedGroup 
                 && (DesignatorShapes.CurrentTool?.useSizeInputs ?? false)) { 
                 var buffer = inputWidth.ToString();
-                var rect = new Rect(offset, offset + LabelHeight + LineHeight + IconSize + 10, Width / 2 - 25, IconSize - 20);
+
+                rect.y += IconSize + 10;
+                rect.width /= 2;
+                rect.width -= 25;
+                rect.height = 20;
+
                 Widgets.Label(rect, "W");
                 rect.x += 20;
+                rect.width -= 20;
                 Widgets.TextFieldNumeric(rect, ref inputWidth, ref buffer);
-                rect.x = Width / 2;
+                rect.x += rect.width + 25;
                 Widgets.Label(rect, "H");
                 rect.x += 20;
                 buffer = inputHeight.ToString();

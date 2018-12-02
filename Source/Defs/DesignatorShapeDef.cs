@@ -16,7 +16,7 @@ namespace Merthsoft.DesignatorShapes.Defs {
         public bool useSizeInputs = false;
 
         [Unsaved] public OverlayGroupDef Group;
-
+        [Unsaved] public OverlayGroupDef RootGroup;
         [Unsaved] public Texture2D selectedUiIcon;
 
         public bool AllowDragging => draggable && !useSizeInputs;

@@ -125,7 +125,10 @@ namespace Merthsoft.DesignatorShapes {
             var groups = DefDatabase<OverlayGroupDef>.AllDefsListForReading;
             var groupCache = new Dictionary<string, OverlayGroupDef>();
             groups.ForEach(g => {
-                groupCache[g.defName] = g;
+                if (!groupCache.ContainsKey(g.defName)) {
+                    groupCache[g.defName] = g;
+                    g.ChildrenGroups?.Clear();
+                }
 
                 g.UiIcon = Icons.GetIcon(g.uiIconPath);
 
@@ -134,11 +137,15 @@ namespace Merthsoft.DesignatorShapes {
                 }
 
                 g.Shapes = shapeDefs.Where(s => s.overlayGroup == g.defName).ToList();
-                g.Shapes.ForEach(s => s.Group = g);
+                g.Shapes.ForEach(s => {
+                    s.Group = g;
+                    s.RootGroup = g?.ParentGroup ?? g;
+                });
 
                 if (g.parentGroupName != null) {
                     var parent = groupCache[g.parentGroupName];
                     g.ParentGroup = parent;
+                    
                     parent.ChildrenGroups.Add(g);
                 }
             });
