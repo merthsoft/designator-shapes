@@ -69,6 +69,7 @@
     <Compile Include="Patches\GenConstruct_Patches.cs" />
     <Compile Include="Patches\MapInterface_MapInterfaceOnGUI_BeforeMainTabs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuntimeStringInterpolator.cs" />
     <Compile Include="ShapeControls.cs" />
     <Compile Include="ShapeDrawer.cs" />
     <Compile Include="DesignatorShapes.cs" />

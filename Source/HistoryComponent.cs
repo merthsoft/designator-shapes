@@ -18,5 +18,13 @@ namespace Merthsoft.DesignatorShapes {
                 DesignatorShapes.CachedTool = null;
             }
         }
+
+        public override void ExposeData() {
+            base.ExposeData();
+
+            var cachedTool = DesignatorShapes.CachedTool;
+            Scribe_Defs.Look(ref cachedTool, nameof(DesignatorShapes.CachedTool));
+            DesignatorShapes.CachedTool = cachedTool;
+        }
     }
 }
