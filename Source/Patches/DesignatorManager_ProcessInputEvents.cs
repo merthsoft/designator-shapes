@@ -1,7 +1,5 @@
 ﻿using Harmony;
 using RimWorld;
-using System;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -9,6 +7,12 @@ namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignatorManager), "ProcessInputEvents")]
     static class DesignatorManager_ProcessInputEvents {
         public static void Prefix(DesignatorManager __instance) {
+            if (Event.current.type == EventType.KeyDown && Event.current.alt) {
+                DesignatorShapes.ShowControls = !DesignatorShapes.ShowControls;
+            }
+
+            if (!DesignatorShapes.ShowControls) { return; }
+
             if (__instance.SelectedDesignator == null) { return; }
 
             if (!__instance.SelectedDesignator.CanRemainSelected()) {
@@ -33,6 +37,8 @@ namespace Merthsoft.DesignatorShapes.Patches {
         }
 
         public static void Postfix(DesignatorManager __instance) {
+            if (!DesignatorShapes.ShowControls) { return; }
+
             if (__instance.SelectedDesignator == null
                 || DesignatorShapes.CurrentTool == null
                 || __instance.Dragger == null) {

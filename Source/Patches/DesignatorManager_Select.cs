@@ -1,23 +1,22 @@
 ﻿using Harmony;
-using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Verse;
-using Merthsoft.DesignatorShapes.Designators;
 using Merthsoft.DesignatorShapes.Defs;
+using RimWorld;
 using System.Collections;
+using System.Linq;
+using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignatorManager), "Select", new[] { typeof(Designator) })]
     class DesignatorManager_Select {
         public static void Prefix(ref Designator __state) {
+            if (!DesignatorShapes.ShowControls) { return; }
+
             __state = Find.DesignatorManager.SelectedDesignator;
         }
 
         public static void Postfix(DesignatorManager __instance, Designator des, ref Designator __state) {
+            if (!DesignatorShapes.ShowControls) { return; }
+            
             var selectedDesignator = __instance.SelectedDesignator;
             if (selectedDesignator == null) { return; }
             if (__state == selectedDesignator) { return; }

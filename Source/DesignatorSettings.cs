@@ -1,9 +1,9 @@
 ﻿using System;
-using UnityEngine;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes {
     public class DesignatorSettings : ModSettings {
+        public bool ToggleableInterface = false;
         public bool ShowShapesPanelOnDesignationSelection = true;
         public bool MoveDesignationTabToEndOfList = false;
         public int FloodFillCellLimit = 1500;
@@ -20,6 +20,7 @@ namespace Merthsoft.DesignatorShapes {
         public override void ExposeData() {
             base.ExposeData();
 
+            Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), false);
             Scribe_Values.Look(ref ShowShapesPanelOnDesignationSelection, nameof(ShowShapesPanelOnDesignationSelection), true);
             Scribe_Values.Look(ref MoveDesignationTabToEndOfList, nameof(MoveDesignationTabToEndOfList), false);
             Scribe_Values.Look(ref FloodFillCellLimit, nameof(FloodFillCellLimit), 1500);

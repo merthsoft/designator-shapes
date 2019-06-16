@@ -20,7 +20,21 @@ namespace Merthsoft.DesignatorShapes {
         public static DesignatorShapeDef CachedTool { get; set; }
         public static int Rotation { get; internal set; }
 
-        public static DesignatorSettings Settings => LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>();
+        private static bool showControls = true;
+        public static bool ShowControls {
+            get {
+                return Settings.ToggleableInterface ? showControls : true;
+            }
+
+            set {
+                if (Settings.ToggleableInterface) {
+                    showControls = value;
+                }
+            }
+        }
+
+        private static DesignatorSettings settings;
+        public static DesignatorSettings Settings => settings ?? (settings = LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>());
         public static HarmonyInstance HarmonyInstance { get; private set; }
 
         public override string SettingsCategory() => "Designator Shapes";
@@ -40,7 +54,6 @@ namespace Merthsoft.DesignatorShapes {
         static DesignatorShapes() {
             HarmonyInstance = HarmonyInstance.Create("Merthsoft.DesignatorShapes");
             HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
-
             Rotation = 0;
         }
 
@@ -70,6 +83,9 @@ namespace Merthsoft.DesignatorShapes {
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
+            ls.CheckboxLabeled("Allow toggling the interface on and off using Alt", ref Settings.ToggleableInterface);
+
+            ls.GapLine();
 
             ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
 

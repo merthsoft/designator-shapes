@@ -6,6 +6,8 @@ namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignationManager), "AddDesignation")]
     public class DesignationManager_AddDesignation {
         public static void Postfix(Designation newDes, DesignationManager __instance) {
+            if (!DesignatorShapes.ShowControls) { return; }
+
             HistoryManager.AddEntry(newDes);
         }
     }

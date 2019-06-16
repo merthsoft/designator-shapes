@@ -12,6 +12,8 @@ namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignationDragger), "UpdateDragCellsIfNeeded")]
     public static class DesignationDragger_UpdateDragCellsIfNeeded {
         public static void Prefix(DesignationDragger __instance) {
+            if (!DesignatorShapes.ShowControls) { return; }
+
             if (__instance == null) { return; }
 
             if (Time.frameCount == (int)__instance.GetInstanceField<object>("lastUpdateFrame")) {

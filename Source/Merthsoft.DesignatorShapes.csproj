@@ -71,7 +71,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeStringInterpolator.cs" />
     <Compile Include="ShapeControls.cs" />
-    <Compile Include="ShapeDrawer.cs" />
     <Compile Include="DesignatorShapes.cs" />
     <Compile Include="Designators\Designator_Shape.cs" />
     <Compile Include="Defs\DesignatorShapeDef.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="Designators\Redo.cs" />
     <Compile Include="HistoryManager.cs" />
     <Compile Include="Patches\DesignationManager_AddDesignation.cs" />
+    <Compile Include="Shapes.Base.cs" />
     <Compile Include="Shapes.cs" />
     <Compile Include="SizeInputShapes.cs" />
   </ItemGroup>
