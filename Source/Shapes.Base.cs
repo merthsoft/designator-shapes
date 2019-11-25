@@ -65,7 +65,21 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        public static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, bool fillCorners) {
+        private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners) {
+            for (var i = 0; i < thickness; i++) {
+                var ret = i switch {
+                    0 => Line(x1, y1, z1, x2, y2, z2, fillCorners),
+                    var step when step % 2 == 0 => Line(x1 + 1, y1, z1, x2 + 1, y2, z2, fillCorners),
+                    var step when step % 2 == 1 => Line(x1 - 1, y1, z1, x2 - 1, y2, z2, fillCorners),
+                    _ => Line(x1, y1, z1, x2, y2, z2, fillCorners), // Should never happen
+                };
+                foreach (var vec in ret) {
+                    yield return vec;
+                }
+            }
+        }
+
+        private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, bool fillCorners) {
             var ret = new HashSet<IntVec3>();
             ret.Add(toIntVec(x1, y1, z1));
             ret.Add(toIntVec(x2, y2, z2));
@@ -115,7 +129,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2) =>
-            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, DesignatorShapes.FillCorners);
+            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 
         public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation) {
             var ret = new HashSet<IntVec3>();
