@@ -65,22 +65,22 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners) {
-            for (var i = 0; i < thickness; i++) {
-                var ret = i switch {
-                    0 => Line(x1, y1, z1, x2, y2, z2, fillCorners),
-                    var step when step % 2 == 0 => Line(x1 + 1, y1, z1, x2 + 1, y2, z2, fillCorners),
-                    var step when step % 2 == 1 => Line(x1 - 1, y1, z1, x2 - 1, y2, z2, fillCorners),
-                    _ => Line(x1, y1, z1, x2, y2, z2, fillCorners), // Should never happen
-                };
-                foreach (var vec in ret) {
-                    yield return vec;
-                }
-            }
-        }
+        //private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners) {
+        //    for (var i = 0; i < thickness; i++) {
+        //        var ret = i switch {
+        //            0 => Line(x1, y1, z1, x2, y2, z2, 0, fillCorners),
+        //            var step when step % 2 == 0 => Line(x1 + (step/2+1), y1, z1, x2 + (step/2+1), y2, z2, 0, fillCorners),
+        //            var step when step % 2 == 1 => Line(x1 - (step/2+1), y1, z1, x2 - (step/2+1), y2, z2, 0, fillCorners),
+        //            _ => Line(x1, y1, z1, x2, y2, z2, 0, fillCorners), // Should never happen
+        //        };
+        //        foreach (var vec in ret) {
+        //            yield return vec;
+        //        }
+        //    }
+        //}
 
-        private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, bool fillCorners) {
-            var ret = new HashSet<IntVec3>();
+        private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners) {
+            var ret = new HashSetWithBoundingBox<IntVec3>(Rectangle(x1, y1, z1, x2, y2, z2, true, 0, 1));
             ret.Add(toIntVec(x1, y1, z1));
             ret.Add(toIntVec(x2, y2, z2));
 
@@ -92,12 +92,10 @@ namespace Merthsoft.DesignatorShapes {
             int err = deltaX - deltaZ;
 
             while (true) {
-                ret.Add(new IntVec3(x2, y1, z2));
+                ret.AddRange(PlotPoint(x2, y1, z2, thickness));
                 if (x2 == x1 && z2 == z1) { break; }
 
                 int e2 = 2 * err;
-
-                ret.Add(new IntVec3(x2, y1, z2));
 
                 if (e2 > -deltaZ) {
                     err = err - deltaZ;
@@ -105,7 +103,7 @@ namespace Merthsoft.DesignatorShapes {
                 }
 
                 if (x2 == x1 && z2 == z1) { break; }
-                if (fillCorners) {
+                if (fillCorners && thickness == 1) {
                     ret.Add(new IntVec3(x2, y1, z2));
                 }
 
@@ -117,13 +115,25 @@ namespace Merthsoft.DesignatorShapes {
 
             return ret;
         }
+        private static IEnumerable<IntVec3> PlotPoint(int x, int y, int z, int thickness) {
+            if (thickness == 1) {
+                return new[] { new IntVec3(x, y, z) };
+            }
+            int positiveReducer;
+            positiveReducer = thickness % 2 == 0 ? 1 : 0;
+            var step = thickness /= 2;
+            var corner1 = new IntVec3(x - step, y, z - step);
+            var corner2 = new IntVec3(x + step - positiveReducer, y, z + step - positiveReducer);
+            Verse.Log.Message($"({thickness}, {step}, {positiveReducer}) - ({corner1.x}, {corner1.z}), ({corner2.x}, {corner2.z})");
+            return Rectangle(corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z, true, 0, 1);
+        }
 
-        public static IEnumerable<IntVec3> HorizontalLine(int x1, int x2, int y, int z) {
+        public static IEnumerable<IntVec3> HorizontalLine(int x1, int x2, int y, int z, int thickness) {
             if (x1 > x2) { swap(ref x1, ref x2); }
             return Enumerable.Range(x1, x2 - x1 + 1).Select(x => new IntVec3(x, y, z));
         }
 
-        public static IEnumerable<IntVec3> VerticalLine(int x, int y, int z1, int z2) {
+        public static IEnumerable<IntVec3> VerticalLine(int x, int y, int z1, int z2, int thickness) {
             if (z1 > z2) { swap(ref z1, ref z2); }
             return Enumerable.Range(z1, z2 - z1 + 1).Select(z => new IntVec3(x, y, z));
         }
@@ -131,22 +141,22 @@ namespace Merthsoft.DesignatorShapes {
         public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2) =>
             Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 
-        public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation) {
+        public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation, int thickness) {
             var ret = new HashSet<IntVec3>();
 
             if (rotation == 0) {
                 if (!fill) {
-                    ret.AddRange(HorizontalLine(x1, x2, y1, z1));
-                    ret.AddRange(HorizontalLine(x1, x2, y1, z2));
-                    ret.AddRange(VerticalLine(x1, y1, z1, z2));
-                    ret.AddRange(VerticalLine(x2, y1, z1, z2));
+                    ret.AddRange(HorizontalLine(x1, x2, y1, z1, thickness));
+                    ret.AddRange(HorizontalLine(x1, x2, y1, z2, thickness));
+                    ret.AddRange(VerticalLine(x1, y1, z1, z2, thickness));
+                    ret.AddRange(VerticalLine(x2, y1, z1, z2, thickness));
 
                 } else {
                     if (x1 > x2) {
                         swap(ref x1, ref x2);
                     }
                     for (int x = x1; x <= x2; x++) {
-                        ret.AddRange(VerticalLine(x, y1, z1, z2));
+                        ret.AddRange(VerticalLine(x, y1, z1, z2, thickness));
                     }
                 }
 
@@ -416,7 +426,7 @@ namespace Merthsoft.DesignatorShapes {
                     var sorted = lineGroup.OrderBy(v => v.x);
                     var point1 = sorted.First();
                     var point2 = sorted.Last();
-                    ret.AddRange(HorizontalLine(point1.x, point2.x, point1.y, lineGroup.Key));
+                    ret.AddRange(HorizontalLine(point1.x, point2.x, point1.y, lineGroup.Key, 1));
                 }
             }
 
