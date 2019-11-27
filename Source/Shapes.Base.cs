@@ -65,11 +65,10 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners) {
-            var ret = new HashSet<IntVec3> {
-                new IntVec3(x1, y1, z1),
-                new IntVec3(x2, y2, z2)
-            };
+        public static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, bool fillCorners) {
+            var ret = new HashSet<IntVec3>();
+            ret.Add(toIntVec(x1, y1, z1));
+            ret.Add(toIntVec(x2, y2, z2));
 
             int deltaX = Math.Abs(x1 - x2);
             int deltaZ = Math.Abs(z1 - z2);
@@ -79,10 +78,12 @@ namespace Merthsoft.DesignatorShapes {
             int err = deltaX - deltaZ;
 
             while (true) {
-                ret.AddRange(PlotPoint(x2, y1, z2, thickness));
+                ret.Add(new IntVec3(x2, y1, z2));
                 if (x2 == x1 && z2 == z1) { break; }
 
                 int e2 = 2 * err;
+
+                ret.Add(new IntVec3(x2, y1, z2));
 
                 if (e2 > -deltaZ) {
                     err = err - deltaZ;
@@ -90,7 +91,7 @@ namespace Merthsoft.DesignatorShapes {
                 }
 
                 if (x2 == x1 && z2 == z1) { break; }
-                if (fillCorners && thickness == 1) {
+                if (fillCorners) {
                     ret.Add(new IntVec3(x2, y1, z2));
                 }
 
@@ -102,58 +103,39 @@ namespace Merthsoft.DesignatorShapes {
 
             return ret;
         }
-        private static IEnumerable<IntVec3> PlotPoint(int x, int y, int z, int thickness) {
-            if (thickness == 1) {
-                return new[] { new IntVec3(x, y, z) };
-            }
-            var positiveReducer = thickness % 2 == 0 ? 1 : 0;
-            var step = thickness / 2;
-            var corner1 = new IntVec3(x - step, y, z - step);
-            var corner2 = new IntVec3(x + step - positiveReducer, y, z + step - positiveReducer);
-            return Rectangle(corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z, true, 0, 1);
-        }
 
-        private static IEnumerable<int> Range(int start, int count, bool direction = true) {
-            for (int i = 0; i < count; i++) {
-                yield return start + (direction ? i : -i);
-            }
-        }
-
-        public static IEnumerable<IntVec3> HorizontalLine(int x1, int x2, int y, int z, int thickness, bool direction) {
+        public static IEnumerable<IntVec3> HorizontalLine(int x1, int x2, int y, int z) {
             if (x1 > x2) { swap(ref x1, ref x2); }
-            return Range(x1, x2 - x1 + 1).SelectMany(x => Range(0, thickness, direction).Select(t => new IntVec3(x, y, z + t)));
+            return Enumerable.Range(x1, x2 - x1 + 1).Select(x => new IntVec3(x, y, z));
         }
 
-        public static IEnumerable<IntVec3> VerticalLine(int x, int y, int z1, int z2, int thickness, bool direction) {
+        public static IEnumerable<IntVec3> VerticalLine(int x, int y, int z1, int z2) {
             if (z1 > z2) { swap(ref z1, ref z2); }
-            return Range(z1, z2 - z1 + 1).SelectMany(z => Range(0, thickness, direction).Select(t => new IntVec3(x + t, y, z)));
+            return Enumerable.Range(z1, z2 - z1 + 1).Select(z => new IntVec3(x, y, z));
         }
 
         public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2) =>
-            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
+            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, DesignatorShapes.FillCorners);
 
-        public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation, int thickness) {
+        public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation) {
             var ret = new HashSet<IntVec3>();
 
-            if (x1 > x2) {
-                swap(ref x1, ref x2);
-            }
-
-            if (z1 > z2) {
-                swap(ref z1, ref z2);
-            }
-
             if (rotation == 0) {
-                if (fill) {
-                    for (int x = x1; x <= x2; x++) {
-                        ret.AddRange(VerticalLine(x, y1, z1, z2, 1, false));
-                    }
+                if (!fill) {
+                    ret.AddRange(HorizontalLine(x1, x2, y1, z1));
+                    ret.AddRange(HorizontalLine(x1, x2, y1, z2));
+                    ret.AddRange(VerticalLine(x1, y1, z1, z2));
+                    ret.AddRange(VerticalLine(x2, y1, z1, z2));
+
                 } else {
-                    ret.AddRange(HorizontalLine(x1, x2, y1, z1, thickness, true));
-                    ret.AddRange(HorizontalLine(x1, x2, y1, z2, thickness, false));
-                    ret.AddRange(VerticalLine(x1, y1, z1, z2, thickness, true));
-                    ret.AddRange(VerticalLine(x2, y1, z1, z2, thickness, false));
+                    if (x1 > x2) {
+                        swap(ref x1, ref x2);
+                    }
+                    for (int x = x1; x <= x2; x++) {
+                        ret.AddRange(VerticalLine(x, y1, z1, z2));
+                    }
                 }
+
                 return ret;
             } else {
                 if (x1 > x2) {
@@ -167,10 +149,10 @@ namespace Merthsoft.DesignatorShapes {
                 var hr = (x2 - x1) / 2;
                 var kr = (z2 - z1) / 2;
 
-                var A = new IntVec3(x1, y1, z1 + kr);
-                var B = new IntVec3(x1 + hr, y1, z1);
-                var C = new IntVec3(x2, y2, z1 + kr);
-                var D = new IntVec3(x1 + hr, y1, z2);
+                var A = toIntVec(x1, y1, z1 + kr);
+                var B = toIntVec(x1 + hr, y1, z1);
+                var C = toIntVec(x2, y2, z1 + kr);
+                var D = toIntVec(x1 + hr, y1, z2);
 
                 ret.AddRange(Line(A, B));
                 ret.AddRange(Line(C, B));
@@ -183,6 +165,10 @@ namespace Merthsoft.DesignatorShapes {
                     return ret;
                 }
             }
+        }
+
+        static IntVec3 toIntVec(decimal x, decimal y, decimal z) {
+            return new IntVec3((int)(x), (int)(y), (int)(z));
         }
 
         public static IEnumerable<IntVec3> Octagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
@@ -206,18 +192,18 @@ namespace Merthsoft.DesignatorShapes {
             switch (rotation) {
                 case 0:
                 default:
-                    A = new IntVec3(middleX, sy, sz);
-                    B = new IntVec3(sx, sy, middleZ);
-                    C = new IntVec3(tx, ty, middleZ);
-                    D = new IntVec3(sx + thirdWidth, sy, tz);
-                    E = new IntVec3(tx - thirdWidth, sy, tz);
+                    A = toIntVec(middleX, sy, sz);
+                    B = toIntVec(sx, sy, middleZ);
+                    C = toIntVec(tx, ty, middleZ);
+                    D = toIntVec(sx + thirdWidth, sy, tz);
+                    E = toIntVec(tx - thirdWidth, sy, tz);
                     break;
                 case 1:
-                    A = new IntVec3(sx, sy, middleZ);
-                    B = new IntVec3(middleX, sy, sz);
-                    C = new IntVec3(middleX, ty, tz);
-                    D = new IntVec3(tx, sy, sz + thirdHeight);
-                    E = new IntVec3(tx, sy, tz - thirdHeight);
+                    A = toIntVec(sx, sy, middleZ);
+                    B = toIntVec(middleX, sy, sz);
+                    C = toIntVec(middleX, ty, tz);
+                    D = toIntVec(tx, sy, sz + thirdHeight);
+                    E = toIntVec(tx, sy, tz - thirdHeight);
                     break;
             }
 
@@ -246,24 +232,24 @@ namespace Merthsoft.DesignatorShapes {
                 var mz = h / 2 + sz;
                 var wt = w / 4;
 
-                A = new IntVec3(sx, sy, mz);
-                B = new IntVec3(sx + wt, sy, sz);
-                C = new IntVec3(sx + wt, sy, tz);
-                D = new IntVec3(tx - wt, sy, sz);
-                E = new IntVec3(tx - wt, sy, tz);
-                F = new IntVec3(tx, sy, mz);
+                A = toIntVec(sx, sy, mz);
+                B = toIntVec(sx + wt, sy, sz);
+                C = toIntVec(sx + wt, sy, tz);
+                D = toIntVec(tx - wt, sy, sz);
+                E = toIntVec(tx - wt, sy, tz);
+                F = toIntVec(tx, sy, mz);
             } else {
                 var w = tx - sx;
                 var h = tz - sz;
                 var mx = w / 2 + sx;
                 var ht = h / 4;
 
-                A = new IntVec3(mx, sy, sz);
-                B = new IntVec3(tx, ty, sz + ht);
-                C = new IntVec3(sx, sy, sz + ht);
-                D = new IntVec3(tx, ty, tz - ht);
-                E = new IntVec3(sx, sy, tz - ht);
-                F = new IntVec3(mx, ty, tz);
+                A = toIntVec(mx, sy, sz);
+                B = toIntVec(tx, ty, sz + ht);
+                C = toIntVec(sx, sy, sz + ht);
+                D = toIntVec(tx, ty, tz - ht);
+                E = toIntVec(sx, sy, tz - ht);
+                F = toIntVec(mx, ty, tz);
             }
 
             var ret = new HashSet<IntVec3>();
@@ -297,7 +283,7 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="x2"></param>
         /// <param name="z2"></param>
         /// <param name="fill">True to fill the ellipse.</param>
-        public static IEnumerable<IntVec3> Ellipse(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int thickness) {
+        public static IEnumerable<IntVec3> Ellipse(int x1, int y1, int z1, int x2, int y2, int z2, bool fill = false) {
             if (x2 < x1) { swap(ref x1, ref x2); }
             if (z2 < z1) { swap(ref z1, ref z2); }
 
@@ -306,7 +292,7 @@ namespace Merthsoft.DesignatorShapes {
             int h = x1 + hr;
             int k = z1 + kr;
 
-            return RadialEllipse(h, y1, k, hr, kr, fill, thickness);
+            return RadialEllipse(h, y1, k, hr, kr, fill);
         }
 
         private static void incrementX(ref int x, ref int dxt, ref int d2xt, ref int t) { x++; dxt += d2xt; t += dxt; }
@@ -321,7 +307,7 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="xRadius">The x radius.</param>
         /// <param name="zRadius">The z radius.</param>
         /// <param name="fill">True to fill the ellipse.</param>
-        public static IEnumerable<IntVec3> RadialEllipse(int x, int y, int z, int xRadius, int zRadius, bool fill, int thickness) {
+        public static IEnumerable<IntVec3> RadialEllipse(int x, int y, int z, int xRadius, int zRadius, bool fill = false) {
             var ret = new HashSet<IntVec3>();
 
             int plotX = 0;
@@ -340,7 +326,7 @@ namespace Merthsoft.DesignatorShapes {
             int d2zt = 2 * xRadiusSquared;
 
             while (plotZ >= 0 && plotX <= xRadius) {
-                circlePlot(x, y, z, ret, plotX, plotZ, fill, thickness);
+                circlePlot(x, y, z, ret, plotX, plotZ, fill);
 
                 if (t + zRadiusSquared * plotX <= crit1 || t + xRadiusSquared * plotZ <= crit3) {
                     incrementX(ref plotX, ref dxt, ref d2xt, ref t);
@@ -348,8 +334,8 @@ namespace Merthsoft.DesignatorShapes {
                     incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
                 } else {
                     incrementX(ref plotX, ref dxt, ref d2xt, ref t);
-                    if (DesignatorShapes.FillCorners && thickness == 1) {
-                        circlePlot(x, y, z, ret, plotX, plotZ, fill, 1);
+                    if (DesignatorShapes.FillCorners) {
+                        circlePlot(x, y, z, ret, plotX, plotZ, fill);
                     }
                     incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
                 }
@@ -358,42 +344,44 @@ namespace Merthsoft.DesignatorShapes {
             return ret;
         }
 
-        private static void circlePlot(int x, int y, int z, HashSet<IntVec3> ret, int plotX, int plotZ, bool fill, int thickness) {
+        private static void circlePlot(int x, int y, int z, HashSet<IntVec3> ret, int plotX, int plotZ, bool fill) {
             var center = new IntVec3(x, y, z);
-            ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z + plotZ), fill, thickness));
+            ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z + plotZ), fill));
             if (plotX != 0 || plotZ != 0) {
-                ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z - plotZ), fill, thickness));
+                ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z - plotZ), fill));
             }
 
             if (plotX != 0 && plotZ != 0) {
-                ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z - plotZ), fill, thickness));
-                ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z + plotZ), fill, thickness));
+                ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z - plotZ), fill));
+                ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z + plotZ), fill));
             }
         }
 
-        private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line, int thickness) {
+        private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line) {
             if (line) {
                 return Line(point1, point2);
             } else {
-                return PlotPoint(point2.x, point2.y, point2.z, thickness);
+                return new[] { point2 };
             }
         }
 
-        public static IEnumerable<IntVec3> Circle(IntVec3 s, IntVec3 t, bool filled, int thickness) {
+        public static IEnumerable<IntVec3> Circle(IntVec3 s, IntVec3 t, bool filled) {
             var x1 = s.x;
+            var y1 = s.y;
             var z1 = s.z;
             var x2 = t.x;
+            var y2 = t.y;
             var z2 = t.z;
 
             if (x2 < x1) { swap(ref x1, ref x2); }
             if (z2 < z1) { swap(ref z1, ref z2); }
 
             var r = Math.Max(x2 - x1, z2 - z1);
-            return Circle(s.x, s.y, s.z, r, filled, thickness);
+            return Circle(s.x, s.y, s.z, r, filled);
         }
 
-        public static IEnumerable<IntVec3> Circle(IntVec3 center, int r, bool fill, int thickness) =>
-            Circle(center.x, center.y, center.z, r, fill, thickness);
+        public static IEnumerable<IntVec3> Circle(IntVec3 center, int r, bool fill = false) =>
+            Circle(center.x, center.y, center.z, r, fill);
 
         /// <summary>
         /// Draws a circle to the sprite.
@@ -402,8 +390,8 @@ namespace Merthsoft.DesignatorShapes {
         /// <param name="y"></param>
         /// <param name="r"></param>
         /// <param name="fill">True to fill the circle.</param>
-        public static IEnumerable<IntVec3> Circle(int x, int y, int z, int r, bool fill, int thickness) =>
-            RadialEllipse(x, y, z, r, r, fill, thickness);
+        public static IEnumerable<IntVec3> Circle(int x, int y, int z, int r, bool fill = false) =>
+            RadialEllipse(x, y, z, r, r, fill);
 
         public static IEnumerable<IntVec3> Fill(IEnumerable<IntVec3> outLine) {
             var ret = new HashSet<IntVec3>();
@@ -414,7 +402,7 @@ namespace Merthsoft.DesignatorShapes {
                     var sorted = lineGroup.OrderBy(v => v.x);
                     var point1 = sorted.First();
                     var point2 = sorted.Last();
-                    ret.AddRange(HorizontalLine(point1.x, point2.x, point1.y, lineGroup.Key, 1, true));
+                    ret.AddRange(HorizontalLine(point1.x, point2.x, point1.y, lineGroup.Key));
                 }
             }
 

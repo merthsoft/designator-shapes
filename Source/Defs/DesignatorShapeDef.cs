@@ -22,11 +22,11 @@ namespace Merthsoft.DesignatorShapes.Defs {
         public bool AllowDragging => draggable && !useSizeInputs;
 
         [Unsaved]
-        private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> drawMethodCached;
-        public Func<IntVec3, IntVec3, IEnumerable<IntVec3>> DrawMethod
+        private Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>> drawMethodCached;
+        public Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>> DrawMethod
             => drawMethodCached ?? (drawMethodCached = generateDrawMethod());
 
-        private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> generateDrawMethod() {
+        private Func<IntVec3, IntVec3, int, IEnumerable<IntVec3>> generateDrawMethod() {
             var splitName = drawMethodName.Split('.');
             var methodName = splitName[splitName.Length - 1];
             var typeName = string.Join(".", splitName.ToList().Take(splitName.Length - 1).ToArray());
@@ -36,16 +36,16 @@ namespace Merthsoft.DesignatorShapes.Defs {
                 throw new Exception($"Could not load type {typeName}");
             }
 
-            var method = type.GetMethod(methodName, new Type[] { typeof(IntVec3), typeof(IntVec3) });
+            var method = type.GetMethod(methodName, new Type[] { typeof(IntVec3), typeof(IntVec3), typeof(int) });
             if (method == null) {
-                throw new Exception($"Could not find {methodName}(IntVec3, IntVec3) in {typeName}");
+                throw new Exception($"Could not find {methodName} in {typeName}");
             }
 
             if (!(method.ReturnType == typeof(IEnumerable<IntVec3>))) {
-                throw new Exception($"Return type for {methodName} is not IEnumerable<IntVec3>");
+                throw new Exception($"Return type for {methodName} is not IEnumberable<IntVec3>");
             }
 
-            return (arg1, arg2) => method.Invoke(null, new object[] { arg1, arg2 }) as IEnumerable<IntVec3>;
+            return (arg1, arg2, arg3) => method.Invoke(null, new object[] { arg1, arg2, arg3 }) as IEnumerable<IntVec3>;
         }
 
         public override void ResolveReferences() {

@@ -2,6 +2,7 @@
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Designators;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -43,20 +44,6 @@ namespace Merthsoft.DesignatorShapes {
 
         public static ShapeControls ShapeControls;
         public static bool FillCorners = true;
-
-        private static int thickness = 1;
-        public static int Thickness {
-            get {
-                return thickness;
-            }
-            set {
-                thickness = value switch {
-                    var v when v < 1 => 1,
-                    var v when v > 100 => 100,
-                    _ => value,
-                };
-            }
-        }
 
         public DesignatorShapes(ModContentPack content) : base(content) {
             if (GetSettings<DesignatorSettings>() == null) {

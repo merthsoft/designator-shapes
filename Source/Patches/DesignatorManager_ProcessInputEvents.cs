@@ -27,10 +27,6 @@ namespace Merthsoft.DesignatorShapes.Patches {
                     rotateShape(Event.current, -1);
                 } else if (key == KeyBindingDefOf.Command_ItemForbid.MainKey) {
                     DesignatorShapes.FillCorners = !DesignatorShapes.FillCorners;
-                } else if (key == KeyCode.Equals) {
-                    DesignatorShapes.Thickness++;
-                } else if (key == KeyCode.Minus) {
-                    DesignatorShapes.Thickness--;
                 }
             }
 
