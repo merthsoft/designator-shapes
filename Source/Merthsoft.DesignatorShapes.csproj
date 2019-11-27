@@ -89,7 +89,6 @@
     <Compile Include="Shapes.Base.cs" />
     <Compile Include="Shapes.cs" />
     <Compile Include="SizeInputShapes.cs" />
-    <Compile Include="HashSetWithBoundingBox`1.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
