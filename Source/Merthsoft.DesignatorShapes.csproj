@@ -86,9 +86,11 @@
     <Compile Include="Designators\Redo.cs" />
     <Compile Include="HistoryManager.cs" />
     <Compile Include="Patches\DesignationManager_AddDesignation.cs" />
-    <Compile Include="Shapes\Shapes.Base.cs" />
-    <Compile Include="Shapes\Shapes.cs" />
+    <Compile Include="Shapes\FloodFill.cs" />
+    <Compile Include="Shapes\PrimitiveShapes.cs" />
+    <Compile Include="Shapes\MainShapes.cs" />
     <Compile Include="Shapes\SizeInputShapes.cs" />
+    <Compile Include="Shapes\StampShapes.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,7 +5,7 @@
         <label>line</label>
         <description>Designate in a line</description>
         <uiIconPath>UI/Commands/line</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Line</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Line</drawMethodName>
         <overlayGroup>Line</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/line</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -16,7 +16,7 @@
         <description>Designate in a rectangle</description>
         <uiIconPath>UI/Commands/Smol/rectangle</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Rectangle</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Rectangle</drawMethodName>
         <overlayGroup>Rectangle</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -26,7 +26,7 @@
         <description>Designate in a filled rectangle</description>
         <uiIconPath>UI/Commands/Smol/rectangle_filled</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.RectangleFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.RectangleFilled</drawMethodName>
         <overlayGroup>Rectangle</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_filled</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -37,7 +37,7 @@
         <description>Designate in a rectangle</description>
         <uiIconPath>UI/Commands/Smol/rectangle</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.SizeInputShapes.Rectangle</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.Rectangle</drawMethodName>
         <overlayGroup>Rectangle_Input</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle</selectedUiIconPath>
         <useSizeInputs>true</useSizeInputs>
@@ -48,7 +48,7 @@
         <description>Designate in a filled rectangle</description>
         <uiIconPath>UI/Commands/Smol/rectangle_filled</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.SizeInputShapes.RectangleFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.RectangleFilled</drawMethodName>
         <overlayGroup>Rectangle_Input</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_filled</selectedUiIconPath>
         <useSizeInputs>true</useSizeInputs>
@@ -59,7 +59,7 @@
         <label>ellipse</label>
         <description>Designate in an ellipse</description>
         <uiIconPath>UI/Commands/Smol/ellipse</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Ellipse</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Ellipse</drawMethodName>
         <overlayGroup>Ellipse</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -68,7 +68,7 @@
         <label>filled ellipse</label>
         <description>Designate in a filled ellipse</description>
         <uiIconPath>UI/Commands/Smol/ellipse_filled</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.EllipseFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.EllipseFilled</drawMethodName>
         <overlayGroup>Ellipse</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_filled</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -78,7 +78,7 @@
         <label>ellipse</label>
         <description>Designate in an ellipse</description>
         <uiIconPath>UI/Commands/Smol/ellipse</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.SizeInputShapes.Ellipse</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.Ellipse</drawMethodName>
         <overlayGroup>Ellipse_Input</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse</selectedUiIconPath>
         <useSizeInputs>true</useSizeInputs>
@@ -88,7 +88,7 @@
         <label>filled ellipse</label>
         <description>Designate in a filled ellipse</description>
         <uiIconPath>UI/Commands/Smol/ellipse_filled</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.SizeInputShapes.EllipseFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.EllipseFilled</drawMethodName>
         <overlayGroup>Ellipse_Input</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_filled</selectedUiIconPath>
         <useSizeInputs>true</useSizeInputs>
@@ -100,7 +100,7 @@
         <description>Designate in a hexagon</description>
         <uiIconPath>UI/Commands/Smol/hexagon</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Hexagon</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Hexagon</drawMethodName>
         <overlayGroup>MoreShapes</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -110,7 +110,7 @@
         <description>Designate in a filled hexagon</description>
         <uiIconPath>UI/Commands/Smol/hexagon_filled</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.HexagonFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.HexagonFilled</drawMethodName>
         <overlayGroup>MoreShapes</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_filled</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -121,7 +121,7 @@
         <description>Designate in a pentagon</description>
         <uiIconPath>UI/Commands/Smol/pentagon</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Pentagon</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Pentagon</drawMethodName>
         <overlayGroup>MoreShapes</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/pentagon</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -131,7 +131,7 @@
         <description>Designate in a filled pentagon</description>
         <uiIconPath>UI/Commands/Smol/pentagon_filled</uiIconPath>
         <numRotations>2</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.PentagonFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.PentagonFilled</drawMethodName>
         <overlayGroup>MoreShapes</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/pentagon_filled</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -141,7 +141,7 @@
         <label>circle</label>
         <description>Designate in a circle</description>
         <uiIconPath>UI/Commands/Smol/circle</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.Circle</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Circle</drawMethodName>
         <overlayGroup>Ellipse</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/circle</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -150,7 +150,7 @@
         <label>filled circle</label>
         <description>Designate in a filled circle</description>
         <uiIconPath>UI/Commands/Smol/circle_filled</uiIconPath>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.CircleFilled</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.CircleFilled</drawMethodName>
         <overlayGroup>Ellipse</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/circle_filled</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -162,7 +162,7 @@
         <uiIconPath>UI/Commands/Smol/fill</uiIconPath>
         <draggable>false</draggable>
         <numRotations>1</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.FloodFill</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.FloodFill.Fill</drawMethodName>
         <overlayGroup>FloodFill</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/fill</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -174,7 +174,7 @@
         <uiIconPath>UI/Commands/Smol/sunlamp_filled</uiIconPath>
         <draggable>false</draggable>
         <numRotations>1</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.SunLamp</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.StampShapes.SunLamp</drawMethodName>
         <overlayGroup>Etc</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/sunlamp_filled</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -185,7 +185,7 @@
         <uiIconPath>UI/Commands/Smol/sunlamp_outline</uiIconPath>
         <draggable>false</draggable>
         <numRotations>1</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.SunLampOutline</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.StampShapes.SunLampOutline</drawMethodName>
         <overlayGroup>Etc</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/sunlamp_outline</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -197,7 +197,7 @@
         <uiIconPath>UI/Commands/Smol/trading_filled</uiIconPath>
         <draggable>false</draggable>
         <numRotations>1</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.TradeBeacon</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.StampShapes.TradeBeacon</drawMethodName>
         <overlayGroup>Etc</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/trading_filled</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>

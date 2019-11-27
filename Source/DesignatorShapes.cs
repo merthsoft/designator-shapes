@@ -51,8 +51,8 @@ namespace Merthsoft.DesignatorShapes {
             }
             set {
                 thickness = value switch {
-                    var v when v < 1 => 1,
-                    var v when v > 100 => 100,
+                    var v when v < -50 => 50,
+                    var v when v > 50 => 50,
                     _ => value,
                 };
             }
