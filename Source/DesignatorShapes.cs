@@ -2,7 +2,6 @@
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Designators;
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -45,6 +44,20 @@ namespace Merthsoft.DesignatorShapes {
         public static ShapeControls ShapeControls;
         public static bool FillCorners = true;
 
+        private static int thickness = 1;
+        public static int Thickness {
+            get {
+                return thickness;
+            }
+            set {
+                thickness = value switch {
+                    var v when v < 1 => 1,
+                    var v when v > 100 => 100,
+                    _ => value,
+                };
+            }
+        }
+
         public DesignatorShapes(ModContentPack content) : base(content) {
             if (GetSettings<DesignatorSettings>() == null) {
                 Log.Error("Unable to load DesignatorSettings.");
@@ -82,8 +95,8 @@ namespace Merthsoft.DesignatorShapes {
 
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
-            ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Allow collapsing the interface", ref Settings.ToggleableInterface);
+            ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume); 
+            ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
 
             ls.GapLine();
 

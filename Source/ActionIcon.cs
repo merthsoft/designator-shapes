@@ -1,5 +1,4 @@
-﻿using Merthsoft.DesignatorShapes.Defs;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Merthsoft.DesignatorShapes {
