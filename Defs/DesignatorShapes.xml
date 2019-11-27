@@ -208,7 +208,7 @@
         <uiIconPath>UI/Commands/Smol/trading_outline</uiIconPath>
         <draggable>false</draggable>
         <numRotations>1</numRotations>
-        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.TradeBeaconOutline</drawMethodName>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.StampShapes.TradeBeaconOutline</drawMethodName>
         <overlayGroup>Etc</overlayGroup>
         <selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/trading_outline</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>

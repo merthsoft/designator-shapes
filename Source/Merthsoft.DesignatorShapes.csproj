@@ -88,7 +88,7 @@
     <Compile Include="Patches\DesignationManager_AddDesignation.cs" />
     <Compile Include="Shapes\FloodFill.cs" />
     <Compile Include="Shapes\PrimitiveShapes.cs" />
-    <Compile Include="Shapes\MainShapes.cs" />
+    <Compile Include="Shapes\BasicShapes.cs" />
     <Compile Include="Shapes\SizeInputShapes.cs" />
     <Compile Include="Shapes\StampShapes.cs" />
   </ItemGroup>
