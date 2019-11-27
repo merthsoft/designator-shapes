@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -62,7 +63,7 @@
   <ItemGroup>
     <Compile Include="ActionIcon.cs" />
     <Compile Include="Defs\OverlayGroupDef.cs" />
-    <Compile Include="Helpers.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="HistoryComponent.cs" />
     <Compile Include="Icons.cs" />
     <Compile Include="Patches\Designator_Finalize.cs" />

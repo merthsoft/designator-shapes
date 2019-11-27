@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
 using UnityEngine;
 using Verse;
 
 namespace Merthsoft {
-    public static class Helpers {
+    public static class Extensions {
         static BindingFlags fieldFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetField | BindingFlags.GetProperty;
 
         public static object GetInstanceField(this object instance, string fieldName) {
@@ -49,5 +47,25 @@ namespace Merthsoft {
         public static List<TResult> SelectList<T, TResult>(this IEnumerable<T> i, Func<T, TResult> f) => i.Select(f).ToList();
 
         public static IntVec3 Halve(this IntVec3 vec) => new IntVec3(vec.x / 2, vec.y / 2, vec.z / 2);
+
+        public static float Or(this float? v, float or)
+            => v.GetValueOrDefault(or);
+
+        public static float Add(this float lhs, float? rhs)
+            => lhs + rhs.GetValueOrDefault();
+
+        public static Rect Clone(this Rect r,
+            float? x = null,
+            float? y = null,
+            float? width = null,
+            float? height = null,
+            float? addX = null,
+            float? addY = null,
+            float? addWidth = null,
+            float? addHeight = null)
+            => new Rect(x.Or(r.x.Add(addX)),
+                        y.Or(r.y.Add(addY)),
+                        width.Or(r.width.Add(addWidth)),
+                        height.Or(r.height.Add(addHeight)));
     }
 }

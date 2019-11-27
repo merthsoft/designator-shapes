@@ -83,7 +83,7 @@ namespace Merthsoft.DesignatorShapes {
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Allow toggling the interface on and off using Alt", ref Settings.ToggleableInterface);
+            ls.CheckboxLabeled("Allow collapsing the interface", ref Settings.ToggleableInterface);
 
             ls.GapLine();
 
