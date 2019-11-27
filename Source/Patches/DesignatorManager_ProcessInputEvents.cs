@@ -7,10 +7,6 @@ namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignatorManager), "ProcessInputEvents")]
     static class DesignatorManager_ProcessInputEvents {
         public static void Prefix(DesignatorManager __instance) {
-            if (Event.current.type == EventType.KeyDown && Event.current.alt) {
-                DesignatorShapes.ShowControls = !DesignatorShapes.ShowControls;
-            }
-
             if (!DesignatorShapes.ShowControls) { return; }
 
             if (__instance.SelectedDesignator == null) { return; }

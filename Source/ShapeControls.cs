@@ -21,10 +21,11 @@ namespace Merthsoft.DesignatorShapes {
         private const int ID = 12341234;
 
         public static int IconSize => DesignatorShapes.Settings.IconSize;
-        public static int NumButtons = 8;
-        public static int NumRows = 2;
-        public static int LabelHeight = 20;
-        public static int LineHeight = 3;
+        public static int NumButtons => 8;
+        public static int NumRows => 2;
+        public static int LabelHeight => 20;
+        public static int LineHeight => 3;
+        public static int CollapseButtonSize => 15;
 
         private bool dragging;
 
@@ -79,38 +80,48 @@ namespace Merthsoft.DesignatorShapes {
 
             var rect = new Rect(offset, offset, Width, Height);
             if (DesignatorShapes.Settings.DrawBackground) {
-                Widgets.DrawWindowBackground(rect);
+                Widgets.DrawWindowBackground(rect.Clone(height: DesignatorShapes.ShowControls ? Height : LabelHeight));
             }
 
-            Widgets.Label(rect, "Shapes");
+            Widgets.Label(rect.Clone(addX: 3), " Shapes");
+
+            if (DesignatorShapes.Settings.ToggleableInterface 
+                && Widgets.ButtonText(rect.Clone(addX: Width - CollapseButtonSize - 2, addY: 2, width: CollapseButtonSize, height: CollapseButtonSize), DesignatorShapes.ShowControls ? "[-] " : "[+] ", false)) {
+                DesignatorShapes.ShowControls = !DesignatorShapes.ShowControls;
+            }
+
             Widgets.DrawLineHorizontal(rect.x + 3, rect.y + LabelHeight, rect.width - 6);
-            rect.y += LabelHeight + LineHeight;
-            rect.height -= LabelHeight;
-            drawIcons(rect, generateIcons());
 
-            if (DesignatorShapes.CurrentTool?.Group == SelectedGroup 
-                && (DesignatorShapes.CurrentTool?.useSizeInputs ?? false)) { 
-                var buffer = inputWidth.ToString();
+            if (DesignatorShapes.ShowControls) {
+                rect.y += LabelHeight + LineHeight;
+                rect.height -= LabelHeight;
+                drawIcons(rect, generateIcons());
 
-                rect.y += IconSize + 10;
-                rect.width /= 2;
-                rect.width -= 25;
-                rect.height = 20;
+                if (DesignatorShapes.CurrentTool?.Group == SelectedGroup
+                    && (DesignatorShapes.CurrentTool?.useSizeInputs ?? false)) {
+                    var buffer = inputWidth.ToString();
 
-                Widgets.Label(rect, "W");
-                rect.x += 20;
-                rect.width -= 20;
-                Widgets.TextFieldNumeric(rect, ref inputWidth, ref buffer);
-                rect.x += rect.width + 25;
-                Widgets.Label(rect, "H");
-                rect.x += 20;
-                buffer = inputHeight.ToString();
-                Widgets.TextFieldNumeric(rect, ref inputHeight, ref buffer);
+                    rect.y += IconSize + 10;
+                    rect.width /= 2;
+                    rect.width -= 25;
+                    rect.height = 20;
 
-                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab) {
-                    GUI.FocusWindow(ID);
-                    Event.current.Use();
+                    Widgets.Label(rect, "W");
+                    rect.x += 20;
+                    rect.width -= 20;
+                    Widgets.TextFieldNumeric(rect, ref inputWidth, ref buffer);
+                    rect.x += rect.width + 25;
+                    Widgets.Label(rect, "H");
+                    rect.x += 20;
+                    buffer = inputHeight.ToString();
+                    Widgets.TextFieldNumeric(rect, ref inputHeight, ref buffer);
+
+                    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab) {
+                        GUI.FocusWindow(ID);
+                        Event.current.Use();
+                    }
                 }
+
             }
 
             if (Event.current.isMouse) {

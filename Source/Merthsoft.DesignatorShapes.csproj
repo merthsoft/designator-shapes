@@ -63,7 +63,7 @@
   <ItemGroup>
     <Compile Include="ActionIcon.cs" />
     <Compile Include="Defs\OverlayGroupDef.cs" />
-    <Compile Include="Helpers.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="HistoryComponent.cs" />
     <Compile Include="Icons.cs" />
     <Compile Include="Patches\Designator_Finalize.cs" />
