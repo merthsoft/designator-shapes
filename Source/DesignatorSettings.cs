@@ -4,6 +4,7 @@ using Verse;
 namespace Merthsoft.DesignatorShapes {
     public class DesignatorSettings : ModSettings {
         public bool ToggleableInterface = false;
+        public bool RestoreAltToggle = false;
         public bool ShowShapesPanelOnDesignationSelection = true;
         public bool MoveDesignationTabToEndOfList = false;
         public int FloodFillCellLimit = 1500;
@@ -20,6 +21,7 @@ namespace Merthsoft.DesignatorShapes {
         public override void ExposeData() {
             base.ExposeData();
 
+            Scribe_Values.Look(ref RestoreAltToggle, nameof(RestoreAltToggle), false);
             Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), false);
             Scribe_Values.Look(ref ShowShapesPanelOnDesignationSelection, nameof(ShowShapesPanelOnDesignationSelection), true);
             Scribe_Values.Look(ref MoveDesignationTabToEndOfList, nameof(MoveDesignationTabToEndOfList), false);

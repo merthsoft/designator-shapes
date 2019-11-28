@@ -2,7 +2,6 @@
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Designators;
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -84,6 +83,9 @@ namespace Merthsoft.DesignatorShapes {
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
             ls.CheckboxLabeled("Allow collapsing the interface", ref Settings.ToggleableInterface);
+            if (Settings.ToggleableInterface) {
+                ls.CheckboxLabeled("\tAllow toggling the interface with the alt-key", ref Settings.RestoreAltToggle);
+            }
 
             ls.GapLine();
 
