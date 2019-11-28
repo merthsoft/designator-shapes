@@ -48,8 +48,23 @@ namespace Merthsoft {
 
         public static IntVec3 Halve(this IntVec3 vec) => new IntVec3(vec.x / 2, vec.y / 2, vec.z / 2);
 
+        public static IEnumerable<int> Range(this int count, int startValue = 0, int? by = null) {
+            if (!by.HasValue) {
+                by = count.Sign();
+                count = count.Magnitude();
+            }
+
+            for (int i = 0; i < count; i++) {
+                yield return startValue;
+                startValue += by.Value;
+            }
+        }
+
         public static int Magnitude(this int i)
             => Math.Abs(i);
+
+        public static int Sign(this int i)
+            => Math.Sign(i);
 
         public static float Or(this float? v, float or)
             => v.GetValueOrDefault(or);

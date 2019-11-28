@@ -321,7 +321,7 @@ namespace Merthsoft.DesignatorShapes.Shapes {
             int h = x1 + hr;
             int k = z1 + kr;
 
-            return RadialEllipse(h, y1, k, hr, kr, fill, thickness);
+            return RadialEllipse(h, y1, k, hr, kr, fill, thickness, DesignatorShapes.FillCorners);
         }
 
         private static void incrementX(ref int x, ref int dxt, ref int d2xt, ref int t) { x++; dxt += d2xt; t += dxt; }
@@ -336,8 +336,16 @@ namespace Merthsoft.DesignatorShapes.Shapes {
         /// <param name="xRadius">The x radius.</param>
         /// <param name="zRadius">The z radius.</param>
         /// <param name="fill">True to fill the ellipse.</param>
-        public static IEnumerable<IntVec3> RadialEllipse(int x, int y, int z, int xRadius, int zRadius, bool fill, int thickness) {
+        public static IEnumerable<IntVec3> RadialEllipse(int x, int y, int z, int xRadius, int zRadius, bool fill, int thickness, bool fillCorners) {
             var ret = new HashSet<IntVec3>();
+
+            if (thickness != 1) {
+                foreach (var i in thickness.Range()) {
+                    ret.AddRange(RadialEllipse(x, y, z, xRadius - i, zRadius - i, fill, 1, true));
+                }
+
+                return ret;
+            }
 
             int plotX = 0;
             int plotZ = zRadius;
@@ -363,7 +371,7 @@ namespace Merthsoft.DesignatorShapes.Shapes {
                     incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
                 } else {
                     incrementX(ref plotX, ref dxt, ref d2xt, ref t);
-                    if (DesignatorShapes.FillCorners && thickness == 1) {
+                    if (fillCorners) {
                         circlePlot(x, y, z, ret, plotX, plotZ, fill, 1);
                     }
                     incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
@@ -418,7 +426,7 @@ namespace Merthsoft.DesignatorShapes.Shapes {
         /// <param name="r"></param>
         /// <param name="fill">True to fill the circle.</param>
         public static IEnumerable<IntVec3> Circle(int x, int y, int z, int r, bool fill, int thickness) =>
-            RadialEllipse(x, y, z, r, r, fill, thickness);
+            RadialEllipse(x, y, z, r, r, fill, thickness, DesignatorShapes.FillCorners);
 
         public static IEnumerable<IntVec3> Fill(IEnumerable<IntVec3> outLine) {
             var ret = new HashSet<IntVec3>();
