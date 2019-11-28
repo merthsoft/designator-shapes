@@ -48,6 +48,9 @@ namespace Merthsoft {
 
         public static IntVec3 Halve(this IntVec3 vec) => new IntVec3(vec.x / 2, vec.y / 2, vec.z / 2);
 
+        public static int Magnitude(this int i)
+            => Math.Abs(i);
+
         public static float Or(this float? v, float or)
             => v.GetValueOrDefault(or);
 

@@ -212,6 +212,7 @@ namespace Merthsoft.DesignatorShapes {
             } else {
                 Thickness++;
             }
+            Log.Message($"Thickness: {Thickness}");
         }
 
         public static void DecreaseThickness() {
@@ -220,6 +221,7 @@ namespace Merthsoft.DesignatorShapes {
             } else {
                 Thickness--;
             }
+            Log.Message($"Thickness: {Thickness}");
         }
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true) {

@@ -64,8 +64,6 @@ namespace Merthsoft.DesignatorShapes.Shapes {
         }
 
         private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners) {
-            thickness = Math.Abs(thickness);
-
             var ret = new HashSet<IntVec3> {
                 new IntVec3(x1, y1, z1),
                 new IntVec3(x2, y2, z2)
@@ -77,12 +75,6 @@ namespace Merthsoft.DesignatorShapes.Shapes {
             int stepZ = z2 < z1 ? 1 : -1;
 
             int err = deltaX - deltaZ;
-
-            
-            x1 += thickness + 1;
-            z1 += thickness + 1;
-            x2 -= thickness + 1;
-            z2 -= thickness + 1;
 
             while (true) {
                 ret.AddRange(PlotPoint(x2, y1, z2, thickness));
@@ -108,13 +100,16 @@ namespace Merthsoft.DesignatorShapes.Shapes {
 
             return ret;
         }
+
         private static IEnumerable<IntVec3> PlotPoint(int x, int y, int z, int thickness) {
             if (thickness == 1) {
                 return new[] { new IntVec3(x, y, z) };
             }
-            var positiveReducer = thickness % 2 == 0 ? 1 : 0;
-            var step = thickness / 2;
-            var corner1 = new IntVec3(x - step, y, z - step);
+            var negativeReducer = thickness < 0 ? ((-thickness) % 2 == 0 ? 1 : 0) : 0;
+
+            var positiveReducer = thickness > 0 ? (thickness % 2 == 0 ? 1 : 0) : 0;
+            var step = thickness.Magnitude() / 2;
+            var corner1 = new IntVec3(x - (step - negativeReducer), y, z - (step - negativeReducer));
             var corner2 = new IntVec3(x + step - positiveReducer, y, z + step - positiveReducer);
             return Rectangle(corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z, true, 0, 1);
         }
@@ -123,7 +118,7 @@ namespace Merthsoft.DesignatorShapes.Shapes {
             if (count < 0) {
                 count = -count;
                 direction = !direction;
-            }
+            } 
 
             for (int i = 0; i < count; i++) {
                 yield return start + (direction ? i : -i);
