@@ -4,7 +4,7 @@ using System.Linq;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Shapes {
-    public static class PrimitiveShapes {
+    public static class Primitives {
         /// <summary>
         /// Swaps two values.
         /// </summary>
@@ -64,6 +64,8 @@ namespace Merthsoft.DesignatorShapes.Shapes {
         }
 
         private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners) {
+            thickness = Math.Abs(thickness);
+
             var ret = new HashSet<IntVec3> {
                 new IntVec3(x1, y1, z1),
                 new IntVec3(x2, y2, z2)
@@ -76,6 +78,12 @@ namespace Merthsoft.DesignatorShapes.Shapes {
 
             int err = deltaX - deltaZ;
 
+            
+            x1 += thickness + 1;
+            z1 += thickness + 1;
+            x2 -= thickness + 1;
+            z2 -= thickness + 1;
+
             while (true) {
                 ret.AddRange(PlotPoint(x2, y1, z2, thickness));
                 if (x2 == x1 && z2 == z1) { break; }
@@ -83,8 +91,8 @@ namespace Merthsoft.DesignatorShapes.Shapes {
                 int e2 = 2 * err;
 
                 if (e2 > -deltaZ) {
-                    err = err - deltaZ;
-                    x2 = x2 + stepX;
+                    err -= deltaZ;
+                    x2 += stepX;
                 }
 
                 if (x2 == x1 && z2 == z1) { break; }
@@ -93,8 +101,8 @@ namespace Merthsoft.DesignatorShapes.Shapes {
                 }
 
                 if (e2 < deltaX) {
-                    err = err + deltaX;
-                    z2 = z2 + stepZ;
+                    err += deltaX;
+                    z2 += stepZ;
                 }
             }
 
@@ -112,6 +120,11 @@ namespace Merthsoft.DesignatorShapes.Shapes {
         }
 
         private static IEnumerable<int> Range(int start, int count, bool direction = true) {
+            if (count < 0) {
+                count = -count;
+                direction = !direction;
+            }
+
             for (int i = 0; i < count; i++) {
                 yield return start + (direction ? i : -i);
             }
@@ -127,8 +140,8 @@ namespace Merthsoft.DesignatorShapes.Shapes {
             return Range(z1, z2 - z1 + 1).SelectMany(z => Range(0, thickness, direction).Select(t => new IntVec3(x + t, y, z)));
         }
 
-        public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2) =>
-            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
+        public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2, int thickness) =>
+            Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, thickness, DesignatorShapes.FillCorners);
 
         public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation, int thickness) {
             var ret = new HashSet<IntVec3>();
@@ -139,6 +152,15 @@ namespace Merthsoft.DesignatorShapes.Shapes {
 
             if (z1 > z2) {
                 swap(ref z1, ref z2);
+            }
+
+            if (thickness < 0) {
+                x1 += thickness+1;
+                z1 += thickness+1;
+                x2 -= thickness+1;
+                z2 -= thickness+1;
+
+                thickness = -thickness;
             }
 
             if (rotation == 0) {
@@ -170,10 +192,10 @@ namespace Merthsoft.DesignatorShapes.Shapes {
                 var C = new IntVec3(x2, y2, z1 + kr);
                 var D = new IntVec3(x1 + hr, y1, z2);
 
-                ret.AddRange(Line(A, B));
-                ret.AddRange(Line(C, B));
-                ret.AddRange(Line(A, D));
-                ret.AddRange(Line(C, D));
+                ret.AddRange(Line(A, B, thickness));
+                ret.AddRange(Line(C, B, thickness));
+                ret.AddRange(Line(A, D, thickness));
+                ret.AddRange(Line(C, D, thickness));
 
                 if (fill) {
                     return Fill(ret);
@@ -188,7 +210,7 @@ namespace Merthsoft.DesignatorShapes.Shapes {
             return ret;
         }
 
-        public static IEnumerable<IntVec3> Pentagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
+        public static IEnumerable<IntVec3> Pentagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation, int thickness) {
             var ret = new HashSet<IntVec3>();
 
             IntVec3 A, B, C, D, E;
@@ -219,11 +241,11 @@ namespace Merthsoft.DesignatorShapes.Shapes {
                     break;
             }
 
-            ret.AddRange(Line(A, B));
-            ret.AddRange(Line(A, C));
-            ret.AddRange(Line(B, D));
-            ret.AddRange(Line(C, E));
-            ret.AddRange(Line(D, E));
+            ret.AddRange(Line(A, B, thickness));
+            ret.AddRange(Line(A, C, thickness));
+            ret.AddRange(Line(B, D, thickness));
+            ret.AddRange(Line(C, E, thickness));
+            ret.AddRange(Line(D, E, thickness));
 
             if (fill) {
                 return Fill(ret);
@@ -232,7 +254,7 @@ namespace Merthsoft.DesignatorShapes.Shapes {
             }
         }
 
-        public static IEnumerable<IntVec3> Hexagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation) {
+        public static IEnumerable<IntVec3> Hexagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation, int thickness) {
             if (tx < sx) { swap(ref sx, ref tx); }
             if (tz < sz) { swap(ref sz, ref tz); }
 
@@ -266,12 +288,12 @@ namespace Merthsoft.DesignatorShapes.Shapes {
 
             var ret = new HashSet<IntVec3>();
 
-            ret.AddRange(Line(A, B));
-            ret.AddRange(Line(B, D));
-            ret.AddRange(Line(F, D));
-            ret.AddRange(Line(A, C));
-            ret.AddRange(Line(C, E));
-            ret.AddRange(Line(F, E));
+            ret.AddRange(Line(A, B, thickness));
+            ret.AddRange(Line(B, D, thickness));
+            ret.AddRange(Line(F, D, thickness));
+            ret.AddRange(Line(A, C, thickness));
+            ret.AddRange(Line(C, E, thickness));
+            ret.AddRange(Line(F, E, thickness));
             //ret.AddRange(new[] { A, B, C, D, E, F });
 
             if (fill) {
@@ -371,7 +393,7 @@ namespace Merthsoft.DesignatorShapes.Shapes {
 
         private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line, int thickness) {
             if (line) {
-                return Line(point1, point2);
+                return Line(point1, point2, 1);
             } else {
                 return PlotPoint(point2.x, point2.y, point2.z, thickness);
             }

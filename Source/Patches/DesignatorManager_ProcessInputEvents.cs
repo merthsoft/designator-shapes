@@ -28,9 +28,9 @@ namespace Merthsoft.DesignatorShapes.Patches {
                 } else if (key == KeyBindingDefOf.Command_ItemForbid.MainKey) {
                     DesignatorShapes.FillCorners = !DesignatorShapes.FillCorners;
                 } else if (key == KeyCode.Equals) {
-                    DesignatorShapes.Thickness++;
+                    DesignatorShapes.IncreaseThickness();
                 } else if (key == KeyCode.Minus) {
-                    DesignatorShapes.Thickness--;
+                    DesignatorShapes.DecreaseThickness();
                 }
             }
 

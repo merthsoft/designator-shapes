@@ -49,8 +49,9 @@ namespace Merthsoft.DesignatorShapes {
             get {
                 return thickness;
             }
-            set {
-                thickness = value switch {
+            private set {
+                thickness = value switch
+                {
                     var v when v < -50 => 50,
                     var v when v > 50 => 50,
                     _ => value,
@@ -95,7 +96,7 @@ namespace Merthsoft.DesignatorShapes {
 
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
-            ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume); 
+            ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
             ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
 
             ls.GapLine();
@@ -174,7 +175,7 @@ namespace Merthsoft.DesignatorShapes {
                 if (g.parentGroupName != null) {
                     var parent = groupCache[g.parentGroupName];
                     g.ParentGroup = parent;
-                    
+
                     parent.ChildrenGroups.Add(g);
                 }
             });
@@ -200,6 +201,22 @@ namespace Merthsoft.DesignatorShapes {
                 Rotation %= CurrentTool.numRotations;
             }
             return true;
+        }
+
+        public static void IncreaseThickness() {
+            if (Thickness == -2) { // If we're coming from -2,
+                Thickness = 1;     // skip straight to 1, because -1 and 0 are meaningless thicknesses
+            } else {
+                Thickness++;
+            }
+        }
+
+        public static void DecreaseThickness() {
+            if (Thickness == 1) { // If we're coming from 1,
+                Thickness = -2;   // skip straight to -2, because -1 and 0 are meaningless thicknesses
+            } else {
+                Thickness--;
+            }
         }
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true) {
