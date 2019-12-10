@@ -97,18 +97,19 @@ namespace Merthsoft.DesignatorShapes {
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Allow collapsing the interface", ref Settings.ToggleableInterface);
+            ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
             if (Settings.ToggleableInterface) {
-                ls.CheckboxLabeled("\tAllow toggling the interface with the alt-key", ref Settings.RestoreAltToggle);
+                ls.CheckboxLabeled("\tAllow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
             }
+            ls.CheckboxLabeled("Remove thickness feature.", ref Settings.RemoveThicknessFeature);
 
             ls.GapLine();
 
             ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
 
             if (Settings.UseOldUi) {
-                ls.CheckboxLabeled("Show shapes panel when designation is selected", ref Settings.ShowShapesPanelOnDesignationSelection);
-                ls.CheckboxLabeled("Move shapes tab to end of list", ref Settings.MoveDesignationTabToEndOfList);
+                ls.CheckboxLabeled("Show shapes panel when designation is selected.", ref Settings.ShowShapesPanelOnDesignationSelection);
+                ls.CheckboxLabeled("Move shapes tab to end of list.", ref Settings.MoveDesignationTabToEndOfList);
             }
 
             ls.End();
@@ -207,6 +208,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static void IncreaseThickness() {
+            if (Settings.RemoveThicknessFeature) { return; }
             if (Thickness == -2) { // If we're coming from -2,
                 Thickness = 1;     // skip straight to 1, because -1 and 0 are meaningless thicknesses
             } else {
@@ -216,6 +218,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static void DecreaseThickness() {
+            if (Settings.RemoveThicknessFeature) { return; }
             if (Thickness == 1) { // If we're coming from 1,
                 Thickness = -2;   // skip straight to -2, because -1 and 0 are meaningless thicknesses
             } else {
