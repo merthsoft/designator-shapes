@@ -44,6 +44,21 @@ namespace Merthsoft.DesignatorShapes {
         public static ShapeControls ShapeControls;
         public static bool FillCorners = true;
 
+        private static int thickness = 1;
+        public static int Thickness {
+            get {
+                return thickness;
+            }
+            private set {
+                thickness = value switch
+                {
+                    var v when v < -50 => 50,
+                    var v when v > 50 => 50,
+                    _ => value,
+                };
+            }
+        }
+
         public DesignatorShapes(ModContentPack content) : base(content) {
             if (GetSettings<DesignatorSettings>() == null) {
                 Log.Error("Unable to load DesignatorSettings.");
@@ -82,18 +97,19 @@ namespace Merthsoft.DesignatorShapes {
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Allow collapsing the interface", ref Settings.ToggleableInterface);
+            ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
             if (Settings.ToggleableInterface) {
-                ls.CheckboxLabeled("\tAllow toggling the interface with the alt-key", ref Settings.RestoreAltToggle);
+                ls.CheckboxLabeled("\tAllow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
             }
+            ls.CheckboxLabeled("Remove thickness feature.", ref Settings.RemoveThicknessFeature);
 
             ls.GapLine();
 
             ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
 
             if (Settings.UseOldUi) {
-                ls.CheckboxLabeled("Show shapes panel when designation is selected", ref Settings.ShowShapesPanelOnDesignationSelection);
-                ls.CheckboxLabeled("Move shapes tab to end of list", ref Settings.MoveDesignationTabToEndOfList);
+                ls.CheckboxLabeled("Show shapes panel when designation is selected.", ref Settings.ShowShapesPanelOnDesignationSelection);
+                ls.CheckboxLabeled("Move shapes tab to end of list.", ref Settings.MoveDesignationTabToEndOfList);
             }
 
             ls.End();
@@ -163,7 +179,7 @@ namespace Merthsoft.DesignatorShapes {
                 if (g.parentGroupName != null) {
                     var parent = groupCache[g.parentGroupName];
                     g.ParentGroup = parent;
-                    
+
                     parent.ChildrenGroups.Add(g);
                 }
             });
@@ -189,6 +205,26 @@ namespace Merthsoft.DesignatorShapes {
                 Rotation %= CurrentTool.numRotations;
             }
             return true;
+        }
+
+        public static void IncreaseThickness() {
+            if (Settings.RemoveThicknessFeature) { return; }
+            if (Thickness == -2) { // If we're coming from -2,
+                Thickness = 1;     // skip straight to 1, because -1 and 0 are meaningless thicknesses
+            } else {
+                Thickness++;
+            }
+            Log.Message($"Thickness: {Thickness}");
+        }
+
+        public static void DecreaseThickness() {
+            if (Settings.RemoveThicknessFeature) { return; }
+            if (Thickness == 1) { // If we're coming from 1,
+                Thickness = -2;   // skip straight to -2, because -1 and 0 are meaningless thicknesses
+            } else {
+                Thickness--;
+            }
+            Log.Message($"Thickness: {Thickness}");
         }
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true) {

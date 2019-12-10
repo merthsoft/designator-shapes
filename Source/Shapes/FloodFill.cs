@@ -3,56 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes {
-    public static partial class Shapes {
-        public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2, int rotation) =>
-            Line(vert1, vert2);
-
-        public static IEnumerable<IntVec3> Rectangle(IntVec3 s, IntVec3 t, int rotation) =>
-            Rectangle(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
-
-        public static IEnumerable<IntVec3> RectangleFilled(IntVec3 s, IntVec3 t, int rotation) =>
-            Rectangle(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
-
-        public static IEnumerable<IntVec3> Pentagon(IntVec3 s, IntVec3 t, int rotation) =>
-            Pentagon(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
-
-        public static IEnumerable<IntVec3> PentagonFilled(IntVec3 s, IntVec3 t, int rotation) =>
-            Pentagon(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
-
-        public static IEnumerable<IntVec3> Hexagon(IntVec3 s, IntVec3 t, int rotation) =>
-            Hexagon(s.x, s.y, s.z, t.x, t.y, t.z, false, rotation);
-
-        public static IEnumerable<IntVec3> HexagonFilled(IntVec3 s, IntVec3 t, int rotation) =>
-            Hexagon(s.x, s.y, s.z, t.x, t.y, t.z, true, rotation);
-
-        public static IEnumerable<IntVec3> Ellipse(IntVec3 s, IntVec3 t, int rotation) =>
-            Ellipse(s.x, s.y, s.z, t.x, t.y, t.z, false);
-
-        public static IEnumerable<IntVec3> EllipseFilled(IntVec3 s, IntVec3 t, int rotation) =>
-            Ellipse(s.x, s.y, s.z, t.x, t.y, t.z, true);
-
-        public static IEnumerable<IntVec3> Circle(IntVec3 s, IntVec3 t, int rotation) => 
-            Circle(s, t, false);
-
-        public static IEnumerable<IntVec3> CircleFilled(IntVec3 s, IntVec3 t, int rotation) => 
-            Circle(s, t, true);
-
-        public static IEnumerable<IntVec3> SunLamp(IntVec3 vert1, IntVec3 vert2, int rotation) =>
-            GenRadialCircle(vert1, DesignatorShapes.SunLampRadius, true);
-
-        public static IEnumerable<IntVec3> SunLampOutline(IntVec3 vert1, IntVec3 vert2, int rotation) =>
-            GenRadialCircle(vert1, DesignatorShapes.SunLampRadius, false);
-
-        public static IEnumerable<IntVec3> TradeBeacon(IntVec3 vert1, IntVec3 vert2, int rotation) =>
-            GenRadialCircle(vert1, DesignatorShapes.TradeBeaconRadius, true);
-
-        public static IEnumerable<IntVec3> TradeBeaconOutline(IntVec3 vert1, IntVec3 vert2, int rotation) =>
-            GenRadialCircle(vert1, DesignatorShapes.TradeBeaconRadius, false);
-
-        public static IEnumerable<IntVec3> FloodFill(IntVec3 s, IntVec3 t, int rotation) {
+namespace Merthsoft.DesignatorShapes.Shapes {
+    public static class FloodFill {
+        public static IEnumerable<IntVec3> Fill(IntVec3 s, IntVec3 t) {
             var ret = new HashSet<IntVec3>();
-            var designator = Find.DesignatorManager.SelectedDesignator;
             var map = Find.CurrentMap;
 
             var wallAtMouse = getWallDefAt(map, t);
