@@ -47,7 +47,7 @@ namespace Merthsoft.DesignatorShapes {
         private static int thickness = 1;
         public static int Thickness {
             get {
-                return thickness;
+                return Settings.RemoveThicknessFeature ? 1 : thickness;
             }
             private set {
                 thickness = value switch
