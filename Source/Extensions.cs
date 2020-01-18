@@ -46,7 +46,11 @@ namespace Merthsoft {
 
         public static List<TResult> SelectList<T, TResult>(this IEnumerable<T> i, Func<T, TResult> f) => i.Select(f).ToList();
 
-        public static IntVec3 Halve(this IntVec3 vec) => new IntVec3(vec.x / 2, vec.y / 2, vec.z / 2);
+        public static IntVec3 FloorHalve(this IntVec3 vec) => new IntVec3(vec.x / 2, vec.y / 2, vec.z / 2);
+
+        public static IntVec3 CeilingHalve(this IntVec3 vec) => new IntVec3(vec.x.CeilingHalve() - 1, vec.y.CeilingHalve() - 1, vec.z.CeilingHalve() - 1);
+
+        public static int CeilingHalve(this int i) => (int)Math.Ceiling(i / 2d);
 
         public static IEnumerable<int> Range(this int count, int startValue = 0, int? by = null) {
             if (!by.HasValue) {

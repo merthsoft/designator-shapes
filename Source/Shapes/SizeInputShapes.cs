@@ -4,10 +4,10 @@ using Verse;
 namespace Merthsoft.DesignatorShapes.Shapes {
     public static class SizeInputShapes {
         public static IEnumerable<IntVec3> Rectangle(IntVec3 center, IntVec3 size) =>
-            BasicShapes.Rectangle(center - size.Halve(), center + size.Halve());
+            BasicShapes.Rectangle(center - size.FloorHalve(), center + size.CeilingHalve());
 
         public static IEnumerable<IntVec3> RectangleFilled(IntVec3 center, IntVec3 size) =>
-            BasicShapes.RectangleFilled(center - size.Halve(), center + size.Halve());
+            BasicShapes.RectangleFilled(center - size.FloorHalve(), center + size.CeilingHalve());
 
         public static IEnumerable<IntVec3> Ellipse(IntVec3 center, IntVec3 size) =>
             Primitives.RadialEllipse(center.x, center.y, center.z, size.x / 2, size.z / 2, false, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
