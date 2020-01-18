@@ -55,6 +55,8 @@ namespace Merthsoft.DesignatorShapes.Patches {
         }
 
         private static void rotateShape(Event ev, int amount) {
+            if (DesignatorShapes.Settings.DisableRotation) { return; }
+
             if (DesignatorShapes.Rotate(amount)) {
                 ev.Use();
             }

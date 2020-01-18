@@ -102,6 +102,7 @@ namespace Merthsoft.DesignatorShapes {
                 ls.CheckboxLabeled("\tAllow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
             }
             ls.CheckboxLabeled("Remove thickness feature.", ref Settings.RemoveThicknessFeature);
+            ls.CheckboxLabeled("Disable shape rotation.", ref Settings.DisableRotation);
 
             ls.GapLine();
 
