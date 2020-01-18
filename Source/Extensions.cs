@@ -70,9 +70,6 @@ namespace Merthsoft {
         public static int Sign(this int i)
             => Math.Sign(i);
 
-        public static float Or(this float? v, float or)
-            => v.GetValueOrDefault(or);
-
         public static float Add(this float lhs, float? rhs)
             => lhs + rhs.GetValueOrDefault();
 
@@ -85,9 +82,9 @@ namespace Merthsoft {
             float? addY = null,
             float? addWidth = null,
             float? addHeight = null)
-            => new Rect(x.Or(r.x.Add(addX)),
-                        y.Or(r.y.Add(addY)),
-                        width.Or(r.width.Add(addWidth)),
-                        height.Or(r.height.Add(addHeight)));
+            => new Rect(x ?? r.x.Add(addX),
+                        y ?? r.y.Add(addY),
+                        width ?? r.width.Add(addWidth),
+                        height ?? r.height.Add(addHeight));
     }
 }
