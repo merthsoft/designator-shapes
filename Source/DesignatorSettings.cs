@@ -3,6 +3,7 @@ using Verse;
 
 namespace Merthsoft.DesignatorShapes {
     public class DesignatorSettings : ModSettings {
+        public bool DisableRotation = false;
         public bool RemoveThicknessFeature = false;
         public bool ToggleableInterface = false;
         public bool RestoreAltToggle = false;
@@ -22,6 +23,7 @@ namespace Merthsoft.DesignatorShapes {
         public override void ExposeData() {
             base.ExposeData();
 
+            Scribe_Values.Look(ref DisableRotation, nameof(DisableRotation), false);
             Scribe_Values.Look(ref RemoveThicknessFeature, nameof(RemoveThicknessFeature), false);
             Scribe_Values.Look(ref RestoreAltToggle, nameof(RestoreAltToggle), false);
             Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), false);
