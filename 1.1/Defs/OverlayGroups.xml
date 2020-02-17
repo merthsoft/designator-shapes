@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Line</defName>
+        <uiIconPath>UI/Commands/Smol/line</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/line_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Rectangle</defName>
+        <uiIconPath>UI/Commands/Smol/rectangle_more</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/rectangle_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Rectangle_Input</defName>
+        <parentGroupName>Rectangle</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/rectangle_more</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/rectangle_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Ellipse</defName>
+        <uiIconPath>UI/Commands/Smol/circle_more</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/circle_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Ellipse_Input</defName>
+        <parentGroupName>Ellipse</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/circle_more</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/circle_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>MoreShapes</defName>
+        <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>FloodFill</defName>
+        <uiIconPath>UI/Commands/Smol/fill</uiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Etc</defName>
+        <uiIconPath>UI/Commands/Smol/etc</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/etc_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+</Defs>

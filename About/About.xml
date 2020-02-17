@@ -5,7 +5,13 @@
 	<url>https://bitbucket.org/merthsoft/designator-shapes</url>
   <supportedVersions>
     <li>1.0</li>
+    <li>1.1</li>
   </supportedVersions>
+  <supportedGameVersions>
+    <li>1.0</li>
+    <li>1.1</li>
+  </supportedGameVersions>
+  <packageId>Merthsoft.DesignatorShapes</packageId>
   <description>Allows you to build, mine, zone, etc. in various shapes. First select the task you want to do (build, mine, zone), then go into the shapes menu and select the shape. Use the rotate keys to rotate the shape. Use the F key (or the key you have bound to "forbid item") to toggle filling of corners. There are settings you can adjust for flood-fill, the style of menu navigation, and even the ability to use the old UI.
 
         Art by Halno.

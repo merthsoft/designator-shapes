@@ -1,5 +1,4 @@
-﻿using System;
-using Harmony;
+﻿using HarmonyLib;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches {
