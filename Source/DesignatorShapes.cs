@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Designators;
 using RimWorld;
@@ -34,7 +34,7 @@ namespace Merthsoft.DesignatorShapes {
 
         private static DesignatorSettings settings;
         public static DesignatorSettings Settings => settings ?? (settings = LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>());
-        public static HarmonyInstance HarmonyInstance { get; private set; }
+        public static Harmony HarmonyInstance { get; private set; }
 
         public override string SettingsCategory() => "Designator Shapes";
 
@@ -66,7 +66,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         static DesignatorShapes() {
-            HarmonyInstance = HarmonyInstance.Create("Merthsoft.DesignatorShapes");
+            HarmonyInstance = new Harmony("Merthsoft.DesignatorShapes");
             HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
             Rotation = 0;
         }

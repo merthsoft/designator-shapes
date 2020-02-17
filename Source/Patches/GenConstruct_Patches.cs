@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using RimWorld;
 
 namespace Merthsoft.DesignatorShapes.Patches {
