@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Designator Shapes - dev</name>
-	<author>Shaun McFall</author>
-	<url>https://bitbucket.org/merthsoft/designator-shapes</url>
+  <name>Designator Shapes - dev</name>
+  <author>Shaun McFall</author>
+  <url>https://github.com/merthsoft/designator-shapes</url>
   <supportedVersions>
-    <li>1.0</li>
     <li>1.1</li>
+    <li>1.2</li>
   </supportedVersions>
-  <supportedGameVersions>
-    <li>1.0</li>
-    <li>1.1</li>
-  </supportedGameVersions>
+  <modDependenciesByVersion>
+    <v1.2>
+      <li>
+        <packageId>Harmony</packageId>
+        <displayName>Harmony</displayName>
+        <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
+      </li>
+    </v1.2>
+  </modDependenciesByVersion>
   <packageId>Merthsoft.DesignatorShapes</packageId>
   <description>Allows you to build, mine, zone, etc. in various shapes. First select the task you want to do (build, mine, zone), then go into the shapes menu and select the shape. Use the rotate keys to rotate the shape. Use the F key (or the key you have bound to "forbid item") to toggle filling of corners. There are settings you can adjust for flood-fill, the style of menu navigation, and even the ability to use the old UI.
 
