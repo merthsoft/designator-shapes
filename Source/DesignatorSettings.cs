@@ -64,6 +64,11 @@ namespace Merthsoft.DesignatorShapes {
             Scribe_Values.Look(ref PauseOnFloodFill, nameof(PauseOnFloodFill), true);
             Scribe_Values.Look(ref EnableKeyboardInput, nameof(EnableKeyboardInput), true);
             Scribe_Collections.Look(ref Keys, nameof(Keys), LookMode.Value);
+
+            if (Keys == null || Keys.Count == 0)
+                Keys = new();
+
+            DesignatorShapes.ShapeControls = new ShapeControls(WindowX, WindowY, IconSize);
         }
     }
 }

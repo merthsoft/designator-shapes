@@ -85,7 +85,7 @@ namespace Merthsoft.DesignatorShapes {
             ls.BeginScrollView(scrollRect, ref scrollPosition, ref viewRect);
 
             var maxBuffer = Settings.FloodFillCellLimit.ToString();
-            ls.TextFieldNumericLabeled<int>("Maximum cells to select in flood fill", ref Settings.FloodFillCellLimit, ref maxBuffer);
+            ls.TextFieldNumericLabeled("Maximum cells to select in flood fill", ref Settings.FloodFillCellLimit, ref maxBuffer);
 
             ls.CheckboxLabeled("Draw background", ref Settings.DrawBackground);
             ls.Label($"Icon size: {Settings.IconSize}");
@@ -104,7 +104,7 @@ namespace Merthsoft.DesignatorShapes {
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFill);
+            //ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFill);
             ls.GapLine();
             ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
             ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
@@ -125,7 +125,7 @@ namespace Merthsoft.DesignatorShapes {
 
             ResolveShapes();
 
-            ShapeControls.WindowRect = new Rect(Settings.WindowX, Settings.WindowY, ShapeControls.Width, ShapeControls.Height);
+            ShapeControls = new(Settings.WindowX, Settings.WindowY, Settings.IconSize);
         }
 
         private void DrawKeyInput(Listing_Standard ls, int keyIndex)
@@ -166,7 +166,19 @@ namespace Merthsoft.DesignatorShapes {
                 defsLoaded = true;
                 shapeCategoryDef = DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
                 ResolveShapes();
-                ShapeControls = new ShapeControls(Settings.WindowX, Settings.WindowY);
+                ShapeControls = new ShapeControls(Settings?.WindowX ?? 0, Settings?.WindowY ?? 0, Settings?.IconSize ?? 40);
+
+                DesignatorSettings.DefaultKeys = new(new[]
+                {
+                    KeyBindingDefOf.Designator_RotateLeft?.MainKey ?? KeyCode.Q,
+                    KeyBindingDefOf.Designator_RotateRight?.MainKey ?? KeyCode.E,
+                    KeyBindingDefOf.Command_ItemForbid?.MainKey ?? KeyCode.F,
+                    KeyCode.Equals,
+                    KeyCode.Minus,
+                });
+
+                if (Settings.Keys == null || Settings.Keys?.Count == 0)
+                    Settings.Keys = new(DesignatorSettings.DefaultKeys);
             }
 
             var archWindow = MainButtonDefOf.Architect.TabWindow;
@@ -179,18 +191,6 @@ namespace Merthsoft.DesignatorShapes {
             }
 
             archWindow.InvokeMethod("CacheDesPanels");
-
-            DesignatorSettings.DefaultKeys = new(new[]
-            {
-                KeyBindingDefOf.Designator_RotateLeft.MainKey,
-                KeyBindingDefOf.Designator_RotateRight.MainKey,
-                KeyBindingDefOf.Command_ItemForbid.MainKey,
-                KeyCode.Equals,
-                KeyCode.Minus,
-            });
-
-            if (Settings.Keys.Count == 0)
-                Settings.Keys = new(DesignatorSettings.DefaultKeys);
         }
 
         private static void ResolveShapes() {
@@ -283,8 +283,8 @@ namespace Merthsoft.DesignatorShapes {
             CurrentTool = def;
             Rotation = 0;
 
-            if (def.pauseOnSelection && Settings.PauseOnFloodFill)
-                Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+            //if (def.pauseOnSelection && Settings.PauseOnFloodFill)
+            //    Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
         }
     }
 }

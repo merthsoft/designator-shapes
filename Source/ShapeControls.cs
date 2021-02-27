@@ -20,7 +20,7 @@ namespace Merthsoft.DesignatorShapes {
 
         private const int ID = 12341234;
 
-        public static int IconSize => DesignatorShapes.Settings.IconSize;
+        public static int IconSize { get; set;  }
         public static int NumButtons => 8;
         public static int NumRows => 2;
         public static int LabelHeight => 20;
@@ -37,9 +37,10 @@ namespace Merthsoft.DesignatorShapes {
 
         public static IntVec3 InputVec => new(DesignatorShapes.ShapeControls.inputWidth, 0, DesignatorShapes.ShapeControls.inputHeight);
 
-        public ShapeControls(int x, int y) {
+        public ShapeControls(int x, int y, int iconSize) {
             IsHorizontal = true;
             WindowRect = new(x, y, Width, Height);
+            IconSize = iconSize;
         }
 
         public void ShapeControlsOnGUI() {
