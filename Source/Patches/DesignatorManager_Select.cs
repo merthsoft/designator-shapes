@@ -1,11 +1,9 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
-using RimWorld;
-using System.Collections;
-using System.Linq;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Patches {
+namespace Merthsoft.DesignatorShapes.Patches
+{
     [HarmonyPatch(typeof(DesignatorManager), "Select", new[] { typeof(Designator) })]
     class DesignatorManager_Select {
         public static void Prefix(ref Designator __state) {
@@ -14,40 +12,27 @@ namespace Merthsoft.DesignatorShapes.Patches {
             __state = Find.DesignatorManager.SelectedDesignator;
         }
 
-        public static void Postfix(DesignatorManager __instance, Designator des, ref Designator __state) {
+        public static void Postfix(DesignatorManager __instance, ref Designator __state) {
             if (!DesignatorShapes.ShowControls) { return; }
             
             var selectedDesignator = __instance.SelectedDesignator;
             if (selectedDesignator == null) { return; }
             if (__state == selectedDesignator) { return; }
                 
-            DesignatorShapeDef shape = null;
+            DesignatorShapeDef shape;
             var announce = true;
 
             if (DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null) {
-                switch (selectedDesignator.DraggableDimensions) {
-                    default:
-                    case 1:
-                        shape = DesignatorShapeDefOf.Rectangle;
-                        break;
-                    case 2:
-                        shape = DesignatorShapeDefOf.RectangleFilled;
-                        break;
-                }
+                shape = selectedDesignator.DraggableDimensions switch
+                {
+                    2 => DesignatorShapeDefOf.RectangleFilled,
+                    _ => DesignatorShapeDefOf.Rectangle,
+                };
             } else {
                 shape = DesignatorShapes.CachedTool;
             }
 
             DesignatorShapes.SelectTool(shape, announce);
-
-            if (DesignatorShapes.Settings.UseOldUi && DesignatorShapes.Settings.ShowShapesPanelOnDesignationSelection) {
-                var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
-                var panels = archWindow?.GetInstanceField("desPanelsCached") as IEnumerable;
-
-                if (panels != null) {
-                    archWindow.selectedDesPanel = panels.Cast<ArchitectCategoryTab>().FirstOrDefault(p => p.def.defName == "Shapes");
-                }
-            }
         }
     }
 }

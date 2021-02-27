@@ -8,15 +8,15 @@ using Verse;
 
 namespace Merthsoft.DesignatorShapes {
     public class ShapeControls {
-        private List<OverlayGroupDef> groupDefs => DefDatabase<OverlayGroupDef>.AllDefsListForReading;
+        private List<OverlayGroupDef> GroupDefs => DefDatabase<OverlayGroupDef>.AllDefsListForReading;
 
         public Rect WindowRect { get; set; }
-        public Rect DraggingWindowRect => new Rect(WindowRect.x - 100, WindowRect.y - 100, WindowRect.width + 200, WindowRect.height + 200);
+        public Rect DraggingWindowRect => new(WindowRect.x - 100, WindowRect.y - 100, WindowRect.width + 200, WindowRect.height + 200);
 
         public bool IsHorizontal { get; set; }
 
         public OverlayGroupDef SelectedGroup { get; set; }
-        private Stack<OverlayGroupDef> previousGroups;
+        private readonly Stack<OverlayGroupDef> previousGroups = new();
 
         private const int ID = 12341234;
 
@@ -35,13 +35,11 @@ namespace Merthsoft.DesignatorShapes {
         private int inputWidth;
         private int inputHeight;
 
-        public static IntVec3 InputVec => new IntVec3(DesignatorShapes.ShapeControls.inputWidth, 0, DesignatorShapes.ShapeControls.inputHeight);
+        public static IntVec3 InputVec => new(DesignatorShapes.ShapeControls.inputWidth, 0, DesignatorShapes.ShapeControls.inputHeight);
 
         public ShapeControls(int x, int y) {
             IsHorizontal = true;
-            previousGroups = new Stack<OverlayGroupDef>();
-
-            WindowRect = new Rect(x, y, Width, Height);
+            WindowRect = new(x, y, Width, Height);
         }
 
         public void ShapeControlsOnGUI() {
@@ -55,17 +53,17 @@ namespace Merthsoft.DesignatorShapes {
             Find.WindowStack.ImmediateWindow(ID, dragging ? DraggingWindowRect : WindowRect, WindowLayer.GameUI, DoWindow, false, dragging, 0);
         }
         
-        private void drawIcon(Rect rect, Texture2D icon, Color? highlighColor, Action action) {
+        private void DrawIcon(Rect rect, Texture2D icon, Color? highlighColor, Action action) {
             if (Widgets.ButtonImage(rect, icon, Color.white, highlighColor ?? GenUI.MouseoverColor)) {
                 action.Invoke();
             }
         }
 
-        private void drawIcons(Rect rect, List<ActionIcon> icons) {
+        private void DrawIcons(Rect rect, List<ActionIcon> icons) {
             var x = 0;
             var y = 0;
             foreach (var icon in icons) {
-                drawIcon(new Rect(x * IconSize + rect.x, y * IconSize + rect.y, IconSize, IconSize), icon.icon, icon.highlightColor, icon.action);
+                DrawIcon(new Rect(x * IconSize + rect.x, y * IconSize + rect.y, IconSize, IconSize), icon.icon, icon.highlightColor, icon.action);
 
                 x++;
                 if (x == NumButtons / NumRows) {
@@ -95,7 +93,7 @@ namespace Merthsoft.DesignatorShapes {
             if (DesignatorShapes.ShowControls) {
                 rect.y += LabelHeight + LineHeight;
                 rect.height -= LabelHeight;
-                drawIcons(rect, generateIcons());
+                DrawIcons(rect, GenerateIcons());
 
                 if (DesignatorShapes.CurrentTool?.Group == SelectedGroup
                     && (DesignatorShapes.CurrentTool?.useSizeInputs ?? false)) {
@@ -145,10 +143,10 @@ namespace Merthsoft.DesignatorShapes {
             }
         }
 
-        private List<ActionIcon> generateIcons() {
+        private List<ActionIcon> GenerateIcons() {
             List<ActionIcon> icons;
             if (SelectedGroup == null) {
-                icons = groupDefs.Where(g => g.ParentGroup == null).SelectList(CreateActionIcon);
+                icons = GroupDefs.Where(g => g.ParentGroup == null).SelectList(CreateActionIcon);
                 icons.Add(new ActionIcon {
                     icon = HistoryManager.CanUndo ? Icons.UndoEnabled : Icons.UndoDisabled,
                     action = HistoryManager.Undo,
@@ -174,7 +172,8 @@ namespace Merthsoft.DesignatorShapes {
             return icons;
         }
 
-        static ActionIcon CreateActionIcon(OverlayGroupDef g) => new ActionIcon {
+        static ActionIcon CreateActionIcon(OverlayGroupDef g) => new()
+        {
             icon = DesignatorShapes.CurrentTool?.Group.defName == g.defName
                     ? DesignatorShapes.CurrentTool.selectedUiIcon
                     : g.UiIcon,

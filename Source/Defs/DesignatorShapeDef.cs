@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Xml;
 using UnityEngine;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Defs {
+namespace Merthsoft.DesignatorShapes.Defs
+{
     public class DesignatorShapeDef : BuildableDef {
         public string drawMethodName;
         public bool draggable = true;
@@ -14,6 +13,7 @@ namespace Merthsoft.DesignatorShapes.Defs {
         public string overlayGroup;
         public string selectedUiIconPath;
         public bool useSizeInputs = false;
+        public bool pauseOnSelection = false;
 
         [Unsaved] public OverlayGroupDef Group;
         [Unsaved] public OverlayGroupDef RootGroup;
@@ -24,9 +24,9 @@ namespace Merthsoft.DesignatorShapes.Defs {
         [Unsaved]
         private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> drawMethodCached;
         public Func<IntVec3, IntVec3, IEnumerable<IntVec3>> DrawMethod
-            => drawMethodCached ?? (drawMethodCached = generateDrawMethod());
+            => drawMethodCached ??= GenerateDrawMethod();
 
-        private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> generateDrawMethod() {
+        private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> GenerateDrawMethod() {
             var splitName = drawMethodName.Split('.');
             var methodName = splitName[splitName.Length - 1];
             var typeName = string.Join(".", splitName.ToList().Take(splitName.Length - 1).ToArray());

@@ -7,6 +7,9 @@ namespace Merthsoft.DesignatorShapes.Patches {
     [HarmonyPatch(typeof(DesignatorManager), "ProcessInputEvents")]
     static class DesignatorManager_ProcessInputEvents {
         public static void Prefix(DesignatorManager __instance) {
+            if (!DesignatorShapes.Settings.EnableKeyboardInput)
+                return;
+            
             if (Event.current.type == EventType.KeyDown && Event.current.alt && DesignatorShapes.Settings.RestoreAltToggle) {
                 DesignatorShapes.ShowControls = !DesignatorShapes.ShowControls;
             }
@@ -25,15 +28,15 @@ namespace Merthsoft.DesignatorShapes.Patches {
             if (Event.current.type == EventType.KeyDown) {
                 var key = Event.current.keyCode;
 
-                if (key == KeyBindingDefOf.Designator_RotateLeft.MainKey) {
-                    rotateShape(Event.current, 1);
-                } else if (key == KeyBindingDefOf.Designator_RotateRight.MainKey) {
-                    rotateShape(Event.current, -1);
-                } else if (key == KeyBindingDefOf.Command_ItemForbid.MainKey) {
+                if (key == DesignatorShapes.Settings.Keys[DesignatorSettings.RotateLeftKeyIndex]) {
+                    RotateShape(Event.current, 1);
+                } else if (key == DesignatorShapes.Settings.Keys[DesignatorSettings.RotateRightKeyIndex]) {
+                    RotateShape(Event.current, -1);
+                } else if (key == DesignatorShapes.Settings.Keys[DesignatorSettings.FillCornersToggleKeyIndex]) {
                     DesignatorShapes.FillCorners = !DesignatorShapes.FillCorners;
-                } else if (key == KeyCode.Equals) {
+                } else if (key == DesignatorShapes.Settings.Keys[DesignatorSettings.IncreaseThicknessKeyIndex]) {
                     DesignatorShapes.IncreaseThickness();
-                } else if (key == KeyCode.Minus) {
+                } else if (key == DesignatorShapes.Settings.Keys[DesignatorSettings.DecreaseThicknessKeyIndex]) {
                     DesignatorShapes.DecreaseThickness();
                 }
             }
@@ -54,9 +57,7 @@ namespace Merthsoft.DesignatorShapes.Patches {
             }
         }
 
-        private static void rotateShape(Event ev, int amount) {
-            if (DesignatorShapes.Settings.DisableRotation) { return; }
-
+        private static void RotateShape(Event ev, int amount) {
             if (DesignatorShapes.Rotate(amount)) {
                 ev.Use();
             }

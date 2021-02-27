@@ -48,10 +48,15 @@
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionIcon.cs" />
     <Compile Include="Defs\OverlayGroupDef.cs" />
+    <Compile Include="Dialogs\KeyBinding.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="HistoryComponent.cs" />
     <Compile Include="Icons.cs" />
@@ -84,6 +89,8 @@
   <ItemGroup>
     <PackageReference Include="Lib.Harmony">
       <Version>2.0.4</Version>
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

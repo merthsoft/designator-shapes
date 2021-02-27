@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Designators;
+using Merthsoft.DesignatorShapes.Dialogs;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Merthsoft.DesignatorShapes {
         private static bool showControls = true;
         public static bool ShowControls {
             get {
-                return Settings.ToggleableInterface ? showControls : true;
+                return !Settings.ToggleableInterface || showControls;
             }
 
             set {
@@ -33,7 +34,7 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         private static DesignatorSettings settings;
-        public static DesignatorSettings Settings => settings ?? (settings = LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>());
+        public static DesignatorSettings Settings => settings ??= LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>();
         public static Harmony HarmonyInstance { get; private set; }
 
         public override string SettingsCategory() => "Designator Shapes";
@@ -47,7 +48,7 @@ namespace Merthsoft.DesignatorShapes {
         private static int thickness = 1;
         public static int Thickness {
             get {
-                return Settings.RemoveThicknessFeature ? 1 : thickness;
+                return thickness;
             }
             private set {
                 thickness = value switch
@@ -58,6 +59,9 @@ namespace Merthsoft.DesignatorShapes {
                 };
             }
         }
+
+        private static Rect viewRect = Rect.zero;
+        private static Vector2 scrollPosition = Vector2.zero;
 
         public DesignatorShapes(ModContentPack content) : base(content) {
             if (GetSettings<DesignatorSettings>() == null) {
@@ -75,7 +79,10 @@ namespace Merthsoft.DesignatorShapes {
             LoadDefs();
 
             Listing_Standard ls = new Listing_Standard();
+
             ls.Begin(inRect);
+            var scrollRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 150);
+            ls.BeginScrollView(scrollRect, ref scrollPosition, ref viewRect);
 
             var maxBuffer = Settings.FloodFillCellLimit.ToString();
             ls.TextFieldNumericLabeled<int>("Maximum cells to select in flood fill", ref Settings.FloodFillCellLimit, ref maxBuffer);
@@ -93,58 +100,100 @@ namespace Merthsoft.DesignatorShapes {
             ls.Label("Window Y:");
             buffer = Settings.WindowY.ToString();
             ls.IntEntry(ref Settings.WindowY, ref buffer);
-
+            ls.GapLine();
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
-            if (Settings.ToggleableInterface) {
-                ls.CheckboxLabeled("\tAllow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
-            }
-            ls.CheckboxLabeled("Remove thickness feature.", ref Settings.RemoveThicknessFeature);
-            ls.CheckboxLabeled("Disable shape rotation.", ref Settings.DisableRotation);
-
+            ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFill);
             ls.GapLine();
-
-            ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
-
-            if (Settings.UseOldUi) {
-                ls.CheckboxLabeled("Show shapes panel when designation is selected.", ref Settings.ShowShapesPanelOnDesignationSelection);
-                ls.CheckboxLabeled("Move shapes tab to end of list.", ref Settings.MoveDesignationTabToEndOfList);
+            ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
+            ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
+            ls.GapLine();
+            if (Settings.EnableKeyboardInput)
+            {
+                if (Settings.ToggleableInterface)
+                    ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
+                ls.Label("Key bindings:");
+                
+                for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
+                    DrawKeyInput(ls, keyIndex);
             }
 
+            ls.EndScrollView(ref viewRect);
             ls.End();
             Settings.Write();
 
-            resolveShapes();
+            ResolveShapes();
 
             ShapeControls.WindowRect = new Rect(Settings.WindowX, Settings.WindowY, ShapeControls.Width, ShapeControls.Height);
+        }
+
+        private void DrawKeyInput(Listing_Standard ls, int keyIndex)
+        {
+            var keyLabel = DesignatorSettings.KeyLabels[keyIndex];
+            var buttonLabel = Settings.Keys[keyIndex].ToStringReadable();
+            if (ls.ButtonTextLabeled(keyLabel, buttonLabel))
+                SettingButtonClicked(keyIndex);
+        }
+
+        private void SettingButtonClicked(int keyIndex)
+        {
+            if (Event.current.button == 0)
+            {
+                Find.WindowStack.Add(new KeyBinding(keyIndex));
+                Event.current.Use();
+                return;
+            }
+            if (Event.current.button == 1)
+            {
+                List<FloatMenuOption> list = new()
+                {
+                    new FloatMenuOption("ResetBinding".Translate(), delegate ()
+                    {
+                        Settings.Keys[keyIndex] = DesignatorSettings.DefaultKeys[keyIndex];
+                    }, MenuOptionPriority.Default, null, null, 0f, null, null),
+                    new FloatMenuOption("ClearBinding".Translate(), delegate ()
+                    {
+                        Settings.Keys[keyIndex] = KeyCode.None;
+                    }, MenuOptionPriority.Default, null, null, 0f, null, null)
+                };
+                Find.WindowStack.Add(new FloatMenu(list));
+            }
         }
 
         public static void LoadDefs() {
             if (!defsLoaded) {
                 defsLoaded = true;
                 shapeCategoryDef = DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
-                resolveShapes();
+                ResolveShapes();
                 ShapeControls = new ShapeControls(Settings.WindowX, Settings.WindowY);
             }
 
             var archWindow = MainButtonDefOf.Architect.TabWindow;
-            if (!Settings.UseOldUi) {
-                typeof(DefDatabase<DesignationCategoryDef>).InvokeStaticMethod("Remove", shapeCategoryDef);
-            } else {
-                if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef)) {
-                    DefDatabase<DesignationCategoryDef>.Add(shapeCategoryDef);
-                }
-                if (Settings.MoveDesignationTabToEndOfList) {
-                    shapeCategoryDef.order = 1;
-                }
+
+            if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef)) {
+                DefDatabase<DesignationCategoryDef>.Add(shapeCategoryDef);
+            }
+            if (Settings.MoveDesignationTabToEndOfList) {
+                shapeCategoryDef.order = 1;
             }
 
             archWindow.InvokeMethod("CacheDesPanels");
+
+            DesignatorSettings.DefaultKeys = new(new[]
+            {
+                KeyBindingDefOf.Designator_RotateLeft.MainKey,
+                KeyBindingDefOf.Designator_RotateRight.MainKey,
+                KeyBindingDefOf.Command_ItemForbid.MainKey,
+                KeyCode.Equals,
+                KeyCode.Minus,
+            });
+
+            if (Settings.Keys.Count == 0)
+                Settings.Keys = new(DesignatorSettings.DefaultKeys);
         }
 
-        private static void resolveShapes() {
+        private static void ResolveShapes() {
             var shapes = Defs.DesignationCategoryDefOf.Shapes;
             var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
 
@@ -209,7 +258,6 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static void IncreaseThickness() {
-            if (Settings.RemoveThicknessFeature) { return; }
             if (Thickness == -2) { // If we're coming from -2,
                 Thickness = 1;     // skip straight to 1, because -1 and 0 are meaningless thicknesses
             } else {
@@ -219,7 +267,6 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static void DecreaseThickness() {
-            if (Settings.RemoveThicknessFeature) { return; }
             if (Thickness == 1) { // If we're coming from 1,
                 Thickness = -2;   // skip straight to -2, because -1 and 0 are meaningless thicknesses
             } else {
@@ -235,6 +282,9 @@ namespace Merthsoft.DesignatorShapes {
             }
             CurrentTool = def;
             Rotation = 0;
+
+            if (def.pauseOnSelection && Settings.PauseOnFloodFill)
+                Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
         }
     }
 }
