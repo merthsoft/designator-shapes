@@ -205,16 +205,14 @@ namespace Merthsoft.DesignatorShapes
         private Action GetAction(OverlayGroupDef g)
         {
             if (g.NumShapes == 1)
-                return() => DesignatorShapes.SelectTool(g.FirstShape);
-            else if (DesignatorShapes.Settings.UseSubMenus)
-                return() =>
-                {
-                    previousGroups.Push(SelectedGroup);
-                    SelectedGroup = g;
-                };
-            else
-                return() => Find.WindowStack.Add(new FloatMenu(g.Shapes.SelectList(s =>
-                    new FloatMenuOption(s.LabelCap, s.Select))));
+                return () => DesignatorShapes.SelectTool(g.FirstShape);
+            if (DesignatorShapes.Settings.UseSubMenus)
+                return () =>
+                 {
+                     previousGroups.Push(SelectedGroup);
+                     SelectedGroup = g;
+                 };
+            return () => Find.WindowStack.Add(new FloatMenu(g.Shapes.SelectList(s => new FloatMenuOption(s.LabelCap, s.Select))));
         }
     }
 }
