@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Shapes {
-    class StampShapes {
+namespace Merthsoft.DesignatorShapes.Shapes
+{
+    internal class StampShapes
+    {
         public static IEnumerable<IntVec3> SunLamp(IntVec3 vert1, IntVec3 vert2) =>
             Primitives.GenRadialCircle(vert1, DesignatorShapes.SunLampRadius, true);
 

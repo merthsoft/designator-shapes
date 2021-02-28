@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Shapes {
-    public static class SizeInputShapes {
+namespace Merthsoft.DesignatorShapes.Shapes
+{
+    public static class SizeInputShapes
+    {
         public static IEnumerable<IntVec3> Rectangle(IntVec3 center, IntVec3 size) =>
             BasicShapes.Rectangle(center - size.FloorHalve(), center + size.CeilingHalve());
 

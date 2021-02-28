@@ -1,10 +1,10 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes {
+namespace Merthsoft.DesignatorShapes
+{
     public class DesignatorSettings : ModSettings
     {
         public static int RotateLeftKeyIndex = 0;
@@ -47,7 +47,8 @@ namespace Merthsoft.DesignatorShapes {
         [Obsolete] public bool UseOldUi = false;
         [Obsolete] public bool RemoveThicknessFeature = false;
 
-        public override void ExposeData() {
+        public override void ExposeData()
+        {
             base.ExposeData();
 
             Scribe_Values.Look(ref RestoreAltToggle, nameof(RestoreAltToggle), false);

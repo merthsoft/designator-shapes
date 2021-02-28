@@ -1,18 +1,23 @@
 ﻿using System;
+using UnityEngine;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Designators {
-    public class Redo : Designator {
-        public Redo() {
+namespace Merthsoft.DesignatorShapes.Designators
+{
+    public class Redo : Designator
+    {
+        public Redo()
+        {
             defaultLabel = "redo";
-            defaultDesc = "Redo";
+            defaultDesc = nameof(Redo);
             icon = Icons.Redo;
             useMouseIcon = true;
         }
 
-        public override AcceptanceReport CanDesignateCell(IntVec3 loc) => new AcceptanceReport("Cannot designate this.");
+        public override AcceptanceReport CanDesignateCell(IntVec3 loc) => new("Cannot designate this.");
 
-        public override void ProcessInput(UnityEngine.Event ev) {
+        public override void ProcessInput(Event ev)
+        {
             HistoryManager.Redo();
             ev.Use();
         }

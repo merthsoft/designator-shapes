@@ -5,43 +5,50 @@ using System.Reflection;
 using UnityEngine;
 using Verse;
 
-namespace Merthsoft {
-    public static class Extensions {
+namespace Merthsoft
+{
+    public static class Extensions
+    {
         private static readonly BindingFlags FieldFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetField | BindingFlags.GetProperty;
 
-        public static object GetInstanceField(this object instance, string fieldName) {
+        public static object GetInstanceField(this object instance, string fieldName)
+        {
             var type = instance.GetType();
             var field = type.GetField(fieldName, FieldFlags);
-            return field.GetValue(instance); 
+            return field.GetValue(instance);
         }
 
-        public static T GetInstanceField<T>(this object instance, string fieldName) where T : class {
+        public static T GetInstanceField<T>(this object instance, string fieldName) where T : class
+        {
             var type = instance.GetType();
             var field = type.GetField(fieldName, FieldFlags);
             return field.GetValue(instance) as T;
         }
 
-        public static void SetInstanceField<T>(this object instance, string fieldName, T value) {
+        public static void SetInstanceField<T>(this object instance, string fieldName, T value)
+        {
             var type = instance.GetType();
             var field = type.GetField(fieldName, FieldFlags);
             field.SetValue(instance, value);
         }
 
 
-        public static void InvokeStaticMethod(this Type type, string methodName, params object[] methodParams) {
-            MethodInfo dynMethod = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+        public static void InvokeStaticMethod(this Type type, string methodName, params object[] methodParams)
+        {
+            var dynMethod = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
             dynMethod.Invoke(null, methodParams);
         }
 
-        public static void InvokeMethod(this object obj, string methodName, params object[] methodParams) {
-            MethodInfo dynMethod = obj.GetType().GetMethod(methodName, FieldFlags);
+        public static void InvokeMethod(this object obj, string methodName, params object[] methodParams)
+        {
+            var dynMethod = obj.GetType().GetMethod(methodName, FieldFlags);
             dynMethod.Invoke(obj, methodParams);
         }
-        
-        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action) {
-            foreach (T t in list) {
+
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
+        {
+            foreach (var t in list)
                 action(t);
-            }
         }
 
         public static List<TResult> SelectList<T, TResult>(this IEnumerable<T> i, Func<T, TResult> f) => i.Select(f).ToList();
@@ -52,13 +59,16 @@ namespace Merthsoft {
 
         public static int CeilingHalve(this int i) => (int)Math.Ceiling(i / 2d);
 
-        public static IEnumerable<int> Range(this int count, int startValue = 0, int? by = null) {
-            if (!by.HasValue) {
+        public static IEnumerable<int> Range(this int count, int startValue = 0, int? by = null)
+        {
+            if (!by.HasValue)
+            {
                 by = count.Sign();
                 count = count.Magnitude();
             }
 
-            for (int i = 0; i < count; i++) {
+            for (var i = 0; i < count; i++)
+            {
                 yield return startValue;
                 startValue += by.Value;
             }

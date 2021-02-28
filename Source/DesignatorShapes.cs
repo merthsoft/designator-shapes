@@ -1,40 +1,45 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Designators;
 using Merthsoft.DesignatorShapes.Dialogs;
 using RimWorld;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes {
-
+namespace Merthsoft.DesignatorShapes
+{
     [StaticConstructorOnStartup]
-    public class DesignatorShapes : Mod {
+    public class DesignatorShapes : Mod
+    {
         private static bool defsLoaded = false;
         private static DesignationCategoryDef shapeCategoryDef;
 
         public static DesignatorShapeDef CurrentTool { get; set; }
+
         public static DesignatorShapeDef CachedTool { get; set; }
+
         public static int Rotation { get; internal set; }
 
         private static bool showControls = true;
-        public static bool ShowControls {
-            get {
-                return !Settings.ToggleableInterface || showControls;
-            }
 
-            set {
-                if (Settings.ToggleableInterface) {
+        public static bool ShowControls
+        {
+            get => !Settings.ToggleableInterface || showControls;
+
+            set
+            {
+                if (Settings.ToggleableInterface)
                     showControls = value;
-                }
             }
         }
 
         private static DesignatorSettings settings;
+
         public static DesignatorSettings Settings => settings ??= LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>();
+
         public static Harmony HarmonyInstance { get; private set; }
 
         public override string SettingsCategory() => "Designator Shapes";
@@ -46,39 +51,34 @@ namespace Merthsoft.DesignatorShapes {
         public static bool FillCorners = true;
 
         private static int thickness = 1;
-        public static int Thickness {
-            get {
-                return thickness;
-            }
-            private set {
-                thickness = value switch
-                {
-                    var v when v < -50 => 50,
-                    var v when v > 50 => 50,
-                    _ => value,
-                };
-            }
+
+        public static int Thickness
+        {
+            get => thickness;
+            private set => thickness = value switch { var v when v < -50 => 50, var v when v > 50 => 50, _ => value, };
         }
 
         private static Rect viewRect = Rect.zero;
         private static Vector2 scrollPosition = Vector2.zero;
 
-        public DesignatorShapes(ModContentPack content) : base(content) {
-            if (GetSettings<DesignatorSettings>() == null) {
+        public DesignatorShapes(ModContentPack content) : base(content)
+        {
+            if (GetSettings<DesignatorSettings>() == null)
                 Log.Error("Unable to load DesignatorSettings.");
-            }
         }
 
-        static DesignatorShapes() {
+        static DesignatorShapes()
+        {
             HarmonyInstance = new Harmony("Merthsoft.DesignatorShapes");
             HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
             Rotation = 0;
         }
 
-        public override void DoSettingsWindowContents(Rect inRect) {
+        public override void DoSettingsWindowContents(Rect inRect)
+        {
             LoadDefs();
 
-            Listing_Standard ls = new Listing_Standard();
+            var ls = new Listing_Standard();
 
             ls.Begin(inRect);
             var scrollRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 150);
@@ -104,7 +104,7 @@ namespace Merthsoft.DesignatorShapes {
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            //ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFill);
+            // ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFill);
             ls.GapLine();
             ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
             ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
@@ -114,7 +114,7 @@ namespace Merthsoft.DesignatorShapes {
                 if (Settings.ToggleableInterface)
                     ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
                 ls.Label("Key bindings:");
-                
+
                 for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
                     DrawKeyInput(ls, keyIndex);
             }
@@ -148,21 +148,23 @@ namespace Merthsoft.DesignatorShapes {
             {
                 List<FloatMenuOption> list = new()
                 {
-                    new FloatMenuOption("ResetBinding".Translate(), delegate ()
-                    {
-                        Settings.Keys[keyIndex] = DesignatorSettings.DefaultKeys[keyIndex];
-                    }, MenuOptionPriority.Default, null, null, 0f, null, null),
-                    new FloatMenuOption("ClearBinding".Translate(), delegate ()
-                    {
-                        Settings.Keys[keyIndex] = KeyCode.None;
-                    }, MenuOptionPriority.Default, null, null, 0f, null, null)
+                    new FloatMenuOption("ResetBinding".Translate(), delegate()
+                {
+                    Settings.Keys[keyIndex] = DesignatorSettings.DefaultKeys[keyIndex];
+                }, MenuOptionPriority.Default, null, null, 0f, null, null),
+                    new FloatMenuOption("ClearBinding".Translate(), delegate()
+                {
+                    Settings.Keys[keyIndex] = KeyCode.None;
+                }, MenuOptionPriority.Default, null, null, 0f, null, null)
                 };
                 Find.WindowStack.Add(new FloatMenu(list));
             }
         }
 
-        public static void LoadDefs() {
-            if (!defsLoaded) {
+        public static void LoadDefs()
+        {
+            if (!defsLoaded)
+            {
                 defsLoaded = true;
                 shapeCategoryDef = DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
                 ResolveShapes();
@@ -183,21 +185,20 @@ namespace Merthsoft.DesignatorShapes {
 
             var archWindow = MainButtonDefOf.Architect.TabWindow;
 
-            if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef)) {
+            if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef))
                 DefDatabase<DesignationCategoryDef>.Add(shapeCategoryDef);
-            }
-            if (Settings.MoveDesignationTabToEndOfList) {
+            if (Settings.MoveDesignationTabToEndOfList)
                 shapeCategoryDef.order = 1;
-            }
 
             archWindow.InvokeMethod("CacheDesPanels");
         }
 
-        private static void ResolveShapes() {
+        private static void ResolveShapes()
+        {
             var shapes = Defs.DesignationCategoryDefOf.Shapes;
             var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
 
-            var numShapeDefs = shapeDefs.Count;
+            _ = shapeDefs.Count;
 
             shapes.ResolveReferences();
 
@@ -208,25 +209,28 @@ namespace Merthsoft.DesignatorShapes {
 
             var groups = DefDatabase<OverlayGroupDef>.AllDefsListForReading;
             var groupCache = new Dictionary<string, OverlayGroupDef>();
-            groups.ForEach(g => {
-                if (!groupCache.ContainsKey(g.defName)) {
+            groups.ForEach(g =>
+            {
+                if (!groupCache.ContainsKey(g.defName))
+                {
                     groupCache[g.defName] = g;
                     g.ChildrenGroups?.Clear();
                 }
 
                 g.UiIcon = Icons.GetIcon(g.uiIconPath);
 
-                if (g.closeUiIconPath != null) {
+                if (g.closeUiIconPath != null)
                     g.CloseUiIcon = Icons.GetIcon(g.closeUiIconPath);
-                }
 
                 g.Shapes = shapeDefs.Where(s => s.overlayGroup == g.defName).ToList();
-                g.Shapes.ForEach(s => {
+                g.Shapes.ForEach(s =>
+                {
                     s.Group = g;
                     s.RootGroup = g?.ParentGroup ?? g;
                 });
 
-                if (g.parentGroupName != null) {
+                if (g.parentGroupName != null)
+                {
                     var parent = groupCache[g.parentGroupName];
                     g.ParentGroup = parent;
 
@@ -235,56 +239,57 @@ namespace Merthsoft.DesignatorShapes {
             });
 
             var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
-            if (sunlampDef != null) {
+            if (sunlampDef != null)
                 SunLampRadius = sunlampDef.specialDisplayRadius;
-            }
 
             var tradeRadiusInfo = AccessTools.Field(typeof(Building_OrbitalTradeBeacon), "TradeRadius");
-            if (tradeRadiusInfo != null) {
+            if (tradeRadiusInfo != null)
                 TradeBeaconRadius = (float)tradeRadiusInfo.GetValue(null);
-            }
         }
 
-        public static bool Rotate(int amount) {
-            if (CurrentTool.numRotations == 0) { return false; }
-
+        public static bool Rotate(int amount)
+        {
+            if (CurrentTool.numRotations == 0)
+                return false;
             Rotation += amount;
-            if (Rotation < 0) {
+            if (Rotation < 0)
                 Rotation = CurrentTool.numRotations + Rotation;
-            } else {
+            else
                 Rotation %= CurrentTool.numRotations;
-            }
             return true;
         }
 
-        public static void IncreaseThickness() {
-            if (Thickness == -2) { // If we're coming from -2,
+        public static void IncreaseThickness()
+        {
+            if (Thickness == -2)
+                // If we're coming from -2,
                 Thickness = 1;     // skip straight to 1, because -1 and 0 are meaningless thicknesses
-            } else {
+            else
                 Thickness++;
-            }
             Log.Message($"Thickness: {Thickness}");
         }
 
-        public static void DecreaseThickness() {
-            if (Thickness == 1) { // If we're coming from 1,
+        public static void DecreaseThickness()
+        {
+            if (Thickness == 1)
+                // If we're coming from 1,
                 Thickness = -2;   // skip straight to -2, because -1 and 0 are meaningless thicknesses
-            } else {
+            else
                 Thickness--;
-            }
             Log.Message($"Thickness: {Thickness}");
         }
 
-        internal static void SelectTool(DesignatorShapeDef def, bool announce = true) {
-            if (def != null) { CachedTool = def; }
-            if (announce && CurrentTool != def) {
+        internal static void SelectTool(DesignatorShapeDef def, bool announce = true)
+        {
+            if (def != null)
+                CachedTool = def;
+            if (announce && CurrentTool != def)
                 Messages.Message($"{def.LabelCap} designation shape selected.", MessageTypeDefOf.SilentInput);
-            }
             CurrentTool = def;
             Rotation = 0;
 
-            //if (def.pauseOnSelection && Settings.PauseOnFloodFill)
-            //    Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+            // if (def.pauseOnSelection && Settings.PauseOnFloodFill)
+            // Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
         }
     }
 }

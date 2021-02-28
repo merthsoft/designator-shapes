@@ -2,20 +2,22 @@
 using UnityEngine;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Patches {
+namespace Merthsoft.DesignatorShapes.Patches
+{
     [HarmonyPatch(typeof(DesignationDragger), "UpdateDragCellsIfNeeded")]
-    public static class DesignationDragger_UpdateDragCellsIfNeeded {
-        public static void Prefix(DesignationDragger __instance) {
-            if (!DesignatorShapes.ShowControls) { return; }
-
-            if (__instance == null) { return; }
-
-            if (Time.frameCount == (int)__instance.GetInstanceField<object>("lastUpdateFrame")) {
+    public static class DesignationDragger_UpdateDragCellsIfNeeded
+    {
+        public static void Prefix(DesignationDragger __instance)
+        {
+            if (!DesignatorShapes.ShowControls)
                 return;
-            }
+            if (__instance == null)
+                return;
+            if (Time.frameCount == (int)__instance.GetInstanceField<object>("lastUpdateFrame"))
+                return;
 
-            if (DesignatorShapes.CurrentTool == null) { return; }
-
+            if (DesignatorShapes.CurrentTool == null)
+                return;
             __instance.SetInstanceField("lastUpdateFrame", Time.frameCount);
             __instance.DragCells.Clear();
             __instance.SetInstanceField<string>("failureReasonInt", null);
@@ -25,8 +27,10 @@ namespace Merthsoft.DesignatorShapes.Patches {
 
             var points = DesignatorShapes.CurrentTool?.DrawMethod(start, sizeOrEnd);
 
-            foreach (var vec in points) {
-                if (vec == null) { continue; }
+            foreach (var vec in points)
+            {
+                if (vec == null)
+                    continue;
                 __instance.InvokeMethod("TryAddDragCell", vec);
             }
         }

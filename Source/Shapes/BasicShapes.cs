@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Shapes {
-    public static class BasicShapes {
+namespace Merthsoft.DesignatorShapes.Shapes
+{
+    public static class BasicShapes
+    {
         public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2) =>
             Primitives.Line(vert1, vert2, DesignatorShapes.Thickness);
 

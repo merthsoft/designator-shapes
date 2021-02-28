@@ -1,9 +1,11 @@
 ﻿using System;
 using RimWorld;
 
-namespace Merthsoft.DesignatorShapes.Defs {
+namespace Merthsoft.DesignatorShapes.Defs
+{
     [DefOf]
-    public static class DesignatorShapeDefOf {
+    public static class DesignatorShapeDefOf
+    {
         public static DesignatorShapeDef Line;
         public static DesignatorShapeDef Rectangle;
         public static DesignatorShapeDef RectangleFilled;
@@ -13,6 +15,6 @@ namespace Merthsoft.DesignatorShapes.Defs {
         public static DesignatorShapeDef HexagonFilled;
         public static DesignatorShapeDef Circle;
         public static DesignatorShapeDef CircleFilled;
-        //public static DesignatorShapeDef FloodFill;
+        // public static DesignatorShapeDef FloodFill;
     }
 }

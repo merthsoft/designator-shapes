@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Defs {
-    public class OverlayGroupDef : Def {
+namespace Merthsoft.DesignatorShapes.Defs
+{
+    public class OverlayGroupDef : Def
+    {
         public string uiIconPath;
         [Unsaved] public Texture2D UiIcon;
 
@@ -17,9 +18,10 @@ namespace Merthsoft.DesignatorShapes.Defs {
         [Unsaved] public OverlayGroupDef ParentGroup;
 
         [Unsaved] public List<DesignatorShapeDef> Shapes;
-        [Unsaved] public List<OverlayGroupDef> ChildrenGroups = new List<OverlayGroupDef>();
+        [Unsaved] public List<OverlayGroupDef> ChildrenGroups = new();
 
         public int NumShapes => Shapes?.Count ?? 0;
+
         public DesignatorShapeDef FirstShape => Shapes?.FirstOrDefault() ?? null;
     }
 }

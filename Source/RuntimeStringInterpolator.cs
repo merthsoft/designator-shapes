@@ -1,39 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
-namespace Merthsoft.DesignatorShapes {
-    public static class RuntimeStringInterpolator {
+namespace Merthsoft.DesignatorShapes
+{
+    public static class RuntimeStringInterpolator
+    {
         public const char INTERPOLATION_START = '{';
         public const char INTERPOLATION_END = '}';
         public const char FORMAT_SEPARATOR = ':';
 
-        private enum State { BuildingString, BuildingInterpolation, BuildingFormat }
+        private enum State
+        {
+            BuildingString,
+            BuildingInterpolation,
+            BuildingFormat
+        }
 
 
         [Serializable]
-        public class InterpolationException : Exception {
-            public InterpolationException() { }
-            public InterpolationException(string message) : base(message) { }
-            public InterpolationException(string message, Exception inner) : base(message, inner) { }
+        public class InterpolationException : Exception
+        {
+            public InterpolationException()
+            {
+            }
+            public InterpolationException(string message) : base(message)
+            {
+            }
+            public InterpolationException(string message, Exception inner) : base(message, inner)
+            {
+            }
             protected InterpolationException(
-              System.Runtime.Serialization.SerializationInfo info,
-              System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+              SerializationInfo info,
+              StreamingContext context) : base(info, context)
+            {
+            }
         }
 
-        public static string Interpolate(this string s, Dictionary<string, object> args) {
+        public static string Interpolate(this string s, Dictionary<string, object> args)
+        {
             var builder = new StringBuilder(s.Length + args.Count() * 8);
 
             var formatBuffer = new StringBuilder();
             var interpolationBuffer = new StringBuilder();
 
-            State state = State.BuildingString;
-            foreach (var c in s) {
-                switch (state) {
+            var state = State.BuildingString;
+            foreach (var c in s)
+                switch (state)
+                {
                     case State.BuildingString:
-                        switch (c) {
+                        switch (c)
+                        {
                             case INTERPOLATION_START:
                                 state = State.BuildingInterpolation;
                                 break;
@@ -43,7 +62,8 @@ namespace Merthsoft.DesignatorShapes {
                         }
                         break;
                     case State.BuildingInterpolation:
-                        switch (c) {
+                        switch (c)
+                        {
                             case FORMAT_SEPARATOR:
                                 state = State.BuildingFormat;
                                 break;
@@ -63,7 +83,8 @@ namespace Merthsoft.DesignatorShapes {
                         }
                         break;
                     case State.BuildingFormat:
-                        switch (c) {
+                        switch (c)
+                        {
                             case INTERPOLATION_END:
                                 var key = interpolationBuffer.ToString();
                                 var obj = args[key];
@@ -81,7 +102,6 @@ namespace Merthsoft.DesignatorShapes {
                         }
                         break;
                 }
-            }
 
             return builder.ToString();
         }

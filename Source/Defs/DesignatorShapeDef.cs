@@ -6,7 +6,8 @@ using Verse;
 
 namespace Merthsoft.DesignatorShapes.Defs
 {
-    public class DesignatorShapeDef : BuildableDef {
+    public class DesignatorShapeDef : BuildableDef
+    {
         public string drawMethodName;
         public bool draggable = true;
         public int numRotations = 0;
@@ -23,41 +24,37 @@ namespace Merthsoft.DesignatorShapes.Defs
 
         [Unsaved]
         private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> drawMethodCached;
+
         public Func<IntVec3, IntVec3, IEnumerable<IntVec3>> DrawMethod
             => drawMethodCached ??= GenerateDrawMethod();
 
-        private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> GenerateDrawMethod() {
+        private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> GenerateDrawMethod()
+        {
             var splitName = drawMethodName.Split('.');
             var methodName = splitName[splitName.Length - 1];
             var typeName = string.Join(".", splitName.ToList().Take(splitName.Length - 1).ToArray());
 
-            var type = this.GetType().Assembly.GetType(typeName);
-            if (type == null) {
+            var type = GetType().Assembly.GetType(typeName);
+            if (type == null)
                 throw new Exception($"Could not load type {typeName}");
-            }
 
             var method = type.GetMethod(methodName, new Type[] { typeof(IntVec3), typeof(IntVec3) });
-            if (method == null) {
+            if (method == null)
                 throw new Exception($"Could not find {methodName}(IntVec3, IntVec3) in {typeName}");
-            }
 
-            if (!(method.ReturnType == typeof(IEnumerable<IntVec3>))) {
+            if (!(method.ReturnType == typeof(IEnumerable<IntVec3>)))
                 throw new Exception($"Return type for {methodName} is not IEnumerable<IntVec3>");
-            }
 
-            return (arg1, arg2) => method.Invoke(null, new object[] { arg1, arg2 }) as IEnumerable<IntVec3>;
+            return(arg1, arg2) => method.Invoke(null, new object[] { arg1, arg2 }) as IEnumerable<IntVec3>;
         }
 
-        public override void ResolveReferences() {
+        public override void ResolveReferences()
+        {
             base.ResolveReferences();
 
-            LongEventHandler.ExecuteWhenFinished(() => {
-                selectedUiIcon = Icons.GetIcon(selectedUiIconPath);
-            });
+            LongEventHandler.ExecuteWhenFinished(() => selectedUiIcon = Icons.GetIcon(selectedUiIconPath));
         }
 
-        public void Select() {
-            DesignatorShapes.SelectTool(this);
-        }
+        public void Select() => DesignatorShapes.SelectTool(this);
     }
 }

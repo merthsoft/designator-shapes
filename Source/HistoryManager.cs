@@ -4,14 +4,17 @@ using System.Linq;
 using RimWorld;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes {
-    public class HistoryManager {
-        public class Entry {
+namespace Merthsoft.DesignatorShapes
+{
+    public class HistoryManager
+    {
+        public class Entry
+        {
             public List<Designation> Designations = new();
             public List<Blueprint> Blueprints = new();
         }
 
-        static readonly Dictionary<Map, HistoryManager> Histories = new();
+        private static readonly Dictionary<Map, HistoryManager> Histories = new();
 
         private readonly DesignationManager DesignationManager;
         private bool Building = false;
@@ -23,55 +26,51 @@ namespace Merthsoft.DesignatorShapes {
         public HistoryManager(DesignationManager designationManager)
             => DesignationManager = designationManager;
 
-        public static void Clear() {
-            GetManager()?.InternalClear();
-        }
+        public static void Clear() => GetManager()?.InternalClear();
 
-        private void InternalClear() {
+        private void InternalClear()
+        {
             UndoStack.Clear();
             RedoStack.Clear();
         }
 
-        public static void AddEntry(Designation des) {
-            AddEntry(des, null);
-        }
+        public static void AddEntry(Designation des) => AddEntry(des, null);
 
-        public static void AddEntry(Blueprint bp) {
-            AddEntry(null, bp);
-        }
+        public static void AddEntry(Blueprint bp) => AddEntry(null, bp);
 
-        public static void AddEntry(Designation des, Blueprint bp) {
-            if (InRedo) { return; }
+        public static void AddEntry(Designation des, Blueprint bp)
+        {
+            if (InRedo)
+                return;
             GetManager()?.InteralAddEntry(des, bp);
         }
 
-        private void InteralAddEntry(Designation des, Blueprint bp) {
-            if (!Find.TickManager.Paused) { return; }
-
-            if (!Building) {
+        private void InteralAddEntry(Designation des, Blueprint bp)
+        {
+            if (!Find.TickManager.Paused)
+                return;
+            if (!Building)
                 StartBuilding();
-            }
-            if (UndoStack.Count == 0) {
+            if (UndoStack.Count == 0)
+            {
                 Log.Message("Somehow the undo stack is empty even though we've started building...");
                 return;
             }
 
-            if (des != null) {
+            if (des != null)
                 UndoStack.Peek().Designations.Add(des);
-            }
-            if (bp != null) {
+            if (bp != null)
                 UndoStack.Peek().Blueprints.Add(bp);
-            }
         }
 
-        public static void StartBuilding() {
-            GetManager().InteralStartBuilding();
-        }
+        public static void StartBuilding() => GetManager().InteralStartBuilding();
 
-        private void InteralStartBuilding() {
-            if (!Find.TickManager.Paused) { return; }
-            if (Building) { return; }
-
+        private void InteralStartBuilding()
+        {
+            if (!Find.TickManager.Paused)
+                return;
+            if (Building)
+                return;
             RedoStack.Clear();
             UndoStack.Push(new Entry());
             Building = true;
@@ -90,44 +89,45 @@ namespace Merthsoft.DesignatorShapes {
             => GetManager().InternalUndo();
 
         public static bool CanUndo => GetManager().UndoStack.Any();
+
         public static bool CanRedo => GetManager().RedoStack.Any();
 
-        private static HistoryManager GetManager() {
+        private static HistoryManager GetManager()
+        {
             var map = Find.CurrentMap;
-            if (map == null) { return null; }
-            if (!Histories.ContainsKey(map)) {
+            if (map == null)
+                return null;
+            if (!Histories.ContainsKey(map))
                 Histories[map] = new HistoryManager(map.designationManager);
-            }
 
             return Histories[map];
         }
 
-        private void InternalUndo() {
-            if (UndoStack.Count == 0) { return; }
+        private void InternalUndo()
+        {
+            if (UndoStack.Count == 0)
+                return;
             var entry = UndoStack.Pop();
-            foreach (var designation in entry.Designations) {
+            foreach (var designation in entry.Designations)
                 designation.Delete();
-            }
-            foreach (var blueprint in entry.Blueprints) {
-                if (blueprint.Spawned) {
+            foreach (var blueprint in entry.Blueprints)
+                if (blueprint.Spawned)
                     blueprint.DeSpawn();
-                }
-            }
             RedoStack.Push(entry);
         }
 
-        private void InteralRedo() {
-            if (RedoStack.Count == 0) { return; }
-
+        private void InteralRedo()
+        {
+            if (RedoStack.Count == 0)
+                return;
             var entry = RedoStack.Pop();
             InRedo = true;
-            foreach (var des in entry.Designations) {
+            foreach (var des in entry.Designations)
                 DesignationManager.AddDesignation(des);
-            }
             var map = Find.CurrentMap;
             var generatedBlueprints = new List<Blueprint>();
-            foreach (var blueprint in entry.Blueprints) {
-                if (!blueprint.Spawned) {
+            foreach (var blueprint in entry.Blueprints)
+                if (!blueprint.Spawned)
                     if (blueprint is Blueprint_Build build)
                     {
                         var blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(build.def);
@@ -136,8 +136,6 @@ namespace Merthsoft.DesignatorShapes {
                         GenSpawn.Spawn(blueprint_Build, build.Position, map, build.Rotation);
                         generatedBlueprints.Add(blueprint_Build);
                     }
-                }
-            }
             entry.Blueprints = generatedBlueprints;
             InRedo = false;
             UndoStack.Push(entry);

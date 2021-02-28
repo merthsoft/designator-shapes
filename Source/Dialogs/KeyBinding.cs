@@ -3,9 +3,10 @@ using Verse;
 
 namespace Merthsoft.DesignatorShapes.Dialogs
 {
-    class KeyBinding : Window
+    internal class KeyBinding : Window
     {
         protected Vector2 windowSize = new(400f, 200f);
+
         public override Vector2 InitialSize => windowSize;
 
         protected int KeyIndex { get; }
