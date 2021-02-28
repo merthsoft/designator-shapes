@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -26,7 +25,6 @@ namespace Merthsoft.DesignatorShapes
 
         public bool RestoreAltToggle = false;
         public bool ToggleableInterface = false;
-        public bool MoveDesignationTabToEndOfList = false;
         public int FloodFillCellLimit = 1500;
         public bool UseSubMenus = true;
         public bool AutoSelectShape = false;
@@ -36,16 +34,9 @@ namespace Merthsoft.DesignatorShapes
         public int WindowX = -1;
         public int WindowY = -1;
 
-        public bool PauseOnFloodFill = true;
+        public bool DisablePauseOnFloodFillSelect = true;
         public bool EnableKeyboardInput = true;
         public List<KeyCode> Keys = new();
-
-
-        [Obsolete] public bool DisableRotation = false;
-        [Obsolete] public bool ShowShapesPanelOnDesignationSelection = true;
-        [Obsolete] public bool ShowUndoAndRedoButtons = false;
-        [Obsolete] public bool UseOldUi = false;
-        [Obsolete] public bool RemoveThicknessFeature = false;
 
         public override void ExposeData()
         {
@@ -53,7 +44,6 @@ namespace Merthsoft.DesignatorShapes
 
             Scribe_Values.Look(ref RestoreAltToggle, nameof(RestoreAltToggle), false);
             Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), false);
-            Scribe_Values.Look(ref MoveDesignationTabToEndOfList, nameof(MoveDesignationTabToEndOfList), false);
             Scribe_Values.Look(ref FloodFillCellLimit, nameof(FloodFillCellLimit), 1500);
             Scribe_Values.Look(ref UseSubMenus, nameof(UseSubMenus), true);
             Scribe_Values.Look(ref AutoSelectShape, nameof(AutoSelectShape), false);
@@ -62,7 +52,7 @@ namespace Merthsoft.DesignatorShapes
             Scribe_Values.Look(ref IconSize, nameof(IconSize), 40);
             Scribe_Values.Look(ref WindowX, nameof(WindowX), -1);
             Scribe_Values.Look(ref WindowY, nameof(WindowY), -1);
-            Scribe_Values.Look(ref PauseOnFloodFill, nameof(PauseOnFloodFill), true);
+            Scribe_Values.Look(ref DisablePauseOnFloodFillSelect, nameof(DisablePauseOnFloodFillSelect), true);
             Scribe_Values.Look(ref EnableKeyboardInput, nameof(EnableKeyboardInput), true);
             Scribe_Collections.Look(ref Keys, nameof(Keys), LookMode.Value);
 

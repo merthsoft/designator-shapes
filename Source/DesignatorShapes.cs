@@ -60,6 +60,7 @@ namespace Merthsoft.DesignatorShapes
 
         private static Rect viewRect = Rect.zero;
         private static Vector2 scrollPosition = Vector2.zero;
+        private static bool showDrawSettings = false;
 
         public DesignatorShapes(ModContentPack content) : base(content)
         {
@@ -87,24 +88,28 @@ namespace Merthsoft.DesignatorShapes
             var maxBuffer = Settings.FloodFillCellLimit.ToString();
             ls.TextFieldNumericLabeled("Maximum cells to select in flood fill", ref Settings.FloodFillCellLimit, ref maxBuffer);
 
-            ls.CheckboxLabeled("Draw background", ref Settings.DrawBackground);
-            ls.Label($"Icon size: {Settings.IconSize}");
-            Settings.IconSize = (int)ls.Slider(Settings.IconSize, 20, 80);
+            ls.CheckboxLabeled("Show draw settings", ref showDrawSettings);
+            if (showDrawSettings)
+            {
+                ls.CheckboxLabeled("Draw background", ref Settings.DrawBackground);
+                ls.Label($"Icon size: {Settings.IconSize}");
+                Settings.IconSize = (int)ls.Slider(Settings.IconSize, 20, 80);
 
-            ls.Label("Window position, set to -1, -1 to use default location.");
+                ls.Label("Window position, set to -1, -1 to use default location.");
 
-            ls.Label("Window X:");
-            var buffer = Settings.WindowX.ToString();
-            ls.IntEntry(ref Settings.WindowX, ref buffer);
+                ls.Label("Window X:");
+                var buffer = Settings.WindowX.ToString();
+                ls.IntEntry(ref Settings.WindowX, ref buffer);
 
-            ls.Label("Window Y:");
-            buffer = Settings.WindowY.ToString();
-            ls.IntEntry(ref Settings.WindowY, ref buffer);
+                ls.Label("Window Y:");
+                buffer = Settings.WindowY.ToString();
+                ls.IntEntry(ref Settings.WindowY, ref buffer);
+            }
             ls.GapLine();
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            // ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFill);
+            ls.CheckboxLabeled("Disable pause on flood fill selected.", ref Settings.DisablePauseOnFloodFillSelect);
             ls.GapLine();
             ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
             ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
@@ -187,8 +192,6 @@ namespace Merthsoft.DesignatorShapes
 
             if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef))
                 DefDatabase<DesignationCategoryDef>.Add(shapeCategoryDef);
-            if (Settings.MoveDesignationTabToEndOfList)
-                shapeCategoryDef.order = 1;
 
             archWindow.InvokeMethod("CacheDesPanels");
         }
@@ -288,8 +291,8 @@ namespace Merthsoft.DesignatorShapes
             CurrentTool = def;
             Rotation = 0;
 
-            // if (def.pauseOnSelection && Settings.PauseOnFloodFill)
-            // Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+            if (def.pauseOnSelection && !Settings.DisablePauseOnFloodFillSelect)
+                Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
         }
     }
 }
