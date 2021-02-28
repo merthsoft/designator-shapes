@@ -15,6 +15,7 @@ namespace Merthsoft.DesignatorShapes
     public class DesignatorShapes : Mod
     {
         private static bool defsLoaded = false;
+        private static DesignationCategoryDef shapeCategoryDef;
 
         public static DesignatorShapeDef CurrentTool { get; set; }
 
@@ -113,6 +114,23 @@ namespace Merthsoft.DesignatorShapes
             ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
             ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
             ls.GapLine();
+
+            ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
+            {
+
+                if (Settings.ToggleableInterface)
+                    if (Settings.UseOldUi)
+                    {
+                        ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
+                        ls.CheckboxLabeled("Show shapes panel when designation is selected.", ref Settings.ShowShapesPanelOnDesignationSelection);
+                        ls.Label("Key bindings:");
+                        ls.CheckboxLabeled("Move shapes tab to end of list.", ref Settings.MoveDesignationTabToEndOfList);
+
+                        for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
+                            DrawKeyInput(ls, keyIndex);
+                    }
+            }
+
             if (Settings.EnableKeyboardInput)
             {
                 if (Settings.ToggleableInterface)
@@ -150,14 +168,14 @@ namespace Merthsoft.DesignatorShapes
             {
                 List<FloatMenuOption> list = new()
                 {
-                    new FloatMenuOption("ResetBinding".Translate(), delegate()
-                {
-                    Settings.Keys[keyIndex] = DesignatorSettings.DefaultKeys[keyIndex];
-                }, MenuOptionPriority.Default, null, null, 0f, null, null),
-                    new FloatMenuOption("ClearBinding".Translate(), delegate()
-                {
-                    Settings.Keys[keyIndex] = KeyCode.None;
-                }, MenuOptionPriority.Default, null, null, 0f, null, null)
+                    new FloatMenuOption("ResetBinding".Translate(), delegate ()
+                    {
+                        Settings.Keys[keyIndex] = DesignatorSettings.DefaultKeys[keyIndex];
+                    }, MenuOptionPriority.Default, null, null, 0f, null, null),
+                    new FloatMenuOption("ClearBinding".Translate(), delegate ()
+                    {
+                        Settings.Keys[keyIndex] = KeyCode.None;
+                    }, MenuOptionPriority.Default, null, null, 0f, null, null)
                 };
                 Find.WindowStack.Add(new FloatMenu(list));
             }
@@ -167,6 +185,7 @@ namespace Merthsoft.DesignatorShapes
         {
             if (!defsLoaded)
             {
+                shapeCategoryDef = DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
                 defsLoaded = true;
                 ResolveShapes();
                 ShapeControls = new ShapeControls(Settings?.WindowX ?? 0, Settings?.WindowY ?? 0, Settings?.IconSize ?? 40);
@@ -183,6 +202,25 @@ namespace Merthsoft.DesignatorShapes
                 if (Settings.Keys == null || Settings.Keys?.Count == 0)
                     Settings.Keys = new(DesignatorSettings.DefaultKeys);
             }
+
+            var archWindow = MainButtonDefOf.Architect.TabWindow;
+            if (!Settings.UseOldUi)
+            {
+                typeof(DefDatabase<DesignationCategoryDef>).InvokeStaticMethod("Remove", shapeCategoryDef);
+            }
+            else
+            {
+                if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef))
+                {
+                    DefDatabase<DesignationCategoryDef>.Add(shapeCategoryDef);
+                }
+                if (Settings.MoveDesignationTabToEndOfList)
+                {
+                    shapeCategoryDef.order = 1;
+                }
+            }
+
+            archWindow.InvokeMethod("CacheDesPanels");
         }
 
         private static void ResolveShapes()

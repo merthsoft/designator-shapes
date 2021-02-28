@@ -52,6 +52,7 @@
     <Compile Include="HistoryComponent.cs" />
     <Compile Include="Icons.cs" />
     <Compile Include="Patches\Designator_Finalize.cs" />
+    <Compile Include="Patches\GameFinalize_Init.cs" />
     <Compile Include="Patches\GenConstruct_Patches.cs" />
     <Compile Include="Patches\MapInterface_MapInterfaceOnGUI_BeforeMainTabs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Patches\DesignatorManager_ProcessInputEvents.cs" />
     <Compile Include="DesignatorSettings.cs" />
     <Compile Include="Defs\DesignationCategoryDef.cs" />
-    <Compile Include="Patches\Game_FinalizeInit.cs" />
     <Compile Include="Designators\Undo.cs" />
     <Compile Include="Designators\Redo.cs" />
     <Compile Include="HistoryManager.cs" />

@@ -38,6 +38,11 @@ namespace Merthsoft.DesignatorShapes
         public bool EnableKeyboardInput = true;
         public List<KeyCode> Keys = new();
 
+
+        public bool UseOldUi = false;
+        public bool MoveDesignationTabToEndOfList = false;
+        public bool ShowShapesPanelOnDesignationSelection = true;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -45,6 +50,9 @@ namespace Merthsoft.DesignatorShapes
             Scribe_Values.Look(ref RestoreAltToggle, nameof(RestoreAltToggle), false);
             Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), false);
             Scribe_Values.Look(ref FloodFillCellLimit, nameof(FloodFillCellLimit), 1500);
+            Scribe_Values.Look(ref UseOldUi, nameof(UseOldUi), false);
+            Scribe_Values.Look(ref ShowShapesPanelOnDesignationSelection, nameof(ShowShapesPanelOnDesignationSelection), true);
+            Scribe_Values.Look(ref MoveDesignationTabToEndOfList, nameof(MoveDesignationTabToEndOfList), false);
             Scribe_Values.Look(ref UseSubMenus, nameof(UseSubMenus), true);
             Scribe_Values.Look(ref AutoSelectShape, nameof(AutoSelectShape), false);
             Scribe_Values.Look(ref ResetShapeOnResume, nameof(ResetShapeOnResume), false);

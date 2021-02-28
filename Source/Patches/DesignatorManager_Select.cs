@@ -1,5 +1,8 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
+using RimWorld;
+using System.Collections;
+using System.Linq;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches
@@ -36,6 +39,17 @@ namespace Merthsoft.DesignatorShapes.Patches
                 shape = DesignatorShapes.CachedTool;
 
             DesignatorShapes.SelectTool(shape, announce);
+
+            if (DesignatorShapes.Settings.UseOldUi && DesignatorShapes.Settings.ShowShapesPanelOnDesignationSelection)
+            {
+                var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
+                var panels = archWindow?.GetInstanceField("desPanelsCached") as IEnumerable;
+
+                if (panels != null)
+                {
+                    archWindow.selectedDesPanel = panels.Cast<ArchitectCategoryTab>().FirstOrDefault(p => p.def.defName == "Shapes");
+                }
+            }
         }
     }
 }
