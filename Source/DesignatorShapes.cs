@@ -15,7 +15,6 @@ namespace Merthsoft.DesignatorShapes
     public class DesignatorShapes : Mod
     {
         private static bool defsLoaded = false;
-        private static DesignationCategoryDef shapeCategoryDef;
 
         public static DesignatorShapeDef CurrentTool { get; set; }
 
@@ -128,8 +127,6 @@ namespace Merthsoft.DesignatorShapes
             ls.End();
             Settings.Write();
 
-            ResolveShapes();
-
             ShapeControls = new(Settings.WindowX, Settings.WindowY, Settings.IconSize);
         }
 
@@ -171,7 +168,6 @@ namespace Merthsoft.DesignatorShapes
             if (!defsLoaded)
             {
                 defsLoaded = true;
-                shapeCategoryDef = DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
                 ResolveShapes();
                 ShapeControls = new ShapeControls(Settings?.WindowX ?? 0, Settings?.WindowY ?? 0, Settings?.IconSize ?? 40);
 
@@ -187,13 +183,6 @@ namespace Merthsoft.DesignatorShapes
                 if (Settings.Keys == null || Settings.Keys?.Count == 0)
                     Settings.Keys = new(DesignatorSettings.DefaultKeys);
             }
-
-            var archWindow = MainButtonDefOf.Architect.TabWindow;
-
-            if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef))
-                DefDatabase<DesignationCategoryDef>.Add(shapeCategoryDef);
-
-            archWindow.InvokeMethod("CacheDesPanels");
         }
 
         private static void ResolveShapes()
