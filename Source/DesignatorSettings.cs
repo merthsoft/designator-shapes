@@ -34,7 +34,7 @@ namespace Merthsoft.DesignatorShapes
         public int WindowX = -1;
         public int WindowY = -1;
 
-        public bool DisablePauseOnFloodFillSelect = true;
+        public bool PauseOnFloodFillSelect = true;
         public bool EnableKeyboardInput = true;
         public List<KeyCode> Keys = new();
 
@@ -52,7 +52,7 @@ namespace Merthsoft.DesignatorShapes
             Scribe_Values.Look(ref IconSize, nameof(IconSize), 40);
             Scribe_Values.Look(ref WindowX, nameof(WindowX), -1);
             Scribe_Values.Look(ref WindowY, nameof(WindowY), -1);
-            Scribe_Values.Look(ref DisablePauseOnFloodFillSelect, nameof(DisablePauseOnFloodFillSelect), true);
+            Scribe_Values.Look(ref PauseOnFloodFillSelect, nameof(PauseOnFloodFillSelect), true);
             Scribe_Values.Look(ref EnableKeyboardInput, nameof(EnableKeyboardInput), true);
             Scribe_Collections.Look(ref Keys, nameof(Keys), LookMode.Value);
 

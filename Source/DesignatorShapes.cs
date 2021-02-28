@@ -109,7 +109,7 @@ namespace Merthsoft.DesignatorShapes
             ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
             ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
             ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Disable pause on flood fill selected.", ref Settings.DisablePauseOnFloodFillSelect);
+            ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFillSelect);
             ls.GapLine();
             ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
             ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
@@ -291,7 +291,7 @@ namespace Merthsoft.DesignatorShapes
             CurrentTool = def;
             Rotation = 0;
 
-            if (def.pauseOnSelection && !Settings.DisablePauseOnFloodFillSelect)
+            if (def.pauseOnSelection && Settings.PauseOnFloodFillSelect)
                 Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
         }
     }
