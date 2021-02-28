@@ -7,30 +7,29 @@ using Verse;
 namespace Merthsoft.DesignatorShapes {
     public class HistoryManager {
         public class Entry {
-            public List<Designation> Designations = new List<Designation>();
-            public List<Blueprint> Blueprints = new List<Blueprint>();
+            public List<Designation> Designations = new();
+            public List<Blueprint> Blueprints = new();
         }
 
-        static Dictionary<Map, HistoryManager> histories = new Dictionary<Map, HistoryManager>();
+        static readonly Dictionary<Map, HistoryManager> Histories = new();
 
-        DesignationManager designationManager;
-        private bool building = false;
-        private static bool inRedo = false;
+        private readonly DesignationManager DesignationManager;
+        private bool Building = false;
+        private static bool InRedo = false;
 
-        Stack<Entry> undoStack = new Stack<Entry>();
-        Stack<Entry> redoStack = new Stack<Entry>();
+        private readonly Stack<Entry> UndoStack = new();
+        private readonly Stack<Entry> RedoStack = new();
 
-        public HistoryManager(DesignationManager designationManager) {
-            this.designationManager = designationManager;
-        }
+        public HistoryManager(DesignationManager designationManager)
+            => DesignationManager = designationManager;
 
         public static void Clear() {
-            getManager()?.clear();
+            GetManager()?.InternalClear();
         }
 
-        private void clear() {
-            undoStack.Clear();
-            redoStack.Clear();
+        private void InternalClear() {
+            UndoStack.Clear();
+            RedoStack.Clear();
         }
 
         public static void AddEntry(Designation des) {
@@ -42,74 +41,70 @@ namespace Merthsoft.DesignatorShapes {
         }
 
         public static void AddEntry(Designation des, Blueprint bp) {
-            if (inRedo) { return; }
-            getManager()?.addEntry(des, bp);
+            if (InRedo) { return; }
+            GetManager()?.InteralAddEntry(des, bp);
         }
 
-        private void addEntry(Designation des, Blueprint bp) {
+        private void InteralAddEntry(Designation des, Blueprint bp) {
             if (!Find.TickManager.Paused) { return; }
 
-            if (!building) {
+            if (!Building) {
                 StartBuilding();
             }
-            if (undoStack.Count == 0) {
+            if (UndoStack.Count == 0) {
                 Log.Message("Somehow the undo stack is empty even though we've started building...");
                 return;
             }
 
             if (des != null) {
-                undoStack.Peek().Designations.Add(des);
+                UndoStack.Peek().Designations.Add(des);
             }
             if (bp != null) {
-                undoStack.Peek().Blueprints.Add(bp);
+                UndoStack.Peek().Blueprints.Add(bp);
             }
         }
 
         public static void StartBuilding() {
-            getManager().startBuilding();
+            GetManager().InteralStartBuilding();
         }
 
-        private void startBuilding() {
+        private void InteralStartBuilding() {
             if (!Find.TickManager.Paused) { return; }
-            if (building) { return; }
+            if (Building) { return; }
 
-            redoStack.Clear();
-            undoStack.Push(new Entry());
-            building = true;
+            RedoStack.Clear();
+            UndoStack.Push(new Entry());
+            Building = true;
         }
 
-        public static void FinishBuilding() {
-            getManager()?.finishBuilding();
-        }
+        public static void FinishBuilding() 
+            => GetManager()?.InternalFinishBuilding();
 
-        public void finishBuilding() {
-            building = false;
-        }
+        public void InternalFinishBuilding() 
+            => Building = false;
 
-        public static void Redo() {
-            getManager().redo();
-        }
+        public static void Redo() 
+            => GetManager().InteralRedo();
 
-        public static void Undo() {
-            getManager().undo();
-        }
+        public static void Undo() 
+            => GetManager().InternalUndo();
 
-        public static bool CanUndo => getManager().undoStack.Any();
-        public static bool CanRedo => getManager().redoStack.Any();
+        public static bool CanUndo => GetManager().UndoStack.Any();
+        public static bool CanRedo => GetManager().RedoStack.Any();
 
-        private static HistoryManager getManager() {
+        private static HistoryManager GetManager() {
             var map = Find.CurrentMap;
             if (map == null) { return null; }
-            if (!histories.ContainsKey(map)) {
-                histories[map] = new HistoryManager(map.designationManager);
+            if (!Histories.ContainsKey(map)) {
+                Histories[map] = new HistoryManager(map.designationManager);
             }
 
-            return histories[map];
+            return Histories[map];
         }
 
-        private void undo() {
-            if (undoStack.Count == 0) { return; }
-            var entry = undoStack.Pop();
+        private void InternalUndo() {
+            if (UndoStack.Count == 0) { return; }
+            var entry = UndoStack.Pop();
             foreach (var designation in entry.Designations) {
                 designation.Delete();
             }
@@ -118,23 +113,23 @@ namespace Merthsoft.DesignatorShapes {
                     blueprint.DeSpawn();
                 }
             }
-            redoStack.Push(entry);
+            RedoStack.Push(entry);
         }
 
-        private void redo() {
-            if (redoStack.Count == 0) { return; }
+        private void InteralRedo() {
+            if (RedoStack.Count == 0) { return; }
 
-            var entry = redoStack.Pop();
-            inRedo = true;
+            var entry = RedoStack.Pop();
+            InRedo = true;
             foreach (var des in entry.Designations) {
-                designationManager.AddDesignation(des);
+                DesignationManager.AddDesignation(des);
             }
             var map = Find.CurrentMap;
             var generatedBlueprints = new List<Blueprint>();
             foreach (var blueprint in entry.Blueprints) {
                 if (!blueprint.Spawned) {
-                    var build = blueprint as Blueprint_Build;
-                    if (build != null) {
+                    if (blueprint is Blueprint_Build build)
+                    {
                         var blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(build.def);
                         blueprint_Build.SetFactionDirect(Faction.OfPlayer);
                         blueprint_Build.stuffToUse = build.stuffToUse;
@@ -144,8 +139,8 @@ namespace Merthsoft.DesignatorShapes {
                 }
             }
             entry.Blueprints = generatedBlueprints;
-            inRedo = false;
-            undoStack.Push(entry);
+            InRedo = false;
+            UndoStack.Push(entry);
         }
     }
 }

@@ -1,22 +1,19 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Merthsoft.DesignatorShapes.Defs;
+using RimWorld;
 using UnityEngine;
 using Verse;
-using Merthsoft.DesignatorShapes.Defs;
 
-namespace Merthsoft.DesignatorShapes.Designators {
+namespace Merthsoft.DesignatorShapes.Designators
+{
     public class Designator_Shape : Designator_Build {
-        public DesignatorShapeDef def { get; set; }
+        public DesignatorShapeDef Def { get; set; }
 
         public override bool Visible => true;
 
         public Designator_Shape(BuildableDef entDef) : this(entDef as DesignatorShapeDef) { }
 
         public Designator_Shape(DesignatorShapeDef def) : base(def) {
-            this.def = def;
+            this.Def = def;
             LongEventHandler.ExecuteWhenFinished(() => icon = ContentFinder<Texture2D>.Get(def.uiIconPath));
             defaultDesc = def.description;
             defaultLabel = def.label;
@@ -28,7 +25,7 @@ namespace Merthsoft.DesignatorShapes.Designators {
         }
 
         public override void ProcessInput(Event ev) {
-            DesignatorShapes.SelectTool(def);
+            DesignatorShapes.SelectTool(Def);
         }
     }
 }

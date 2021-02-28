@@ -2,7 +2,7 @@
 
 namespace Merthsoft.DesignatorShapes {
     class HistoryComponent : GameComponent {
-        public HistoryComponent(Game g) {
+        public HistoryComponent(Game _) {
 
         }
 

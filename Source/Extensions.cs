@@ -7,23 +7,23 @@ using Verse;
 
 namespace Merthsoft {
     public static class Extensions {
-        static BindingFlags fieldFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetField | BindingFlags.GetProperty;
+        private static readonly BindingFlags FieldFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetField | BindingFlags.GetProperty;
 
         public static object GetInstanceField(this object instance, string fieldName) {
             var type = instance.GetType();
-            var field = type.GetField(fieldName, fieldFlags);
+            var field = type.GetField(fieldName, FieldFlags);
             return field.GetValue(instance); 
         }
 
         public static T GetInstanceField<T>(this object instance, string fieldName) where T : class {
             var type = instance.GetType();
-            var field = type.GetField(fieldName, fieldFlags);
+            var field = type.GetField(fieldName, FieldFlags);
             return field.GetValue(instance) as T;
         }
 
         public static void SetInstanceField<T>(this object instance, string fieldName, T value) {
             var type = instance.GetType();
-            var field = type.GetField(fieldName, fieldFlags);
+            var field = type.GetField(fieldName, FieldFlags);
             field.SetValue(instance, value);
         }
 
@@ -34,7 +34,7 @@ namespace Merthsoft {
         }
 
         public static void InvokeMethod(this object obj, string methodName, params object[] methodParams) {
-            MethodInfo dynMethod = obj.GetType().GetMethod(methodName, fieldFlags);
+            MethodInfo dynMethod = obj.GetType().GetMethod(methodName, FieldFlags);
             dynMethod.Invoke(obj, methodParams);
         }
         
@@ -46,9 +46,9 @@ namespace Merthsoft {
 
         public static List<TResult> SelectList<T, TResult>(this IEnumerable<T> i, Func<T, TResult> f) => i.Select(f).ToList();
 
-        public static IntVec3 FloorHalve(this IntVec3 vec) => new IntVec3(vec.x / 2, vec.y / 2, vec.z / 2);
+        public static IntVec3 FloorHalve(this IntVec3 vec) => new(vec.x / 2, vec.y / 2, vec.z / 2);
 
-        public static IntVec3 CeilingHalve(this IntVec3 vec) => new IntVec3(vec.x.CeilingHalve() - 1, vec.y.CeilingHalve() - 1, vec.z.CeilingHalve() - 1);
+        public static IntVec3 CeilingHalve(this IntVec3 vec) => new(vec.x.CeilingHalve() - 1, vec.y.CeilingHalve() - 1, vec.z.CeilingHalve() - 1);
 
         public static int CeilingHalve(this int i) => (int)Math.Ceiling(i / 2d);
 
@@ -82,9 +82,9 @@ namespace Merthsoft {
             float? addY = null,
             float? addWidth = null,
             float? addHeight = null)
-            => new Rect(x ?? r.x.Add(addX),
-                        y ?? r.y.Add(addY),
-                        width ?? r.width.Add(addWidth),
-                        height ?? r.height.Add(addHeight));
+            => new(x ?? r.x.Add(addX),
+                   y ?? r.y.Add(addY),
+                   width ?? r.width.Add(addWidth),
+                   height ?? r.height.Add(addHeight));
     }
 }

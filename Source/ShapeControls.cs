@@ -6,7 +6,8 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes {
+namespace Merthsoft.DesignatorShapes
+{
     public class ShapeControls {
         private List<OverlayGroupDef> GroupDefs => DefDatabase<OverlayGroupDef>.AllDefsListForReading;
 
