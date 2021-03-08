@@ -275,6 +275,8 @@ namespace Merthsoft.DesignatorShapes
             var tradeRadiusInfo = AccessTools.Field(typeof(Building_OrbitalTradeBeacon), "TradeRadius");
             if (tradeRadiusInfo != null)
                 TradeBeaconRadius = (float)tradeRadiusInfo.GetValue(null);
+
+            SelectTool(groups[0].FirstShape);
         }
 
         public static bool Rotate(int amount)

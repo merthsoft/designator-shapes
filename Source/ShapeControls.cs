@@ -196,8 +196,8 @@ namespace Merthsoft.DesignatorShapes
 
         private static ActionIcon CreateActionIcon(OverlayGroupDef g) => new()
         {
-            icon = DesignatorShapes.CurrentTool?.Group.defName == g.defName
-                    ? DesignatorShapes.CurrentTool.selectedUiIcon
+            icon = DesignatorShapes.CurrentTool?.Group?.defName == g.defName
+                    ? DesignatorShapes.CurrentTool?.selectedUiIcon
                     : g.UiIcon,
             action = DesignatorShapes.ShapeControls.GetAction(g)
         };
