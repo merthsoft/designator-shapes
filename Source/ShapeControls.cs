@@ -56,8 +56,9 @@ namespace Merthsoft.DesignatorShapes
 
         public void ShapeControlsOnGUI()
         {
-            if (Find.MainTabsRoot.OpenTab == null)
+            if (Find.MainTabsRoot.OpenTab == null && DesignatorShapes.Settings.HideWhenNoOpenTab)
                 return;
+
             if (WindowRect.x == -1)
             {
                 var infoRect = ArchitectCategoryTab.InfoRect;

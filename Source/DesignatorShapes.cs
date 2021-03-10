@@ -61,6 +61,7 @@ namespace Merthsoft.DesignatorShapes
         private static Rect viewRect = Rect.zero;
         private static Vector2 scrollPosition = Vector2.zero;
         private static bool showDrawSettings = false;
+        private static bool showKeyBindings = false;
 
         public DesignatorShapes(ModContentPack content) : base(content)
         {
@@ -82,11 +83,33 @@ namespace Merthsoft.DesignatorShapes
             var ls = new Listing_Standard();
 
             ls.Begin(inRect);
-            var scrollRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 150);
+            var scrollRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 75);
             ls.BeginScrollView(scrollRect, ref scrollPosition, ref viewRect);
 
             var maxBuffer = Settings.FloodFillCellLimit.ToString();
-            ls.TextFieldNumericLabeled("Maximum cells to select in flood fill", ref Settings.FloodFillCellLimit, ref maxBuffer);
+            ls.Label("Maximum cells to select in flood fill");
+            ls.TextFieldNumeric(ref Settings.FloodFillCellLimit, ref maxBuffer);
+            ls.GapLine();
+            
+            ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
+            ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
+            ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
+            ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFillSelect);
+            ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
+            ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
+            ls.CheckboxLabeled("Hide when architect menu is hidden.", ref Settings.HideWhenNoOpenTab);
+            
+            
+            ls.Gap();
+            ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
+            if (Settings.UseOldUi)
+            {
+                ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
+                ls.CheckboxLabeled("Show shapes panel when designation is selected.", ref Settings.ShowShapesPanelOnDesignationSelection);
+                ls.CheckboxLabeled("Move shapes tab to end of list.", ref Settings.MoveDesignationTabToEndOfList);
+            }
+            ls.GapLine();
+
 
             ls.CheckboxLabeled("Show draw settings", ref showDrawSettings);
             if (showDrawSettings)
@@ -106,39 +129,21 @@ namespace Merthsoft.DesignatorShapes
                 ls.IntEntry(ref Settings.WindowY, ref buffer);
             }
             ls.GapLine();
-            ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
-            ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
-            ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFillSelect);
-            ls.GapLine();
-            ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
-            ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
-            ls.GapLine();
 
-            ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
-            {
-
-                if (Settings.ToggleableInterface)
-                    if (Settings.UseOldUi)
-                    {
-                        ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
-                        ls.CheckboxLabeled("Show shapes panel when designation is selected.", ref Settings.ShowShapesPanelOnDesignationSelection);
-                        ls.Label("Key bindings:");
-                        ls.CheckboxLabeled("Move shapes tab to end of list.", ref Settings.MoveDesignationTabToEndOfList);
-
-                        for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
-                            DrawKeyInput(ls, keyIndex);
-                    }
-            }
 
             if (Settings.EnableKeyboardInput)
             {
-                if (Settings.ToggleableInterface)
-                    ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
-                ls.Label("Key bindings:");
+                ls.CheckboxLabeled("Show key bindings", ref showKeyBindings);
+                if (showKeyBindings)
+                {
+                    if (Settings.ToggleableInterface)
+                        ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
+                    ls.Label("Key bindings:");
 
-                for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
-                    DrawKeyInput(ls, keyIndex);
+                    for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
+                        DrawKeyInput(ls, keyIndex);
+                }
+                ls.GapLine();
             }
 
             ls.EndScrollView(ref viewRect);
