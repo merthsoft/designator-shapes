@@ -281,7 +281,8 @@ namespace Merthsoft.DesignatorShapes
             if (tradeRadiusInfo != null)
                 TradeBeaconRadius = (float)tradeRadiusInfo.GetValue(null);
 
-            SelectTool(groups[0].FirstShape);
+            Log.Message($"Cached tool: {CachedTool?.defName ?? "<null>"}");
+            SelectTool(CachedTool ?? groups[0].FirstShape);
         }
 
         public static bool Rotate(int amount)

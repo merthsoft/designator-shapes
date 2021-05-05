@@ -43,12 +43,9 @@ namespace Merthsoft.DesignatorShapes.Patches
             if (DesignatorShapes.Settings.UseOldUi && DesignatorShapes.Settings.ShowShapesPanelOnDesignationSelection)
             {
                 var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
-                var panels = archWindow?.GetInstanceField("desPanelsCached") as IEnumerable;
 
-                if (panels != null)
-                {
+                if (archWindow?.GetInstanceField("desPanelsCached") is IEnumerable panels)
                     archWindow.selectedDesPanel = panels.Cast<ArchitectCategoryTab>().FirstOrDefault(p => p.def.defName == "Shapes");
-                }
             }
         }
     }
