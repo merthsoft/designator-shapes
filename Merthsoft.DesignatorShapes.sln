@@ -14,9 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{4C3D7EE9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Defs", "Defs", "{D78F2696-1030-4CA5-BE18-7126F7B30A01}"
 	ProjectSection(SolutionItems) = preProject
-		1.2\Defs\DesignationCategory_ShapeTool.xml = 1.2\Defs\DesignationCategory_ShapeTool.xml
-		1.2\Defs\DesignatorShapes.xml = 1.2\Defs\DesignatorShapes.xml
-		1.2\Defs\OverlayGroups.xml = 1.2\Defs\OverlayGroups.xml
+		1.2\Defs\DesignationCategory_ShapeTool.xml = 1.3\Defs\DesignationCategory_ShapeTool.xml
+		1.2\Defs\DesignatorShapes.xml = 1.3\Defs\DesignatorShapes.xml
+		1.2\Defs\OverlayGroups.xml = 1.3\Defs\OverlayGroups.xml
 	EndProjectSection
 EndProject
 Global

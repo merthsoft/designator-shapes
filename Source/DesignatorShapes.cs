@@ -58,10 +58,7 @@ namespace Merthsoft.DesignatorShapes
             private set => thickness = value switch { var v when v < -50 => 50, var v when v > 50 => 50, _ => value, };
         }
 
-        private static Rect viewRect = Rect.zero;
         private static Vector2 scrollPosition = Vector2.zero;
-        private static bool showDrawSettings = false;
-        private static bool showKeyBindings = false;
 
         public DesignatorShapes(ModContentPack content) : base(content)
         {
@@ -81,10 +78,11 @@ namespace Merthsoft.DesignatorShapes
             LoadDefs();
 
             var ls = new Listing_Standard();
+            var outRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - inRect.y);
+            var viewRect = new Rect(0, 0, outRect.width - 16, Text.LineHeight * 30 + (Settings.UseOldUi ? Text.LineHeight * 3 : 0));
 
-            ls.Begin(inRect);
-            var scrollRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 75);
-            ls.BeginScrollView(scrollRect, ref scrollPosition, ref viewRect);
+            ls.Begin(viewRect);
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
 
             var maxBuffer = Settings.FloodFillCellLimit.ToString();
             ls.Label("Maximum cells to select in flood fill");
@@ -110,43 +108,36 @@ namespace Merthsoft.DesignatorShapes
             }
             ls.GapLine();
 
+            ls.CheckboxLabeled("Draw background", ref Settings.DrawBackground);
+            ls.Label($"Icon size: {Settings.IconSize}");
+            Settings.IconSize = (int)ls.Slider(Settings.IconSize, 20, 80);
 
-            ls.CheckboxLabeled("Show draw settings", ref showDrawSettings);
-            if (showDrawSettings)
-            {
-                ls.CheckboxLabeled("Draw background", ref Settings.DrawBackground);
-                ls.Label($"Icon size: {Settings.IconSize}");
-                Settings.IconSize = (int)ls.Slider(Settings.IconSize, 20, 80);
+            ls.Label("Window position, set to -1, -1 to use default location.");
 
-                ls.Label("Window position, set to -1, -1 to use default location.");
+            ls.Label("Window X:");
+            var buffer = Settings.WindowX.ToString();
+            ls.IntEntry(ref Settings.WindowX, ref buffer);
 
-                ls.Label("Window X:");
-                var buffer = Settings.WindowX.ToString();
-                ls.IntEntry(ref Settings.WindowX, ref buffer);
-
-                ls.Label("Window Y:");
-                buffer = Settings.WindowY.ToString();
-                ls.IntEntry(ref Settings.WindowY, ref buffer);
-            }
+            ls.Label("Window Y:");
+            buffer = Settings.WindowY.ToString();
+            ls.IntEntry(ref Settings.WindowY, ref buffer);
+            
             ls.GapLine();
 
 
             if (Settings.EnableKeyboardInput)
             {
-                ls.CheckboxLabeled("Show key bindings", ref showKeyBindings);
-                if (showKeyBindings)
-                {
-                    if (Settings.ToggleableInterface)
-                        ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
-                    ls.Label("Key bindings:");
+                if (Settings.ToggleableInterface)
+                    ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
+                ls.Label("Key bindings:");
 
-                    for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
-                        DrawKeyInput(ls, keyIndex);
-                }
+                for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
+                    DrawKeyInput(ls, keyIndex);
+                
                 ls.GapLine();
             }
 
-            ls.EndScrollView(ref viewRect);
+            Widgets.EndScrollView();
             ls.End();
             Settings.Write();
 
