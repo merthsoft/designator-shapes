@@ -20,7 +20,7 @@ namespace Merthsoft.DesignatorShapes
 
         public static Texture2D RedoDisabled { get; private set; }
 
-        public static Texture2D GetIcon(string path) => ContentFinder<Texture2D>.Get(path, true);
+        public static Texture2D GetIcon(string path) => string.IsNullOrEmpty(path) ? null : ContentFinder<Texture2D>.Get(path, true);
 
         static Icons() => LongEventHandler.ExecuteWhenFinished(() =>
         {

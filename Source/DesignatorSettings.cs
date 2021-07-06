@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -38,10 +39,9 @@ namespace Merthsoft.DesignatorShapes
         public bool EnableKeyboardInput = true;
         public List<KeyCode> Keys = new();
 
-
-        public bool UseOldUi = false;
-        public bool MoveDesignationTabToEndOfList = false;
-        public bool ShowShapesPanelOnDesignationSelection = true;
+        [Obsolete] public bool UseOldUi = false;
+        [Obsolete] public bool MoveDesignationTabToEndOfList = false;
+        [Obsolete] public bool ShowShapesPanelOnDesignationSelection = true;
         
         public bool HideWhenNoOpenTab = false;
 
@@ -52,9 +52,11 @@ namespace Merthsoft.DesignatorShapes
             Scribe_Values.Look(ref RestoreAltToggle, nameof(RestoreAltToggle), false);
             Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), false);
             Scribe_Values.Look(ref FloodFillCellLimit, nameof(FloodFillCellLimit), 1500);
+#pragma warning disable CS0612 // Type or member is obsolete
             Scribe_Values.Look(ref UseOldUi, nameof(UseOldUi), false);
             Scribe_Values.Look(ref ShowShapesPanelOnDesignationSelection, nameof(ShowShapesPanelOnDesignationSelection), true);
             Scribe_Values.Look(ref MoveDesignationTabToEndOfList, nameof(MoveDesignationTabToEndOfList), false);
+#pragma warning restore CS0612 // Type or member is obsolete
             Scribe_Values.Look(ref UseSubMenus, nameof(UseSubMenus), true);
             Scribe_Values.Look(ref AutoSelectShape, nameof(AutoSelectShape), false);
             Scribe_Values.Look(ref ResetShapeOnResume, nameof(ResetShapeOnResume), false);
