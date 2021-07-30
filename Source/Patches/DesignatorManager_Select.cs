@@ -39,14 +39,6 @@ namespace Merthsoft.DesignatorShapes.Patches
                 shape = DesignatorShapes.CachedTool;
 
             DesignatorShapes.SelectTool(shape, announce);
-
-            if (DesignatorShapes.Settings.UseOldUi && DesignatorShapes.Settings.ShowShapesPanelOnDesignationSelection)
-            {
-                var archWindow = (MainTabWindow_Architect)MainButtonDefOf.Architect.TabWindow;
-
-                if (archWindow?.GetInstanceField("desPanelsCached") is IEnumerable panels)
-                    archWindow.selectedDesPanel = panels.Cast<ArchitectCategoryTab>().FirstOrDefault(p => p.def.defName == "Shapes");
-            }
         }
     }
 }

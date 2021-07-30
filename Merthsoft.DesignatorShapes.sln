@@ -1,39 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31019.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merthsoft.DesignatorShapes", "Source\Merthsoft.DesignatorShapes.csproj", "{EB853EAD-4C5C-4F16-96FC-501F16C907A1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{4C3D7EE9-1392-4025-9749-1DAB268F467A}"
-	ProjectSection(SolutionItems) = preProject
-		About\About.xml = About\About.xml
-		About\Preview.png = About\Preview.png
-		About\PublishedFileId.txt = About\PublishedFileId.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Defs", "Defs", "{D78F2696-1030-4CA5-BE18-7126F7B30A01}"
-	ProjectSection(SolutionItems) = preProject
-		1.2\Defs\DesignationCategory_ShapeTool.xml = 1.3\Defs\DesignationCategory_ShapeTool.xml
-		1.2\Defs\DesignatorShapes.xml = 1.3\Defs\DesignatorShapes.xml
-		1.2\Defs\OverlayGroups.xml = 1.3\Defs\OverlayGroups.xml
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EB853EAD-4C5C-4F16-96FC-501F16C907A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB853EAD-4C5C-4F16-96FC-501F16C907A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB853EAD-4C5C-4F16-96FC-501F16C907A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB853EAD-4C5C-4F16-96FC-501F16C907A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1AA6B7A3-4125-47F9-88DD-2DFFBB7046B6}
+		SolutionGuid = {800184EF-1B35-49C0-9F5E-3E56F213BC71}
 	EndGlobalSection
 EndGlobal

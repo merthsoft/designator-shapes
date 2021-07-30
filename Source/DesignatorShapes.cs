@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
-using Merthsoft.DesignatorShapes.Designators;
 using Merthsoft.DesignatorShapes.Dialogs;
 using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using Verse;
 
@@ -15,7 +14,6 @@ namespace Merthsoft.DesignatorShapes
     public class DesignatorShapes : Mod
     {
         private static bool defsLoaded = false;
-        private static DesignationCategoryDef shapeCategoryDef;
 
         public static DesignatorShapeDef CurrentTool { get; set; }
 
@@ -79,7 +77,7 @@ namespace Merthsoft.DesignatorShapes
 
             var ls = new Listing_Standard();
             var outRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - inRect.y);
-            var viewRect = new Rect(0, 0, outRect.width - 16, Text.LineHeight * 30 + (Settings.UseOldUi ? Text.LineHeight * 3 : 0));
+            var viewRect = new Rect(0, 0, outRect.width - 16, Text.LineHeight * 30);
 
             ls.Begin(viewRect);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
@@ -96,17 +94,6 @@ namespace Merthsoft.DesignatorShapes
             ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
             ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
             ls.CheckboxLabeled("Hide when architect menu is hidden.", ref Settings.HideWhenNoOpenTab);
-            
-            
-            ls.Gap();
-            ls.CheckboxLabeled("Use old UI", ref Settings.UseOldUi);
-            if (Settings.UseOldUi)
-            {
-                ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
-                ls.CheckboxLabeled("Show shapes panel when designation is selected.", ref Settings.ShowShapesPanelOnDesignationSelection);
-                ls.CheckboxLabeled("Move shapes tab to end of list.", ref Settings.MoveDesignationTabToEndOfList);
-            }
-            ls.GapLine();
 
             ls.CheckboxLabeled("Draw background", ref Settings.DrawBackground);
             ls.Label($"Icon size: {Settings.IconSize}");
@@ -181,9 +168,17 @@ namespace Merthsoft.DesignatorShapes
         {
             if (!defsLoaded)
             {
-                shapeCategoryDef = DefDatabase<DesignationCategoryDef>.GetNamed("Shapes");
+                var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
                 defsLoaded = true;
-                ResolveShapes();
+
+                var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
+                if (sunlampDef != null)
+                    SunLampRadius = sunlampDef.specialDisplayRadius;
+
+                var tradeRadiusInfo = AccessTools.Field(typeof(Building_OrbitalTradeBeacon), "TradeRadius");
+                if (tradeRadiusInfo != null)
+                    TradeBeaconRadius = (float)tradeRadiusInfo.GetValue(null);
+
                 ShapeControls = new ShapeControls(Settings?.WindowX ?? 0, Settings?.WindowY ?? 0, Settings?.IconSize ?? 40);
 
                 DesignatorSettings.DefaultKeys = new(new[]
@@ -198,82 +193,6 @@ namespace Merthsoft.DesignatorShapes
                 if (Settings.Keys == null || Settings.Keys?.Count == 0)
                     Settings.Keys = new(DesignatorSettings.DefaultKeys);
             }
-
-            var archWindow = MainButtonDefOf.Architect.TabWindow;
-            if (!Settings.UseOldUi)
-            {
-                typeof(DefDatabase<DesignationCategoryDef>).InvokeStaticMethod("Remove", shapeCategoryDef);
-            }
-            else
-            {
-                if (!DefDatabase<DesignationCategoryDef>.AllDefs.Contains(shapeCategoryDef))
-                {
-                    DefDatabase<DesignationCategoryDef>.Add(shapeCategoryDef);
-                }
-                if (Settings.MoveDesignationTabToEndOfList)
-                {
-                    shapeCategoryDef.order = 1;
-                }
-            }
-
-            archWindow.InvokeMethod("CacheDesPanels");
-        }
-
-        private static void ResolveShapes()
-        {
-            var shapes = Defs.DesignationCategoryDefOf.Shapes;
-            var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
-
-            _ = shapeDefs.Count;
-
-            shapes.ResolveReferences();
-
-            shapes.AllResolvedDesignators.Add(new Undo());
-            shapes.AllResolvedDesignators.Add(new Redo());
-
-            shapeDefs.ForEach(d => shapes.AllResolvedDesignators.Add(new Designator_Shape(d)));
-
-            var groups = DefDatabase<OverlayGroupDef>.AllDefsListForReading;
-            var groupCache = new Dictionary<string, OverlayGroupDef>();
-            groups.ForEach(g =>
-            {
-                if (!groupCache.ContainsKey(g.defName))
-                {
-                    groupCache[g.defName] = g;
-                    g.ChildrenGroups?.Clear();
-                }
-
-                g.UiIcon = Icons.GetIcon(g.uiIconPath);
-
-                if (g.closeUiIconPath != null)
-                    g.CloseUiIcon = Icons.GetIcon(g.closeUiIconPath);
-
-                g.Shapes = shapeDefs.Where(s => s.overlayGroup == g.defName).ToList();
-                g.Shapes.ForEach(s =>
-                {
-                    s.Group = g;
-                    s.RootGroup = g?.ParentGroup ?? g;
-                });
-
-                if (g.parentGroupName != null)
-                {
-                    var parent = groupCache[g.parentGroupName];
-                    g.ParentGroup = parent;
-
-                    parent.ChildrenGroups.Add(g);
-                }
-            });
-
-            var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
-            if (sunlampDef != null)
-                SunLampRadius = sunlampDef.specialDisplayRadius;
-
-            var tradeRadiusInfo = AccessTools.Field(typeof(Building_OrbitalTradeBeacon), "TradeRadius");
-            if (tradeRadiusInfo != null)
-                TradeBeaconRadius = (float)tradeRadiusInfo.GetValue(null);
-
-            Log.Message($"Cached tool: {CachedTool?.defName ?? "<null>"}");
-            SelectTool(CachedTool ?? groups[0].FirstShape);
         }
 
         public static bool Rotate(int amount)
