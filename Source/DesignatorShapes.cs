@@ -171,7 +171,8 @@ namespace Merthsoft.DesignatorShapes
                 var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
                 defsLoaded = true;
 
-                var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
+                var sunlampDef = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "Lighting_CeilingGrowLight")
+                                 ?? DefDatabase<ThingDef>.AllDefs.FirstOrDefault(d => d.defName == "SunLamp");
                 if (sunlampDef != null)
                     SunLampRadius = sunlampDef.specialDisplayRadius;
 
