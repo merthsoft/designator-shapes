@@ -42,8 +42,9 @@ namespace Merthsoft.DesignatorShapes
         [Obsolete] public bool UseOldUi = false;
         [Obsolete] public bool MoveDesignationTabToEndOfList = false;
         [Obsolete] public bool ShowShapesPanelOnDesignationSelection = true;
-        
+
         public bool HideWhenNoOpenTab = false;
+        public bool LockPanelInPlace = false;
 
         public override void ExposeData()
         {
@@ -68,6 +69,7 @@ namespace Merthsoft.DesignatorShapes
             Scribe_Values.Look(ref EnableKeyboardInput, nameof(EnableKeyboardInput), true);
             Scribe_Collections.Look(ref Keys, nameof(Keys), LookMode.Value);
             Scribe_Values.Look(ref HideWhenNoOpenTab, nameof(HideWhenNoOpenTab), false);
+            Scribe_Values.Look(ref LockPanelInPlace, nameof(LockPanelInPlace), false);
 
             if (Keys == null || Keys.Count == 0)
                 Keys = new();

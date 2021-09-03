@@ -108,6 +108,8 @@ namespace Merthsoft.DesignatorShapes
             ls.Label("Window Y:");
             buffer = Settings.WindowY.ToString();
             ls.IntEntry(ref Settings.WindowY, ref buffer);
+
+            ls.CheckboxLabeled("Lock the window in place do prevent mis-drags.", ref Settings.LockPanelInPlace);
             
             ls.GapLine();
 

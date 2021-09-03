@@ -144,15 +144,15 @@ namespace Merthsoft.DesignatorShapes
             if (Event.current.isMouse)
                 switch (Event.current.type)
                 {
-                    case EventType.MouseDown:
-                        dragging = true;
+                    case EventType.MouseDown when !DesignatorShapes.Settings.LockPanelInPlace:
+                            dragging = true;
+                            Event.current.Use();
+                        break;
+                    case EventType.MouseDrag when dragging:
+                            WindowRect = new Rect(WindowRect.x + Event.current.delta.x, WindowRect.y + Event.current.delta.y, Width, Height);
                         Event.current.Use();
                         break;
-                    case EventType.MouseDrag:
-                        WindowRect = new Rect(WindowRect.x + Event.current.delta.x, WindowRect.y + Event.current.delta.y, Width, Height);
-                        Event.current.Use();
-                        break;
-                    case EventType.MouseUp:
+                    case EventType.MouseUp when dragging:
                         dragging = false;
                         DesignatorShapes.Settings.WindowX = (int)WindowRect.x;
                         DesignatorShapes.Settings.WindowY = (int)WindowRect.y;
