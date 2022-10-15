@@ -56,6 +56,7 @@ namespace Merthsoft.DesignatorShapes
             private set => thickness = value switch { var v when v < -50 => 50, var v when v > 50 => 50, _ => value, };
         }
 
+        public static bool SnapMode = false;
         private static Vector2 scrollPosition = Vector2.zero;
 
         public DesignatorShapes(ModContentPack content) : base(content)
@@ -77,7 +78,7 @@ namespace Merthsoft.DesignatorShapes
 
             var ls = new Listing_Standard();
             var outRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - inRect.y);
-            var viewRect = new Rect(0, 0, outRect.width - 16, Text.LineHeight * 30);
+            var viewRect = new Rect(0, 0, outRect.width - 16, Text.LineHeight * 32);
 
             ls.Begin(viewRect);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
@@ -122,7 +123,7 @@ namespace Merthsoft.DesignatorShapes
 
                 for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
                     DrawKeyInput(ls, keyIndex);
-                
+
                 ls.GapLine();
             }
 
@@ -191,10 +192,15 @@ namespace Merthsoft.DesignatorShapes
                     KeyBindingDefOf.Command_ItemForbid?.MainKey ?? KeyCode.F,
                     KeyCode.Equals,
                     KeyCode.Minus,
+                    KeyBindingDefOf.Command_TogglePower?.MainKey ?? KeyCode.V,
                 });
 
                 if (Settings.Keys == null || Settings.Keys?.Count == 0)
                     Settings.Keys = new(DesignatorSettings.DefaultKeys);
+
+                for (int i = Settings.Keys.Count; i < DesignatorSettings.DefaultKeys.Count; i++) {
+                    Settings.Keys.Add(DesignatorSettings.DefaultKeys[i]);
+                }
             }
         }
 

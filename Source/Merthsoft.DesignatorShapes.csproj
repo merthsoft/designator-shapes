@@ -64,6 +64,7 @@
     <Compile Include="Shapes\Primitives.cs" />
     <Compile Include="Shapes\BasicShapes.cs" />
     <Compile Include="Shapes\SizeInputShapes.cs" />
+    <Compile Include="Shapes\Snaps.cs" />
     <Compile Include="Shapes\StampShapes.cs" />
   </ItemGroup>
   <ItemGroup>

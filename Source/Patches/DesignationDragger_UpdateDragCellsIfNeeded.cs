@@ -23,9 +23,18 @@ namespace Merthsoft.DesignatorShapes.Patches
             __instance.SetInstanceField<string>("failureReasonInt", null);
 
             var start = (IntVec3)__instance.GetInstanceField<object>("startDragCell");
-            var sizeOrEnd = DesignatorShapes.CurrentTool.useSizeInputs ? ShapeControls.InputVec : UI.MouseCell();
-
-            var points = DesignatorShapes.CurrentTool?.DrawMethod(start, sizeOrEnd);
+            IntVec3 end;
+            if (DesignatorShapes.CurrentTool.useSizeInputs) {
+                end = ShapeControls.InputVec;
+            }
+            else
+            {
+                end = UI.MouseCell();
+                if (DesignatorShapes.SnapMode) {
+                    end = DesignatorShapes.CurrentTool?.SnapMethod(start, end) ?? end;
+                }
+            }
+            var points = DesignatorShapes.CurrentTool?.DrawMethod(start, end);
 
             foreach (var vec in points)
             {

@@ -41,6 +41,8 @@ namespace Merthsoft.DesignatorShapes.Patches
                     DesignatorShapes.IncreaseThickness();
                 else if (key == DesignatorShapes.Settings.Keys[DesignatorSettings.DecreaseThicknessKeyIndex])
                     DesignatorShapes.DecreaseThickness();
+                else if (key == DesignatorShapes.Settings.Keys[DesignatorSettings.SnapModeToggleKeyIndex])
+                    DesignatorShapes.SnapMode = !DesignatorShapes.SnapMode;
             }
         }
 
