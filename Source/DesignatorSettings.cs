@@ -12,6 +12,7 @@ namespace Merthsoft.DesignatorShapes
         public static int FillCornersToggleKeyIndex = 2;
         public static int IncreaseThicknessKeyIndex = 3;
         public static int DecreaseThicknessKeyIndex = 4;
+        public static int SnapModeToggleKeyIndex = 5;
         public static string[] KeyLabels = new[]
         {
             "Rotate shape left",
@@ -19,6 +20,7 @@ namespace Merthsoft.DesignatorShapes
             "Fill corners",
             "Increase thickness",
             "Decrease thickness",
+            "Snap mode",
         };
 
 
