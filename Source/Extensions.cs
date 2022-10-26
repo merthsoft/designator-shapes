@@ -25,6 +25,13 @@ namespace Merthsoft
             return field.GetValue(instance) as T;
         }
 
+        public static T GetInstanceProperty<T>(this object instance, string fieldName) where T : class
+        {
+            var type = instance.GetType();
+            var field = type.GetProperty(fieldName, FieldFlags);
+            return field.GetValue(instance) as T;
+        }
+
         public static void SetInstanceField<T>(this object instance, string fieldName, T value)
         {
             var type = instance.GetType();

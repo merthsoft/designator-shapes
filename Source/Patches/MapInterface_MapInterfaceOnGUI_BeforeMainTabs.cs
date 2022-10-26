@@ -1,4 +1,7 @@
 ﻿using HarmonyLib;
+
+using Merthsoft.DesignatorShapes.Utils;
+
 using RimWorld;
 using RimWorld.Planet;
 using Verse;

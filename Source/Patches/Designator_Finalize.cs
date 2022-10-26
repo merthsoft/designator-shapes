@@ -1,4 +1,7 @@
 ﻿using HarmonyLib;
+
+using Merthsoft.DesignatorShapes.Utils;
+
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches
@@ -11,6 +14,7 @@ namespace Merthsoft.DesignatorShapes.Patches
             if (!DesignatorShapes.ShowControls)
                 return;
             HistoryManager.FinishBuilding();
+            CoreLogger.Log("Designator_Finalize");
         }
     }
 }
