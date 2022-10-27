@@ -1,5 +1,4 @@
-﻿using System;
-using RimWorld;
+﻿using RimWorld;
 
 namespace Merthsoft.DesignatorShapes.Defs
 {
