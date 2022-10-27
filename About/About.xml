@@ -24,6 +24,13 @@
 				<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
 			</li>
 		</v1.3>
+		<v1.4>
+			<li>
+				<packageId>brrainz.harmony</packageId>
+				<displayName>Harmony</displayName>
+				<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
+			</li>
+		</v1.4>
 	</modDependenciesByVersion>
 	<packageId>Merthsoft.DesignatorShapes</packageId>
 	<description>
