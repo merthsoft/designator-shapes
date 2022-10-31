@@ -29,7 +29,7 @@ internal class DesignationDragger_DraggerUpdate
         if (!(bool)__instance.GetInstanceField("dragging"))
             return;
 
-		var cells = __instance.GetInstanceField<List<IntVec3>>("dragCells");
+		var cells = __instance.DragCells;
 		var selDes = Find.DesignatorManager.SelectedDesignator;
 
 		var numSelectedCells = 0;
