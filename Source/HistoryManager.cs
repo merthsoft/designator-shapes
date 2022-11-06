@@ -14,7 +14,7 @@ namespace Merthsoft.DesignatorShapes
             public List<Blueprint> Blueprints = new();
         }
 
-        private static readonly Dictionary<Map, HistoryManager> Histories = new();
+        private static readonly Dictionary<int, HistoryManager> Histories = new();
 
         private readonly DesignationManager DesignationManager;
         private bool Building = false;
@@ -97,10 +97,10 @@ namespace Merthsoft.DesignatorShapes
             var map = Find.CurrentMap;
             if (map == null)
                 return null;
-            if (!Histories.ContainsKey(map))
-                Histories[map] = new HistoryManager(map.designationManager);
+            if (!Histories.ContainsKey(map.uniqueID))
+                Histories[map.uniqueID] = new HistoryManager(map.designationManager);
 
-            return Histories[map];
+            return Histories[map.uniqueID];
         }
 
         private void InternalUndo()
