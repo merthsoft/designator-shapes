@@ -175,7 +175,7 @@ namespace Merthsoft.DesignatorShapes.Shapes
                 // Diagonal line
                 double dx = (last.x - next.x) / (double)(last.z - next.z);
                 double dz = (last.z - next.z) / (double)(last.x - next.x);
-                double fradius = _oldThickness * 0.5f;
+                double dradius = _oldThickness * 0.5;
                 if (Math.Abs(dx) > Math.Abs(dz))
                 {
                     // Go along x
@@ -183,7 +183,7 @@ namespace Merthsoft.DesignatorShapes.Shapes
 
                     for (int x = last.x; x <= next.x; x++)
                     {
-                        DrawBrushStrokeAt(new IntVec2(x - strokeRadius.x, (int)Math.Round(dz * (x - last.x) + last.z - fradius, MidpointRounding.AwayFromZero)));
+                        DrawBrushStrokeAt(new IntVec2(x - strokeRadius.x, (int)Math.Round(dz * (x - last.x) + last.z - dradius, MidpointRounding.AwayFromZero)));
                     }
                 }
                 else
@@ -193,7 +193,7 @@ namespace Merthsoft.DesignatorShapes.Shapes
 
                     for (int z = last.z; z <= next.z; z++)
                     {
-                        DrawBrushStrokeAt(new IntVec2((int)Math.Round(dx * (z - last.z) + last.x - fradius, MidpointRounding.AwayFromZero), z - strokeRadius.z));
+                        DrawBrushStrokeAt(new IntVec2((int)Math.Round(dx * (z - last.z) + last.x - dradius, MidpointRounding.AwayFromZero), z - strokeRadius.z));
                     }
                 }
             }
