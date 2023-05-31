@@ -1,52 +1,53 @@
 ﻿using HarmonyLib;
+using Merthsoft.DesignatorShapes.Shapes;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Patches;
-[HarmonyPatch(typeof(DesignationDragger), "DraggerUpdate")]
-internal class DesignationDragger_DraggerUpdate
+namespace Merthsoft.DesignatorShapes.Patches
 {
-	public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+	[HarmonyPatch(typeof(DesignationDragger), "DraggerUpdate")]
+	internal class DesignationDragger_DraggerUpdate
 	{
-		foreach (var inst in instructions)
-        {
-			// Skip the main call to RenderHighlight
-			if (inst.opcode == OpCodes.Callvirt && (inst.operand as MethodInfo)?.Name == "RenderHighlight")
-			{
-				yield return new CodeInstruction(OpCodes.Pop);
-				yield return new CodeInstruction(OpCodes.Pop);
-				continue;
-			}
-			
-			yield return inst;
-        }
-	}
-	
-	public static void Postfix(DesignationDragger __instance)
-    {
-        if (!(bool)__instance.GetInstanceField("dragging"))
-            return;
-
-		var cells = __instance.DragCells;
-		var selDes = Find.DesignatorManager.SelectedDesignator;
-
-		var numSelectedCells = 0;
-		var tmpHighlightCells = new List<IntVec3>();
-
-		foreach (IntVec3 intVec in cells)
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			if (selDes.CanDesignateCell(intVec))
+			foreach (var inst in instructions)
 			{
-				tmpHighlightCells.Add(intVec);
-				numSelectedCells++;
+				// Skip the main call to RenderHighlight
+				if (inst.opcode == OpCodes.Callvirt && (inst.operand as MethodInfo)?.Name == "RenderHighlight")
+				{
+					yield return new CodeInstruction(OpCodes.Pop);
+					yield return new CodeInstruction(OpCodes.Pop);
+					continue;
+				}
+
+				yield return inst;
 			}
 		}
-		__instance.SetInstanceField<int>("numSelectedCells", numSelectedCells);
-		
-		selDes.RenderHighlight(tmpHighlightCells);
+
+		public static void Postfix(DesignationDragger __instance)
+		{
+			if (!(bool)__instance.GetInstanceField("dragging"))
+				return;
+
+			var cells = __instance.DragCells;
+			var selDes = Find.DesignatorManager.SelectedDesignator;
+
+			var numSelectedCells = 0;
+			var tmpHighlightCells = new List<IntVec3>();
+
+			foreach (IntVec3 intVec in cells)
+			{
+				if (selDes.CanDesignateCell(intVec))
+				{
+					tmpHighlightCells.Add(intVec);
+					numSelectedCells++;
+				}
+			}
+			__instance.SetInstanceField<int>("numSelectedCells", numSelectedCells);
+
+			selDes.RenderHighlight(tmpHighlightCells);
+		}
 	}
-
-
 }

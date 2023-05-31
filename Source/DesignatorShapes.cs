@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Dialogs;
+using Merthsoft.DesignatorShapes.Shapes;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;

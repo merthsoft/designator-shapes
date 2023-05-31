@@ -1,8 +1,5 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
-using RimWorld;
-using System.Collections;
-using System.Linq;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches

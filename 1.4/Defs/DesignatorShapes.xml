@@ -9,6 +9,15 @@
 		<overlayGroup>Line</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/line</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>LineFreeform</defName>
+		<label>freeform line</label>
+		<description>Designate in a freeform line</description>
+		<uiIconPath>UI/Commands/Smol/Selected/freeform_line</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.FreeformLine.Line</drawMethodName>
+		<overlayGroup>Line</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/freeform_line</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Rectangle</defName>
