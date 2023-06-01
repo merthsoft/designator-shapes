@@ -233,6 +233,7 @@ namespace Merthsoft.DesignatorShapes
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true)
         {
+            FreeformLine.FreeMemory();
             if (def != null)
                 CachedTool = def;
             if (announce && CurrentTool != def)

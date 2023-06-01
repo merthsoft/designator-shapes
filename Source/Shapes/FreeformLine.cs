@@ -13,9 +13,11 @@ namespace Merthsoft.DesignatorShapes.Shapes
         private static IntVec3 _oldStart, _oldStop;
         private static int _oldThickness, _lastPointDrawn;
         private static bool[,] _drawMask;
+        private static bool _startNew = true;
 
         internal static void FreeMemory()
         {
+            _startNew = true;
             _mask = null;
             _designation.Clear();
             _path.Clear();
@@ -60,11 +62,13 @@ namespace Merthsoft.DesignatorShapes.Shapes
                 _lastPointDrawn = 0;
             }
 
-            if (s != _oldStart)
+            if (_startNew || s != _oldStart)
             {
                 // Starting point changed so start new line
+                _startNew = false;
                 _oldStart = s;
-                FreeMemory();
+                _designation.Clear();
+                _path.Clear();
                 _path.Add(new IntVec2(s.x, s.z));
                 runAnyway = true;
                 _min = new IntVec2(s.x - radius, s.x - radius);
