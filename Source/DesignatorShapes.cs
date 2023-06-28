@@ -218,7 +218,6 @@ namespace Merthsoft.DesignatorShapes
                 Thickness = 1;     // skip straight to 1, because -1 and 0 are meaningless thicknesses
             else
                 Thickness++;
-            Log.Message($"Thickness: {Thickness}");
         }
 
         public static void DecreaseThickness()
@@ -228,7 +227,6 @@ namespace Merthsoft.DesignatorShapes
                 Thickness = -2;   // skip straight to -2, because -1 and 0 are meaningless thicknesses
             else
                 Thickness--;
-            Log.Message($"Thickness: {Thickness}");
         }
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true)
