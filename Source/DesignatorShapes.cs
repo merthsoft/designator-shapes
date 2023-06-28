@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Dialogs;
+using Merthsoft.DesignatorShapes.Shapes;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -232,6 +233,7 @@ namespace Merthsoft.DesignatorShapes
 
         internal static void SelectTool(DesignatorShapeDef def, bool announce = true)
         {
+            FreeformLine.FreeMemory();
             if (def != null)
                 CachedTool = def;
             if (announce && CurrentTool != def)

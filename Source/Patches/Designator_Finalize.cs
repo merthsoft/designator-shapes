@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Merthsoft.DesignatorShapes.Shapes;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches
@@ -8,6 +9,7 @@ namespace Merthsoft.DesignatorShapes.Patches
     {
         public static void Postfix(bool somethingSucceeded)
         {
+            FreeformLine.FreeMemory();
             if (!DesignatorShapes.ShowControls)
                 return;
             HistoryManager.FinishBuilding();
