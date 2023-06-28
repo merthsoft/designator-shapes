@@ -235,7 +235,7 @@ namespace Merthsoft.DesignatorShapes
             if (def != null)
                 CachedTool = def;
             if (announce && CurrentTool != def)
-                Messages.Message($"{def.LabelCap} designation shape selected.", MessageTypeDefOf.SilentInput);
+                Messages.Message($"{def.LabelCap} designation shape selected.", MessageTypeDefOf.SilentInput, historical: false);
             CurrentTool = def;
             Rotation = 0;
 
