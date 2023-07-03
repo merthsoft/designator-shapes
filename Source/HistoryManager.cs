@@ -88,9 +88,9 @@ namespace Merthsoft.DesignatorShapes
         public static void Undo() 
             => GetManager().InternalUndo();
 
-        public static bool CanUndo => GetManager().UndoStack.Any();
+        public static bool CanUndo => GetManager()?.UndoStack.Any() ?? false;
 
-        public static bool CanRedo => GetManager().RedoStack.Any();
+        public static bool CanRedo => GetManager()?.RedoStack.Any() ?? false;
 
         private static HistoryManager GetManager()
         {

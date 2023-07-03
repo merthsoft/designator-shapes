@@ -24,7 +24,6 @@ namespace Merthsoft.DesignatorShapes.Patches
             if (__state == selectedDesignator)
                 return;
             DesignatorShapeDef shape;
-            var announce = true;
 
             if (DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null)
                 shape = selectedDesignator.DraggableDimensions switch
@@ -35,7 +34,7 @@ namespace Merthsoft.DesignatorShapes.Patches
             else
                 shape = DesignatorShapes.CachedTool;
 
-            DesignatorShapes.SelectTool(shape, announce);
+            DesignatorShapes.SelectTool(shape);
         }
     }
 }

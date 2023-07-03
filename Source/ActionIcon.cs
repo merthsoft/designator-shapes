@@ -3,10 +3,12 @@ using UnityEngine;
 
 namespace Merthsoft.DesignatorShapes
 {
-    internal class ActionIcon
+    internal struct ActionIcon
     {
         public Texture2D icon;
         public Action action;
         public Color? highlightColor;
+        public string label;
+        public string description;
     }
 }

@@ -41,12 +41,14 @@ namespace Merthsoft.DesignatorShapes
 
         public static Harmony HarmonyInstance { get; private set; }
 
-        public override string SettingsCategory() => "Designator Shapes";
+        public override string SettingsCategory() 
+            => "Merthsoft_DesignatorShapes".Translate();
 
         public static float SunLampRadius;
         public static float TradeBeaconRadius;
 
         public static ShapeControls ShapeControls;
+        private static ShapeDictionary ShapeDictionary = new();
         public static bool FillCorners = true;
 
         private static int thickness = 1;
@@ -83,34 +85,41 @@ namespace Merthsoft.DesignatorShapes
             ls.Begin(viewRect);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
 
+            if (ls.ButtonText("Merthsoft_DesignatorShapes_Settings_ShowShapeDictionary".Translate()))
+            {
+                Find.WindowStack.Add(ShapeDictionary);
+                Event.current.Use();
+            }
+
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AnnounceToolSelection".Translate(), ref settings.AnnounceToolSelection);
+
             var maxBuffer = Settings.FloodFillCellLimit.ToString();
-            ls.Label("Maximum cells to select in flood fill");
+            ls.Label("Merthsoft_DesignatorShapes_Settings_MaxCells".Translate());
             ls.TextFieldNumeric(ref Settings.FloodFillCellLimit, ref maxBuffer);
             ls.GapLine();
             
-            ls.CheckboxLabeled("Use sub-menu navigation.", ref Settings.UseSubMenus);
-            ls.CheckboxLabeled("Auto-select shapes when opening designation panels.", ref Settings.AutoSelectShape);
-            ls.CheckboxLabeled("Reset the shape when you resume the game.", ref Settings.ResetShapeOnResume);
-            ls.CheckboxLabeled("Pause on flood fill selected.", ref Settings.PauseOnFloodFillSelect);
-            ls.CheckboxLabeled("Allow collapsing the interface.", ref Settings.ToggleableInterface);
-            ls.CheckboxLabeled("Enable keyboard inputs", ref Settings.EnableKeyboardInput);
-            ls.CheckboxLabeled("Hide when architect menu is hidden.", ref Settings.HideWhenNoOpenTab);
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AutoSelectShapes".Translate(), ref Settings.AutoSelectShape);
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_ResetShapeOnResume".Translate(), ref Settings.ResetShapeOnResume);
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_PauseOnFloodFill".Translate(), ref Settings.PauseOnFloodFillSelect);
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AllowCollapsing".Translate(), ref Settings.ToggleableInterface);
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput".Translate(), ref Settings.EnableKeyboardInput);
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_HideWhenArchitectMenuIsHidden".Translate(), ref Settings.HideWhenNoOpenTab);
 
-            ls.CheckboxLabeled("Draw background", ref Settings.DrawBackground);
-            ls.Label($"Icon size: {Settings.IconSize}");
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_DrawBackground".Translate(), ref Settings.DrawBackground);
+            ls.Label("Merthsoft_DesignatorShapes_Settings_IconSize".Translate(Settings.IconSize));
             Settings.IconSize = (int)ls.Slider(Settings.IconSize, 20, 80);
 
-            ls.Label("Window position, set to -1, -1 to use default location.");
+            ls.Label("Merthsoft_DesignatorShapes_Settings_WindowPosition".Translate());
 
-            ls.Label("Window X:");
+            ls.Label("Merthsoft_DesignatorShapes_Settings_WindowX".Translate());
             var buffer = Settings.WindowX.ToString();
             ls.IntEntry(ref Settings.WindowX, ref buffer);
 
-            ls.Label("Window Y:");
+            ls.Label("Merthsoft_DesignatorShapes_Settings_WindowY".Translate());
             buffer = Settings.WindowY.ToString();
             ls.IntEntry(ref Settings.WindowY, ref buffer);
 
-            ls.CheckboxLabeled("Lock the window in place do prevent mis-drags.", ref Settings.LockPanelInPlace);
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_LockWindow".Translate(), ref Settings.LockPanelInPlace);
             
             ls.GapLine();
 
@@ -118,8 +127,8 @@ namespace Merthsoft.DesignatorShapes
             if (Settings.EnableKeyboardInput)
             {
                 if (Settings.ToggleableInterface)
-                    ls.CheckboxLabeled("Allow toggling the interface with the alt-key.", ref Settings.RestoreAltToggle);
-                ls.Label("Key bindings:");
+                    ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AltToggle".Translate(), ref Settings.RestoreAltToggle);
+                ls.Label("Merthsoft_DesignatorShapes_Settings_KeyBindings".Translate());
 
                 for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
                     DrawKeyInput(ls, keyIndex);
@@ -136,7 +145,7 @@ namespace Merthsoft.DesignatorShapes
 
         private void DrawKeyInput(Listing_Standard ls, int keyIndex)
         {
-            var keyLabel = DesignatorSettings.KeyLabels[keyIndex];
+            var keyLabel = DesignatorSettings.KeyLabels[keyIndex].Translate();
             var buttonLabel = Settings.Keys[keyIndex].ToStringReadable();
             if (ls.ButtonTextLabeled(keyLabel, buttonLabel))
                 SettingButtonClicked(keyIndex);
@@ -229,13 +238,13 @@ namespace Merthsoft.DesignatorShapes
                 Thickness--;
         }
 
-        internal static void SelectTool(DesignatorShapeDef def, bool announce = true)
+        internal static void SelectTool(DesignatorShapeDef def)
         {
             FreeformLine.FreeMemory();
             if (def != null)
                 CachedTool = def;
-            if (announce && CurrentTool != def)
-                Messages.Message($"{def.LabelCap} designation shape selected.", MessageTypeDefOf.SilentInput, historical: false);
+            if (Settings.AnnounceToolSelection && CurrentTool != def)
+                Messages.Message("Merthsoft_DesignatorShapes_ToolSelected".Translate(def.LabelCap), MessageTypeDefOf.SilentInput, historical: false);
             CurrentTool = def;
             Rotation = 0;
 

@@ -14,11 +14,11 @@ namespace Merthsoft.DesignatorShapes
         public static int DecreaseThicknessKeyIndex = 4;
         public static string[] KeyLabels = new[]
         {
-            "Rotate shape left",
-            "Rotate shape right",
-            "Fill corners",
-            "Increase thickness",
-            "Decrease thickness",
+            "Merthsoft_DesignatorShapes_KeyLabel_RotateLeft",
+            "Merthsoft_DesignatorShapes_KeyLabel_RotateRight",
+            "Merthsoft_DesignatorShapes_KeyLabel_FillCorners",
+            "Merthsoft_DesignatorShapes_KeyLabel_IncreaseThickness",
+            "Merthsoft_DesignatorShapes_KeyLabel_DecreaseThickness",
         };
 
 
@@ -27,7 +27,7 @@ namespace Merthsoft.DesignatorShapes
         public bool RestoreAltToggle = false;
         public bool ToggleableInterface = false;
         public int FloodFillCellLimit = 1500;
-        public bool UseSubMenus = true;
+        [Obsolete] public bool UseSubMenus = true;
         public bool AutoSelectShape = false;
         public bool ResetShapeOnResume = false;
         public bool DrawBackground = true;
@@ -46,6 +46,8 @@ namespace Merthsoft.DesignatorShapes
         public bool HideWhenNoOpenTab = false;
         public bool LockPanelInPlace = false;
 
+        public bool AnnounceToolSelection = true;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -57,8 +59,8 @@ namespace Merthsoft.DesignatorShapes
             Scribe_Values.Look(ref UseOldUi, nameof(UseOldUi), false);
             Scribe_Values.Look(ref ShowShapesPanelOnDesignationSelection, nameof(ShowShapesPanelOnDesignationSelection), true);
             Scribe_Values.Look(ref MoveDesignationTabToEndOfList, nameof(MoveDesignationTabToEndOfList), false);
-#pragma warning restore CS0612 // Type or member is obsolete
             Scribe_Values.Look(ref UseSubMenus, nameof(UseSubMenus), true);
+#pragma warning restore CS0612 // Type or member is obsolete
             Scribe_Values.Look(ref AutoSelectShape, nameof(AutoSelectShape), false);
             Scribe_Values.Look(ref ResetShapeOnResume, nameof(ResetShapeOnResume), false);
             Scribe_Values.Look(ref DrawBackground, nameof(DrawBackground), false);
@@ -70,6 +72,7 @@ namespace Merthsoft.DesignatorShapes
             Scribe_Collections.Look(ref Keys, nameof(Keys), LookMode.Value);
             Scribe_Values.Look(ref HideWhenNoOpenTab, nameof(HideWhenNoOpenTab), false);
             Scribe_Values.Look(ref LockPanelInPlace, nameof(LockPanelInPlace), false);
+            Scribe_Values.Look(ref AnnounceToolSelection, nameof(AnnounceToolSelection), true);
 
             if (Keys == null || Keys.Count == 0)
                 Keys = new();

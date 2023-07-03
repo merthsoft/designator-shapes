@@ -4,7 +4,7 @@
 		<defName>Line</defName>
 		<label>line</label>
 		<description>Designate in a line</description>
-		<uiIconPath>UI/Commands/line</uiIconPath>
+		<uiIconPath>UI/Commands/Smol/line</uiIconPath>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Line</drawMethodName>
 		<overlayGroup>Line</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/line</selectedUiIconPath>
@@ -12,8 +12,8 @@
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>LineFreeform</defName>
 		<label>freeform line</label>
-		<description>Designate in a freeform line</description>
-		<uiIconPath>UI/Commands/Smol/Selected/freeform_line</uiIconPath>
+		<description>Designate in a freeform line, like a pen</description>
+		<uiIconPath>UI/Commands/Smol/freeform_line</uiIconPath>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.FreeformLine.Line</drawMethodName>
 		<overlayGroup>Line</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/freeform_line</selectedUiIconPath>
@@ -42,24 +42,24 @@
 
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Rectangle_Input</defName>
-		<label>rectangle</label>
-		<description>Designate in a rectangle</description>
-		<uiIconPath>UI/Commands/Smol/rectangle</uiIconPath>
+		<label>fixed rectangle</label>
+		<description>Designate in a fixed rectangle with user-defined size</description>
+		<uiIconPath>UI/Commands/Smol/rectangle_fixed</uiIconPath>
 		<numRotations>2</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.Rectangle</drawMethodName>
 		<overlayGroup>Rectangle_Input</overlayGroup>
-		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle</selectedUiIconPath>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_fixed</selectedUiIconPath>
 		<useSizeInputs>true</useSizeInputs>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>RectangleFilled_Input</defName>
-		<label>filled rectangle</label>
-		<description>Designate in a filled rectangle</description>
-		<uiIconPath>UI/Commands/Smol/rectangle_filled</uiIconPath>
+		<label>fixed filled rectangle</label>
+		<description>Designate in a fixed filled rectangle with user-defined size</description>
+		<uiIconPath>UI/Commands/Smol/rectangle_filled_fixed</uiIconPath>
 		<numRotations>2</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.RectangleFilled</drawMethodName>
 		<overlayGroup>Rectangle_Input</overlayGroup>
-		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_filled</selectedUiIconPath>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_filled_fixed</selectedUiIconPath>
 		<useSizeInputs>true</useSizeInputs>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
@@ -84,22 +84,22 @@
 
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Ellipse_Input</defName>
-		<label>ellipse</label>
-		<description>Designate in an ellipse</description>
-		<uiIconPath>UI/Commands/Smol/ellipse</uiIconPath>
+		<label>fixed ellipse</label>
+		<description>Designate in a fixed ellipse with user-defined size</description>
+		<uiIconPath>UI/Commands/Smol/ellipse_fixed</uiIconPath>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.Ellipse</drawMethodName>
 		<overlayGroup>Ellipse_Input</overlayGroup>
-		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse</selectedUiIconPath>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_fixed</selectedUiIconPath>
 		<useSizeInputs>true</useSizeInputs>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>EllipseFilled_Input</defName>
-		<label>filled ellipse</label>
-		<description>Designate in a filled ellipse</description>
-		<uiIconPath>UI/Commands/Smol/ellipse_filled</uiIconPath>
+		<label>fixed filled ellipse</label>
+		<description>Designate in a fixed filled ellipse with user-defined size</description>
+		<uiIconPath>UI/Commands/Smol/ellipse_filled_fixed</uiIconPath>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.EllipseFilled</drawMethodName>
 		<overlayGroup>Ellipse_Input</overlayGroup>
-		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_filled</selectedUiIconPath>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_filled_fixed</selectedUiIconPath>
 		<useSizeInputs>true</useSizeInputs>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
@@ -226,7 +226,7 @@
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Undo</defName>
 		<label>undo</label>
-		<description>Undo last action</description>
+		<description>Undo last action. Only works when the game is paused</description>
 		<uiIconPath>UI/Commands/Smol/undo_disabled</uiIconPath>
 		<draggable>false</draggable>
 		<numRotations>0</numRotations>
@@ -235,7 +235,7 @@
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Redo</defName>
 		<label>redo</label>
-		<description>Redo last undo</description>
+		<description>Redo last undo. Only works when the game is paused</description>
 		<uiIconPath>UI/Commands/Smol/redo_disabled</uiIconPath>
 		<draggable>false</draggable>
 		<numRotations>0</numRotations>

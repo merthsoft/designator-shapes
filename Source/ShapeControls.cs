@@ -1,8 +1,5 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
-using Merthsoft.DesignatorShapes.Defs;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -10,7 +7,7 @@ namespace Merthsoft.DesignatorShapes
 {
     public class ShapeControls
     {
-        private List<OverlayGroupDef> GroupDefs => DefDatabase<OverlayGroupDef>.AllDefsListForReading;
+        private ShapeMenuController controller = new();
 
         public Rect WindowRect { get; set; }
 
@@ -18,11 +15,7 @@ namespace Merthsoft.DesignatorShapes
 
         public bool IsHorizontal { get; set; }
 
-        public OverlayGroupDef SelectedGroup { get; set; }
-
-        private readonly Stack<OverlayGroupDef> previousGroups = new();
-
-        private const int ID = 12341234;
+        private const int ID = 53187649;
 
         public static int IconSize { get; set; }
 
@@ -30,24 +23,24 @@ namespace Merthsoft.DesignatorShapes
 
         public static int NumRows => 2;
 
-        public static int LabelHeight => 20;
+        public static float LabelHeight => Text.LineHeight + LineHeight + 1;
 
-        public static int LineHeight => 3;
+        public static float LineHeight => 3;
 
         public static int CollapseButtonSize => 15;
 
         private bool dragging;
 
-        public static int Width => NumButtons / NumRows * IconSize;
+        public static float Width => NumButtons / NumRows * IconSize;
 
-        public static int Height => NumRows * IconSize + LabelHeight + LineHeight;
+        public static float Height => NumRows * IconSize + LabelHeight + LineHeight;
 
         private int inputWidth;
         private int inputHeight;
 
         public static IntVec3 InputVec => new(DesignatorShapes.ShapeControls.inputWidth, 0, DesignatorShapes.ShapeControls.inputHeight);
 
-        public ShapeControls(int x, int y, int iconSize)
+        public ShapeControls(int x, int y, int iconSize, bool dictionaryMode = false)
         {
             IsHorizontal = true;
             WindowRect = new(x, y, Width, Height);
@@ -68,10 +61,10 @@ namespace Merthsoft.DesignatorShapes
             Find.WindowStack.ImmediateWindow(ID, dragging ? DraggingWindowRect : WindowRect, WindowLayer.GameUI, DoWindow, false, dragging, 0);
         }
 
-        private void DrawIcon(Rect rect, Texture2D icon, Color? highlighColor, Action action)
+        private void DrawIcon(Rect rect, ActionIcon icon)
         {
-            if (Widgets.ButtonImage(rect, icon, Color.white, highlighColor ?? GenUI.MouseoverColor))
-                action.Invoke();
+            if (Widgets.ButtonImage(rect, icon.icon, Color.white, icon.highlightColor ?? GenUI.MouseoverColor))
+                icon.action?.Invoke();
         }
 
         private void DrawIcons(Rect rect, List<ActionIcon> icons)
@@ -80,7 +73,7 @@ namespace Merthsoft.DesignatorShapes
             var y = 0;
             foreach (var icon in icons)
             {
-                DrawIcon(new Rect(x * IconSize + rect.x, y * IconSize + rect.y, IconSize, IconSize), icon.icon, icon.highlightColor, icon.action);
+                DrawIcon(new Rect(x * IconSize + rect.x, y * IconSize + rect.y, IconSize, IconSize), icon);
 
                 x++;
                 if (x == NumButtons / NumRows)
@@ -88,6 +81,7 @@ namespace Merthsoft.DesignatorShapes
                     x = 0;
                     y++;
                 }
+                
             }
         }
 
@@ -99,7 +93,7 @@ namespace Merthsoft.DesignatorShapes
             if (DesignatorShapes.Settings.DrawBackground)
                 Widgets.DrawWindowBackground(rect.Clone(height: DesignatorShapes.ShowControls ? Height : LabelHeight));
 
-            Widgets.Label(rect.Clone(addX: 3), " Shapes");
+            Widgets.Label(rect.Clone(addX: 3), " " + "Merthsoft_DesignatorShapes_Shapes".Translate());
 
             if (DesignatorShapes.Settings.ToggleableInterface
                 && Widgets.ButtonText(rect.Clone(addX: Width - CollapseButtonSize - 2, addY: 2, width: CollapseButtonSize, height: CollapseButtonSize), DesignatorShapes.ShowControls ? "[-] " : "[+] ", false))
@@ -111,9 +105,9 @@ namespace Merthsoft.DesignatorShapes
             {
                 rect.y += LabelHeight + LineHeight;
                 rect.height -= LabelHeight;
-                DrawIcons(rect, GenerateIcons());
+                DrawIcons(rect, controller.GenerateIcons());
 
-                if (DesignatorShapes.CurrentTool?.Group == SelectedGroup
+                if (DesignatorShapes.CurrentTool?.Group == controller.SelectedGroup
                     && (DesignatorShapes.CurrentTool?.useSizeInputs ?? false))
                 {
                     var buffer = inputWidth.ToString();
@@ -123,12 +117,12 @@ namespace Merthsoft.DesignatorShapes
                     rect.width -= 25;
                     rect.height = 20;
 
-                    Widgets.Label(rect, "W");
+                    Widgets.Label(rect, "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate());
                     rect.x += 20;
                     rect.width -= 20;
                     Widgets.TextFieldNumeric(rect, ref inputWidth, ref buffer);
                     rect.x += rect.width + 25;
-                    Widgets.Label(rect, "H");
+                    Widgets.Label(rect, "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate());
                     rect.x += 20;
                     buffer = inputHeight.ToString();
                     Widgets.TextFieldNumeric(rect, ref inputHeight, ref buffer);
@@ -160,60 +154,6 @@ namespace Merthsoft.DesignatorShapes
                         Event.current.Use();
                         break;
                 }
-        }
-
-        private List<ActionIcon> GenerateIcons()
-        {
-            List<ActionIcon> icons;
-            if (SelectedGroup == null)
-            {
-                icons = GroupDefs.Where(g => g.ParentGroup == null).SelectList(CreateActionIcon);
-                icons.Add(new ActionIcon {
-                    icon = HistoryManager.CanUndo ? Icons.UndoEnabled : Icons.UndoDisabled,
-                    action = HistoryManager.Undo,
-                    highlightColor = HistoryManager.CanUndo ? GenUI.MouseoverColor : Color.grey
-                });
-                icons.Add(new ActionIcon {
-                    icon = HistoryManager.CanRedo ? Icons.RedoEnabled : Icons.RedoDisabled,
-                    action = HistoryManager.Redo,
-                    highlightColor = HistoryManager.CanRedo ? GenUI.MouseoverColor : Color.grey
-                });
-            }
-            else
-            {
-                icons = new List<ActionIcon> { new ActionIcon {
-                    action = () => SelectedGroup = previousGroups.Pop(),
-                    icon = SelectedGroup.CloseUiIcon
-                } };
-                icons.AddRange(SelectedGroup.Shapes.Select(s => new ActionIcon {
-                    icon = DesignatorShapes.CurrentTool.defName == s.defName ? s.selectedUiIcon : s.uiIcon,
-                    action = () => DesignatorShapes.SelectTool(s)
-                }));
-                icons.AddRange(SelectedGroup.ChildrenGroups.SelectList(CreateActionIcon));
-            }
-
-            return icons;
-        }
-
-        private static ActionIcon CreateActionIcon(OverlayGroupDef g) => new()
-        {
-            icon = DesignatorShapes.CurrentTool?.Group?.defName == g.defName
-                    ? DesignatorShapes.CurrentTool?.selectedUiIcon
-                    : g.UiIcon,
-            action = DesignatorShapes.ShapeControls.GetAction(g)
-        };
-
-        private Action GetAction(OverlayGroupDef g)
-        {
-            if (g.NumShapes == 1)
-                return () => DesignatorShapes.SelectTool(g.FirstShape);
-            if (DesignatorShapes.Settings.UseSubMenus)
-                return () =>
-                 {
-                     previousGroups.Push(SelectedGroup);
-                     SelectedGroup = g;
-                 };
-            return () => Find.WindowStack.Add(new FloatMenu(g.Shapes.SelectList(s => new FloatMenuOption(s.LabelCap, s.Select))));
         }
     }
 }
