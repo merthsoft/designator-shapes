@@ -2,6 +2,7 @@
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Shapes;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -188,6 +189,13 @@ public class DesignatorShapes : Mod
     {
         if (!defsLoaded)
         {
+            if (Settings.Keys == null)
+                Settings.Keys = new(KeySettings.DefaultKeys);
+
+            for (int i = 1; i <= KeySettings.DefaultKeys.Count; i++)
+                if (Settings.Keys.Count < i)
+                    Settings.Keys.Add(KeySettings.DefaultKeys[i - 1]);
+
             var shapeDefs = DefDatabase<DesignatorShapeDef>.AllDefsListForReading;
             defsLoaded = true;
 
