@@ -107,12 +107,14 @@ Settings, please translate the following ({0} refers to a value that will be pas
 	Window Y:
 	Lock the window in place do prevent mis-drags.
 	Allow toggling the interface with the alt-key.
-	Key bindings:
+	Key bindings (undo and redo always require control to be pressed):
 	Rotate shape left
 	Rotate shape right
 	Fill corners
 	Increase thickness
 	Decrease thickness
+	Undo
+	Redo
 	{0} selected.
 	Shapes
 

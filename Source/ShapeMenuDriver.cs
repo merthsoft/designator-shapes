@@ -6,7 +6,7 @@ using UnityEngine;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes;
-internal class ShapeMenuController
+internal class ShapeMenuDriver
 {
     private List<OverlayGroupDef> GroupDefs => DefDatabase<OverlayGroupDef>.AllDefsListForReading;
     public OverlayGroupDef SelectedGroup { get; set; }
@@ -15,7 +15,7 @@ internal class ShapeMenuController
 
     public bool DictionaryMode { get; set; } = false;
 
-    public ShapeMenuController() { }
+    public ShapeMenuDriver() { }
 
     public List<ActionIcon> GenerateIcons()
     {
@@ -51,8 +51,8 @@ internal class ShapeMenuController
             {
                 label = s.LabelCap,
                 description = s.description,
-                icon = DictionaryMode || DesignatorShapes.CurrentTool?.defName != s.defName 
-                        ? s.uiIcon 
+                icon = DictionaryMode || DesignatorShapes.CurrentTool?.defName != s.defName
+                        ? s.uiIcon
                         : s.selectedUiIcon,
                 action = DictionaryMode ? null : () => DesignatorShapes.SelectTool(s),
             }));
@@ -66,7 +66,7 @@ internal class ShapeMenuController
     {
         label = g.LabelCap,
         description = g.description,
-        icon = DictionaryMode || DesignatorShapes.CurrentTool?.Group?.defName != g.defName 
+        icon = DictionaryMode || DesignatorShapes.CurrentTool?.Group?.defName != g.defName
                 ? g.UiIcon
                 : DesignatorShapes.CurrentTool?.selectedUiIcon,
         action = GetAction(g)
@@ -76,7 +76,8 @@ internal class ShapeMenuController
         => g.NumShapes switch
         {
             1 => DictionaryMode ? null : () => DesignatorShapes.SelectTool(g.FirstShape),
-            _ => () => {
+            _ => () =>
+            {
                 previousGroups.Push(SelectedGroup);
                 SelectedGroup = g;
             }

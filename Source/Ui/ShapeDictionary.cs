@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace Merthsoft.DesignatorShapes.Dialogs;
+namespace Merthsoft.DesignatorShapes.Ui;
 internal class ShapeDictionary : Window
 {
     public static float LabelHeight => Text.LineHeight;
@@ -13,7 +13,7 @@ internal class ShapeDictionary : Window
 
     private const int IconPadding = 16;
 
-    private ShapeMenuController menuController = new() { DictionaryMode = true };
+    private readonly ShapeMenuDriver menuController = new() { DictionaryMode = true };
     private Vector2 ScrollPosition;
 
     private void DrawIcon(ActionIcon icon, Rect rect)
@@ -45,11 +45,12 @@ internal class ShapeDictionary : Window
         {
             var icons = menuController.GenerateIcons();
             Rect viewRect = new(0, 0, rect.width - 16, icons.Count * (IconSize + IconPadding));
-            Widgets.BeginScrollView(rect.Clone(addX: 3, addY: LabelHeight + LineHeight, addHeight: -2*(LabelHeight + LineHeight)), ref ScrollPosition, viewRect);
+            Widgets.BeginScrollView(rect.Clone(addX: 3, addY: LabelHeight + LineHeight, addHeight: -2 * (LabelHeight + LineHeight)), ref ScrollPosition, viewRect);
             Text.Font = GameFont.Small;
             DrawIcons(viewRect, icons);
             Widgets.EndScrollView();
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             Log.ErrorOnce(ex.ToString(), ex.Message.GetHashCode());
         }
