@@ -91,7 +91,7 @@ public class DesignatorShapes : Mod
 
         var ls = new Listing_Standard();
         var outRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - inRect.y);
-        var viewRect = new Rect(0, 0, outRect.width - 16, (Text.LineHeight + 2) * (26 + KeySettings.DefaultKeys.Count));
+        var viewRect = new Rect(0, 0, outRect.width - 16, (Text.LineHeight + 2) * (27 + KeySettings.DefaultKeys.Count));
 
         ls.Begin(viewRect);
         Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
@@ -136,12 +136,12 @@ public class DesignatorShapes : Mod
         {
             if (Settings.ToggleableInterface)
                 ls.CheckboxLabeled("\t" + "Merthsoft_DesignatorShapes_Settings_AltToggle".Translate(), ref Settings.RestoreAltToggle);
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_DisableRotation".Translate(), ref Settings.DisableRotationKeys);
+            ls.GapLine();
             ls.Label("Merthsoft_DesignatorShapes_Settings_KeyBindings".Translate());
 
             for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
                 DrawKeyInput(ls, keyIndex);
-
-            ls.GapLine();
         }
 
         Widgets.EndScrollView();

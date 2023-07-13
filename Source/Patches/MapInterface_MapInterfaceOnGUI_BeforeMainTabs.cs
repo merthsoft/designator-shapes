@@ -65,15 +65,15 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
             }
             else
             {
-                if (key == keyMap[RotateLeftKeyIndex])
+                if (key == keyMap[RotateLeftKeyIndex] && !DesignatorShapes.Settings.DisableRotationKeys)
                 {
-                    DesignatorShapes.RotateLeft();
-                    current.Use();
+                    if (DesignatorShapes.RotateLeft())
+                        current.Use();
                 }
-                else if (key == keyMap[RotateRightKeyIndex])
+                else if (key == keyMap[RotateRightKeyIndex] && !DesignatorShapes.Settings.DisableRotationKeys)
                 {
-                    DesignatorShapes.RotateRight();
-                    current.Use();
+                    if (DesignatorShapes.RotateRight())
+                        current.Use();
                 }
                 else if (key == keyMap[FillCornersToggleKeyIndex])
                 {

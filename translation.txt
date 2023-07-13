@@ -107,6 +107,7 @@ Settings, please translate the following ({0} refers to a value that will be pas
 	Window Y:
 	Lock the window in place do prevent mis-drags.
 	Allow toggling the interface with the alt-key.
+	Disable rotation keys.
 	Key bindings (undo and redo always require control to be pressed):
 	Rotate shape left
 	Rotate shape right
