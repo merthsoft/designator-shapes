@@ -61,9 +61,9 @@ public class DesignatorSettings : ModSettings
         Scribe_Values.Look(ref DisableRotationKeys, nameof(DisableRotationKeys), false);
 
         if (Keys == null || Keys.Count == 0)
-            Keys = new();
+            Keys = [];
 
-        for (int i = 1; i <= KeySettings.DefaultKeys.Count; i++)
+        for (int i = 1; i <= KeySettings.DefaultKeys?.Count; i++)
             if (Keys.Count < i)
                 Keys.Add(KeySettings.DefaultKeys[i - 1]);
 

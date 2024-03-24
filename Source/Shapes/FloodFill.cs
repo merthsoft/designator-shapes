@@ -13,7 +13,7 @@ public static class FloodFill
         var map = Find.CurrentMap;
 
         var wallAtMouse = getWallDefAt(map, t);
-        var designationsAtMouse = getDesignaionsAt(map, t);
+        var designationsAtMouse = getDesignationsAt(map, t);
         var mineableAtMouse = getMineableAt(map, t);
         _ = getFloorAt(map, t);
 
@@ -30,7 +30,7 @@ public static class FloodFill
             if (!Find.DesignatorManager.SelectedDesignator.CanDesignateCell(cell).Accepted)
                 continue;
             var cellWall = getWallDefAt(map, cell);
-            var cellDes = getDesignaionsAt(map, cell);
+            var cellDes = getDesignationsAt(map, cell);
             var cellMineable = getMineableAt(map, cell);
             _ = getFloorAt(map, cell);
             var cellThings = map.thingGrid.ThingsListAtFast(cell);
@@ -71,7 +71,7 @@ public static class FloodFill
                 foreach (var thing in cellThings)
                 {
                     var def = thing.def.entityDefToBuild == null ? thing.def : thing.def.entityDefToBuild as ThingDef;
-                    if (def.coversFloor || def.designationCategory == DesignationCategoryDefOf.Structure)
+                    if (def.coversFloor || def.designationCategory == DesignationCategoryDefOf.Production)
                     {
                         addFlag = false;
                         neighborsFlag = false;
@@ -96,7 +96,7 @@ public static class FloodFill
 
     private static TerrainDef getFloorAt(Map map, IntVec3 cell) => map.terrainGrid.TerrainAt(cell);
 
-    private static IEnumerable<Designation> getDesignaionsAt(Map map, IntVec3 cell) => map.designationManager.AllDesignationsAt(cell);
+    private static IEnumerable<Designation> getDesignationsAt(Map map, IntVec3 cell) => map.designationManager.AllDesignationsAt(cell);
 
     private static Thing getMineableAt(Map map, IntVec3 cell) => map.thingGrid.ThingsListAtFast(cell).FirstOrDefault(t => t is Mineable);
 
@@ -106,11 +106,11 @@ public static class FloodFill
         foreach (var thing in things)
             switch (thing)
             {
-                case Blueprint b when b.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Structure:
+                case Blueprint b when b.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Production:
                     return b.def.entityDefToBuild as ThingDef;
-                case Frame f when f.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Structure:
+                case Frame f when f.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Production:
                     return f.def.entityDefToBuild as ThingDef;
-                case Thing t when (t.def as BuildableDef)?.designationCategory == DesignationCategoryDefOf.Structure:
+                case Thing t when (t.def as BuildableDef)?.designationCategory == DesignationCategoryDefOf.Production:
                     return t.def;
                 default:
                     continue;
