@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Shapes;
+using Merthsoft.DesignatorShapes.Ui;
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -47,8 +47,7 @@ public class DesignatorShapes : Mod
     public static float SunLampRadius;
     public static float TradeBeaconRadius;
 
-    public static Ui.ShapeControlsWindow ShapeControls;
-    private static readonly Ui.ShapeDictionary ShapeDictionary = new();
+    public static ShapeControlsWindow ShapeControls;
     public static bool FillCorners = true;
 
     private static int thickness = 1;
@@ -72,17 +71,6 @@ public class DesignatorShapes : Mod
         HarmonyInstance = new Harmony("Merthsoft.DesignatorShapes");
         HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
         Rotation = 0;
-
-        KeySettings.DefaultKeys = new(new[]
-        {
-            KeyBindingDefOf.Designator_RotateLeft?.MainKey ?? KeyCode.Q,
-            KeyBindingDefOf.Designator_RotateRight?.MainKey ?? KeyCode.E,
-            KeyBindingDefOf.Command_ItemForbid?.MainKey ?? KeyCode.F,
-            KeyCode.Equals,
-            KeyCode.Minus,
-            KeyCode.Z,
-            KeyCode.Y,
-        });
     }
 
     public override void DoSettingsWindowContents(Rect inRect)
@@ -98,7 +86,7 @@ public class DesignatorShapes : Mod
 
         if (ls.ButtonText("Merthsoft_DesignatorShapes_Settings_ShowShapeDictionary".Translate()))
         {
-            Find.WindowStack.Add(ShapeDictionary);
+            Find.WindowStack.Add(new ShapeDictionary());
             Event.current.Use();
         }
 
@@ -189,6 +177,16 @@ public class DesignatorShapes : Mod
     {
         if (!defsLoaded)
         {
+            KeySettings.DefaultKeys = new([
+                KeyBindingDefOf.Designator_RotateLeft?.MainKey ?? KeyCode.Q,
+                KeyBindingDefOf.Designator_RotateRight?.MainKey ?? KeyCode.E,
+                KeyBindingDefOf.Command_ItemForbid?.MainKey ?? KeyCode.F,
+                KeyCode.Equals,
+                KeyCode.Minus,
+                KeyCode.Z,
+                KeyCode.Y,
+            ]);
+
             if (Settings.Keys == null)
                 Settings.Keys = new(KeySettings.DefaultKeys);
 
@@ -208,7 +206,7 @@ public class DesignatorShapes : Mod
             if (tradeRadiusInfo != null)
                 TradeBeaconRadius = (float)tradeRadiusInfo.GetValue(null);
 
-            ShapeControls = new Ui.ShapeControlsWindow(Settings?.WindowX ?? 0, Settings?.WindowY ?? 0, Settings?.IconSize ?? 40);
+            ShapeControls = new ShapeControlsWindow(Settings?.WindowX ?? 0, Settings?.WindowY ?? 0, Settings?.IconSize ?? 40);
         }
     }
 

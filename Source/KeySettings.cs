@@ -13,8 +13,8 @@ public static class KeySettings
     public static int UndoKeyIndex = 5;
     public static int RedoKeyIndex = 6;
 
-    public static string[] KeyLabels = new[]
-    {
+    public static string[] KeyLabels =
+    [
         "Merthsoft_DesignatorShapes_KeyLabel_RotateLeft",
         "Merthsoft_DesignatorShapes_KeyLabel_RotateRight",
         "Merthsoft_DesignatorShapes_KeyLabel_FillCorners",
@@ -22,7 +22,7 @@ public static class KeySettings
         "Merthsoft_DesignatorShapes_KeyLabel_DecreaseThickness",
         "Merthsoft_DesignatorShapes_KeyLabel_Undo",
         "Merthsoft_DesignatorShapes_KeyLabel_Redo",
-    };
+    ];
 
 
     public static List<KeyCode> DefaultKeys;
