@@ -45,4 +45,5 @@
 
 Art by Halno. Freeform line tool by Jacbo. Chinese translation by 祂.
 	</description>
+	<modIconPath IgnoreIfNoMatchingField="True">UI/Commands/Smol/hexagon_filled</modIconPath>
 </ModMetaData>

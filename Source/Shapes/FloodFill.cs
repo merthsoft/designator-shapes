@@ -71,7 +71,7 @@ public static class FloodFill
                 foreach (var thing in cellThings)
                 {
                     var def = thing.def.entityDefToBuild == null ? thing.def : thing.def.entityDefToBuild as ThingDef;
-                    if (def.coversFloor || def.designationCategory == DesignationCategoryDefOf.Production)
+                    if (def.coversFloor || def.designationCategory?.defName == "Structure")
                     {
                         addFlag = false;
                         neighborsFlag = false;
@@ -106,11 +106,11 @@ public static class FloodFill
         foreach (var thing in things)
             switch (thing)
             {
-                case Blueprint b when b.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Production:
+                case Blueprint b when b.def.entityDefToBuild.designationCategory?.defName == "Structure":
                     return b.def.entityDefToBuild as ThingDef;
-                case Frame f when f.def.entityDefToBuild.designationCategory == DesignationCategoryDefOf.Production:
+                case Frame f when f.def.entityDefToBuild.designationCategory?.defName == "Structure":
                     return f.def.entityDefToBuild as ThingDef;
-                case Thing t when (t.def as BuildableDef)?.designationCategory == DesignationCategoryDefOf.Production:
+                case Thing t when (t.def as BuildableDef)?.designationCategory?.defName == "Structure":
                     return t.def;
                 default:
                     continue;

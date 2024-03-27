@@ -125,11 +125,32 @@
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>MidpointHexagon</defName>
+		<label>midpoint hexagon</label>
+		<description>Designate in a hexagon from the center</description>
+		<uiIconPath>UI/Commands/Smol/hexagon_midpoint</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.MidpointHexagon</drawMethodName>
+		<overlayGroup>MoreShapes</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_midpoint</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>MidpointHexagonFilled</defName>
+		<label>midpoint filled hexagon</label>
+		<description>Designate in a filled hexagon from the center</description>
+		<uiIconPath>UI/Commands/Smol/hexagon_filled_midpoint</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.MidpointHexagonFilled</drawMethodName>
+		<overlayGroup>MoreShapes</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_filled_midpoint</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Pentagon</defName>
 		<label>pentagon</label>
 		<description>Designate in a pentagon</description>
 		<uiIconPath>UI/Commands/Smol/pentagon</uiIconPath>
-		<numRotations>2</numRotations>
+		<numRotations>4</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Pentagon</drawMethodName>
 		<overlayGroup>MoreShapes</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/pentagon</selectedUiIconPath>
@@ -139,7 +160,7 @@
 		<label>filled pentagon</label>
 		<description>Designate in a filled pentagon</description>
 		<uiIconPath>UI/Commands/Smol/pentagon_filled</uiIconPath>
-		<numRotations>2</numRotations>
+		<numRotations>4</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.PentagonFilled</drawMethodName>
 		<overlayGroup>MoreShapes</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/pentagon_filled</selectedUiIconPath>

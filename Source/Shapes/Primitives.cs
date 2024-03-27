@@ -63,7 +63,10 @@ public static class Primitives
         return filled ? innerCells : RadialCellsAround(vert1, radius + 1).Except(innerCells).FillCorners(vert1);
     }
 
-    private static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners)
+    public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2, int thickness, bool fillCorners)
+        => Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, thickness, fillCorners);
+
+    public static IEnumerable<IntVec3> Line(int x1, int y1, int z1, int x2, int y2, int z2, int thickness, bool fillCorners)
     {
         var ret = new HashSet<IntVec3> {
             new IntVec3(x1, y1, z1),
@@ -79,7 +82,7 @@ public static class Primitives
 
         while (true)
         {
-            ret.AddRange(PlotPoint(x2, y1, z2, thickness));
+            ret.AddRange(PlotPoint(x2, y1, z2, thickness, fillCorners));
             if (x2 == x1 && z2 == z1)
                 break;
             var e2 = 2 * err;
@@ -105,7 +108,7 @@ public static class Primitives
         return ret;
     }
 
-    private static IEnumerable<IntVec3> PlotPoint(int x, int y, int z, int thickness)
+    private static IEnumerable<IntVec3> PlotPoint(int x, int y, int z, int thickness, bool fillCorners)
     {
         if (thickness == 1)
             return new[] { new IntVec3(x, y, z) };
@@ -115,7 +118,7 @@ public static class Primitives
         var step = thickness.Magnitude() / 2;
         var corner1 = new IntVec3(x - (step - negativeReducer), y, z - (step - negativeReducer));
         var corner2 = new IntVec3(x + step - positiveReducer, y, z + step - positiveReducer);
-        return Rectangle(corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z, true, 0, 1);
+        return Rectangle(corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z, true, 0, 1, fillCorners);
     }
 
     private static IEnumerable<int> Range(int start, int count, bool direction = true)
@@ -144,10 +147,7 @@ public static class Primitives
         return Range(z1, z2 - z1 + 1).SelectMany(z => Range(0, thickness, direction).Select(t => new IntVec3(x + t, y, z)));
     }
 
-    public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2, int thickness) =>
-        Line(vert1.x, vert1.y, vert1.z, vert2.x, vert2.y, vert2.z, thickness, DesignatorShapes.FillCorners);
-
-    public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation, int thickness)
+    public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation, int thickness, bool fillCorners)
     {
         var ret = new HashSet<IntVec3>();
 
@@ -197,10 +197,10 @@ public static class Primitives
             var C = new IntVec3(x2, y2, z1 + kr);
             var D = new IntVec3(x1 + hr, y1, z2);
 
-            ret.AddRange(Line(A, B, thickness));
-            ret.AddRange(Line(C, B, thickness));
-            ret.AddRange(Line(A, D, thickness));
-            ret.AddRange(Line(C, D, thickness));
+            ret.AddRange(Line(A, B, thickness, fillCorners));
+            ret.AddRange(Line(C, B, thickness, fillCorners));
+            ret.AddRange(Line(A, D, thickness, fillCorners));
+            ret.AddRange(Line(C, D, thickness, fillCorners));
 
             return fill ? Fill(ret) : ret;
         }
@@ -212,7 +212,7 @@ public static class Primitives
         return ret;
     }
 
-    public static IEnumerable<IntVec3> Pentagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation, int thickness)
+    public static IEnumerable<IntVec3> Pentagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation, int thickness, bool fillCorners)
     {
         var ret = new HashSet<IntVec3>();
 
@@ -243,18 +243,51 @@ public static class Primitives
                 D = new IntVec3(tx, sy, sz + thirdHeight);
                 E = new IntVec3(tx, sy, tz - thirdHeight);
                 break;
+            case 2:
+                A = new IntVec3(middleX, sy, tz);
+                B = new IntVec3(sx, sy, middleZ);
+                C = new IntVec3(tx, ty, middleZ);
+                D = new IntVec3(sx + thirdWidth, sy, sz);
+                E = new IntVec3(tx - thirdWidth, sy, sz);
+                break;
+            case 3:
+                A = new IntVec3(tx, sy, middleZ);
+                B = new IntVec3(middleX, sy, sz);
+                C = new IntVec3(middleX, ty, tz);
+                D = new IntVec3(sx, sy, sz + thirdHeight);
+                E = new IntVec3(sx, sy, tz - thirdHeight);
+                break;
+
         }
 
-        ret.AddRange(Line(A, B, thickness));
-        ret.AddRange(Line(A, C, thickness));
-        ret.AddRange(Line(B, D, thickness));
-        ret.AddRange(Line(C, E, thickness));
-        ret.AddRange(Line(D, E, thickness));
+        ret.AddRange(Line(A, B, thickness, fillCorners));
+        ret.AddRange(Line(A, C, thickness, fillCorners));
+        ret.AddRange(Line(B, D, thickness, fillCorners));
+        ret.AddRange(Line(C, E, thickness, fillCorners));
+        ret.AddRange(Line(D, E, thickness, fillCorners));
 
         return fill ? Fill(ret) : ret;
     }
 
-    public static IEnumerable<IntVec3> Hexagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation, int thickness)
+    public static IEnumerable<IntVec3> MidpointHexagon(IntVec3 s, IntVec3 t, bool filled, int rotation, int thickness, bool fillCorners)
+    {
+        var x1 = s.x;
+        var z1 = s.z;
+        var x2 = t.x;
+        var z2 = t.z;
+
+        if (x2 < x1)
+            swap(ref x1, ref x2);
+        if (z2 < z1)
+            swap(ref z1, ref z2);
+        var r = Math.Max(x2 - x1, z2 - z1);
+        return RadialHexagon(s.x, s.y, s.z, r, r, filled, rotation, thickness, fillCorners);
+    }
+
+    public static IEnumerable<IntVec3> RadialHexagon(int x, int y, int z, int xRadius, int zRadius, bool fill, int rotation, int thickness, bool fillCorners)
+        => Hexagon(x - xRadius, y, z - zRadius, x + xRadius, y, z + zRadius, fill, rotation, thickness, fillCorners);
+
+    public static IEnumerable<IntVec3> Hexagon(int sx, int sy, int sz, int tx, int ty, int tz, bool fill, int rotation, int thickness, bool fillCorners)
     {
         if (tx < sx)
             swap(ref sx, ref tx);
@@ -293,13 +326,12 @@ public static class Primitives
 
         var ret = new HashSet<IntVec3>();
 
-        ret.AddRange(Line(A, B, thickness));
-        ret.AddRange(Line(B, D, thickness));
-        ret.AddRange(Line(F, D, thickness));
-        ret.AddRange(Line(A, C, thickness));
-        ret.AddRange(Line(C, E, thickness));
-        ret.AddRange(Line(F, E, thickness));
-        // ret.AddRange(new[] { A, B, C, D, E, F });
+        ret.AddRange(Line(A, B, thickness, fillCorners));
+        ret.AddRange(Line(B, D, thickness, fillCorners));
+        ret.AddRange(Line(F, D, thickness, fillCorners));
+        ret.AddRange(Line(A, C, thickness, fillCorners));
+        ret.AddRange(Line(C, E, thickness, fillCorners));
+        ret.AddRange(Line(F, E, thickness, fillCorners));
 
         return fill ? Fill(ret) : ret;
     }
@@ -318,7 +350,7 @@ public static class Primitives
     /// <param name="x2"></param>
     /// <param name="z2"></param>
     /// <param name="fill">True to fill the ellipse.</param>
-    public static IEnumerable<IntVec3> Ellipse(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int thickness)
+    public static IEnumerable<IntVec3> Ellipse(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int thickness, bool fillCorners)
     {
         if (x2 < x1)
             swap(ref x1, ref x2);
@@ -329,7 +361,7 @@ public static class Primitives
         var h = x1 + hr;
         var k = z1 + kr;
 
-        return RadialEllipse(h, y1, k, hr, kr, fill, thickness, DesignatorShapes.FillCorners);
+        return RadialEllipse(h, y1, k, hr, kr, fill, thickness, fillCorners);
     }
 
     private static void incrementX(ref int x, ref int dxt, ref int d2xt, ref int t)
@@ -384,7 +416,7 @@ public static class Primitives
 
         while (plotZ >= 0 && plotX <= xRadius)
         {
-            circlePlot(x, y, z, ret, plotX, plotZ, fill, thickness);
+            circlePlot(x, y, z, ret, plotX, plotZ, fill, thickness, fillCorners);
 
             if (t + zRadiusSquared * plotX <= crit1 || t + xRadiusSquared * plotZ <= crit3)
                 incrementX(ref plotX, ref dxt, ref d2xt, ref t);
@@ -394,7 +426,7 @@ public static class Primitives
             {
                 incrementX(ref plotX, ref dxt, ref d2xt, ref t);
                 if (fillCorners)
-                    circlePlot(x, y, z, ret, plotX, plotZ, fill, 1);
+                    circlePlot(x, y, z, ret, plotX, plotZ, fill, 1, fillCorners);
                 incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
             }
         }
@@ -402,23 +434,25 @@ public static class Primitives
         return ret;
     }
 
-    private static void circlePlot(int x, int y, int z, HashSet<IntVec3> ret, int plotX, int plotZ, bool fill, int thickness)
+    private static void circlePlot(int x, int y, int z, HashSet<IntVec3> ret, int plotX, int plotZ, bool fill, int thickness, bool fillCorners)
     {
         var center = new IntVec3(x, y, z);
-        ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z + plotZ), fill, thickness));
+        ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z + plotZ), fill, thickness, fillCorners));
         if (plotX != 0 || plotZ != 0)
-            ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z - plotZ), fill, thickness));
+            ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z - plotZ), fill, thickness, fillCorners));
 
         if (plotX != 0 && plotZ != 0)
         {
-            ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z - plotZ), fill, thickness));
-            ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z + plotZ), fill, thickness));
+            ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z - plotZ), fill, thickness, fillCorners));
+            ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z + plotZ), fill, thickness, fillCorners));
         }
     }
 
-    private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line, int thickness) => line ? Line(point1, point2, 1) : PlotPoint(point2.x, point2.y, point2.z, thickness);
+    private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line, int thickness, bool fillCorners)
+        => line ? Line(point1, point2, 1, fillCorners) 
+                : PlotPoint(point2.x, point2.y, point2.z, thickness, fillCorners);
 
-    public static IEnumerable<IntVec3> Circle(IntVec3 s, IntVec3 t, bool filled, int thickness)
+    public static IEnumerable<IntVec3> Circle(IntVec3 s, IntVec3 t, bool filled, int thickness, bool fillCorners)
     {
         var x1 = s.x;
         var z1 = s.z;
@@ -430,11 +464,11 @@ public static class Primitives
         if (z2 < z1)
             swap(ref z1, ref z2);
         var r = Math.Max(x2 - x1, z2 - z1);
-        return Circle(s.x, s.y, s.z, r, filled, thickness);
+        return Circle(s.x, s.y, s.z, r, filled, thickness, fillCorners);
     }
 
-    public static IEnumerable<IntVec3> Circle(IntVec3 center, int r, bool fill, int thickness) =>
-        Circle(center.x, center.y, center.z, r, fill, thickness);
+    public static IEnumerable<IntVec3> Circle(IntVec3 center, int r, bool fill, int thickness, bool fillCorners) =>
+        Circle(center.x, center.y, center.z, r, fill, thickness, fillCorners);
 
     /// <summary>
     /// Draws a circle to the sprite.
@@ -443,8 +477,8 @@ public static class Primitives
     /// <param name="y"></param>
     /// <param name="r"></param>
     /// <param name="fill">True to fill the circle.</param>
-    public static IEnumerable<IntVec3> Circle(int x, int y, int z, int r, bool fill, int thickness) =>
-        RadialEllipse(x, y, z, r, r, fill, thickness, DesignatorShapes.FillCorners);
+    public static IEnumerable<IntVec3> Circle(int x, int y, int z, int r, bool fill, int thickness, bool fillCorners) =>
+        RadialEllipse(x, y, z, r, r, fill, thickness, fillCorners);
 
     public static IEnumerable<IntVec3> Fill(IEnumerable<IntVec3> outLine)
     {

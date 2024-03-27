@@ -33,7 +33,7 @@ public class ShapeControlsWindow
 
     public static float Width => NumButtons / NumRows * IconSize;
 
-    public static float Height => NumRows * IconSize + LabelHeight + LineHeight;
+    public static float Height => NumRows * IconSize + LabelHeight + LineHeight*2;
 
     private int inputWidth;
     private int inputHeight;
