@@ -12,10 +12,11 @@ public static class FloodFill
         var ret = new HashSet<IntVec3>();
         var map = Find.CurrentMap;
 
-        var wallAtMouse = getWallDefAt(map, t);
-        var designationsAtMouse = getDesignationsAt(map, t);
-        var mineableAtMouse = getMineableAt(map, t);
-        _ = getFloorAt(map, t);
+        var wallAtMouse = map.getWallDefAt(t);
+        var designationsAtMouse = map.getDesignationsAt(t);
+        var mineableAtMouse = map.getMineableAt(t);
+        var floorAtMouse = map.getTerrainAt(t);
+        var fertAtMouse = map.getFertilityAt(t);
 
         var cells = new Queue<IntVec3>();
         cells.Enqueue(t);
@@ -29,61 +30,54 @@ public static class FloodFill
                 continue;
             if (!Find.DesignatorManager.SelectedDesignator.CanDesignateCell(cell).Accepted)
                 continue;
-            var cellWall = getWallDefAt(map, cell);
-            var cellDes = getDesignationsAt(map, cell);
-            var cellMineable = getMineableAt(map, cell);
-            _ = getFloorAt(map, cell);
+            var cellWall = map.getWallDefAt(cell);
+            var cellDes = map.getDesignationsAt(cell);
+            var cellMineable = map.getMineableAt(cell);
+            var cellFloor = map.getTerrainAt(cell);
+            var cellFert = map.getFertilityAt(cell);
             var cellThings = map.thingGrid.ThingsListAtFast(cell);
 
             var addFlag = false;
-            var neighborsFlag = false;
 
             if (wallAtMouse != null)
             {
                 if (cellWall == null)
                     continue;
                 if (cellWall.defName == wallAtMouse.defName)
-                {
                     addFlag = true;
-                    neighborsFlag = true;
-                }
             }
             else if (mineableAtMouse != null)
             {
                 if (cellMineable?.def == mineableAtMouse.def)
-                {
                     addFlag = true;
-                    neighborsFlag = true;
-                }
             }
             else if (designationsAtMouse?.Count() > 0)
             {
                 if (cellDes.Count() > 0)
-                {
                     addFlag = true;
-                    neighborsFlag = true;
-                }
             }
             else if (cellWall == null && cellMineable == null)
             {
-                addFlag = true;
-                neighborsFlag = true;
-                foreach (var thing in cellThings)
+                if (Find.PlaySettings.showFertilityOverlay && fertAtMouse != cellFert && !floorAtMouse.IsFloor && !cellFloor.IsFloor)
+                    addFlag = false;
+                else
                 {
-                    var def = thing.def.entityDefToBuild == null ? thing.def : thing.def.entityDefToBuild as ThingDef;
-                    if (def.coversFloor || def.designationCategory?.defName == "Structure")
+                    addFlag = true;
+                    foreach (var thing in cellThings)
                     {
-                        addFlag = false;
-                        neighborsFlag = false;
-                        break;
+                        var def = thing.def.entityDefToBuild == null ? thing.def : thing.def.entityDefToBuild as ThingDef;
+                        if (def.coversFloor || def.IsStructure())
+                        {
+                            addFlag = false;
+                            break;
+                        }
                     }
                 }
             }
 
             if (addFlag)
-                ret.Add(cell);
-            if (neighborsFlag)
             {
+                ret.Add(cell);
                 cells.Enqueue(cell + IntVec3.North);
                 cells.Enqueue(cell + IntVec3.East);
                 cells.Enqueue(cell + IntVec3.South);
@@ -94,28 +88,29 @@ public static class FloodFill
         return ret;
     }
 
-    private static TerrainDef getFloorAt(Map map, IntVec3 cell) => map.terrainGrid.TerrainAt(cell);
+    private static float getFertilityAt(this Map map, IntVec3 cell) 
+        => map.fertilityGrid.FertilityAt(cell);
 
-    private static IEnumerable<Designation> getDesignationsAt(Map map, IntVec3 cell) => map.designationManager.AllDesignationsAt(cell);
+    private static TerrainDef getTerrainAt(this Map map, IntVec3 cell) 
+        => map.terrainGrid.TerrainAt(cell);
 
-    private static Thing getMineableAt(Map map, IntVec3 cell) => map.thingGrid.ThingsListAtFast(cell).FirstOrDefault(t => t is Mineable);
+    private static IEnumerable<Designation> getDesignationsAt(this Map map, IntVec3 cell) 
+        => map.designationManager.AllDesignationsAt(cell);
 
-    private static Def getWallDefAt(Map map, IntVec3 cell)
-    {
-        var things = cell.GetThingList(map);
-        foreach (var thing in things)
-            switch (thing)
-            {
-                case Blueprint b when b.def.entityDefToBuild.designationCategory?.defName == "Structure":
-                    return b.def.entityDefToBuild as ThingDef;
-                case Frame f when f.def.entityDefToBuild.designationCategory?.defName == "Structure":
-                    return f.def.entityDefToBuild as ThingDef;
-                case Thing t when (t.def as BuildableDef)?.designationCategory?.defName == "Structure":
-                    return t.def;
-                default:
-                    continue;
-            }
+    private static Thing getMineableAt(this Map map, IntVec3 cell) 
+        => map.thingGrid.ThingsListAtFast(cell).FirstOrDefault(t => t is Mineable);
 
-        return null;
-    }
+    private static bool IsStructure(this Def d)
+        => (d as BuildableDef)?.designationCategory?.defName == "Structure";
+
+    private static ThingDef GetStructureDef(this Thing thing)
+        => thing.def.entityDefToBuild.IsStructure()
+            ? thing.def.entityDefToBuild as ThingDef
+            : thing.def.IsStructure()
+                ? thing.def : null;
+
+    private static Def getWallDefAt(this Map map, IntVec3 cell)
+        =>  cell.GetThingList(map)
+                .Select(t => t.GetStructureDef())
+                .FirstOrDefault(t => t != null);
 }
