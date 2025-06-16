@@ -23,13 +23,15 @@ internal class DesignatorManager_Select
             return;
         if (__state == selectedDesignator)
             return;
-        var shape = DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null
-            ? selectedDesignator.DraggableDimensions switch
-            {
-                2 => DesignatorShapeDefOf.RectangleFilled,
-                _ => DesignatorShapeDefOf.Rectangle,
-            }
-            : DesignatorShapes.CachedTool;
+
+        var shape = DesignatorShapes.CachedTool ?? DesignatorShapeDefOf.Rectangle;
+            //DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null
+            //? selectedDesignator.DesignateSingleCell switch
+            //{
+            //    2 => DesignatorShapeDefOf.RectangleFilled,
+            //    _ => DesignatorShapeDefOf.Rectangle,
+            //}
+            //: DesignatorShapes.CachedTool;
         DesignatorShapes.SelectTool(shape);
     }
 }

@@ -14,7 +14,7 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
     {
         if (Find.CurrentMap == null
             || Find.DesignatorManager.SelectedDesignator == null
-            || WorldRendererUtility.WorldRenderedNow)
+            || WorldRendererUtility.WorldRendered)
             return;
 
         if (!DesignatorShapes.Settings.RestoreAltToggle || DesignatorShapes.ShowControls)
@@ -32,6 +32,9 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
             return;
         }
 
+        if (!DesignatorShapes.ShowControls)
+            return;
+
         var designatorManager = __instance.designatorManager;
         if (designatorManager.SelectedDesignator == null)
             return;
@@ -41,9 +44,6 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
             designatorManager.Deselect();
             return;
         }
-
-        if (designatorManager.SelectedDesignator.DraggableDimensions == 0)
-            return;
 
         if (current.type == EventType.KeyDown)
         {

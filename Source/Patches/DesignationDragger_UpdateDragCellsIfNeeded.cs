@@ -29,8 +29,6 @@ public static class DesignationDragger_UpdateDragCellsIfNeeded
 
         foreach (var vec in points)
         {
-            if (vec == null)
-                continue;
             __instance.InvokeMethod("TryAddDragCell", vec);
         }
 
