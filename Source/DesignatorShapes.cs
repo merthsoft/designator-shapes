@@ -122,10 +122,10 @@ public class DesignatorShapes : Mod
         ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AllowCollapsing".Translate(), ref Settings.ToggleableInterface);
         if (Settings.EnableKeyboardInput)
         {
-            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_EnableRotation".Translate(), ref Settings.EnableRotationKeys);
             if (Settings.ToggleableInterface)
                 ls.CheckboxLabeled("\t" + "Merthsoft_DesignatorShapes_Settings_AltToggle".Translate(), ref Settings.RestoreAltToggle);
             ls.GapLine();
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_EnableRotation".Translate(), ref Settings.EnableRotationKeys);
             ls.Label("Merthsoft_DesignatorShapes_Settings_KeyBindings".Translate());
 
             for (var keyIndex = 0; keyIndex < Settings.Keys.Count; keyIndex++)
