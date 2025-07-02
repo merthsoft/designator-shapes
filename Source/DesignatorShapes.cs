@@ -122,9 +122,9 @@ public class DesignatorShapes : Mod
         ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AllowCollapsing".Translate(), ref Settings.ToggleableInterface);
         if (Settings.EnableKeyboardInput)
         {
+            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_EnableRotation".Translate(), ref Settings.EnableRotationKeys);
             if (Settings.ToggleableInterface)
                 ls.CheckboxLabeled("\t" + "Merthsoft_DesignatorShapes_Settings_AltToggle".Translate(), ref Settings.RestoreAltToggle);
-            ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_DisableRotation".Translate(), ref Settings.DisableRotationKeys);
             ls.GapLine();
             ls.Label("Merthsoft_DesignatorShapes_Settings_KeyBindings".Translate());
 
@@ -178,8 +178,8 @@ public class DesignatorShapes : Mod
         if (!defsLoaded)
         {
             KeySettings.DefaultKeys = new([
-                KeyBindingDefOf.Designator_RotateLeft?.MainKey ?? KeyCode.Q,
-                KeyBindingDefOf.Designator_RotateRight?.MainKey ?? KeyCode.E,
+                KeyBindingDefOf.Designator_RotateLeft?.MainKey ?? KeyCode.LeftBracket,
+                KeyBindingDefOf.Designator_RotateRight?.MainKey ?? KeyCode.RightBracket,
                 KeyBindingDefOf.Command_ItemForbid?.MainKey ?? KeyCode.F,
                 KeyCode.Equals,
                 KeyCode.Minus,

@@ -18,7 +18,7 @@
     
     <Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput>Enable keyboard inputs.</Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput>
     <Merthsoft_DesignatorShapes_Settings_AltToggle>Allow toggling the interface with the alt-key.</Merthsoft_DesignatorShapes_Settings_AltToggle>
-    <Merthsoft_DesignatorShapes_Settings_DisableRotation>Disable rotation keys.</Merthsoft_DesignatorShapes_Settings_DisableRotation>
+    <Merthsoft_DesignatorShapes_Settings_EnableRotation>Enable rotation keys.</Merthsoft_DesignatorShapes_Settings_EnableRotation>
     <Merthsoft_DesignatorShapes_Settings_KeyBindings>Key bindings (undo and redo always require control to be pressed):</Merthsoft_DesignatorShapes_Settings_KeyBindings>
     
     <Merthsoft_DesignatorShapes_KeyLabel_RotateLeft>Rotate shape left</Merthsoft_DesignatorShapes_KeyLabel_RotateLeft>
