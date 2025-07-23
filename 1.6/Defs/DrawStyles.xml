@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <DrawStyleDef>
+    <defName>LineFreeform</defName>
+    <label>freeform line</label>
+    <uiIconPath>UI/Commands/Smol/freeform_line</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.FreeformLine</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+
+  <DrawStyleDef>
+    <defName>Hexagon</defName>
+    <label>hexagon</label>
+    <uiIconPath>UI/Commands/Smol/hexagon</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.Hexagon</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+  <DrawStyleDef>
+    <defName>HexagonFilled</defName>
+    <label>filled hexagon</label>
+    <uiIconPath>UI/Commands/Smol/hexagon_filled</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.HexagonFilled</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+  <DrawStyleDef>
+    <defName>MidpointHexagon</defName>
+    <label>midpoint hexagon</label>
+    <uiIconPath>UI/Commands/Smol/hexagon_midpoint</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.MidpointHexagon</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+  <DrawStyleDef>
+    <defName>MidpointHexagonFilled</defName>
+    <label>midpoint filled hexagon</label>
+    <uiIconPath>UI/Commands/Smol/hexagon_filled_midpoint</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.MidpointHexagonFilled</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+
+  <DrawStyleDef>
+    <defName>Circle</defName>
+    <label>circle</label>
+    <uiIconPath>UI/Commands/Smol/circle</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.Circle</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+  <DrawStyleDef>
+    <defName>CircleFilled</defName>
+    <label>filled circle</label>
+    <uiIconPath>UI/Commands/Smol/circle_filled</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.CircleFilled</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+
+  <DrawStyleDef>
+    <defName>SunLamp</defName>
+    <label>sun lamp</label>
+    <uiIconPath>UI/Commands/Smol/sunlamp_filled</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.SunLamp</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+
+  <DrawStyleDef>
+    <defName>SunLampOutline</defName>
+    <label>sun lamp outline</label>
+    <uiIconPath>UI/Commands/Smol/sunlamp_outline</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.SunLampOutline</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+
+  <DrawStyleDef>
+    <defName>TradeBeacon</defName>
+    <label>trade beacon</label>
+    <uiIconPath>UI/Commands/Smol/trading_filled</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.TradeBeacon</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+
+  <DrawStyleDef>
+    <defName>TradeBeaconOutline</defName>
+    <label>trade beacon outline</label>
+    <uiIconPath>UI/Commands/Smol/trading_outline</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.TradeBeaconOutline</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+
+</Defs>

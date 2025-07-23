@@ -33,4 +33,4 @@ This mod is generally compatible with other mods no matter the load order. If yo
 3) You can rebind the rotation keys to different keys if want both.
 
 ## Credits
-Code by Merthsoft. Art by Halno. Freeform line tool by Jacbo. Chinese translation by 祂.
+Code by Merthsoft. Art by Halno. Freeform line tool by Jacbo. Chinese translation by 祂. Lisanhu for space fix.

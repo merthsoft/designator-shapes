@@ -14,7 +14,7 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
     {
         if (Find.CurrentMap == null
             || Find.DesignatorManager.SelectedDesignator == null
-            || WorldRendererUtility.WorldRendered)
+            || WorldRendererUtility.WorldSelected)
             return;
 
         if (!DesignatorShapes.Settings.RestoreAltToggle || DesignatorShapes.ShowControls)

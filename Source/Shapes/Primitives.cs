@@ -364,89 +364,88 @@ public static class Primitives
         return RadialEllipse(h, y1, k, hr, kr, fill, thickness, fillCorners);
     }
 
-    private static void incrementX(ref int x, ref int dxt, ref int d2xt, ref int t)
-    {
-        x++;
-        dxt += d2xt;
-        t += dxt;
-    }
-
-    private static void incrementY(ref int y, ref int dyt, ref int d2yt, ref int t)
-    {
-        y--;
-        dyt += d2yt;
-        t += dyt;
-    }
-
-    /// <summary>
-    /// Draws a filled ellipse to the sprite.
-    /// </summary>
-    /// <remarks>Taken from http://enchantia.com/graphapp/doc/tech/ellipses.html.</remarks>
-    /// <param name="x">The center point X coordinate.</param>
-    /// <param name="z">The center point Z coordinate.</param>
-    /// <param name="xRadius">The x radius.</param>
-    /// <param name="zRadius">The z radius.</param>
-    /// <param name="fill">True to fill the ellipse.</param>
     public static IEnumerable<IntVec3> RadialEllipse(int x, int y, int z, int xRadius, int zRadius, bool fill, int thickness, bool fillCorners)
     {
         var ret = new HashSet<IntVec3>();
 
-        if (thickness != 1)
+        if (thickness > 1)
         {
-            foreach (var i in thickness.Range())
-                ret.AddRange(RadialEllipse(x, y, z, xRadius - i, zRadius - i, fill, 1, true));
-
+            for (int i = 0; i < thickness; i++)
+            {
+                ret.AddRange(RadialEllipse(x, y, z, xRadius - i, zRadius - i, fill, 1, fillCorners));
+            }
             return ret;
         }
 
-        var plotX = 0;
-        var plotZ = zRadius;
+        int a2 = xRadius * xRadius;
+        int b2 = zRadius * zRadius;
+        int fa2 = 4 * a2, fb2 = 4 * b2;
 
-        var xRadiusSquared = xRadius * xRadius;
-        var zRadiusSquared = zRadius * zRadius;
-        var crit1 = -(xRadiusSquared / 4 + xRadius % 2 + zRadiusSquared);
-        var crit2 = -(zRadiusSquared / 4 + zRadius % 2 + xRadiusSquared);
-        var crit3 = -(zRadiusSquared / 4 + zRadius % 2);
-
-        var t = -xRadiusSquared * plotZ;
-        var dxt = 2 * zRadiusSquared * plotX;
-        var dzt = -2 * xRadiusSquared * plotZ;
-        var d2xt = 2 * zRadiusSquared;
-        var d2zt = 2 * xRadiusSquared;
-
-        while (plotZ >= 0 && plotX <= xRadius)
+        // Region 1
+        int x0 = 0, z0 = zRadius;
+        int sigma = 2 * b2 + a2 * (1 - 2 * zRadius);
+        while (b2 * x0 <= a2 * z0)
         {
-            circlePlot(x, y, z, ret, plotX, plotZ, fill, thickness, fillCorners);
-
-            if (t + zRadiusSquared * plotX <= crit1 || t + xRadiusSquared * plotZ <= crit3)
-                incrementX(ref plotX, ref dxt, ref d2xt, ref t);
-            else if (t - xRadiusSquared * plotZ > crit2)
-                incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
-            else
+            plotSymmetric(x, y, z, x0, z0, ret, fill, fillCorners);
+            if (sigma >= 0)
             {
-                incrementX(ref plotX, ref dxt, ref d2xt, ref t);
-                if (fillCorners)
-                    circlePlot(x, y, z, ret, plotX, plotZ, fill, 1, fillCorners);
-                incrementY(ref plotZ, ref dzt, ref d2zt, ref t);
+                sigma += fa2 * (1 - z0);
+                z0--;
             }
+            sigma += b2 * ((4 * x0) + 6);
+            x0++;
+        }
+
+        // Region 2
+        x0 = xRadius;
+        z0 = 0;
+        sigma = 2 * a2 + b2 * (1 - 2 * xRadius);
+        while (a2 * z0 <= b2 * x0)
+        {
+            plotSymmetric(x, y, z, x0, z0, ret, fill, fillCorners);
+            if (sigma >= 0)
+            {
+                sigma += fb2 * (1 - x0);
+                x0--;
+            }
+            sigma += a2 * ((4 * z0) + 6);
+            z0++;
         }
 
         return ret;
     }
 
-    private static void circlePlot(int x, int y, int z, HashSet<IntVec3> ret, int plotX, int plotZ, bool fill, int thickness, bool fillCorners)
+    private static void plotSymmetric(int cx, int cy, int cz, int dx, int dz, HashSet<IntVec3> ret, bool fill, bool fillCorners)
     {
-        var center = new IntVec3(x, y, z);
-        ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z + plotZ), fill, thickness, fillCorners));
-        if (plotX != 0 || plotZ != 0)
-            ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z - plotZ), fill, thickness, fillCorners));
-
-        if (plotX != 0 && plotZ != 0)
+        void plot(int px, int pz)
         {
-            ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z - plotZ), fill, thickness, fillCorners));
-            ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z + plotZ), fill, thickness, fillCorners));
+            ret.AddRange(fill
+                ? plotOrLine(new IntVec3(cx - dx, cy, cz + pz), new IntVec3(cx + dx, cy, cz + pz), true, 1, fillCorners)
+                : PlotPoint(px, cy, pz, 1, fillCorners));
+        }
+
+        if (dz == 0)
+        {
+            plot(cx, cz);
+            if (dx != 0)
+            {
+                plot(cx, cz);
+            }
+        }
+        else if (dx == 0)
+        {
+            plot(cx, cz + dz);
+            plot(cx, cz - dz);
+        }
+        else
+        {
+            plot(cx + dx, cz + dz);
+            plot(cx - dx, cz + dz);
+            plot(cx + dx, cz - dz);
+            plot(cx - dx, cz - dz);
         }
     }
+
 
     private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line, int thickness, bool fillCorners)
         => line ? Line(point1, point2, 1, fillCorners) 

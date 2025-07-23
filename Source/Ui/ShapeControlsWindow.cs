@@ -58,7 +58,7 @@ public class ShapeControlsWindow
             WindowRect = new Rect(infoRect.x, infoRect.y - 110, Width, Height);
         }
 
-        Find.WindowStack.ImmediateWindow(ID, dragging ? DraggingWindowRect : WindowRect, WindowLayer.GameUI, DoWindow, false, dragging, 0);
+        Find.WindowStack.ImmediateWindow(ID, dragging ? DraggingWindowRect : WindowRect, WindowLayer.SubSuper, DoWindow, false, dragging, 0);
     }
 
     private void DrawIcon(Rect rect, ActionIcon icon)
