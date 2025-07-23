@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -355,59 +356,35 @@ public static class Primitives
         int x2, int y2, int z2,
         bool fill, int thickness, bool fillCorners)
     {
-        if (x2 < x1)
-            swap(ref x1, ref x2);
-        if (z2 < z1)
-            swap(ref z1, ref z2);
-
         int dx = x2 - x1;
         int dz = z2 - z1;
 
-        if (dx == 0 && dz == 0)
+        int rx = Math.Abs(dx) / 2;
+        int rz = Math.Abs(dz) / 2;
+
+        if (rx == 0 && rz == 0)
         {
             yield return new IntVec3(x1, y1, z1);
             yield break;
         }
 
-        if (dx == 0 || dz == 0)
+        if (rx == 0 || rz == 0)
         {
             foreach (var p in Line(x1, y1, z1, x2, y2, z2, thickness, fillCorners))
                 yield return p;
             yield break;
         }
 
-        float hr = dx / 2f;
-        float kr = dz / 2f;
-        float h = x1 + hr;
-        float k = z1 + kr;
+        // Ellipse center is midpoint between anchor and current cursor
+        int h = x1 + dx / 2;
+        int k = z1 + dz / 2;
 
-        foreach (var p in RadialEllipse(
-            (int)Math.Round(h, MidpointRounding.ToEven),
-            y1,
-            (int)Math.Round(k, MidpointRounding.ToEven),
-            (int)Math.Round(hr, MidpointRounding.ToEven),
-            (int)Math.Round(kr, MidpointRounding.ToEven),
-            fill,
-            thickness,
-            fillCorners))
+        foreach (var p in RadialEllipse(h, y1, k, rx, rz, fill, thickness, fillCorners))
         {
             yield return p;
         }
     }
 
-    private static void incrementX(ref int x, ref int dxt, ref int d2xt, ref int t)
-    {
-        x++;
-        dxt += d2xt;
-        t += dxt;
-    }
-
-    private static void incrementY(ref int y, ref int dyt, ref int d2yt, ref int t)
-    {
-        y--;
-        dyt += d2yt;
-        t += dyt;
-    }
 
     /// <summary>
     /// Draws a filled ellipse to the sprite.
@@ -420,8 +397,6 @@ public static class Primitives
     /// <param name="fill">True to fill the ellipse.</param>
     public static IEnumerable<IntVec3> RadialEllipse(int x, int y, int z, int xRadius, int zRadius, bool fill, int thickness, bool fillCorners)
     {
-        Verse.Log.Message($"{x} {y} {z} Radii: {xRadius} {zRadius}");
-
         var ret = new HashSet<IntVec3>();
 
         if (thickness != 1)
@@ -466,25 +441,39 @@ public static class Primitives
         }
 
         return ret;
-    }
 
-    private static void circlePlot(int x, int y, int z, HashSet<IntVec3> ret, int plotX, int plotZ, bool fill, int thickness, bool fillCorners)
-    {
-        var center = new IntVec3(x, y, z);
-        ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z + plotZ), fill, thickness, fillCorners));
-        if (plotX != 0 || plotZ != 0)
-            ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z - plotZ), fill, thickness, fillCorners));
-
-        if (plotX != 0 && plotZ != 0)
+        static void incrementX(ref int x, ref int dxt, ref int d2xt, ref int t)
         {
-            ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z - plotZ), fill, thickness, fillCorners));
-            ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z + plotZ), fill, thickness, fillCorners));
+            x++;
+            dxt += d2xt;
+            t += dxt;
         }
-    }
 
-    private static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line, int thickness, bool fillCorners)
+        static void incrementY(ref int y, ref int dyt, ref int d2yt, ref int t)
+        {
+            y--;
+            dyt += d2yt;
+            t += dyt;
+        }
+
+        static void circlePlot(int x, int y, int z, HashSet<IntVec3> ret, int plotX, int plotZ, bool fill, int thickness, bool fillCorners)
+        {
+            var center = new IntVec3(x, y, z);
+            ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z + plotZ), fill, thickness, fillCorners));
+            if (plotX != 0 || plotZ != 0)
+                ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z - plotZ), fill, thickness, fillCorners));
+
+            if (plotX != 0 && plotZ != 0)
+            {
+                ret.AddRange(plotOrLine(center, new IntVec3(x + plotX, 0, z - plotZ), fill, thickness, fillCorners));
+                ret.AddRange(plotOrLine(center, new IntVec3(x - plotX, 0, z + plotZ), fill, thickness, fillCorners));
+            }
+        }
+
+        static IEnumerable<IntVec3> plotOrLine(IntVec3 point1, IntVec3 point2, bool line, int thickness, bool fillCorners)
         => line ? Line(point1, point2, 1, fillCorners)
                 : PlotPoint(point2.x, point2.y, point2.z, thickness, fillCorners);
+    }
 
     public static IEnumerable<IntVec3> Circle(IntVec3 s, IntVec3 t, bool filled, int thickness, bool fillCorners)
     {
