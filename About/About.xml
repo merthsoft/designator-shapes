@@ -48,7 +48,7 @@
 			</li>
 		</v1.6>
 	</modDependenciesByVersion>
-	<packageId>Merthsoft.DesignatorShapes</packageId>
+	<packageId>Merthsoft.DesignatorShapes.fork</packageId>
 	<description>Allows you to build, mine, zone, etc. in various shapes. First select the task you want to do (build, mine, zone), then go into the shapes menu and select the shape. Use the rotate keys to rotate the shape. Use the F key (or the key you have bound to "forbid item") to toggle filling of corners. See mod setting for more.
 
 Art by Halno. Freeform line tool by Jacbo. Chinese translation by 祂.
