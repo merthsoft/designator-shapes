@@ -11,7 +11,7 @@ public class SunLamp : Verse.DrawStyle
     public override void Update(IntVec3 origin, IntVec3 target, List<IntVec3> buffer)
     {
         buffer.Clear();
-        buffer.AddRange(StampShapes.SunLamp(origin, target));
+        buffer.AddRange(StampShapes.SunLamp(target, target));
     }
 }
 
@@ -20,7 +20,7 @@ public class SunLampOutline : Verse.DrawStyle
     public override void Update(IntVec3 origin, IntVec3 target, List<IntVec3> buffer)
     {
         buffer.Clear();
-        buffer.AddRange(StampShapes.SunLampOutline(origin, target));
+        buffer.AddRange(StampShapes.SunLampOutline(target, target));
     }
 }
 
@@ -29,7 +29,7 @@ public class TradeBeacon : Verse.DrawStyle
     public override void Update(IntVec3 origin, IntVec3 target, List<IntVec3> buffer)
     {
         buffer.Clear();
-        buffer.AddRange(StampShapes.TradeBeacon(origin, target));
+        buffer.AddRange(StampShapes.TradeBeacon(target, target));
     }
 }
 
@@ -38,7 +38,7 @@ public class TradeBeaconOutline : Verse.DrawStyle
     public override void Update(IntVec3 origin, IntVec3 target, List<IntVec3> buffer)
     {
         buffer.Clear();
-        buffer.AddRange(StampShapes.TradeBeaconOutline(origin, target));
+        buffer.AddRange(StampShapes.TradeBeaconOutline(target, target));
     }
 }
 public class FreeformLine : Verse.DrawStyle
