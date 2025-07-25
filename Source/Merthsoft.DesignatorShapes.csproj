@@ -43,6 +43,7 @@
     <Compile Include="ActionIcon.cs" />
     <Compile Include="Defs\OverlayGroupDef.cs" />
     <Compile Include="KeySettings.cs" />
+    <Compile Include="Patches\Designator_DoExtraGuiControls.cs" />
     <Compile Include="Shapes\DrawStyle\DrawStyles.cs" />
     <Compile Include="Ui\KeyBinding.cs" />
     <Compile Include="Ui\ShapeDictionary.cs" />
