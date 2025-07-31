@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
+using RimWorld;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches;
@@ -24,14 +25,15 @@ internal class DesignatorManager_Select
         if (__state == selectedDesignator)
             return;
 
-        var shape = DesignatorShapes.CachedTool ?? DesignatorShapeDefOf.Rectangle;
-            //DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null
-            //? selectedDesignator.DesignateSingleCell switch
-            //{
-            //    2 => DesignatorShapeDefOf.RectangleFilled,
-            //    _ => DesignatorShapeDefOf.Rectangle,
-            //}
-            //: DesignatorShapes.CachedTool;
+        var shape = DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null
+                    ? selectedDesignator.DrawStyleCategory.defName switch 
+                        {
+                            "Walls" => DesignatorShapeDefOf.Rectangle,
+                            "Conduits" => DesignatorShapeDefOf.Line,
+                            "Defenses" => DesignatorShapeDefOf.Rectangle,
+                            _ => DesignatorShapeDefOf.RectangleFilled,
+                        }
+                    : DesignatorShapes.CachedTool;
         DesignatorShapes.SelectTool(shape);
     }
 }
