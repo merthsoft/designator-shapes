@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
+using static UnityEngine.GraphicsBuffer;
 using static Verse.ArenaUtility.ArenaResult;
 
 namespace Merthsoft.DesignatorShapes.Shapes;
@@ -15,12 +17,7 @@ public static class Primitives
     /// <typeparam name="T">The type of the items we're swapping.</typeparam>
     /// <param name="item1">The first item.</param>
     /// <param name="item2">The second item.</param>
-    private static void swap<T>(ref T item1, ref T item2)
-    {
-        var temp = item1;
-        item1 = item2;
-        item2 = temp;
-    }
+    private static void swap<T>(ref T item1, ref T item2) => (item2, item1) = (item1, item2);
 
     private static IEnumerable<IntVec3> FillCorners(this IEnumerable<IntVec3> shape, IntVec3 center)
     {
@@ -344,72 +341,75 @@ public static class Primitives
             vectors.Add(vec);
     }
 
-    public static IEnumerable<IntVec3> RasterOval(
-        int x1, int y1, int z1,
-        int x2, int y2, int z2,
+    private const float RadiusOffset = 0.4f;
+
+    public static IEnumerable<IntVec3> Oval(
+        IntVec3 origin, IntVec3 target,
         bool fill, int thickness, bool fillCorners)
     {
         var ret = new HashSet<IntVec3>();
+        var cellRect = CellRect.FromLimits(origin, target);
 
-        var minX = Math.Min(x1, x2);
-        var maxX = Math.Max(x1, x2);
-        var minZ = Math.Min(z1, z2);
-        var maxZ = Math.Max(z1, z2);
+        var rx = (float)cellRect.Width / 2f;
+        var rz = (float)cellRect.Height / 2f;
+        var center = cellRect.CenterCell.ToVector3();
 
-        var h = (minX + maxX) / 2.0;
-        var k = (minZ + maxZ) / 2.0;
-        var rxOuter = (maxX - minX + 1) / 2.0;
-        var rzOuter = (maxZ - minZ + 1) / 2.0;
+        if (cellRect.Width % 2 == 0) center.x -= 0.5f;
+        if (cellRect.Height % 2 == 0) center.z -= 0.5f;
 
-        double rxInner, rzInner;
+        var outwardExtra = thickness < 0 ? (-thickness - 1) : 0;
+        var outerRx = rx + outwardExtra;
+        var outerRz = rz + outwardExtra;
+        var innerRx = rx - (thickness > 0 ? thickness : 1);
+        var innerRz = rz - (thickness > 0 ? thickness : 1);
 
-        if (thickness >= 0)
+        int minX = (int)Math.Floor(center.x - outerRx - RadiusOffset);
+        int maxX = (int)Math.Ceiling(center.x + outerRx + RadiusOffset);
+        int minZ = (int)Math.Floor(center.z - outerRz - RadiusOffset);
+        int maxZ = (int)Math.Ceiling(center.z + outerRz + RadiusOffset);
+
+        if (!fill && thickness == 1)
         {
-            rxInner = Math.Max(0, rxOuter - thickness);
-            rzInner = Math.Max(0, rzOuter - thickness);
-        }
-        else
-        {
-            var grow = -thickness;
-            rxInner = rxOuter;
-            rzInner = rzOuter;
-            rxOuter += grow;
-            rzOuter += grow;
-
-            // expand bounds so growth applies horizontally too
-            minX -= grow;
-            maxX += grow;
-            minZ -= grow;
-            maxZ += grow;
+            minX = (int)Math.Floor(center.x - outerRx - 1);
+            maxX = (int)Math.Ceiling(center.x + outerRx + 1);
+            minZ = (int)Math.Floor(center.z - outerRz - 1);
+            maxZ = (int)Math.Ceiling(center.z + outerRz + 1);
         }
 
-        for (var x = minX; x <= maxX; x++)
+        for (int x = minX; x <= maxX; x++)
         {
-            var normXOuter = (x - h) * (x - h) / (rxOuter * rxOuter);
-            if (normXOuter > 1) continue;
-
-            var zDeltaOuter = Math.Sqrt(1 - normXOuter) * rzOuter;
-            var zMinOuter = (int)Math.Floor(k - zDeltaOuter);
-            var zMaxOuter = (int)Math.Ceiling(k + zDeltaOuter);
-
-            for (var z = zMinOuter; z <= zMaxOuter; z++)
+            for (int z = minZ; z <= maxZ; z++)
             {
-                var normOuter = (x - h) * (x - h) / (rxOuter * rxOuter) +
-                                (z - k) * (z - k) / (rzOuter * rzOuter);
+                var dx = x - center.x;
+                var dz = z - center.z;
+                if (!EllipseContains(dx, dz, outerRx, outerRz))
+                    continue;
 
-                var normInner = (rxInner > 0 && rzInner > 0)
-                    ? (x - h) * (x - h) / (rxInner * rxInner) +
-                      (z - k) * (z - k) / (rzInner * rzInner)
-                    : double.MaxValue;
-
-                if (fill ? normOuter <= 1.0 : (normOuter <= 1.0 && normInner > 1.0))
-                    ret.Add(new IntVec3(x, y1, z));
+                if (fill)
+                {
+                    ret.Add(new IntVec3(x, 0, z));
+                }
+                else
+                {
+                    var insideInner = EllipseContains(dx, dz, innerRx, innerRz);
+                    if (!insideInner)
+                        ret.Add(new IntVec3(x, 0, z));
+                }
             }
         }
 
-        return fillCorners ? ret.FillCorners(new((int)h, 0, (int)k)) : ret;
+        return fillCorners && !fill && thickness == 1
+            ? ret.FillCorners(center.ToIntVec3())
+            : ret;
     }
 
+    static bool EllipseContains(double dx, double dz, double rx, double rz)
+    {
+        if (rx <= 0 || rz <= 0) return false;
+        var val = (dx * dx) / ((rx + RadiusOffset) * (rx + RadiusOffset))
+                + (dz * dz) / ((rz + RadiusOffset) * (rz + RadiusOffset));
+        return val <= 1.0;
+    }
 
     /// <summary>
     /// Draws a filled ellipse to the sprite.

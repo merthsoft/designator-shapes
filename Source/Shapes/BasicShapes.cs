@@ -33,10 +33,10 @@ public static class BasicShapes
         Primitives.MidpointHexagon(s, t, true, DesignatorShapes.Rotation, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 
     public static IEnumerable<IntVec3> Ellipse(IntVec3 s, IntVec3 t) =>
-        Primitives.RasterOval(s.x, s.y, s.z, t.x, t.y, t.z, false, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
+        Primitives.Oval(s, t, false, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 
     public static IEnumerable<IntVec3> EllipseFilled(IntVec3 s, IntVec3 t) =>
-        Primitives.RasterOval(s.x, s.y, s.z, t.x, t.y, t.z, true, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
+        Primitives.Oval(s, t, true, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 
     public static IEnumerable<IntVec3> Circle(IntVec3 s, IntVec3 t) =>
         Primitives.Circle(s, t, false, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);

@@ -14,7 +14,7 @@ internal class DesignationDragger_DraggerUpdate
         foreach (var inst in instructions)
         {
             // Skip the main call to RenderHighlight
-            if (inst.opcode == OpCodes.Callvirt && (inst.operand as MethodInfo)?.Name == "RenderHighlight")
+            if (inst.opcode == OpCodes.Callvirt && inst.operand is MethodInfo { Name: "RenderHighlight" })
             {
                 yield return new CodeInstruction(OpCodes.Pop);
                 yield return new CodeInstruction(OpCodes.Pop);

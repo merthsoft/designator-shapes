@@ -261,12 +261,6 @@ public class DesignatorShapes : Mod
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
     }
 
-    private static readonly MethodInfo GetCurrentBoundaryMethod =
-            AccessTools.Method(typeof(DesignationDragger), "GetCurrentBoundary");
-
-    private static readonly FieldInfo LastFrameDragCellsDrawnField =
-        AccessTools.Field(typeof(DesignationDragger), "lastFrameDragCellsDrawn");
-
     private static readonly FieldInfo OutlineTexField =
         AccessTools.Field(typeof(DesignationDragger), "OutlineTex");
 
@@ -303,11 +297,11 @@ public class DesignatorShapes : Mod
             Widgets.DrawNumberOnMap(vector6, intVec.z, Color.white);
         }
 
-        int lastFrameDragCellsDrawn = (int)LastFrameDragCellsDrawnField.GetValue(dragger);
+        var cellCount = dragger.DragCells.Count;
 
-        if (intVec.Magnitude >= 3f && intVec.x >= 3 && intVec.z >= 3 && lastFrameDragCellsDrawn > 0)
+        if (intVec.Magnitude >= 3f && intVec.x >= 3 && intVec.z >= 3 && cellCount > 0)
         {
-            Widgets.DrawNumberOnMap((upperLeft.ToUIPosition() + bottomRight.ToUIPosition()) / 2f, lastFrameDragCellsDrawn, Color.white);
+            Widgets.DrawNumberOnMap((upperLeft.ToUIPosition() + bottomRight.ToUIPosition()) / 2f, cellCount, Color.white);
         }
     }
 }
