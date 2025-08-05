@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
+using static Verse.ArenaUtility.ArenaResult;
 
 namespace Merthsoft.DesignatorShapes.Shapes;
 
@@ -343,46 +344,70 @@ public static class Primitives
             vectors.Add(vec);
     }
 
-    /// <summary>
-    /// Draws an ellipse to the sprite.
-    /// </summary>
-    /// <param name="x1"></param>
-    /// <param name="z1"></param>
-    /// <param name="x2"></param>
-    /// <param name="z2"></param>
-    /// <param name="fill">True to fill the ellipse.</param>
-    public static IEnumerable<IntVec3> Ellipse(
+    public static IEnumerable<IntVec3> RasterOval(
         int x1, int y1, int z1,
         int x2, int y2, int z2,
         bool fill, int thickness, bool fillCorners)
     {
-        int dx = x2 - x1;
-        int dz = z2 - z1;
+        var ret = new HashSet<IntVec3>();
 
-        int rx = Math.Abs(dx) / 2;
-        int rz = Math.Abs(dz) / 2;
+        var minX = Math.Min(x1, x2);
+        var maxX = Math.Max(x1, x2);
+        var minZ = Math.Min(z1, z2);
+        var maxZ = Math.Max(z1, z2);
 
-        if (rx == 0 && rz == 0)
+        var h = (minX + maxX) / 2.0;
+        var k = (minZ + maxZ) / 2.0;
+        var rxOuter = (maxX - minX + 1) / 2.0;
+        var rzOuter = (maxZ - minZ + 1) / 2.0;
+
+        double rxInner, rzInner;
+
+        if (thickness >= 0)
         {
-            yield return new IntVec3(x1, y1, z1);
-            yield break;
+            rxInner = Math.Max(0, rxOuter - thickness);
+            rzInner = Math.Max(0, rzOuter - thickness);
+        }
+        else
+        {
+            var grow = -thickness;
+            rxInner = rxOuter;
+            rzInner = rzOuter;
+            rxOuter += grow;
+            rzOuter += grow;
+
+            // expand bounds so growth applies horizontally too
+            minX -= grow;
+            maxX += grow;
+            minZ -= grow;
+            maxZ += grow;
         }
 
-        if (rx == 0 || rz == 0)
+        for (var x = minX; x <= maxX; x++)
         {
-            foreach (var p in Line(x1, y1, z1, x2, y2, z2, thickness, fillCorners))
-                yield return p;
-            yield break;
+            var normXOuter = (x - h) * (x - h) / (rxOuter * rxOuter);
+            if (normXOuter > 1) continue;
+
+            var zDeltaOuter = Math.Sqrt(1 - normXOuter) * rzOuter;
+            var zMinOuter = (int)Math.Floor(k - zDeltaOuter);
+            var zMaxOuter = (int)Math.Ceiling(k + zDeltaOuter);
+
+            for (var z = zMinOuter; z <= zMaxOuter; z++)
+            {
+                var normOuter = (x - h) * (x - h) / (rxOuter * rxOuter) +
+                                (z - k) * (z - k) / (rzOuter * rzOuter);
+
+                var normInner = (rxInner > 0 && rzInner > 0)
+                    ? (x - h) * (x - h) / (rxInner * rxInner) +
+                      (z - k) * (z - k) / (rzInner * rzInner)
+                    : double.MaxValue;
+
+                if (fill ? normOuter <= 1.0 : (normOuter <= 1.0 && normInner > 1.0))
+                    ret.Add(new IntVec3(x, y1, z));
+            }
         }
 
-        // Ellipse center is midpoint between anchor and current cursor
-        int h = x1 + dx / 2;
-        int k = z1 + dz / 2;
-
-        foreach (var p in RadialEllipse(h, y1, k, rx, rz, fill, thickness, fillCorners))
-        {
-            yield return p;
-        }
+        return fillCorners ? ret.FillCorners(new((int)h, 0, (int)k)) : ret;
     }
 
 

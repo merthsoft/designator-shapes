@@ -43,6 +43,7 @@
     <Compile Include="ActionIcon.cs" />
     <Compile Include="Defs\OverlayGroupDef.cs" />
     <Compile Include="KeySettings.cs" />
+    <Compile Include="Patches\DesignationDragger_DraggerOnGUI.cs" />
     <Compile Include="Patches\Designator_DoExtraGuiControls.cs" />
     <Compile Include="Shapes\DrawStyle\DrawStyles.cs" />
     <Compile Include="Ui\KeyBinding.cs" />
@@ -53,7 +54,7 @@
     <Compile Include="Patches\DesignationDragger_DraggerUpdate.cs" />
     <Compile Include="Patches\Designator_Finalize.cs" />
     <Compile Include="Patches\GameFinalize_Init.cs" />
-    <Compile Include="Patches\GenConstruct_Patches.cs" />
+    <Compile Include="Patches\GenConstruct_PlaceBlueprintForBuild.cs" />
     <Compile Include="Patches\MapInterface_MapInterfaceOnGUI_BeforeMainTabs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeStringInterpolator.cs" />

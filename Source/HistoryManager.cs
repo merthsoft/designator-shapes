@@ -9,11 +9,11 @@ public class HistoryManager
 {
     public class Entry
     {
-        public List<Designation> Designations = new();
-        public List<Blueprint> Blueprints = new();
+        public List<Designation> Designations = [];
+        public List<Blueprint> Blueprints = [];
     }
 
-    private static readonly Dictionary<int, HistoryManager> Histories = new();
+    private static readonly Dictionary<int, HistoryManager> Histories = [];
 
     private readonly DesignationManager DesignationManager;
     private bool Building = false;

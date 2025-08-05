@@ -3,6 +3,7 @@ using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Shapes;
 using Merthsoft.DesignatorShapes.Ui;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -158,8 +159,8 @@ public class DesignatorShapes : Mod
         }
         if (Event.current.button == 1)
         {
-            List<FloatMenuOption> list = new()
-            {
+            List<FloatMenuOption> list =
+            [
                 new FloatMenuOption("ResetBinding".Translate(), delegate ()
                 {
                     Settings.Keys[keyIndex] = KeySettings.DefaultKeys[keyIndex];
@@ -168,7 +169,7 @@ public class DesignatorShapes : Mod
                 {
                     Settings.Keys[keyIndex] = KeyCode.None;
                 }, MenuOptionPriority.Default, null, null, 0f, null, null)
-            };
+            ];
             Find.WindowStack.Add(new FloatMenu(list));
         }
     }
@@ -258,5 +259,55 @@ public class DesignatorShapes : Mod
 
         if (def.pauseOnSelection && Settings.PauseOnFloodFillSelect)
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+    }
+
+    private static readonly MethodInfo GetCurrentBoundaryMethod =
+            AccessTools.Method(typeof(DesignationDragger), "GetCurrentBoundary");
+
+    private static readonly FieldInfo LastFrameDragCellsDrawnField =
+        AccessTools.Field(typeof(DesignationDragger), "lastFrameDragCellsDrawn");
+
+    private static readonly FieldInfo OutlineTexField =
+        AccessTools.Field(typeof(DesignationDragger), "OutlineTex");
+
+    public static void DrawDraggerOutline(DesignationDragger dragger)
+    {
+        var (upperLeft, bottomRight) = dragger.DragCells.GetBounds();
+        
+        var intVec = upperLeft - bottomRight;
+        intVec.x = Mathf.Abs(intVec.x) + 1;
+        intVec.z = Mathf.Abs(intVec.z) + 1;
+
+        var outlineTex = (Texture2D)OutlineTexField.GetValue(null);
+
+        if (intVec.x > 1 || intVec.z > 1)
+        {
+            var vector = new Vector3(Mathf.Min(upperLeft.x, bottomRight.x), 0f, Mathf.Min(upperLeft.z, bottomRight.z));
+            var vector2 = new Vector3(Mathf.Max(upperLeft.x, bottomRight.x) + 1, 0f, Mathf.Max(upperLeft.z, bottomRight.z) + 1);
+            var vector3 = vector.MapToUIPosition();
+            var vector4 = vector2.MapToUIPosition();
+            Widgets.DrawBox(Rect.MinMaxRect(vector3.x, vector3.y, vector4.x, vector4.y), 1, outlineTex);
+        }
+
+        if (intVec.x >= 5)
+        {
+            var vector5 = (upperLeft.ToUIPosition() + bottomRight.ToUIPosition()) / 2f;
+            vector5.y = upperLeft.ToUIPosition().y;
+            Widgets.DrawNumberOnMap(vector5, intVec.x, Color.white);
+        }
+
+        if (intVec.z >= 5)
+        {
+            var vector6 = (upperLeft.ToUIPosition() + bottomRight.ToUIPosition()) / 2f;
+            vector6.x = upperLeft.ToUIPosition().x;
+            Widgets.DrawNumberOnMap(vector6, intVec.z, Color.white);
+        }
+
+        int lastFrameDragCellsDrawn = (int)LastFrameDragCellsDrawnField.GetValue(dragger);
+
+        if (intVec.Magnitude >= 3f && intVec.x >= 3 && intVec.z >= 3 && lastFrameDragCellsDrawn > 0)
+        {
+            Widgets.DrawNumberOnMap((upperLeft.ToUIPosition() + bottomRight.ToUIPosition()) / 2f, lastFrameDragCellsDrawn, Color.white);
+        }
     }
 }

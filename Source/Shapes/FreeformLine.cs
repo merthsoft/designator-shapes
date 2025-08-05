@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Shapes;
@@ -7,8 +8,8 @@ namespace Merthsoft.DesignatorShapes.Shapes;
 public static class FreeformLine
 {
     private static bool[] _mask;
-    private static readonly List<IntVec3> _designation = new List<IntVec3>();
-    private static readonly List<IntVec2> _path = new List<IntVec2>();
+    private static readonly List<IntVec3> _designation = [];
+    private static readonly List<IntVec2> _path = [];
     private static IntVec2 _min, _max, _maskSize;
     private static IntVec3 _oldStart, _oldStop;
     private static int _oldThickness, _lastPointDrawn;

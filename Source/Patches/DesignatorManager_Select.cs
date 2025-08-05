@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
 using RimWorld;
+using System.Linq;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches;
@@ -26,11 +27,12 @@ internal class DesignatorManager_Select
             return;
 
         var shape = DesignatorShapes.Settings.AutoSelectShape || DesignatorShapes.CachedTool == null
-                    ? selectedDesignator.DrawStyleCategory.defName switch 
+                    ? selectedDesignator.DrawStyleCategory?.defName switch 
                         {
                             "Walls" => DesignatorShapeDefOf.Rectangle,
                             "Conduits" => DesignatorShapeDefOf.Line,
                             "Defenses" => DesignatorShapeDefOf.Rectangle,
+                            null => DesignatorShapes.CachedTool ?? DesignatorShapeDefOf.RectangleFilled,
                             _ => DesignatorShapeDefOf.RectangleFilled,
                         }
                     : DesignatorShapes.CachedTool;

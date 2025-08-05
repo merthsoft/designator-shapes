@@ -11,18 +11,38 @@ public static class Extensions
 {
     private static readonly BindingFlags FieldFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetField | BindingFlags.GetProperty;
 
+    public static bool AsBool(this object obj) => obj is bool b && b;
+
+    public static (IntVec3 upperLeft, IntVec3 bottomRight) GetBounds(this IEnumerable<IntVec3> cells)
+    {
+        var enumerator = cells.GetEnumerator();
+        if (!enumerator.MoveNext())
+            return (IntVec3.Invalid, IntVec3.Invalid);
+
+        var first = enumerator.Current;
+        var minX = first.x;
+        var maxX = first.x;
+        var minZ = first.z;
+        var maxZ = first.z;
+        var y = first.y;
+
+        while (enumerator.MoveNext())
+        {
+            var c = enumerator.Current;
+            if (c.x < minX) minX = c.x;
+            if (c.x > maxX) maxX = c.x;
+            if (c.z < minZ) minZ = c.z;
+            if (c.z > maxZ) maxZ = c.z;
+        }
+
+        return (new IntVec3(minX, y, minZ), new IntVec3(maxX, y, maxZ));
+    }
+
     public static object GetInstanceField(this object instance, string fieldName)
     {
         var type = instance.GetType();
         var field = type.GetField(fieldName, FieldFlags);
         return field.GetValue(instance);
-    }
-
-    public static T GetInstanceField<T>(this object instance, string fieldName) where T : class
-    {
-        var type = instance.GetType();
-        var field = type.GetField(fieldName, FieldFlags);
-        return field.GetValue(instance) as T;
     }
 
     public static void SetInstanceField<T>(this object instance, string fieldName, T value)
@@ -32,23 +52,10 @@ public static class Extensions
         field.SetValue(instance, value);
     }
 
-
-    public static void InvokeStaticMethod(this Type type, string methodName, params object[] methodParams)
-    {
-        var dynMethod = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
-        dynMethod.Invoke(null, methodParams);
-    }
-
     public static void InvokeMethod(this object obj, string methodName, params object[] methodParams)
     {
         var dynMethod = obj.GetType().GetMethod(methodName, FieldFlags);
         dynMethod.Invoke(obj, methodParams);
-    }
-
-    public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
-    {
-        foreach (var t in list)
-            action(t);
     }
 
     public static List<TResult> SelectList<T, TResult>(this IEnumerable<T> i, Func<T, TResult> f) => i.Select(f).ToList();

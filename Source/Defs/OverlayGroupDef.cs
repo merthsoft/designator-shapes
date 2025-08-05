@@ -17,7 +17,7 @@ public class OverlayGroupDef : Def
     [Unsaved] public OverlayGroupDef ParentGroup;
 
     [Unsaved] public List<DesignatorShapeDef> Shapes;
-    [Unsaved] public List<OverlayGroupDef> ChildrenGroups = new();
+    [Unsaved] public List<OverlayGroupDef> ChildrenGroups = [];
 
     public int NumShapes => Shapes?.Count ?? 0;
 
