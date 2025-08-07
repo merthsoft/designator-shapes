@@ -119,13 +119,19 @@ public class DesignatorShapes : Mod
 
         ls.GapLine();
 
-        ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput".Translate(), ref Settings.EnableKeyboardInput);
         ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AllowCollapsing".Translate(), ref Settings.ToggleableInterface);
+        if (Settings.ToggleableInterface && Settings.EnableKeyboardInput)
+        {
+            ls.CheckboxLabeled("\t" + "Merthsoft_DesignatorShapes_Settings_AltToggle".Translate(), ref Settings.RestoreAltToggle);
+            if (Settings.RestoreAltToggle)
+                ls.CheckboxLabeled("\t" + "Merthsoft_DesignatorShapes_Settings_HideCompletelyOnAltToggle".Translate(), ref Settings.HideCompletelyOnAltToggle);
+        }
+
+        ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput".Translate(), ref Settings.EnableKeyboardInput);
+
         if (Settings.EnableKeyboardInput)
         {
             ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_EnableRotation".Translate(), ref Settings.EnableRotationKeys);
-            if (Settings.ToggleableInterface)
-                ls.CheckboxLabeled("\t" + "Merthsoft_DesignatorShapes_Settings_AltToggle".Translate(), ref Settings.RestoreAltToggle);
             ls.GapLine();
             ls.Label("Merthsoft_DesignatorShapes_Settings_KeyBindings".Translate());
 

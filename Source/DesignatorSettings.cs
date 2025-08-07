@@ -8,7 +8,8 @@ namespace Merthsoft.DesignatorShapes;
 public class DesignatorSettings : ModSettings
 {
     public bool RestoreAltToggle = false;
-    public bool ToggleableInterface = false;
+    public bool ToggleableInterface = true;
+    public bool HideCompletelyOnAltToggle = false;
     public int FloodFillCellLimit = 1500;
     public bool AutoSelectShape = false;
     public bool ResetShapeOnResume = false;
@@ -33,7 +34,8 @@ public class DesignatorSettings : ModSettings
         base.ExposeData();
 
         Scribe_Values.Look(ref RestoreAltToggle, nameof(RestoreAltToggle), false);
-        Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), false);
+        Scribe_Values.Look(ref HideCompletelyOnAltToggle, nameof(HideCompletelyOnAltToggle), false);
+        Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), true);
         Scribe_Values.Look(ref FloodFillCellLimit, nameof(FloodFillCellLimit), 1500);
         Scribe_Values.Look(ref AutoSelectShape, nameof(AutoSelectShape), false);
         Scribe_Values.Look(ref ResetShapeOnResume, nameof(ResetShapeOnResume), false);

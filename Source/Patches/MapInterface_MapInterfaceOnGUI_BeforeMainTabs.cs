@@ -17,7 +17,9 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
             || WorldRendererUtility.WorldSelected)
             return;
 
-        if (!DesignatorShapes.Settings.RestoreAltToggle || DesignatorShapes.ShowControls)
+        if (DesignatorShapes.ShowControls)
+            DesignatorShapes.ShapeControls?.ShapeControlsOnGUI();
+        else if (DesignatorShapes.Settings.RestoreAltToggle && !DesignatorShapes.Settings.HideCompletelyOnAltToggle)
             DesignatorShapes.ShapeControls?.ShapeControlsOnGUI();
 
         if (!DesignatorShapes.Settings.EnableKeyboardInput)
