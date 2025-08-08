@@ -16,6 +16,7 @@ namespace Merthsoft.DesignatorShapes;
 public class DesignatorShapes : Mod
 {
     private static bool defsLoaded = false;
+    public static Texture2D BoundingBoxTexture;
 
     public static DesignatorShapeDef CurrentTool { get; set; }
 
@@ -72,6 +73,11 @@ public class DesignatorShapes : Mod
         HarmonyInstance = new Harmony("Merthsoft.DesignatorShapes");
         HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
         Rotation = 0;
+
+        LongEventHandler.ExecuteWhenFinished(() =>
+        {
+            BoundingBoxTexture = ContentFinder<Texture2D>.Get("UI/Icons/BoundingBox");
+        });
     }
 
     public override void DoSettingsWindowContents(Rect inRect)
@@ -270,15 +276,29 @@ public class DesignatorShapes : Mod
     private static readonly FieldInfo OutlineTexField =
         AccessTools.Field(typeof(DesignationDragger), "OutlineTex");
 
+    private static (IntVec3 upperLeft, IntVec3 bottomRight) GetCurrentBoundary(DesignationDragger dragger)
+    {
+        if (Settings.BoundingBoxBasedOnShape)
+        {
+            return dragger.DragCells.GetBounds();
+        }
+        else
+        {
+            var intVec = (IntVec3)dragger.GetInstanceField("startDragCell");
+            var intVec2 = UI.MouseCell();
+            return (intVec, intVec2);
+        }
+    }
+
     public static void DrawDraggerOutline(DesignationDragger dragger)
     {
-        var (upperLeft, bottomRight) = dragger.DragCells.GetBounds();
-        
+        var outlineTex = (Texture2D)OutlineTexField.GetValue(null);
+
+        var (upperLeft, bottomRight) = GetCurrentBoundary(dragger);
         var intVec = upperLeft - bottomRight;
+
         intVec.x = Mathf.Abs(intVec.x) + 1;
         intVec.z = Mathf.Abs(intVec.z) + 1;
-
-        var outlineTex = (Texture2D)OutlineTexField.GetValue(null);
 
         if (intVec.x > 1 || intVec.z > 1)
         {

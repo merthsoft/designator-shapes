@@ -45,6 +45,7 @@
     <Compile Include="KeySettings.cs" />
     <Compile Include="Patches\DesignationDragger_DraggerOnGUI.cs" />
     <Compile Include="Patches\Designator_DoExtraGuiControls.cs" />
+    <Compile Include="Patches\PlaySettings_DoPlaySettingsGlobalControls.cs" />
     <Compile Include="Shapes\DrawStyle\DrawStyles.cs" />
     <Compile Include="Ui\KeyBinding.cs" />
     <Compile Include="Ui\ShapeDictionary.cs" />

@@ -29,6 +29,8 @@ public class DesignatorSettings : ModSettings
 
     public bool EnableRotationKeys = false;
 
+    public bool BoundingBoxBasedOnShape = false;
+
     public override void ExposeData()
     {
         base.ExposeData();
@@ -50,6 +52,7 @@ public class DesignatorSettings : ModSettings
         Scribe_Values.Look(ref LockPanelInPlace, nameof(LockPanelInPlace), false);
         Scribe_Values.Look(ref AnnounceToolSelection, nameof(AnnounceToolSelection), true);
         Scribe_Values.Look(ref EnableRotationKeys, nameof(EnableRotationKeys), false);
+        Scribe_Values.Look(ref BoundingBoxBasedOnShape, "BoundingBoxBasedOnShape", false);
 
         if (Keys == null || Keys.Count == 0)
             Keys = [];
