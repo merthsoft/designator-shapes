@@ -27,7 +27,7 @@ internal class DesignationDragger_DraggerUpdate
 
     public static void Postfix(DesignationDragger __instance)
     {
-        if (!(bool)__instance.GetInstanceField("dragging"))
+        if (!__instance.GetInstanceField<bool>("dragging"))
             return;
 
         var cells = __instance.DragCells;

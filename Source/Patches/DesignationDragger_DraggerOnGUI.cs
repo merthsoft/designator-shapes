@@ -12,7 +12,10 @@ public static class DesignationDragger_DraggerOnGUI
 {
     public static bool Prefix(DesignationDragger __instance)
     {
-        if (!AccessTools.Property(typeof(DesignationDragger), "Dragging").GetValue(__instance).AsBool())
+        if (__instance == null)
+            return true;
+
+        if (!__instance.Dragging)
             return true;
 
         if (DesignatorShapes.ShowControls)

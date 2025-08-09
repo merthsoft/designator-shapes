@@ -38,17 +38,38 @@ public static class Extensions
         return (new IntVec3(minX, y, minZ), new IntVec3(maxX, y, maxZ));
     }
 
-    public static object GetInstanceField(this object instance, string fieldName)
+    private static Dictionary<string, FieldInfo> InstanceFieldCache = [];
+
+    public static T GetInstanceField<T>(this object instance, string fieldName)
     {
         var type = instance.GetType();
-        var field = type.GetField(fieldName, FieldFlags);
-        return field.GetValue(instance);
+        var key = $"{type.Name}::{fieldName}";
+
+        if (!InstanceFieldCache.TryGetValue(key, out var field))
+        {
+            field = type.GetField(fieldName, FieldFlags);
+            if (field == null)
+            {
+                Log.ErrorOnce($"Field {fieldName} not found in {type.Name}.", Guid.NewGuid().GetHashCode());
+                return default;
+            }
+            InstanceFieldCache[key] = field;
+        }
+
+        return (T)(field.GetValue(instance));
     }
 
     public static void SetInstanceField<T>(this object instance, string fieldName, T value)
     {
         var type = instance.GetType();
-        var field = type.GetField(fieldName, FieldFlags);
+        var key = $"{type}::{fieldName}";
+
+        if (!InstanceFieldCache.TryGetValue(key, out var field))
+        {
+            field = type.GetField(fieldName, FieldFlags);
+            InstanceFieldCache[key] = field;
+        }
+
         field.SetValue(instance, value);
     }
 

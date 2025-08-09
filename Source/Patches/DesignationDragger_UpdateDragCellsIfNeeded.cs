@@ -13,7 +13,7 @@ public static class DesignationDragger_UpdateDragCellsIfNeeded
             return true;
         if (__instance == null)
             return false;
-        if (Time.frameCount == (int)__instance.GetInstanceField("lastUpdateFrame"))
+        if (Time.frameCount == __instance.GetInstanceField<int>("lastUpdateFrame"))
             return false;
 
         if (DesignatorShapes.CurrentTool == null)
@@ -22,7 +22,7 @@ public static class DesignationDragger_UpdateDragCellsIfNeeded
         __instance.DragCells.Clear();
         __instance.SetInstanceField<string>("failureReasonInt", null);
 
-        var start = (IntVec3)__instance.GetInstanceField("startDragCell");
+        var start = __instance.GetInstanceField<IntVec3>("startDragCell");
         var sizeOrEnd = DesignatorShapes.CurrentTool.useSizeInputs ? Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.InputVec : UI.MouseCell();
 
         var points = DesignatorShapes.CurrentTool?.DrawMethod(start, sizeOrEnd);

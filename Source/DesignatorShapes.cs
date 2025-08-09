@@ -284,7 +284,7 @@ public class DesignatorShapes : Mod
         }
         else
         {
-            var intVec = (IntVec3)dragger.GetInstanceField("startDragCell");
+            var intVec = dragger.GetInstanceField<IntVec3>("startDragCell");
             var intVec2 = UI.MouseCell();
             return (intVec, intVec2);
         }
