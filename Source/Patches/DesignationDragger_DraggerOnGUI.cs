@@ -10,7 +10,6 @@ namespace Merthsoft.DesignatorShapes.Patches;
 [HarmonyPatch(typeof(DesignationDragger), nameof(DesignationDragger.DraggerOnGUI))]
 public static class DesignationDragger_DraggerOnGUI
 {
-    // Prefix: runs before DraggerOnGUI
     public static bool Prefix(DesignationDragger __instance)
     {
         if (!AccessTools.Property(typeof(DesignationDragger), "Dragging").GetValue(__instance).AsBool())
