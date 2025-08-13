@@ -73,9 +73,9 @@ internal class ShapeMenuDriver
     };
 
     private Action GetAction(OverlayGroupDef g)
-        => g.NumShapes switch
+        => g.SelectMode switch
         {
-            1 => DictionaryMode ? null : () => DesignatorShapes.SelectTool(g.FirstShape),
+            AutoSelectGroupMode.AutoSelect => DictionaryMode ? null : () => DesignatorShapes.SelectTool(g.FirstShape),
             _ => () =>
             {
                 previousGroups.Push(SelectedGroup);

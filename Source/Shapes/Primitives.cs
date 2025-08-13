@@ -134,17 +134,38 @@ public static class Primitives
 
     public static IEnumerable<IntVec3> HorizontalLine(int x1, int x2, int y, int z, int thickness, bool direction)
     {
-        if (x1 > x2)
-            swap(ref x1, ref x2);
-        return Range(x1, x2 - x1 + 1).SelectMany(x => Range(0, thickness, direction).Select(t => new IntVec3(x, y, z + t)));
+        if (x1 > x2) swap(ref x1, ref x2);
+
+        if (thickness < 0)
+        {
+            thickness = -thickness;
+            direction = !direction;
+        }
+
+        for (int x = x1; x <= x2; x++)
+        {
+            for (int t = 0; t < thickness; t++)
+                yield return new IntVec3(x, y, z + (direction ? t : -t));
+        }
     }
 
     public static IEnumerable<IntVec3> VerticalLine(int x, int y, int z1, int z2, int thickness, bool direction)
     {
-        if (z1 > z2)
-            swap(ref z1, ref z2);
-        return Range(z1, z2 - z1 + 1).SelectMany(z => Range(0, thickness, direction).Select(t => new IntVec3(x + t, y, z)));
+        if (z1 > z2) swap(ref z1, ref z2);
+
+        if (thickness < 0)
+        {
+            thickness = -thickness;
+            direction = !direction;
+        }
+
+        for (int zz = z1; zz <= z2; zz++)
+        {
+            for (int t = 0; t < thickness; t++)
+                yield return new IntVec3(x + (direction ? t : -t), y, zz);
+        }
     }
+
 
     public static IEnumerable<IntVec3> Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, bool fill, int rotation, int thickness, bool fillCorners)
     {
@@ -544,4 +565,29 @@ public static class Primitives
 
         return ret;
     }
+
+    public static IEnumerable<IntVec3> Grid(IntVec3 s, IntVec3 t, int xSpacing, int zSpacing, int thickness)
+    {
+        var xStart = Math.Min(s.x, t.x);
+        var xEnd = Math.Max(s.x, t.x);
+        var zStart = Math.Min(s.z, t.z);
+        var zEnd = Math.Max(s.z, t.z);
+        var y = s.y;
+
+        var ret = new HashSet<IntVec3>();
+
+        if (xSpacing <= 0 || zSpacing <= 0)
+            return ret;
+
+        for (var x = xStart; x <= xEnd; x += xSpacing)
+            foreach (var p in VerticalLine(x, y, zStart, zEnd, thickness, true))
+                ret.Add(p);
+
+        for (var z = zEnd; z >= zStart; z -= zSpacing)
+            foreach (var p in HorizontalLine(xStart, xEnd, y, z, thickness, true))
+                ret.Add(p);
+
+        return ret;
+    }
+
 }

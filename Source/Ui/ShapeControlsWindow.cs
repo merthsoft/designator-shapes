@@ -61,9 +61,9 @@ public class ShapeControlsWindow
         Find.WindowStack.ImmediateWindow(ID, dragging ? DraggingWindowRect : WindowRect, WindowLayer.SubSuper, DoWindow, false, dragging, 0);
     }
 
-    private void DrawIcon(Rect rect, ActionIcon icon)
+    private void DrawIcon(Rect rect, ActionIcon icon, string tooltip)
     {
-        if (Widgets.ButtonImage(rect, icon.icon, Color.white, icon.highlightColor ?? GenUI.MouseoverColor))
+        if (Widgets.ButtonImage(rect, icon.icon, Color.white, icon.highlightColor ?? GenUI.MouseoverColor, tooltip: tooltip))
             icon.action?.Invoke();
     }
 
@@ -73,7 +73,7 @@ public class ShapeControlsWindow
         var y = 0;
         foreach (var icon in icons)
         {
-            DrawIcon(new Rect(x * IconSize + rect.x, y * IconSize + rect.y, IconSize, IconSize), icon);
+            DrawIcon(new Rect(x * IconSize + rect.x, y * IconSize + rect.y, IconSize, IconSize), icon, icon.label);
 
             x++;
             if (x == NumButtons / NumRows)
@@ -111,7 +111,7 @@ public class ShapeControlsWindow
             DrawIcons(rect, controller.GenerateIcons());
 
             if (DesignatorShapes.CurrentTool?.Group == controller.SelectedGroup
-                && (DesignatorShapes.CurrentTool?.useSizeInputs ?? false))
+                && (DesignatorShapes.CurrentTool?.ShowSizeInputs ?? false))
             {
                 var buffer = inputWidth.ToString();
 

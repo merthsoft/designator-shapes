@@ -64,6 +64,63 @@
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridThreeByThree</defName>
+		<label>3x3 grid</label>
+		<description>Designate in a 3x3 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_3</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.ThreeByThree</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_3</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridFourByFour</defName>
+		<label>4x4 grid</label>
+		<description>Designate in a 4x4 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_4</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.FourByFour</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_4</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridFiveByFive</defName>
+		<label>5x5 grid</label>
+		<description>Designate in a 5x5 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_5</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.FiveByFive</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_5</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSixBySix</defName>
+		<label>6x6 grid</label>
+		<description>Designate in a 6x6 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_6</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.SixBySix</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_6</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSevenBySeven</defName>
+		<label>7x7 grid</label>
+		<description>Designate in a 7x7 grid_7</description>
+		<uiIconPath>UI/Commands/Smol/grid_7</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.SevenBySeven</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_7</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSizeInput</defName>
+		<label>Custom grid</label>
+		<description>Designate in a custom dimmensioned grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_x</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.SizeInput</drawMethodName>
+		<overlayGroup>Grids_Input</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_x</selectedUiIconPath>
+		<showSizeInputs>true</showSizeInputs>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Ellipse</defName>
 		<label>ellipse</label>
 		<description>Designate in an ellipse</description>

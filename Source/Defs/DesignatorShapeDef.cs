@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Lumin;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Defs;
@@ -14,6 +15,7 @@ public class DesignatorShapeDef : Def
     public string overlayGroup;
     public string selectedUiIconPath;
     public bool useSizeInputs = false;
+    public bool showSizeInputs = false;
     public bool pauseOnSelection = false;
     public string uiIconPath;
 
@@ -23,7 +25,7 @@ public class DesignatorShapeDef : Def
     [Unsaved] public OverlayGroupDef Group;
     [Unsaved] public OverlayGroupDef RootGroup;
     [Unsaved] public Texture2D selectedUiIcon;
-
+    
     public bool AllowDragging => draggable && !useSizeInputs;
 
     [Unsaved]
@@ -32,17 +34,17 @@ public class DesignatorShapeDef : Def
     public Func<IntVec3, IntVec3, IEnumerable<IntVec3>> DrawMethod
         => drawMethodCached ??= GenerateDrawMethod();
 
+    public bool ShowSizeInputs
+        => useSizeInputs || showSizeInputs;
+
     private Func<IntVec3, IntVec3, IEnumerable<IntVec3>> GenerateDrawMethod()
     {
         var splitName = drawMethodName.Split('.');
         var methodName = splitName[splitName.Length - 1];
-        var typeName = string.Join(".", splitName.ToList().Take(splitName.Length - 1).ToArray());
+        var typeName = string.Join(".", [.. splitName.ToList().Take(splitName.Length - 1)]);
 
-        var type = GetType().Assembly.GetType(typeName);
-        if (type == null)
-            throw new Exception($"Could not load type {typeName}");
-
-        var method = type.GetMethod(methodName, new Type[] { typeof(IntVec3), typeof(IntVec3) });
+        var type = GetType().Assembly.GetType(typeName) ?? throw new Exception($"Could not load type {typeName}");
+        var method = type.GetMethod(methodName, [typeof(IntVec3), typeof(IntVec3)]);
         return method == null
             ? throw new Exception($"Could not find {methodName}(IntVec3, IntVec3) in {typeName}")
             : !(method.ReturnType == typeof(IEnumerable<IntVec3>))

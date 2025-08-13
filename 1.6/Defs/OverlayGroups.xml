@@ -24,6 +24,25 @@
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Grids</defName>
+        <label>Grids</label>
+        <description>Grids.</description>
+        <parentGroupName>Rectangle</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/grid_open</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/grid_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Grids_Input</defName>
+        <label>Custom grids</label>
+        <description>Custom grids</description>
+        <parentGroupName>Grids</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/grid_open</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/grid_close</closeUiIconPath>
+        <autoSelect>false</autoSelect>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
         <defName>Ellipse</defName>
         <label>Ellipses</label>
         <uiIconPath>UI/Commands/Smol/circle_more</uiIconPath>

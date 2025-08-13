@@ -41,12 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionIcon.cs" />
+    <Compile Include="Defs\AutoSelectGroupMode.cs" />
     <Compile Include="Defs\OverlayGroupDef.cs" />
     <Compile Include="KeySettings.cs" />
     <Compile Include="Patches\DesignationDragger_DraggerOnGUI.cs" />
     <Compile Include="Patches\Designator_DoExtraGuiControls.cs" />
     <Compile Include="Patches\PlaySettings_DoPlaySettingsGlobalControls.cs" />
     <Compile Include="Shapes\DrawStyle\DrawStyles.cs" />
+    <Compile Include="Shapes\Grids.cs" />
     <Compile Include="Ui\KeyBinding.cs" />
     <Compile Include="Ui\ShapeDictionary.cs" />
     <Compile Include="Extensions.cs" />

@@ -83,5 +83,33 @@
     <drawStyleType>Merthsoft.DesignatorShapes.Shapes.DrawStyle.TradeBeaconOutline</drawStyleType>
     <drawOutline>true</drawOutline>
   </DrawStyleDef>
-
+<!-- 
+  <DrawStyleDef>
+    <defName>GridFourByFour</defName>
+    <label>4x4 Grid</label>
+    <uiIconPath>UI/Commands/Smol/grid</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.Grids.FourByFour</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+  <DrawStyleDef>
+    <defName>GridFiveByFive</defName>
+    <label>5x5 Grid</label>
+    <uiIconPath>UI/Commands/Smol/grid</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.Grids.FiveByFive</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+  <DrawStyleDef>
+    <defName>GridSixBySix</defName>
+    <label>6x6 Grid</label>
+    <uiIconPath>UI/Commands/Smol/grid</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.Grids.SixBySix</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef>
+  <DrawStyleDef>
+    <defName>GridSevenBySeven</defName>
+    <label>7x7 Grid</label>
+    <uiIconPath>UI/Commands/Smol/grid</uiIconPath>
+    <drawStyleType>Merthsoft.DesignatorShapes.Shapes.Grids.SevenBySeven</drawStyleType>
+    <drawOutline>true</drawOutline>
+  </DrawStyleDef> -->
 </Defs>

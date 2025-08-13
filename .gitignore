@@ -316,3 +316,5 @@ ASALocalRun/
 
 # MSBuild Binary and Structured Log
 *.binlog
+
+1.6/Assemblies/Merthsoft.DesignatorShapes.dll
