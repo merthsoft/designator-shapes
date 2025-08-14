@@ -23,7 +23,9 @@ public static class DesignationDragger_UpdateDragCellsIfNeeded
         __instance.SetInstanceField<string>("failureReasonInt", null);
 
         var start = __instance.GetInstanceField<IntVec3>("startDragCell");
-        var sizeOrEnd = DesignatorShapes.CurrentTool.useSizeInputs ? Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.InputVec : UI.MouseCell();
+        var sizeOrEnd = DesignatorShapes.CurrentTool.useSizeInputs 
+                        ? Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.InputVec 
+                        : UI.MouseCell();
 
         var points = DesignatorShapes.CurrentTool?.DrawMethod(start, sizeOrEnd);
 
