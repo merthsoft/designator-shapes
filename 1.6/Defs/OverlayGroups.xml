@@ -34,11 +34,30 @@
 
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
         <defName>Grids_Input</defName>
-        <label>Custom grids</label>
-        <description>Custom grids</description>
+        <label>Custom sized grids</label>
+        <description>Custom sized grids</description>
         <parentGroupName>Grids</parentGroupName>
         <uiIconPath>UI/Commands/Smol/grid_open</uiIconPath>
         <closeUiIconPath>UI/Commands/Smol/grid_close</closeUiIconPath>
+        <autoSelect>false</autoSelect>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Grids_Inverse</defName>
+        <label>Inverse grids</label>
+        <description>Inverse grids.</description>
+        <parentGroupName>Rectangle</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/grid_inverse_open</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/grid_inverse_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Grids_Inverse_Input</defName>
+        <label>Custom sized inverse grids</label>
+        <description>Custom sized inverse grids</description>
+        <parentGroupName>Grids_Inverse</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/grid_inverse_open</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/grid_inverse_close</closeUiIconPath>
         <autoSelect>false</autoSelect>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 

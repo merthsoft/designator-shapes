@@ -121,6 +121,63 @@
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridThreeByThreeInverse</defName>
+		<label>Inverse 3x3 grid</label>
+		<description>Designate in an inverse 3x3 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_3</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.ThreeByThree</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_3</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridFourByFourInverse</defName>
+		<label>Inverse 4x4 grid</label>
+		<description>Designate in a 4x4 Inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_4</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.FourByFour</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_4</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridFiveByFiveInverse</defName>
+		<label>Inverse5x5 grid</label>
+		<description>Designate in a 5x5 Inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_5</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.FiveByFive</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_5</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSixBySixInverse</defName>
+		<label>Inverse 6x6 grid</label>
+		<description>Designate in a 6x6 Inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_6</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.SixBySix</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_6</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSevenBySevenInverse</defName>
+		<label>Inverse 7x7 grid</label>
+		<description>Designate in a 7x7 Inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_7</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.SevenBySeven</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_7</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSizeInputInverse</defName>
+		<label>Custom inverse grid</label>
+		<description>Designate in a custom dimmensioned inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_x</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.SizeInput</drawMethodName>
+		<overlayGroup>Grids_Inverse_Input</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_x</selectedUiIconPath>
+		<showSizeInputs>true</showSizeInputs>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Ellipse</defName>
 		<label>ellipse</label>
 		<description>Designate in an ellipse</description>

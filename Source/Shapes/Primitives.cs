@@ -590,4 +590,58 @@ public static class Primitives
         return ret;
     }
 
+    public static IEnumerable<IntVec3> InverseGrid(IntVec3 s, IntVec3 t, int xSpacing, int zSpacing, int thickness)
+    {
+        var xStart = Math.Min(s.x, t.x);
+        var xEnd = Math.Max(s.x, t.x);
+        var zStart = Math.Min(s.z, t.z);
+        var zEnd = Math.Max(s.z, t.z);
+        var y = s.y;
+
+        var ret = new HashSet<IntVec3>();
+        if (xSpacing <= 0 || zSpacing <= 0 || thickness < 0)
+            return ret;
+
+        if (thickness >= xSpacing || thickness >= zSpacing)
+            return ret;
+
+        var xLines = new List<int>();
+        for (var x = xStart; x <= xEnd; x += xSpacing) 
+            xLines.Add(x);
+        
+        if (xLines.Count == 0 || xLines[xLines.Count - 1] != xEnd) 
+            xLines.Add(xEnd);
+
+        var zLines = new List<int>();
+
+        for (int z = zStart; z <= zEnd; z += zSpacing) 
+            zLines.Add(z);
+        
+        if (zLines.Count == 0 || zLines[zLines.Count - 1] != zEnd) 
+            zLines.Add(zEnd);
+
+        for (int xi = 0; xi < xLines.Count - 1; xi++)
+        {
+            int cellX1 = xLines[xi] + thickness;
+            int cellX2 = xLines[xi + 1] - 1; 
+
+            if (cellX1 > cellX2) continue;
+
+            for (int zi = 0; zi < zLines.Count - 1; zi++)
+            {
+                int cellZ1 = zLines[zi] + thickness;
+                int cellZ2 = zLines[zi + 1] - 1;
+
+                if (cellZ1 > cellZ2) 
+                    continue;
+
+                foreach (var p in Rectangle(cellX1, y, cellZ1, cellX2, y, cellZ2, true, rotation: 0, thickness: 1, fillCorners: true))
+                    ret.Add(p);
+            }
+        }
+
+        return ret;
+    }
+
+
 }

@@ -49,6 +49,7 @@
     <Compile Include="Patches\PlaySettings_DoPlaySettingsGlobalControls.cs" />
     <Compile Include="Shapes\DrawStyle\DrawStyles.cs" />
     <Compile Include="Shapes\Grids.cs" />
+    <Compile Include="Shapes\InverseGrids.cs" />
     <Compile Include="Ui\KeyBinding.cs" />
     <Compile Include="Ui\ShapeDictionary.cs" />
     <Compile Include="Extensions.cs" />
