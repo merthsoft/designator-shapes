@@ -614,23 +614,24 @@ public static class Primitives
 
         var zLines = new List<int>();
 
-        for (int z = zStart; z <= zEnd; z += zSpacing) 
+        for (var z = zStart; z <= zEnd; z += zSpacing) 
             zLines.Add(z);
         
         if (zLines.Count == 0 || zLines[zLines.Count - 1] != zEnd) 
             zLines.Add(zEnd);
 
-        for (int xi = 0; xi < xLines.Count - 1; xi++)
+        for (var xi = 0; xi < xLines.Count - 1; xi++)
         {
-            int cellX1 = xLines[xi] + thickness;
-            int cellX2 = xLines[xi + 1] - 1; 
+            var cellX1 = xLines[xi] + thickness;
+            var cellX2 = xLines[xi + 1] - 1; 
 
-            if (cellX1 > cellX2) continue;
+            if (cellX1 > cellX2) 
+                continue;
 
-            for (int zi = 0; zi < zLines.Count - 1; zi++)
+            for (var zi = 0; zi < zLines.Count - 1; zi++)
             {
-                int cellZ1 = zLines[zi] + thickness;
-                int cellZ2 = zLines[zi + 1] - 1;
+                var cellZ1 = zLines[zi] + thickness;
+                var cellZ2 = zLines[zi + 1] - 1;
 
                 if (cellZ1 > cellZ2) 
                     continue;
