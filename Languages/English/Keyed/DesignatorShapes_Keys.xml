@@ -36,4 +36,10 @@
 
     <Merthsoft_DesignatorShapes_SizeInputWidthLabel>W</Merthsoft_DesignatorShapes_SizeInputWidthLabel>
     <Merthsoft_DesignatorShapes_SizeInputHeightLabel>H</Merthsoft_DesignatorShapes_SizeInputHeightLabel>
+
+    <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeToggleTooltip>Toggle using Designator Shapes shape-based bounding box.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeToggleTooltip>
+    <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode>Bounding box behavior:</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode>
+    <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Vanilla>Mouse input (vanilla behavior).</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Vanilla>
+    <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Shape>Base bounding box on shape instead of mouse input.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Shape>
+    <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>Add toggle to play settings.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>
 </LanguageData>

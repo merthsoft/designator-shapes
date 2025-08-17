@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionIcon.cs" />
+    <Compile Include="BoundingBoxMode.cs" />
     <Compile Include="Defs\AutoSelectGroupMode.cs" />
     <Compile Include="Defs\OverlayGroupDef.cs" />
     <Compile Include="KeySettings.cs" />

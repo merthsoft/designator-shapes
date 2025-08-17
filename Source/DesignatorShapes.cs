@@ -104,6 +104,17 @@ public class DesignatorShapes : Mod
         ls.TextFieldNumeric(ref Settings.FloodFillCellLimit, ref maxBuffer);
         ls.GapLine();
 
+        ls.Label("Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode".Translate());
+
+        foreach (BoundingBoxMode mode in Enum.GetValues(typeof(BoundingBoxMode)))
+        {
+            var isSelected = (Settings.BoundingBoxMode == mode);
+            var label = $"Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_{mode}".Translate();
+            if (ls.RadioButton($"\t{label}", isSelected))
+                Settings.BoundingBoxMode = mode;
+        }
+
+        ls.GapLine();
         ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AutoSelectShapes".Translate(), ref Settings.AutoSelectShape);
         ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_ResetShapeOnResume".Translate(), ref Settings.ResetShapeOnResume);
         ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_PauseOnFloodFill".Translate(), ref Settings.PauseOnFloodFillSelect);
@@ -278,16 +289,24 @@ public class DesignatorShapes : Mod
 
     private static (IntVec3 upperLeft, IntVec3 bottomRight) GetCurrentBoundary(DesignationDragger dragger)
     {
-        if (Settings.BoundingBoxBasedOnShape)
-        {
+        if (!DesignatorShapes.CurrentTool.AllowDragging)
             return dragger.DragCells.GetBounds();
-        }
-        else
+        
+        switch (Settings.BoundingBoxMode)
         {
-            var intVec = dragger.GetInstanceField<IntVec3>("startDragCell");
-            var intVec2 = UI.MouseCell();
-            return (intVec, intVec2);
+            case BoundingBoxMode.Vanilla:
+            case BoundingBoxMode.Toggle when !Settings.BoundingBoxBasedOnShape:
+                return GetDefaultBounds(dragger);
+            default:
+                return dragger.DragCells.GetBounds();
         }
+    }
+
+    private static (IntVec3 upperLeft, IntVec3 bottomRight) GetDefaultBounds(DesignationDragger dragger)
+    {
+        var intVec = dragger.GetInstanceField<IntVec3>("startDragCell");
+        var intVec2 = UI.MouseCell();
+        return (intVec, intVec2);
     }
 
     public static void DrawDraggerOutline(DesignationDragger dragger)

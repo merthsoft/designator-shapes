@@ -125,16 +125,17 @@ public class ShapeControlsWindow
                 if (Widgets.ButtonText(rect, editingInput ? "-" : "+"))
                     editingInput = !editingInput;
 
-                rect.x += 15;
-                rect.width = width - rect.y;
-                rect.width = rect.width / 2;
                 if (editingInput)
                 {
-                    var label = "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate();
+                    rect.x += 5;
+                    rect.width = width - rect.x;
+                    rect.width = rect.width / 2;
+
+                    var label = "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate() + ": ";
                     var buffer = inputWidth.ToString();
                     Widgets.TextFieldNumericLabeled(rect, label, ref inputWidth, ref buffer);
                     
-                    label = "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate();
+                    label = "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate() + ": ";
                     buffer = inputHeight.ToString();
                     rect.x += rect.width;
                     Widgets.TextFieldNumericLabeled(rect, label, ref inputHeight, ref buffer);
@@ -146,6 +147,10 @@ public class ShapeControlsWindow
                     }
                 } else
                 {
+                    rect.x += 15;
+                    rect.width = width - rect.x;
+                    rect.width = rect.width / 2;
+
                     var label = "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate() + $": {inputWidth}";
                     Widgets.Label(rect, label);
                     rect.x += rect.width;

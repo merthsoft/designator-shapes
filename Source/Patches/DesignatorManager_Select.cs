@@ -30,7 +30,7 @@ internal class DesignatorManager_Select
                     ? selectedDesignator.DrawStyleCategory?.defName switch 
                         {
                             "Walls" => DesignatorShapeDefOf.Rectangle,
-                            "Conduits" => DesignatorShapeDefOf.Line,
+                            "Conduits" => DesignatorShapeDefOf.Rectangle,
                             "Defenses" => DesignatorShapeDefOf.Rectangle,
                             null => DesignatorShapes.CachedTool ?? DesignatorShapeDefOf.RectangleFilled,
                             _ => DesignatorShapeDefOf.RectangleFilled,

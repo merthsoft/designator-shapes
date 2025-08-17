@@ -29,31 +29,35 @@ public class DesignatorSettings : ModSettings
 
     public bool EnableRotationKeys = false;
 
+    public BoundingBoxMode BoundingBoxMode = BoundingBoxMode.Vanilla;
     public bool BoundingBoxBasedOnShape = false;
 
     public override void ExposeData()
     {
         base.ExposeData();
 
-        Scribe_Values.Look(ref RestoreAltToggle, nameof(RestoreAltToggle), false);
-        Scribe_Values.Look(ref HideCompletelyOnAltToggle, nameof(HideCompletelyOnAltToggle), false);
-        Scribe_Values.Look(ref ToggleableInterface, nameof(ToggleableInterface), true);
-        Scribe_Values.Look(ref FloodFillCellLimit, nameof(FloodFillCellLimit), 1500);
-        Scribe_Values.Look(ref AutoSelectShape, nameof(AutoSelectShape), false);
-        Scribe_Values.Look(ref ResetShapeOnResume, nameof(ResetShapeOnResume), false);
-        Scribe_Values.Look(ref DrawBackground, nameof(DrawBackground), false);
-        Scribe_Values.Look(ref IconSize, nameof(IconSize), 40);
-        Scribe_Values.Look(ref WindowX, nameof(WindowX), -1);
-        Scribe_Values.Look(ref WindowY, nameof(WindowY), -1);
-        Scribe_Values.Look(ref PauseOnFloodFillSelect, nameof(PauseOnFloodFillSelect), true);
-        Scribe_Values.Look(ref EnableKeyboardInput, nameof(EnableKeyboardInput), true);
-        Scribe_Collections.Look(ref Keys, nameof(Keys), LookMode.Value);
-        Scribe_Values.Look(ref HideWhenNoOpenTab, nameof(HideWhenNoOpenTab), false);
-        Scribe_Values.Look(ref LockPanelInPlace, nameof(LockPanelInPlace), false);
-        Scribe_Values.Look(ref AnnounceToolSelection, nameof(AnnounceToolSelection), true);
-        Scribe_Values.Look(ref EnableRotationKeys, nameof(EnableRotationKeys), false);
+        // Note: We're using strings instead of nameof() just in case we want to change
+        //       the variable name in the future, it won't change the save entry.
+        Scribe_Values.Look(ref RestoreAltToggle, "RestoreAltToggle", false);
+        Scribe_Values.Look(ref HideCompletelyOnAltToggle, "HideCompletelyOnAltToggle", false);
+        Scribe_Values.Look(ref ToggleableInterface, "ToggleableInterface", true);
+        Scribe_Values.Look(ref FloodFillCellLimit, "FloodFillCellLimit", 1500);
+        Scribe_Values.Look(ref AutoSelectShape, "AutoSelectShape", false);
+        Scribe_Values.Look(ref ResetShapeOnResume, "ResetShapeOnResume", false);
+        Scribe_Values.Look(ref DrawBackground, "DrawBackground", false);
+        Scribe_Values.Look(ref IconSize, "IconSize", 40);
+        Scribe_Values.Look(ref WindowX, "WindowX", -1);
+        Scribe_Values.Look(ref WindowY, "WindowY", -1);
+        Scribe_Values.Look(ref PauseOnFloodFillSelect, "PauseOnFloodFillSelect", true);
+        Scribe_Values.Look(ref EnableKeyboardInput, "EnableKeyboardInput", true);
+        Scribe_Collections.Look(ref Keys, "Keys", LookMode.Value);
+        Scribe_Values.Look(ref HideWhenNoOpenTab, "HideWhenNoOpenTab", false);
+        Scribe_Values.Look(ref LockPanelInPlace, "LockPanelInPlace", false);
+        Scribe_Values.Look(ref AnnounceToolSelection, "AnnounceToolSelection", true);
+        Scribe_Values.Look(ref EnableRotationKeys, "EnableRotationKeys", false);
         Scribe_Values.Look(ref BoundingBoxBasedOnShape, "BoundingBoxBasedOnShape", false);
-        
+        Scribe_Values.Look(ref BoundingBoxMode, "BoundingBoxMode", BoundingBoxMode.Vanilla);
+
         if (Keys == null || Keys.Count == 0)
             Keys = [];
 

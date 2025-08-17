@@ -11,4 +11,5 @@ public static class DesignatorShapeDefOf
     public static DesignatorShapeDef RectangleFilled;
     public static DesignatorShapeDef Undo;
     public static DesignatorShapeDef Redo;
+    public static DesignatorShapeDef FloodFill;
 }

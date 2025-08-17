@@ -9,9 +9,12 @@ public static class PlaySettings_DoPlaySettingsGlobalControls
 {
     public static void Postfix(WidgetRow row)
     {
+        if (DesignatorShapes.Settings.BoundingBoxMode != BoundingBoxMode.Toggle)
+            return;
+
         row.ToggleableIcon(
-            toggleable: ref DesignatorShapes.Settings.BoundingBoxBasedOnShape,
-            tex: DesignatorShapes.BoundingBoxTexture,
-            tooltip: "".Translate());
+                        toggleable: ref DesignatorShapes.Settings.BoundingBoxBasedOnShape,
+                        tex: DesignatorShapes.BoundingBoxTexture,
+                        tooltip: "Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeToggleTooltip".Translate());
     }
 }

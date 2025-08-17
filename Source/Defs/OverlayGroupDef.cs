@@ -16,7 +16,7 @@ public class OverlayGroupDef : Def
     public string parentGroupName;
     [Unsaved] public OverlayGroupDef ParentGroup;
 
-    public bool autoSelect;
+    public bool autoSelect = true;
 
     [Unsaved] public List<DesignatorShapeDef> Shapes;
     [Unsaved] public List<OverlayGroupDef> ChildrenGroups = [];
