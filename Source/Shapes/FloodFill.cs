@@ -20,7 +20,8 @@ public static class FloodFill
             return ret;
 
         var wallAtMouse = map.getWallDefAt(t);
-        var designationsAtMouse = map.getDesignationsAt(t);
+        // AllDesignationsAt reuses a temporary list; retain only the seed's state.
+        var hasDesignationsAtMouse = map.getDesignationsAt(t).Any();
         var mineableAtMouse = map.getMineableAt(t);
         var floorAtMouse = map.getTerrainAt(t);
         var fertAtMouse = map.getFertilityAt(t);
@@ -63,7 +64,7 @@ public static class FloodFill
                 if (cellMineable?.def == mineableAtMouse.def)
                     addFlag = true;
             }
-            else if (designationsAtMouse?.Count() > 0)
+            else if (hasDesignationsAtMouse)
             {
                 if (cellWall == null && cellMineable == null && cellDes.Count() > 0)
                     addFlag = true;
@@ -106,16 +107,17 @@ public static class FloodFill
             return false;
 
         var mineable = map.getMineableAt(cell);
-        if (mineable?.def.building?.isNaturalRock != true)
+        if (mineable?.def.building?.isNaturalRock != true && mineable?.def.building?.isResourceRock != true)
             return true;
 
-        // Vanilla natural rock uses cardinal Rock links (and MapEdge links).
+        // Require a cardinal face blocked by neither a rock link nor a full edifice.
         // An unfogged interior tile still conceals its ore identity until a face is exposed.
         foreach (var direction in GenAdj.CardinalDirections)
         {
             var adjacent = cell + direction;
             if (adjacent.InBounds(map) && !adjacent.Fogged(map)
-                && (map.linkGrid.LinkFlagsAt(adjacent) & LinkFlags.Rock) == 0)
+                && (map.linkGrid.LinkFlagsAt(adjacent) & LinkFlags.Rock) == 0
+                && (adjacent.GetEdifice(map)?.def.fillPercent ?? 0f) < 1f)
                 return true;
         }
         return false;
