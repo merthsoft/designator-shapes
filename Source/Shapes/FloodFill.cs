@@ -14,6 +14,11 @@ public static class FloodFill
         if (map == null || !t.InBounds(map))
             return ret;
 
+        var restrictToRevealed = DesignatorShapes.Settings.RestrictFloodFillToRevealedCells;
+        bool CanVisit(IntVec3 cell) => cell.InBounds(map) && (!restrictToRevealed || IsRevealedCell(map, cell));
+        if (!CanVisit(t))
+            return ret;
+
         var wallAtMouse = map.getWallDefAt(t);
         var designationsAtMouse = map.getDesignationsAt(t);
         var mineableAtMouse = map.getMineableAt(t);
@@ -22,11 +27,16 @@ public static class FloodFill
 
         var cells = new Queue<IntVec3>();
         cells.Enqueue(t);
+        void EnqueueIfAllowed(IntVec3 cell)
+        {
+            if (CanVisit(cell))
+                cells.Enqueue(cell);
+        }
 
         while (cells.Count() > 0 && ret.Count() < DesignatorShapes.Settings.FloodFillCellLimit)
         {
             var cell = cells.Dequeue();
-            if (!cell.InBounds(map))
+            if (!CanVisit(cell))
                 continue;
             if (ret.Contains(cell))
                 continue;
@@ -55,7 +65,7 @@ public static class FloodFill
             }
             else if (designationsAtMouse?.Count() > 0)
             {
-                if (cellDes.Count() > 0)
+                if (cellWall == null && cellMineable == null && cellDes.Count() > 0)
                     addFlag = true;
             }
             else if (cellWall == null && cellMineable == null)
@@ -80,14 +90,35 @@ public static class FloodFill
             if (addFlag)
             {
                 ret.Add(cell);
-                cells.Enqueue(cell + IntVec3.North);
-                cells.Enqueue(cell + IntVec3.East);
-                cells.Enqueue(cell + IntVec3.South);
-                cells.Enqueue(cell + IntVec3.West);
+                EnqueueIfAllowed(cell + IntVec3.North);
+                EnqueueIfAllowed(cell + IntVec3.East);
+                EnqueueIfAllowed(cell + IntVec3.South);
+                EnqueueIfAllowed(cell + IntVec3.West);
             }
         }
 
         return ret;
+    }
+
+    private static bool IsRevealedCell(Map map, IntVec3 cell)
+    {
+        if (cell.Fogged(map))
+            return false;
+
+        var mineable = map.getMineableAt(cell);
+        if (mineable?.def.building?.isNaturalRock != true)
+            return true;
+
+        // Vanilla natural rock uses cardinal Rock links (and MapEdge links).
+        // An unfogged interior tile still conceals its ore identity until a face is exposed.
+        foreach (var direction in GenAdj.CardinalDirections)
+        {
+            var adjacent = cell + direction;
+            if (adjacent.InBounds(map) && !adjacent.Fogged(map)
+                && (map.linkGrid.LinkFlagsAt(adjacent) & LinkFlags.Rock) == 0)
+                return true;
+        }
+        return false;
     }
 
     private static float getFertilityAt(this Map map, IntVec3 cell) 

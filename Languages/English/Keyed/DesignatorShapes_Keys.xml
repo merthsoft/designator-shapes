@@ -42,4 +42,6 @@
     <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Vanilla>Mouse input (vanilla behavior).</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Vanilla>
     <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Shape>Base bounding box on shape instead of mouse input.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Shape>
     <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>Add toggle to play settings.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>
+    <Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells>Restrict flood fill to revealed cells</Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells>
+    <Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip>When enabled, flood fill cannot start in or pass through fogged cells or concealed natural rock. Natural rock must have a face exposed to an unfogged cell that is not linked as rock; hidden interiors of ore veins are excluded until exposed by mining. Disabled by default to preserve the existing ore-scouting behavior.</Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip>
 </LanguageData>

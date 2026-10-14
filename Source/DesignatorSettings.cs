@@ -12,6 +12,7 @@ public class DesignatorSettings : ModSettings
     public bool ToggleableInterface = true;
     public bool HideCompletelyOnAltToggle = false;
     public int FloodFillCellLimit = 1500;
+    public bool RestrictFloodFillToRevealedCells = false;
     public bool AutoSelectShape = false;
     public bool ResetShapeOnResume = false;
     public bool DrawBackground = true;
@@ -46,6 +47,7 @@ public class DesignatorSettings : ModSettings
         Scribe_Values.Look(ref HideCompletelyOnAltToggle, "HideCompletelyOnAltToggle", false);
         Scribe_Values.Look(ref ToggleableInterface, "ToggleableInterface", true);
         Scribe_Values.Look(ref FloodFillCellLimit, "FloodFillCellLimit", 1500);
+        Scribe_Values.Look(ref RestrictFloodFillToRevealedCells, "RestrictFloodFillToRevealedCells", false);
         Scribe_Values.Look(ref AutoSelectShape, "AutoSelectShape", false);
         Scribe_Values.Look(ref ResetShapeOnResume, "ResetShapeOnResume", false);
         Scribe_Values.Look(ref DrawBackground, "DrawBackground", false);

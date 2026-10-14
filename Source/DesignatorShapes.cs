@@ -114,6 +114,9 @@ public class DesignatorShapes : Mod
         var maxBuffer = Settings.FloodFillCellLimit.ToString();
         ls.Label("Merthsoft_DesignatorShapes_Settings_MaxCells".Translate());
         ls.TextFieldNumeric(ref Settings.FloodFillCellLimit, ref maxBuffer);
+        ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells".Translate(),
+            ref Settings.RestrictFloodFillToRevealedCells,
+            "Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip".Translate());
         ls.GapLine();
 
         ls.Label("Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode".Translate());
