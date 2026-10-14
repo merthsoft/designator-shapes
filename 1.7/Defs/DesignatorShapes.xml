@@ -376,4 +376,84 @@
 		<numRotations>0</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.HistoryManager.Redo</drawMethodName>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>Octagon</defName>
+    <label>Octagon outline</label>
+    <overlayGroup>Octagons</overlayGroup>
+    <numRotations>0</numRotations>
+    <description>Eight-sided outline fitted to the drag rectangle; thickness follows the line tool. Drag spans are limited to 512 cells per axis.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.Octagon</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/other_shapes</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>OctagonFilled</defName>
+    <label>Filled octagon</label>
+    <overlayGroup>Octagons</overlayGroup>
+    <numRotations>0</numRotations>
+    <description>Eight-sided fill fitted to the drag rectangle. Drag spans are limited to 512 cells per axis.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.OctagonFilled</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/other_shapes</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>Checkerboard</defName>
+    <label>Checkerboard: lower-left selected</label>
+    <overlayGroup>Checkerboards</overlayGroup>
+    <numRotations>0</numRotations>
+    <description>Alternate single cells anchored to the lower-left drag bound. Thickness does not change parity. Drag spans are limited to 512 cells per axis.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.Checkerboard</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/other_shapes</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>CheckerboardInverse</defName>
+    <label>Checkerboard: lower-left skipped</label>
+    <overlayGroup>Checkerboards</overlayGroup>
+    <numRotations>0</numRotations>
+    <description>Opposite parity of checkerboard, anchored to the lower-left drag bound. Drag spans are limited to 512 cells per axis.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.CheckerboardInverse</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/other_shapes</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>L</defName>
+    <label>L corner</label>
+    <overlayGroup>Corners</overlayGroup>
+    <numRotations>4</numRotations>
+    <description>Two perpendicular sides meeting at the lower-left bound. Rotate to choose another corner. Drag spans are limited to 512 cells per axis.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.L</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/other_shapes</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>LInverse</defName>
+    <label>Opposite L corner</label>
+    <overlayGroup>Corners</overlayGroup>
+    <numRotations>4</numRotations>
+    <description>Two perpendicular sides meeting at the upper-right bound. Rotate to choose another corner. Drag spans are limited to 512 cells per axis.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.LInverse</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/other_shapes</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>QuarterArc</defName>
+    <label>Quarter ellipse arc</label>
+    <overlayGroup>Arcs</overlayGroup>
+    <numRotations>4</numRotations>
+    <description>Open quarter ellipse fitted to the full drag width and height. Default center is lower-left; rotation turns its orientation. Drag spans are limited to 512 cells per axis.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.QuarterArc</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/other_shapes</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>SemicircleArc</defName>
+    <label>Semicircle / half ellipse arc</label>
+    <overlayGroup>Arcs</overlayGroup>
+    <numRotations>4</numRotations>
+    <description>Open half ellipse fitted to the full drag rectangle. Default diameter is the bottom edge. Equal width and twice the height gives a semicircle. Rotate to choose its orientation. Drag spans are limited to 512 cells per axis.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.SemicircleArc</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/other_shapes</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 </Defs>

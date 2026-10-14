@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +31,8 @@ public class ShapeControlsWindow
     public static int CollapseButtonSize => 15;
 
     private bool dragging;
+    private int visibleRows = NumRows;
+    private float PanelHeight => visibleRows * IconSize + LabelHeight + LineHeight * 2;
 
     public static float Width => NumButtons / NumRows * IconSize;
 
@@ -45,19 +47,21 @@ public class ShapeControlsWindow
     public ShapeControlsWindow(int x, int y, int iconSize, bool dictionaryMode = false)
     {
         IsHorizontal = true;
-        WindowRect = new(x, y, Width, Height);
+        WindowRect = new(x, y, Width, PanelHeight);
         IconSize = iconSize;
     }
 
     public void ShapeControlsOnGUI()
     {
+        visibleRows = Math.Max(NumRows, (controller.GenerateIcons().Count + 3) / 4);
+        WindowRect = new Rect(WindowRect.x, WindowRect.y, Width, PanelHeight);
         if (Find.MainTabsRoot.OpenTab == null && DesignatorShapes.Settings.HideWhenNoOpenTab)
             return;
 
         if (WindowRect.x == -1)
         {
             var infoRect = ArchitectCategoryTab.InfoRect;
-            WindowRect = new Rect(infoRect.x, infoRect.y - 110, Width, Height);
+            WindowRect = new Rect(infoRect.x, infoRect.y - 110, Width, PanelHeight);
         }
 
         Find.WindowStack.ImmediateWindow(ID, dragging ? DraggingWindowRect : WindowRect, WindowLayer.SubSuper, DoWindow, false, dragging, 0);
@@ -91,9 +95,9 @@ public class ShapeControlsWindow
     {
         var offset = dragging ? 100 : 0;
 
-        var rect = new Rect(offset, offset, Width, Height);
+        var rect = new Rect(offset, offset, Width, PanelHeight);
         if (DesignatorShapes.Settings.DrawBackground)
-            Widgets.DrawWindowBackground(rect.Clone(height: DesignatorShapes.ShowControls ? Height : LabelHeight));
+            Widgets.DrawWindowBackground(rect.Clone(height: DesignatorShapes.ShowControls ? PanelHeight : LabelHeight));
 
         Widgets.Label(rect.Clone(addX: 3), " " + "Merthsoft_DesignatorShapes_Shapes".Translate());
 
@@ -168,7 +172,7 @@ public class ShapeControlsWindow
                     Event.current.Use();
                     break;
                 case EventType.MouseDrag when dragging:
-                    WindowRect = new Rect(WindowRect.x + Event.current.delta.x, WindowRect.y + Event.current.delta.y, Width, Height);
+                    WindowRect = new Rect(WindowRect.x + Event.current.delta.x, WindowRect.y + Event.current.delta.y, Width, PanelHeight);
                     Event.current.Use();
                     break;
                 case EventType.MouseUp when dragging:

@@ -99,4 +99,32 @@
         <uiIconPath>UI/Commands/Smol/etc</uiIconPath>
         <closeUiIconPath>UI/Commands/Smol/etc_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+<Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <defName>Octagons</defName>
+    <label>Octagons</label>
+    <parentGroupName>MoreShapes</parentGroupName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+<Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <defName>Corners</defName>
+    <label>Corners</label>
+    <parentGroupName>MoreShapes</parentGroupName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+<Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <defName>Checkerboards</defName>
+    <label>Checkerboards</label>
+    <parentGroupName>MoreShapes</parentGroupName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+<Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <defName>Arcs</defName>
+    <label>Arcs</label>
+    <parentGroupName>MoreShapes</parentGroupName>
+    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
+    <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 </Defs>
