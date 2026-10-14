@@ -31,4 +31,6 @@
 
     <Merthsoft_DesignatorShapes_SizeInputWidthLabel>宽</Merthsoft_DesignatorShapes_SizeInputWidthLabel>
     <Merthsoft_DesignatorShapes_SizeInputHeightLabel>高</Merthsoft_DesignatorShapes_SizeInputHeightLabel>
+    <Merthsoft_DesignatorShapes_KeyLabel_Undo>撤销</Merthsoft_DesignatorShapes_KeyLabel_Undo>
+    <Merthsoft_DesignatorShapes_KeyLabel_Redo>重做</Merthsoft_DesignatorShapes_KeyLabel_Redo>
 </LanguageData>
