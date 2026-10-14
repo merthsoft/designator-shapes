@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Line</defName>
+		<label>line</label>
+		<description>Designate in a line</description>
+		<uiIconPath>UI/Commands/Smol/line</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Line</drawMethodName>
+		<overlayGroup>Line</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/line</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>LineFreeform</defName>
+		<label>freeform line</label>
+		<description>Designate in a freeform line, like a pen</description>
+		<uiIconPath>UI/Commands/Smol/freeform_line</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.FreeformLine.Line</drawMethodName>
+		<overlayGroup>Line</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/freeform_line</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Rectangle</defName>
+		<label>rectangle</label>
+		<description>Designate in a rectangle</description>
+		<uiIconPath>UI/Commands/Smol/rectangle</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Rectangle</drawMethodName>
+		<overlayGroup>Rectangle</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>RectangleFilled</defName>
+		<label>filled rectangle</label>
+		<description>Designate in a filled rectangle</description>
+		<uiIconPath>UI/Commands/Smol/rectangle_filled</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.RectangleFilled</drawMethodName>
+		<overlayGroup>Rectangle</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_filled</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Rectangle_Input</defName>
+		<label>fixed rectangle</label>
+		<description>Designate in a fixed rectangle with user-defined size</description>
+		<uiIconPath>UI/Commands/Smol/rectangle_fixed</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.Rectangle</drawMethodName>
+		<overlayGroup>Rectangle_Input</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_fixed</selectedUiIconPath>
+		<useSizeInputs>true</useSizeInputs>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>RectangleFilled_Input</defName>
+		<label>fixed filled rectangle</label>
+		<description>Designate in a fixed filled rectangle with user-defined size</description>
+		<uiIconPath>UI/Commands/Smol/rectangle_filled_fixed</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.RectangleFilled</drawMethodName>
+		<overlayGroup>Rectangle_Input</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_filled_fixed</selectedUiIconPath>
+		<useSizeInputs>true</useSizeInputs>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridThreeByThree</defName>
+		<label>3x3 grid</label>
+		<description>Designate in a 3x3 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_3</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.ThreeByThree</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_3</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridFourByFour</defName>
+		<label>4x4 grid</label>
+		<description>Designate in a 4x4 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_4</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.FourByFour</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_4</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridFiveByFive</defName>
+		<label>5x5 grid</label>
+		<description>Designate in a 5x5 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_5</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.FiveByFive</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_5</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSixBySix</defName>
+		<label>6x6 grid</label>
+		<description>Designate in a 6x6 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_6</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.SixBySix</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_6</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSevenBySeven</defName>
+		<label>7x7 grid</label>
+		<description>Designate in a 7x7 grid_7</description>
+		<uiIconPath>UI/Commands/Smol/grid_7</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.SevenBySeven</drawMethodName>
+		<overlayGroup>Grids</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_7</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSizeInput</defName>
+		<label>Custom grid</label>
+		<description>Designate in a custom dimmensioned grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_x</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.SizeInput</drawMethodName>
+		<overlayGroup>Grids_Input</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_x</selectedUiIconPath>
+		<showSizeInputs>true</showSizeInputs>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridThreeByThreeInverse</defName>
+		<label>Inverse 3x3 grid</label>
+		<description>Designate in an inverse 3x3 grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_3</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.ThreeByThree</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_3</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridFourByFourInverse</defName>
+		<label>Inverse 4x4 grid</label>
+		<description>Designate in a 4x4 Inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_4</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.FourByFour</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_4</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridFiveByFiveInverse</defName>
+		<label>Inverse5x5 grid</label>
+		<description>Designate in a 5x5 Inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_5</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.FiveByFive</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_5</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSixBySixInverse</defName>
+		<label>Inverse 6x6 grid</label>
+		<description>Designate in a 6x6 Inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_6</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.SixBySix</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_6</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSevenBySevenInverse</defName>
+		<label>Inverse 7x7 grid</label>
+		<description>Designate in a 7x7 Inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_7</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.SevenBySeven</drawMethodName>
+		<overlayGroup>Grids_Inverse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_7</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>GridSizeInputInverse</defName>
+		<label>Custom inverse grid</label>
+		<description>Designate in a custom dimmensioned inverse grid</description>
+		<uiIconPath>UI/Commands/Smol/grid_x</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.SizeInput</drawMethodName>
+		<overlayGroup>Grids_Inverse_Input</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_x</selectedUiIconPath>
+		<showSizeInputs>true</showSizeInputs>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Ellipse</defName>
+		<label>ellipse</label>
+		<description>Designate in an ellipse</description>
+		<uiIconPath>UI/Commands/Smol/ellipse</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Ellipse</drawMethodName>
+		<overlayGroup>Ellipse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>EllipseFilled</defName>
+		<label>filled ellipse</label>
+		<description>Designate in a filled ellipse</description>
+		<uiIconPath>UI/Commands/Smol/ellipse_filled</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.EllipseFilled</drawMethodName>
+		<overlayGroup>Ellipse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_filled</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Ellipse_Input</defName>
+		<label>fixed ellipse</label>
+		<description>Designate in a fixed ellipse with user-defined size</description>
+		<uiIconPath>UI/Commands/Smol/ellipse_fixed</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.Ellipse</drawMethodName>
+		<overlayGroup>Ellipse_Input</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_fixed</selectedUiIconPath>
+		<useSizeInputs>true</useSizeInputs>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>EllipseFilled_Input</defName>
+		<label>fixed filled ellipse</label>
+		<description>Designate in a fixed filled ellipse with user-defined size</description>
+		<uiIconPath>UI/Commands/Smol/ellipse_filled_fixed</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.SizeInputShapes.EllipseFilled</drawMethodName>
+		<overlayGroup>Ellipse_Input</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/ellipse_filled_fixed</selectedUiIconPath>
+		<useSizeInputs>true</useSizeInputs>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Hexagon</defName>
+		<label>hexagon</label>
+		<description>Designate in a hexagon</description>
+		<uiIconPath>UI/Commands/Smol/hexagon</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Hexagon</drawMethodName>
+		<overlayGroup>MoreShapes</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>HexagonFilled</defName>
+		<label>filled hexagon</label>
+		<description>Designate in a filled hexagon</description>
+		<uiIconPath>UI/Commands/Smol/hexagon_filled</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.HexagonFilled</drawMethodName>
+		<overlayGroup>MoreShapes</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_filled</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>MidpointHexagon</defName>
+		<label>midpoint hexagon</label>
+		<description>Designate in a hexagon from the center</description>
+		<uiIconPath>UI/Commands/Smol/hexagon_midpoint</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.MidpointHexagon</drawMethodName>
+		<overlayGroup>MoreShapes</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_midpoint</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>MidpointHexagonFilled</defName>
+		<label>midpoint filled hexagon</label>
+		<description>Designate in a filled hexagon from the center</description>
+		<uiIconPath>UI/Commands/Smol/hexagon_filled_midpoint</uiIconPath>
+		<numRotations>2</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.MidpointHexagonFilled</drawMethodName>
+		<overlayGroup>MoreShapes</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_filled_midpoint</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Pentagon</defName>
+		<label>pentagon</label>
+		<description>Designate in a pentagon</description>
+		<uiIconPath>UI/Commands/Smol/pentagon</uiIconPath>
+		<numRotations>4</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Pentagon</drawMethodName>
+		<overlayGroup>MoreShapes</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/pentagon</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>PentagonFilled</defName>
+		<label>filled pentagon</label>
+		<description>Designate in a filled pentagon</description>
+		<uiIconPath>UI/Commands/Smol/pentagon_filled</uiIconPath>
+		<numRotations>4</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.PentagonFilled</drawMethodName>
+		<overlayGroup>MoreShapes</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/pentagon_filled</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Circle</defName>
+		<label>circle</label>
+		<description>Designate in a circle</description>
+		<uiIconPath>UI/Commands/Smol/circle</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Circle</drawMethodName>
+		<overlayGroup>Ellipse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/circle</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>CircleFilled</defName>
+		<label>filled circle</label>
+		<description>Designate in a filled circle</description>
+		<uiIconPath>UI/Commands/Smol/circle_filled</uiIconPath>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.CircleFilled</drawMethodName>
+		<overlayGroup>Ellipse</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/circle_filled</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>FloodFill</defName>
+		<label>flood fill</label>
+		<description>Fill between a walled-in area.</description>
+		<uiIconPath>UI/Commands/Smol/fill</uiIconPath>
+		<draggable>false</draggable>
+		<numRotations>1</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.FloodFill.Fill</drawMethodName>
+		<overlayGroup>FloodFill</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/fill</selectedUiIconPath>
+		<pauseOnSelection>true</pauseOnSelection>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>SunLamp</defName>
+		<label>sun lamp</label>
+		<description>Designate in a sun-lamp-radius shape</description>
+		<uiIconPath>UI/Commands/Smol/sunlamp_filled</uiIconPath>
+		<draggable>false</draggable>
+		<numRotations>1</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.StampShapes.SunLamp</drawMethodName>
+		<overlayGroup>Etc</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/sunlamp_filled</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>SunLampOutline</defName>
+		<label>sun lamp outline</label>
+		<description>Designate in the outline of a sun-lamp-radius shape</description>
+		<uiIconPath>UI/Commands/Smol/sunlamp_outline</uiIconPath>
+		<draggable>false</draggable>
+		<numRotations>1</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.StampShapes.SunLampOutline</drawMethodName>
+		<overlayGroup>Etc</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/sunlamp_outline</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>TradeBeacon</defName>
+		<label>trade beacon</label>
+		<description>Designate in a trade-beacon-radius shape</description>
+		<uiIconPath>UI/Commands/Smol/trading_filled</uiIconPath>
+		<draggable>false</draggable>
+		<numRotations>1</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.StampShapes.TradeBeacon</drawMethodName>
+		<overlayGroup>Etc</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/trading_filled</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>TradeBeaconOutline</defName>
+		<label>trade beacon outline</label>
+		<description>Designate in the outline of a trade-beacon-radius shape</description>
+		<uiIconPath>UI/Commands/Smol/trading_outline</uiIconPath>
+		<draggable>false</draggable>
+		<numRotations>1</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.StampShapes.TradeBeaconOutline</drawMethodName>
+		<overlayGroup>Etc</overlayGroup>
+		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/trading_outline</selectedUiIconPath>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Undo</defName>
+		<label>undo</label>
+		<description>Undo last action. Only works when the game is paused</description>
+		<uiIconPath>UI/Commands/Smol/undo_disabled</uiIconPath>
+		<draggable>false</draggable>
+		<numRotations>0</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.HistoryManager.Undo</drawMethodName>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+		<defName>Redo</defName>
+		<label>redo</label>
+		<description>Redo last undo. Only works when the game is paused</description>
+		<uiIconPath>UI/Commands/Smol/redo_disabled</uiIconPath>
+		<draggable>false</draggable>
+		<numRotations>0</numRotations>
+		<drawMethodName>Merthsoft.DesignatorShapes.HistoryManager.Redo</drawMethodName>
+	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+</Defs>

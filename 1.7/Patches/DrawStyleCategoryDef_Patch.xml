@@ -1,0 +1,37 @@
+<Patch>
+  <!-- Inject into Default2D -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/DrawStyleCategoryDef[defName="Default2D"]/styles</xpath>
+    <value>
+      <li>LineFreeform</li>
+      <li>Circle</li>
+      <li>CircleFilled</li>
+      <li>SunLamp</li>
+      <li>SunLampOutline</li>
+      <li>TradeBeacon</li>
+      <li>TradeBeaconOutline</li>
+    </value>
+  </Operation>
+
+  <!-- Inject into Fill2D -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/DrawStyleCategoryDef[defName="Fill2D"]/styles</xpath>
+    <value>
+      <li>LineFreeform</li>
+      <li>CircleFilled</li>
+      <li>SunLamp</li>
+      <li>TradeBeacon</li>
+    </value>
+  </Operation>
+
+  <!-- Inject into Default1D -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/DrawStyleCategoryDef[defName="Default1D"]/styles</xpath>
+    <value>
+      <li>LineFreeform</li>
+      <li>Circle</li>
+      <li>SunLampOutline</li>
+      <li>TradeBeaconOutline</li>
+    </value>
+  </Operation>
+</Patch>

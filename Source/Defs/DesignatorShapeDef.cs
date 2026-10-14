@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Lumin;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Defs;
