@@ -11,6 +11,8 @@ public static class FloodFill
     {
         var ret = new HashSet<IntVec3>();
         var map = Find.CurrentMap;
+        if (map == null || !t.InBounds(map))
+            return ret;
 
         var wallAtMouse = map.getWallDefAt(t);
         var designationsAtMouse = map.getDesignationsAt(t);
@@ -66,7 +68,7 @@ public static class FloodFill
                     foreach (var thing in cellThings)
                     {
                         var def = thing.def.entityDefToBuild == null ? thing.def : thing.def.entityDefToBuild as ThingDef;
-                        if (def.coversFloor || def.IsStructure())
+                        if (def?.coversFloor == true || def.IsStructure())
                         {
                             addFlag = false;
                             break;
