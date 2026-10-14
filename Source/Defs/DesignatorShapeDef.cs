@@ -45,10 +45,10 @@ public class DesignatorShapeDef : Def
         var type = GetType().Assembly.GetType(typeName) ?? throw new Exception($"Could not load type {typeName}");
         var method = type.GetMethod(methodName, [typeof(IntVec3), typeof(IntVec3)]);
         return method == null
-            ? throw new Exception($"Could not find {methodName}(IntVec3, IntVec3) in {typeName}")
-            : !(method.ReturnType == typeof(IEnumerable<IntVec3>))
-            ? throw new Exception($"Return type for {methodName} is not IEnumerable<IntVec3>")
-            : ((arg1, arg2) => method.Invoke(null, new object[] { arg1, arg2 }) as IEnumerable<IntVec3>);
+                ? throw new Exception($"Could not find {methodName}(IntVec3, IntVec3) in {typeName}")
+                : !(method.ReturnType == typeof(IEnumerable<IntVec3>))
+                    ? throw new Exception($"Return type for {methodName} is not IEnumerable<IntVec3>")
+                    : ((arg1, arg2) => method.Invoke(null, new object[] { arg1, arg2 }) as IEnumerable<IntVec3>);
     }
 
     public void Select() => DesignatorShapes.SelectTool(this);

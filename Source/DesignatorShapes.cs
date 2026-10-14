@@ -20,7 +20,16 @@ public class DesignatorShapes : Mod
 
     public static DesignatorShapeDef CurrentTool { get; set; }
 
-    public static DesignatorShapeDef CachedTool { get; set; }
+    private static DesignatorShapeDef cachedTool;
+    public static DesignatorShapeDef CachedTool
+    {
+        get => cachedTool;
+        set
+        {
+            cachedTool = value;
+            CurrentTool ??= value;
+        }
+    }
 
     public static int Rotation { get; internal set; }
 
@@ -56,11 +65,12 @@ public class DesignatorShapes : Mod
 
     public static int Thickness
     {
-        get => thickness;
+        get => ShowControls ? thickness : 1;
         private set => thickness = value switch { var v when v < -50 => 50, var v when v > 50 => 50, _ => value, };
     }
 
     private static Vector2 scrollPosition = Vector2.zero;
+    private static float settingsViewHeight;
 
     public DesignatorShapes(ModContentPack content) : base(content)
     {
@@ -84,12 +94,14 @@ public class DesignatorShapes : Mod
     {
         LoadDefs();
 
-        var ls = new Listing_Standard();
-        var outRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - inRect.y);
-        var viewRect = new Rect(0, 0, outRect.width - 16, (Text.LineHeight + 2) * (27 + KeySettings.DefaultKeys.Count));
+        var viewRect = new Rect(0f, 0f, inRect.width - 25f, Mathf.Max(inRect.height, settingsViewHeight));
+        Widgets.BeginScrollView(inRect, ref scrollPosition, viewRect, showScrollbars: true);
 
-        ls.Begin(viewRect);
-        Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+        var ls = new Listing_Standard();
+        // Measure all controls in one column, including wrapped translations.
+        var listingRect = viewRect;
+        listingRect.height = 100000f;
+        ls.Begin(listingRect);
 
         if (ls.ButtonText("Merthsoft_DesignatorShapes_Settings_ShowShapeDictionary".Translate()))
         {
@@ -156,8 +168,9 @@ public class DesignatorShapes : Mod
                 DrawKeyInput(ls, keyIndex);
         }
 
-        Widgets.EndScrollView();
+        settingsViewHeight = ls.CurHeight;
         ls.End();
+        Widgets.EndScrollView();
         Settings.Write();
 
         ShapeControls = new(Settings.WindowX, Settings.WindowY, Settings.IconSize);
@@ -273,9 +286,10 @@ public class DesignatorShapes : Mod
     internal static void SelectTool(DesignatorShapeDef def)
     {
         FreeformLine.FreeMemory();
+        var toolChanged = CurrentTool != def;
         if (def != null)
             CachedTool = def;
-        if (Settings.AnnounceToolSelection && CurrentTool != def)
+        if (Settings.AnnounceToolSelection && toolChanged)
             Messages.Message("Merthsoft_DesignatorShapes_ToolSelected".Translate(def.LabelCap), MessageTypeDefOf.SilentInput, historical: false);
         CurrentTool = def;
         Rotation = 0;
