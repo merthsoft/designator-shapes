@@ -17,9 +17,7 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
             || WorldRendererUtility.WorldSelected)
             return;
 
-        if (DesignatorShapes.ShowControls)
-            DesignatorShapes.ShapeControls?.ShapeControlsOnGUI();
-        else if (DesignatorShapes.Settings.RestoreAltToggle && !DesignatorShapes.Settings.HideCompletelyOnAltToggle)
+        if (DesignatorShapes.ShowControls || !DesignatorShapes.Settings.HideCollapsedInterface)
             DesignatorShapes.ShapeControls?.ShapeControlsOnGUI();
 
         if (!DesignatorShapes.Settings.EnableKeyboardInput)
@@ -27,7 +25,9 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
 
         var current = Event.current;
 
-        if (current.type == EventType.KeyDown && current.alt && DesignatorShapes.Settings.RestoreAltToggle)
+        if (current.type == EventType.KeyDown
+            && current.keyCode is KeyCode.LeftAlt or KeyCode.RightAlt
+            && DesignatorShapes.Settings.RestoreAltToggle)
         {
             DesignatorShapes.ShowControls = !DesignatorShapes.ShowControls;
             Event.current.Use();

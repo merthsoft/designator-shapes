@@ -7,7 +7,8 @@ namespace Merthsoft.DesignatorShapes;
 
 public class DesignatorSettings : ModSettings
 {
-    public bool RestoreAltToggle = false;
+    public const bool DefaultRestoreAltToggle = false;
+    public bool RestoreAltToggle = DefaultRestoreAltToggle;
     public bool ToggleableInterface = true;
     public bool HideCompletelyOnAltToggle = false;
     public int FloodFillCellLimit = 1500;
@@ -29,6 +30,9 @@ public class DesignatorSettings : ModSettings
 
     public bool EnableRotationKeys = false;
 
+    public bool HideCollapsedInterface => ToggleableInterface
+        && EnableKeyboardInput && RestoreAltToggle && HideCompletelyOnAltToggle;
+
     public BoundingBoxMode BoundingBoxMode = BoundingBoxMode.Vanilla;
     public bool BoundingBoxBasedOnShape = false;
 
@@ -38,7 +42,7 @@ public class DesignatorSettings : ModSettings
 
         // Note: We're using strings instead of nameof() just in case we want to change
         //       the variable name in the future, it won't change the save entry.
-        Scribe_Values.Look(ref RestoreAltToggle, "RestoreAltToggle", false);
+        Scribe_Values.Look(ref RestoreAltToggle, "RestoreAltToggle", DefaultRestoreAltToggle);
         Scribe_Values.Look(ref HideCompletelyOnAltToggle, "HideCompletelyOnAltToggle", false);
         Scribe_Values.Look(ref ToggleableInterface, "ToggleableInterface", true);
         Scribe_Values.Look(ref FloodFillCellLimit, "FloodFillCellLimit", 1500);
