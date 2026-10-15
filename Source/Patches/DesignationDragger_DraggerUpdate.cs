@@ -13,11 +13,13 @@ internal class DesignationDragger_DraggerUpdate
     {
         foreach (var inst in instructions)
         {
-            // Skip the main call to RenderHighlight
+            // Custom geometry supplies its own cells below. Native palette workers,
+            // including hover previews for fixed-size tools, retain vanilla highlighting.
             if (inst.opcode == OpCodes.Callvirt && inst.operand is MethodInfo { Name: "RenderHighlight" })
             {
-                yield return new CodeInstruction(OpCodes.Pop);
-                yield return new CodeInstruction(OpCodes.Pop);
+                yield return new CodeInstruction(OpCodes.Call,
+                    AccessTools.Method(typeof(DesignationDragger_DraggerUpdate), nameof(RenderNativeHighlight)))
+                    .MoveLabelsFrom(inst).MoveBlocksFrom(inst);
                 continue;
             }
 
@@ -25,13 +27,19 @@ internal class DesignationDragger_DraggerUpdate
         }
     }
 
+    private static void RenderNativeHighlight(Designator designator, List<IntVec3> cells)
+    {
+        if (!DesignatorShapes.UseCustomGeometry) designator?.RenderHighlight(cells);
+    }
+
     public static void Postfix(DesignationDragger __instance)
     {
-        if (!__instance.GetInstanceField<bool>("dragging"))
+        if (!DesignatorShapes.UseCustomGeometry || !__instance.GetInstanceField<bool>("dragging"))
             return;
 
         var cells = __instance.DragCells;
         var selDes = Find.DesignatorManager.SelectedDesignator;
+        if (selDes == null) return;
 
         var numSelectedCells = 0;
         var tmpHighlightCells = new List<IntVec3>();

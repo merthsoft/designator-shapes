@@ -15,7 +15,7 @@ public class PaletteShapeDef : DrawStyleDef
 
 public class PaletteShapeWorker : DrawStyle
 {
-    internal static DesignatorShapeDef SelectedShape => Find.UIRoot is RimWorld.UIRoot_Play
+    internal static DesignatorShapeDef SelectedShape => Find.UIRoot is RimWorld.UIRoot_Play && Find.DesignatorManager.SelectedDesignator != null
         ? (Find.DesignatorManager?.SelectedStyle as PaletteShapeDef)?.shape : null;
     public override bool SingleCell => SelectedShape?.AllowDragging == false;
     public override void Update(IntVec3 origin, IntVec3 target, List<IntVec3> buffer)
