@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
         <defName>Line</defName>
@@ -103,28 +103,28 @@
     <defName>Octagons</defName>
     <label>Octagons</label>
     <parentGroupName>MoreShapes</parentGroupName>
-    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
-    <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    <uiIconPath>UI/Commands/Smol/Additional/octagons_open</uiIconPath>
+    <closeUiIconPath>UI/Commands/Smol/Additional/octagons_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
     <defName>Corners</defName>
     <label>Corners</label>
     <parentGroupName>MoreShapes</parentGroupName>
-    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
-    <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    <uiIconPath>UI/Commands/Smol/Additional/corners_open</uiIconPath>
+    <closeUiIconPath>UI/Commands/Smol/Additional/corners_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
     <defName>Checkerboards</defName>
     <label>Checkerboards</label>
     <parentGroupName>MoreShapes</parentGroupName>
-    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
-    <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    <uiIconPath>UI/Commands/Smol/Additional/checkerboards_open</uiIconPath>
+    <closeUiIconPath>UI/Commands/Smol/Additional/checkerboards_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
     <defName>Arcs</defName>
     <label>Arcs</label>
     <parentGroupName>MoreShapes</parentGroupName>
-    <uiIconPath>UI/Commands/Smol/other_shapes</uiIconPath>
-    <closeUiIconPath>UI/Commands/Smol/other_shapes_close</closeUiIconPath>
+    <uiIconPath>UI/Commands/Smol/Additional/arcs_open</uiIconPath>
+    <closeUiIconPath>UI/Commands/Smol/Additional/arcs_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 </Defs>
