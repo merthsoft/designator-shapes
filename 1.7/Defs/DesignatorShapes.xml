@@ -419,7 +419,7 @@
 <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <defName>L</defName>
     <label>L corner</label>
-    <overlayGroup>Corners</overlayGroup>
+    <overlayGroup>Line</overlayGroup>
     <numRotations>4</numRotations>
     <description>Two perpendicular sides meeting at the lower-left bound. Rotate to choose another corner. Drag spans are limited to 512 cells per axis.</description>
     <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.L</drawMethodName>
@@ -429,7 +429,7 @@
 <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <defName>LInverse</defName>
     <label>Opposite L corner</label>
-    <overlayGroup>Corners</overlayGroup>
+    <overlayGroup>Line</overlayGroup>
     <numRotations>4</numRotations>
     <description>Two perpendicular sides meeting at the upper-right bound. Rotate to choose another corner. Drag spans are limited to 512 cells per axis.</description>
     <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.LInverse</drawMethodName>
@@ -456,4 +456,23 @@
     <uiIconPath>UI/Commands/Smol/Additional/semicircle_arc</uiIconPath>
     <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/semicircle_arc</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>MidpointOctagon</defName>
+    <label>Midpoint octagon outline</label>
+    <overlayGroup>Octagons</overlayGroup>
+    <numRotations>0</numRotations>
+    <description>Draw an octagon from its center to an edge. The larger X/Z offset defines the radius, matching midpoint hexagons. Radius is limited to 255 cells to keep a symmetric odd diameter.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.MidpointOctagon</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/Additional/midpoint_octagon</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/midpoint_octagon</selectedUiIconPath>
+</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef><Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <defName>MidpointOctagonFilled</defName>
+    <label>Filled midpoint octagon</label>
+    <overlayGroup>Octagons</overlayGroup>
+    <numRotations>0</numRotations>
+    <description>Draw an octagon from its center to an edge. The larger X/Z offset defines the radius, matching midpoint hexagons. Radius is limited to 255 cells to keep a symmetric odd diameter.</description>
+    <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.MidpointOctagonFilled</drawMethodName>
+    <uiIconPath>UI/Commands/Smol/Additional/midpoint_octagon_filled</uiIconPath>
+    <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/midpoint_octagon_filled</selectedUiIconPath>
+</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 </Defs>

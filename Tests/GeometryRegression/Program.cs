@@ -22,6 +22,19 @@ class Program {
     }
    }
   }
+  for(int radius=0;radius<=80;radius++){
+   var center=new IntVec3(80,0,23);var edge=new IntVec3(center.x+radius,0,center.z-radius/2);
+   var filled=AdditionalShapes.MidpointOctagonFilled(center,edge).ToHashSet();
+   var outline=AdditionalShapes.MidpointOctagon(center,edge).ToHashSet();
+   Check(filled.Contains(center),"midpoint octagon contains center");
+   Check(outline.IsSubsetOf(filled),"midpoint octagon outline inside fill");
+   Check(filled.Min(p=>p.x)==center.x-radius&&filled.Max(p=>p.x)==center.x+radius&&filled.Min(p=>p.z)==center.z-radius&&filled.Max(p=>p.z)==center.z+radius,"midpoint radius and exact center");
+   Check(filled.All(p=>filled.Contains(new IntVec3(2*center.x-p.x,0,p.z))&&filled.Contains(new IntVec3(p.x,0,2*center.z-p.z))),"midpoint reflection symmetry");
+   Check(filled.SetEquals(AdditionalShapes.MidpointOctagonFilled(center,new(center.x-radius/2,0,center.z+radius))),"midpoint radius independent of drag quadrant");
+   Check(filled.SetEquals(AdditionalShapes.OctagonFilled(new(center.x-radius,0,center.z-radius),new(center.x+radius,0,center.z+radius))),"midpoint matches corner-box counterpart");
+  }
+  var limited=AdditionalShapes.MidpointOctagonFilled(new(0,0,0),new(10000,0,-10000)).ToHashSet();
+  Check(limited.Min(p=>p.x)==-255&&limited.Max(p=>p.x)==255&&limited.Count<=511*511,"midpoint cap preserves symmetric odd diameter");
   Check(AdditionalShapes.Checkerboard(new(0,0,0),new(10000,0,10000)).Count()<=512*512,"geometry span bound");
   for(int w=1;w<=12;w++)for(int h=1;h<=12;h++)for(int xs=1;xs<=7;xs++)for(int zs=1;zs<=7;zs++)foreach(bool inverse in new[]{false,true}){
    var s=new IntVec3(-7,0,-11);var t=new IntVec3(s.x+w-1,0,s.z+h-1);

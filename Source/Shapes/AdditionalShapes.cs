@@ -16,6 +16,17 @@ public static class AdditionalShapes
 
     public static IEnumerable<IntVec3> Octagon(IntVec3 s, IntVec3 t) => OctagonCells(s, t, false);
     public static IEnumerable<IntVec3> OctagonFilled(IntVec3 s, IntVec3 t) => OctagonCells(s, t, true);
+    public static IEnumerable<IntVec3> MidpointOctagon(IntVec3 center, IntVec3 edge) => MidpointOctagonCells(center, edge, false);
+    public static IEnumerable<IntVec3> MidpointOctagonFilled(IntVec3 center, IntVec3 edge) => MidpointOctagonCells(center, edge, true);
+    private static IEnumerable<IntVec3> MidpointOctagonCells(IntVec3 center, IntVec3 edge, bool filled)
+    {
+        // Match midpoint hexagons: the larger X/Z offset defines the radius.
+        // An odd diameter preserves the exact center even at the sampling limit.
+        int radius = (int)Math.Min((MaximumSpan - 1) / 2,
+            Math.Max(Math.Abs((long)edge.x - center.x), Math.Abs((long)edge.z - center.z)));
+        return OctagonCells(new IntVec3(center.x - radius, center.y, center.z - radius),
+            new IntVec3(center.x + radius, center.y, center.z + radius), filled);
+    }
     private static IEnumerable<IntVec3> OctagonCells(IntVec3 s, IntVec3 t, bool filled)
     {
         var (x, z, w, h) = Bounds(s, t);
