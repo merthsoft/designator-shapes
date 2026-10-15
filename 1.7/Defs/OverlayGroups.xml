@@ -109,7 +109,7 @@
 <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
     <defName>Arcs</defName>
     <label>Arcs</label>
-    <parentGroupName>MoreShapes</parentGroupName>
+    <parentGroupName>Ellipse</parentGroupName>
     <uiIconPath>UI/Commands/Smol/Additional/arcs_open</uiIconPath>
     <closeUiIconPath>UI/Commands/Smol/Additional/arcs_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
