@@ -1,6 +1,7 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -28,44 +29,89 @@ public class ShapeControlsWindow
 
     public static float LineHeight => 3;
 
-    public static int CollapseButtonSize => 15;
+    public static int CollapseButtonSize => 20;
 
     private bool dragging;
     private int visibleRows = NumRows;
-    private float PanelHeight => visibleRows * IconSize + LabelHeight + LineHeight * 2;
+    private bool ShowSizeInputs => DesignatorShapes.CurrentTool?.Group == controller.SelectedGroup
+        && DesignatorShapes.CurrentTool?.ShowSizeInputs == true;
+    private float SizeInputHeight => Width < 144 ? 56 : 28;
+    private float PanelHeight => Math.Max(ShowSizeInputs ? 1 : NumRows, visibleRows) * IconSize
+        + LabelHeight + LineHeight * 2 + (ShowSizeInputs ? SizeInputHeight + 6 : 0);
 
     public static float Width => NumButtons / NumRows * IconSize;
+    public static float Height => NumRows * IconSize + LabelHeight + LineHeight * 2;
 
-    public static float Height => NumRows * IconSize + LabelHeight + LineHeight*2;
+    private int inputWidth = 6, inputHeight = 6;
+    private bool editingInput;
+    private string widthBuffer = "6", heightBuffer = "6";
+    private int lastWidth = 6, lastHeight = 6;
 
-    private int inputWidth = 6;
-    private int inputHeight = 6;
-    private bool editingInput = false;
-    private string nativeWidthBuffer = "6", nativeHeightBuffer = "6";
-    private int nativeLastWidth = 6, nativeLastHeight = 6;
-    internal void DrawNativeSizeInputs(Rect rect)
+    internal void DrawNativeSizeInputs(Rect rect) => DrawSizeInputs(rect, "DSNativeSize");
+    private void DrawSizeInputs(Rect rect, string prefix)
     {
-        if (inputWidth != nativeLastWidth) nativeWidthBuffer = inputWidth.ToString();
-        if (inputHeight != nativeLastHeight) nativeHeightBuffer = inputHeight.ToString();
-        var left = new Rect(rect.x, rect.y, rect.width / 2 - 5, rect.height);
-        var right = new Rect(rect.x + rect.width / 2 + 5, rect.y, rect.width / 2 - 5, rect.height);
-        Widgets.TextFieldNumericLabeled(left, "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate() + ": ", ref inputWidth, ref nativeWidthBuffer, 1, 512);
-        Widgets.TextFieldNumericLabeled(right, "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate() + ": ", ref inputHeight, ref nativeHeightBuffer, 1, 512);
-        nativeLastWidth = inputWidth; nativeLastHeight = inputHeight;
+        if (inputWidth != lastWidth) widthBuffer = inputWidth.ToString();
+        if (inputHeight != lastHeight) heightBuffer = inputHeight.ToString();
+        if (pendingSizeFocus != null)
+        {
+            GUI.FocusControl(pendingSizeFocus);
+            pendingSizeFocus = null;
+        }
+        bool stacked = rect.width < 112;
+        float fieldWidth = stacked ? rect.width : (rect.width - 6) / 2;
+        var left = new Rect(rect.x, rect.y, fieldWidth, 24);
+        var right = new Rect(stacked ? rect.x : rect.x + fieldWidth + 6, stacked ? rect.y + 28 : rect.y, fieldWidth, 24);
+        DrawSizeField(left, "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate(), prefix + "Width", ref inputWidth, ref widthBuffer);
+        DrawSizeField(right, "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate(), prefix + "Height", ref inputHeight, ref heightBuffer);
+        lastWidth = inputWidth; lastHeight = inputHeight;
+        var focused = GUI.GetNameOfFocusedControl();
+        if (focused == prefix + "Width" || focused == prefix + "Height")
+        { sizeFocus = focused; sizeKeyboardControl = GUIUtility.keyboardControl; }
     }
 
+    private static void DrawSizeField(Rect rect, string label, string name, ref int value, ref string buffer)
+    {
+        Widgets.Label(new Rect(rect.x, rect.y, 20, rect.height), label + ":");
+        GUI.SetNextControlName(name);
+        var next = Widgets.TextField(new Rect(rect.x + 20, rect.y, rect.width - 20, rect.height), buffer);
+        if (next.Length <= 3 && next.All(char.IsDigit))
+        {
+            buffer = next;
+            if (int.TryParse(next, out var parsed) && parsed >= 1) value = Math.Min(parsed, 512);
+        }
+    }
+    private string sizeFocus, pendingSizeFocus;
+    private int sizeKeyboardControl;
+    internal void HandleKeyboardInput()
+    {
+        var e = Event.current;
+        if (e?.type != EventType.KeyDown || e.keyCode != KeyCode.Tab
+            || sizeKeyboardControl == 0 || GUIUtility.keyboardControl != sizeKeyboardControl
+            || string.IsNullOrEmpty(sizeFocus)) return;
+        if (sizeFocus.StartsWith("DSCustom") && (!DesignatorShapes.ShowControls || !ShowSizeInputs || !editingInput)) return;
+        pendingSizeFocus = sizeFocus.EndsWith("Width")
+            ? sizeFocus[..^5] + "Height" : sizeFocus[..^6] + "Width";
+        e.Use();
+    }
+
+    private void ClampToScreen()
+    {
+        float height = DesignatorShapes.ShowControls ? PanelHeight : LabelHeight;
+        WindowRect = new Rect(Mathf.Clamp(WindowRect.x, 0, Math.Max(0, UI.screenWidth - Width)),
+            Mathf.Clamp(WindowRect.y, 0, Math.Max(0, UI.screenHeight - height)), Width, PanelHeight);
+    }
     public static IntVec3 InputVec => new(DesignatorShapes.ShapeControls.inputWidth, 0, DesignatorShapes.ShapeControls.inputHeight);
 
     public ShapeControlsWindow(int x, int y, int iconSize, bool dictionaryMode = false)
     {
         IsHorizontal = true;
-        WindowRect = new(x, y, Width, PanelHeight);
         IconSize = iconSize;
+        WindowRect = new(x, y, Width, PanelHeight);
     }
 
     public void ShapeControlsOnGUI()
     {
-        visibleRows = Math.Max(NumRows, (controller.GenerateIcons().Count + 3) / 4);
+        visibleRows = Math.Max(1, (controller.GenerateIcons().Count + 3) / 4);
         WindowRect = new Rect(WindowRect.x, WindowRect.y, Width, PanelHeight);
         if (Find.MainTabsRoot.OpenTab == null && DesignatorShapes.Settings.HideWhenNoOpenTab)
             return;
@@ -76,6 +122,7 @@ public class ShapeControlsWindow
             WindowRect = new Rect(infoRect.x, infoRect.y - 110, Width, PanelHeight);
         }
 
+        ClampToScreen();
         Find.WindowStack.ImmediateWindow(ID, dragging ? DraggingWindowRect : WindowRect, WindowLayer.SubSuper, DoWindow, false, dragging, 0);
     }
 
@@ -116,9 +163,12 @@ public class ShapeControlsWindow
         if (DesignatorShapes.Settings.ToggleableInterface)
         {
             var buttonRect = rect.Clone(addX: Width - CollapseButtonSize - 2, addY: 2, width: CollapseButtonSize, height: CollapseButtonSize);
-            var buttonLabel = DesignatorShapes.ShowControls ? "[-] " : "[+] ";
+            var buttonLabel = DesignatorShapes.ShowControls ? "-" : "+";
             if (Widgets.ButtonText(buttonRect, buttonLabel, drawBackground: false))
+            {
+                GUI.FocusControl(null); GUIUtility.keyboardControl = 0;
                 DesignatorShapes.ShowControls = !DesignatorShapes.ShowControls;
+            }
         }
 
         if (DesignatorShapes.ShowControls)
@@ -128,50 +178,23 @@ public class ShapeControlsWindow
             rect.height -= LabelHeight;
             DrawIcons(rect, controller.GenerateIcons());
 
-            if (DesignatorShapes.CurrentTool?.Group == controller.SelectedGroup
-                && (DesignatorShapes.CurrentTool?.ShowSizeInputs ?? false))
+            if (ShowSizeInputs)
             {
-                var width = rect.width;
-
-                rect.y += IconSize + 10;
-                rect.width = 10;
-                rect.height = 20;
-                
-                rect.x += 5;
-                if (Widgets.ButtonText(rect, editingInput ? "-" : "+"))
+                var sizeRect = new Rect(rect.x + 5, rect.y + visibleRows * IconSize + 6, Width - 10, SizeInputHeight);
+                if (Widgets.ButtonText(new Rect(sizeRect.x, sizeRect.y, 20, 24), editingInput ? "-" : "+"))
+                {
                     editingInput = !editingInput;
-
-                if (editingInput)
+                    if (!editingInput) { GUI.FocusControl(null); GUIUtility.keyboardControl = 0; }
+                }
+                var fields = new Rect(sizeRect.x + 24, sizeRect.y, sizeRect.width - 24, sizeRect.height);
+                if (editingInput) DrawSizeInputs(fields, "DSCustomSize");
+                else
                 {
-                    rect.x += 5;
-                    rect.width = width - rect.x;
-                    rect.width = rect.width / 2;
-
-                    var label = "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate() + ": ";
-                    var buffer = inputWidth.ToString();
-                    Widgets.TextFieldNumericLabeled(rect, label, ref inputWidth, ref buffer);
-                    
-                    label = "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate() + ": ";
-                    buffer = inputHeight.ToString();
-                    rect.x += rect.width;
-                    Widgets.TextFieldNumericLabeled(rect, label, ref inputHeight, ref buffer);
-
-                    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab)
-                    {
-                        GUI.FocusWindow(ID);
-                        Event.current.Use();
-                    }
-                } else
-                {
-                    rect.x += 15;
-                    rect.width = width - rect.x;
-                    rect.width = rect.width / 2;
-
-                    var label = "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate() + $": {inputWidth}";
-                    Widgets.Label(rect, label);
-                    rect.x += rect.width;
-                    label = "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate() + $": {inputHeight}";
-                    Widgets.Label(rect, label);
+                    bool stacked = fields.width < 112;
+                    float width = stacked ? fields.width : (fields.width - 6) / 2;
+                    Widgets.Label(new Rect(fields.x, fields.y, width, 24), "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate() + $": {inputWidth}");
+                    Widgets.Label(new Rect(stacked ? fields.x : fields.x + width + 6, stacked ? fields.y + 28 : fields.y, width, 24),
+                        "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate() + $": {inputHeight}");
                 }
             }
         }

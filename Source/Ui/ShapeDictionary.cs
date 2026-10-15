@@ -40,7 +40,11 @@ internal class ShapeDictionary : Window
         }
 
         if (Widgets.ButtonImage(rect.Clone(width: IconSize, height: IconSize), icon.icon, Color.white, icon.highlightColor ?? GenUI.MouseoverColor))
+        {
+            var previousGroup = menuController.SelectedGroup;
             icon.action?.Invoke();
+            if (menuController.SelectedGroup != previousGroup) ScrollPosition = Vector2.zero;
+        }
     }
 
     private void DrawIcons(Rect rect, List<ActionIcon> icons)

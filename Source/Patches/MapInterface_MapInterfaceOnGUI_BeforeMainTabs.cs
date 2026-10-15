@@ -7,6 +7,20 @@ using static Merthsoft.DesignatorShapes.KeySettings;
 
 namespace Merthsoft.DesignatorShapes.Patches;
 
+[HarmonyPatch(typeof(WindowStack), "HandleEventsHighPriority")]
+internal static class ShapeWindowKeyboardInput
+{
+    static void Prefix()
+    {
+        if (Find.CurrentMap != null && Find.DesignatorManager.SelectedDesignator != null
+            && !WorldRendererUtility.WorldSelected
+            && (DesignatorShapes.ShowControls || !DesignatorShapes.Settings.HideCollapsedInterface))
+        {
+            DesignatorShapes.ShapeControls?.HandleKeyboardInput();
+        }
+    }
+}
+
 [HarmonyPatch(typeof(MapInterface), "MapInterfaceOnGUI_AfterMainTabs")]
 public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
 {

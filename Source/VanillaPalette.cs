@@ -29,7 +29,7 @@ public class PaletteShapeWorker : DrawStyle
     }
     public override void Draw()
     {
-        if (SelectedShape?.ShowSizeInputs == true)
+        if (!DesignatorShapes.ShowControls && SelectedShape?.ShowSizeInputs == true)
             Find.WindowStack.ImmediateWindow(53187650, new Rect(275, UI.screenHeight - 185, 300, 44), WindowLayer.SubSuper,
                 () => DesignatorShapes.ShapeControls.DrawNativeSizeInputs(new Rect(8, 8, 284, 28)), true, false, 0);
     }
