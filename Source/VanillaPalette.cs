@@ -65,8 +65,11 @@ internal static class VanillaPalette
             DrawStyleDef style = Legacy.TryGetValue(shape.defName, out var legacy) ? DefDatabase<DrawStyleDef>.GetNamedSilentFail(legacy) : null;
             if (style == null)
             {
+                // Shape textures may still be queued by PostLoad when styles are first created.
+                // Load from the asset path instead of retaining an early null texture.
                 style = new PaletteShapeDef { defName = "Merthsoft_Shapes_" + shape.defName, shape = shape,
-                    label = shape.label, description = shape.description, uiIcon = shape.uiIcon,
+                    label = shape.label, description = shape.description,
+                    uiIcon = Icons.GetIcon(shape.uiIconPath),
                     drawStyleType = typeof(PaletteShapeWorker), drawOutline = true, canSnap = DrawingBounds.CanSnap(shape) };
                 DefDatabase<DrawStyleDef>.Add(style);
             }
