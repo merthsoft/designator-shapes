@@ -1,4 +1,13 @@
 # Designator Shapes
+
+<!-- merthsoft-download -->
+## Download
+
+[Download designator-shapes.zip](https://merthsoft.com/RimWorld/designator-shapes.zip) — RimWorld 1.7 release.
+
+The archive includes older supported version folders where available. Extract the mod folder into RimWorld's `Mods` directory.
+<!-- /merthsoft-download -->
+
 Allows you to build, mine, zone, etc. in various shapes, such as (both filled and outline):
 - Line (including diagonal and freeform)
 - Rectangle
