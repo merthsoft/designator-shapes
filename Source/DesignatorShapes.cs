@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Merthsoft.DesignatorShapes.Defs;
 using Merthsoft.DesignatorShapes.Shapes;
 using Merthsoft.DesignatorShapes.Ui;
@@ -89,6 +89,8 @@ public class DesignatorShapes : Mod
         LongEventHandler.ExecuteWhenFinished(() =>
         {
             BoundingBoxTexture = ContentFinder<Texture2D>.Get("UI/Icons/BoundingBox");
+            LoadDefs();
+            VanillaPalette.Apply();
         });
     }
 
@@ -336,7 +338,7 @@ public class DesignatorShapes : Mod
     {
         var intVec = dragger.GetInstanceField<IntVec3>("startDragCell");
         var intVec2 = UI.MouseCell();
-        return (intVec, intVec2);
+        return DrawingBounds.Current(CurrentTool, intVec, intVec2);
     }
 
     public static void DrawDraggerOutline(DesignationDragger dragger)

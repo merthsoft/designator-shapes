@@ -16,7 +16,7 @@ internal static class FloodFillConfirmation
         or Designator_Mine or Designator_Deconstruct or Designator_PlantsCut or Designator_RemoveFloor;
     internal static bool HasPendingPress => pressedTool != null;
     internal static void CancelPendingPress() { pressedTool = null; pressedMap = null; }
-    private static bool OwnFillActive => DesignatorShapes.UseCustomGeometry && DesignatorShapes.CurrentTool == DesignatorShapeDefOf.FloodFill;
+    private static bool OwnFillActive => (DesignatorShapes.UseCustomGeometry && DesignatorShapes.CurrentTool == DesignatorShapeDefOf.FloodFill) || (!DesignatorShapes.ShowControls && PaletteShapeWorker.SelectedShape == DesignatorShapeDefOf.FloodFill);
     internal static bool BeforeInput(DesignatorManager manager)
     {
         var e = Event.current; if (e == null) return true;

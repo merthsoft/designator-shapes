@@ -1,6 +1,7 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -16,10 +17,27 @@ internal class ShapeDictionary : Window
     private readonly ShapeMenuDriver menuController = new() { DictionaryMode = true };
     private Vector2 ScrollPosition;
 
+    private static float ContentHeight(ActionIcon icon, float width) => Math.Max(IconSize,
+        LineHeight + LabelHeight + Text.CalcHeight(icon.description ?? "", width - IconSize - IconPadding));
+    private static float RowHeight(ActionIcon icon, float width) => ContentHeight(icon, width) + IconPadding
+        + (ShapeEligibility.IsDrawable(icon.shape) ? 31 : 0);
+
     private void DrawIcon(ActionIcon icon, Rect rect)
     {
         Widgets.Label(rect.Clone(addX: IconSize + IconPadding, addY: LineHeight), icon.label);
-        Widgets.Label(rect.Clone(addX: IconSize + IconPadding, addY: LineHeight + LabelHeight), icon.description);
+        Widgets.Label(new Rect(rect.x + IconSize + IconPadding, rect.y + LineHeight + LabelHeight,
+            rect.width - IconSize - IconPadding, ContentHeight(icon, rect.width) - LineHeight - LabelHeight), icon.description);
+        if (ShapeEligibility.IsDrawable(icon.shape))
+        {
+            bool enabled = VanillaPalette.Enabled(icon.shape), before = enabled;
+            var checkbox = new Rect(rect.x + IconSize + IconPadding, rect.y + ContentHeight(icon, rect.width) + 6,
+                rect.width - IconSize - IconPadding, 25);
+            Widgets.CheckboxLabeled(checkbox,
+                "Merthsoft_DesignatorShapes_IncludeVanillaPalette".Translate(), ref enabled);
+            TooltipHandler.TipRegion(checkbox,
+                "Merthsoft_DesignatorShapes_IncludeVanillaPaletteTooltip".Translate());
+            if (enabled != before) VanillaPalette.SetEnabled(icon.shape, enabled);
+        }
 
         if (Widgets.ButtonImage(rect.Clone(width: IconSize, height: IconSize), icon.icon, Color.white, icon.highlightColor ?? GenUI.MouseoverColor))
             icon.action?.Invoke();
@@ -27,8 +45,13 @@ internal class ShapeDictionary : Window
 
     private void DrawIcons(Rect rect, List<ActionIcon> icons)
     {
-        for (int i = 0; i < icons.Count; i++)
-            DrawIcon(icons[i], new Rect(rect.x, i * (IconSize + IconPadding) + rect.y, rect.width, rect.height));
+        float y = rect.y;
+        foreach (var icon in icons)
+        {
+            var height = RowHeight(icon, rect.width);
+            DrawIcon(icon, new Rect(rect.x, y, rect.width, height));
+            y += height;
+        }
     }
 
     public override void DoWindowContents(Rect rect)
@@ -44,9 +67,10 @@ internal class ShapeDictionary : Window
         try
         {
             var icons = menuController.GenerateIcons();
-            Rect viewRect = new(0, 0, rect.width - 16, icons.Count * (IconSize + IconPadding));
-            Widgets.BeginScrollView(rect.Clone(addX: 3, addY: LabelHeight + LineHeight, addHeight: -2 * (LabelHeight + LineHeight)), ref ScrollPosition, viewRect);
+            var headerHeight = LabelHeight + LineHeight;
             Text.Font = GameFont.Small;
+            Rect viewRect = new(0, 0, rect.width - 16, icons.Sum(icon => RowHeight(icon, rect.width - 16)));
+            Widgets.BeginScrollView(rect.Clone(addX: 3, addY: headerHeight, addHeight: -2 * headerHeight), ref ScrollPosition, viewRect);
             DrawIcons(viewRect, icons);
             Widgets.EndScrollView();
         }

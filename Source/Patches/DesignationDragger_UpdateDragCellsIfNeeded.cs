@@ -27,6 +27,9 @@ public static class DesignationDragger_UpdateDragCellsIfNeeded
                         ? Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.InputVec 
                         : UI.MouseCell();
 
+        if (!DesignatorShapes.CurrentTool.useSizeInputs)
+            (start, sizeOrEnd) = DrawingBounds.Current(DesignatorShapes.CurrentTool, start, sizeOrEnd);
+
         var points = DesignatorShapes.CurrentTool?.DrawMethod(start, sizeOrEnd);
 
         foreach (var vec in points)

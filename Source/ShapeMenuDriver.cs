@@ -49,6 +49,7 @@ internal class ShapeMenuDriver
                 },
                 .. SelectedGroup.Shapes.Select(s => new ActionIcon
                 {
+                    shape = s,
                     label = s.LabelCap,
                     description = s.description,
                     icon = DictionaryMode || !DesignatorShapes.UseCustomGeometry || DesignatorShapes.CurrentTool?.defName != s.defName
@@ -75,7 +76,7 @@ internal class ShapeMenuDriver
     private Action GetAction(OverlayGroupDef g)
         => g.SelectMode switch
         {
-            AutoSelectGroupMode.AutoSelect => DictionaryMode ? null : () => DesignatorShapes.SelectTool(g.FirstShape),
+            AutoSelectGroupMode.AutoSelect when !DictionaryMode => () => DesignatorShapes.SelectTool(g.FirstShape),
             _ => () =>
             {
                 previousGroups.Push(SelectedGroup);

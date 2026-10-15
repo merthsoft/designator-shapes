@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -19,6 +19,7 @@ public class DesignatorSettings : ModSettings
     public bool ConfirmDestructiveFloodFill = false;
     public List<string> AdditionalFloodFillBarrierDefs = new();
     public Dictionary<string,KeyCode> ShapeShortcuts = new();
+    public Dictionary<string,bool> VanillaPaletteShapes = new();
     public KeyCode InterfaceToggleKey = KeyCode.LeftAlt;
     public bool InterfaceToggleControl = false, InterfaceToggleAlt = false, InterfaceToggleShift = false;
     public bool AutoSelectShape = false;
@@ -48,6 +49,8 @@ public class DesignatorSettings : ModSettings
     public override void ExposeData()
     {
         base.ExposeData();
+        Scribe_Collections.Look(ref VanillaPaletteShapes, nameof(VanillaPaletteShapes), LookMode.Value, LookMode.Value);
+        VanillaPaletteShapes ??= new();
         Scribe_Values.Look(ref RememberShapePerDesignator,nameof(RememberShapePerDesignator),false);
         Scribe_Values.Look(ref CancelStrokeKeepsTool,nameof(CancelStrokeKeepsTool),false);
         Scribe_Values.Look(ref EnableCustomFloodFillBarriers,nameof(EnableCustomFloodFillBarriers),false);

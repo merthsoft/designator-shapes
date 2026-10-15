@@ -19,7 +19,9 @@ Also includes these pre-defined object shapes (both filled and outline):
 - Sun lamp
 - Orbital trade beacon
 
-See the shape dictionary in the mod settings!
+See the shape dictionary in the mod settings! Each drawable shape has an **Include in vanilla palette** checkbox. Changes apply immediately and are saved in Mod Settings. Collapse the Shapes panel to use the vanilla palette. Existing mod additions remain enabled by default; other shapes are opt-in. Built-in shapes and standalone mods remain independent. Fixed-size shapes show width/height inputs beside the vanilla controls.
+
+Hold RimWorld's **force square dimensions** key (Ctrl by default) to constrain rectangles, ellipses, grids, arcs, and other bounds-based shapes to equal width and height. This uses your existing RimWorld key binding. Center/radius shapes, freeform lines, stamps, and fixed-size inputs keep their normal behavior.
 
 There's also a flood-fill tool, as well as undo/redo functionality when the game is paused.
 

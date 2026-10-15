@@ -27,6 +27,8 @@
   <PropertyGroup><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
   <ItemGroup>
     <Compile Include="ActionIcon.cs" />
+    <Compile Include="DrawingBounds.cs" />
+    <Compile Include="VanillaPalette.cs" />
     <Compile Include="ShapeShortcuts.cs" />
     <Compile Include="InputOwnership.cs" />
     <Compile Include="RememberedShapeStore.cs" />

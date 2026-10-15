@@ -41,6 +41,18 @@ public class ShapeControlsWindow
     private int inputWidth = 6;
     private int inputHeight = 6;
     private bool editingInput = false;
+    private string nativeWidthBuffer = "6", nativeHeightBuffer = "6";
+    private int nativeLastWidth = 6, nativeLastHeight = 6;
+    internal void DrawNativeSizeInputs(Rect rect)
+    {
+        if (inputWidth != nativeLastWidth) nativeWidthBuffer = inputWidth.ToString();
+        if (inputHeight != nativeLastHeight) nativeHeightBuffer = inputHeight.ToString();
+        var left = new Rect(rect.x, rect.y, rect.width / 2 - 5, rect.height);
+        var right = new Rect(rect.x + rect.width / 2 + 5, rect.y, rect.width / 2 - 5, rect.height);
+        Widgets.TextFieldNumericLabeled(left, "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate() + ": ", ref inputWidth, ref nativeWidthBuffer, 1, 512);
+        Widgets.TextFieldNumericLabeled(right, "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate() + ": ", ref inputHeight, ref nativeHeightBuffer, 1, 512);
+        nativeLastWidth = inputWidth; nativeLastHeight = inputHeight;
+    }
 
     public static IntVec3 InputVec => new(DesignatorShapes.ShapeControls.inputWidth, 0, DesignatorShapes.ShapeControls.inputHeight);
 
