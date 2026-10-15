@@ -1,9 +1,11 @@
-﻿using Verse;
+using Verse;
+using System.Collections.Generic;
 
 namespace Merthsoft.DesignatorShapes;
 
 internal class HistoryComponent : GameComponent
 {
+    public Dictionary<string,string> RememberedShapes = new();
     public static int TickRate = 50;
     private int tickNumber = TickRate;
 
@@ -23,12 +25,18 @@ internal class HistoryComponent : GameComponent
         HistoryManager.Clear();
 
         if (DesignatorShapes.Settings.ResetShapeOnResume)
+        {
             DesignatorShapes.CachedTool = null;
+            RememberedShapes.Clear();
+        }
     }
 
     public override void ExposeData()
     {
         base.ExposeData();
+        Scribe_Collections.Look(ref RememberedShapes,nameof(RememberedShapes),LookMode.Value,LookMode.Value);
+        RememberedShapes ??= new();
+        RememberedShapeStore.Trim(RememberedShapes);
 
         var cachedTool = DesignatorShapes.CachedTool;
         Scribe_Defs.Look(ref cachedTool, nameof(DesignatorShapes.CachedTool));

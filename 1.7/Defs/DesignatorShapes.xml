@@ -451,7 +451,7 @@
     <label>Semicircle / half ellipse arc</label>
     <overlayGroup>Arcs</overlayGroup>
     <numRotations>4</numRotations>
-    <description>Open half ellipse fitted to the full drag rectangle. Default diameter is the bottom edge. Equal width and twice the height gives a semicircle. Rotate to choose its orientation. Drag spans are limited to 512 cells per axis.</description>
+    <description>Open half ellipse fitted to the full drag rectangle. Default diameter is the bottom edge. A width of twice the height minus one gives a circular half-arc. Rotate to choose its orientation. Drag spans are limited to 512 cells per axis.</description>
     <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.SemicircleArc</drawMethodName>
     <uiIconPath>UI/Commands/Smol/Additional/semicircle_arc</uiIconPath>
     <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/semicircle_arc</selectedUiIconPath>

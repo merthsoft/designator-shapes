@@ -27,6 +27,15 @@
   <PropertyGroup><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
   <ItemGroup>
     <Compile Include="ActionIcon.cs" />
+    <Compile Include="ShapeShortcuts.cs" />
+    <Compile Include="InputOwnership.cs" />
+    <Compile Include="RememberedShapeStore.cs" />
+    <Compile Include="ShapeEligibility.cs" />
+    <Compile Include="Patches\FreeformLifecycle.cs" />
+    <Compile Include="Ui\AdvancedSettingsUi.cs" />
+    <Compile Include="FloodFillConfirmation.cs" />
+    <Compile Include="FloodFillConfirmationDialog.cs" />
+    <Compile Include="PendingFloodFillAction.cs" />
     <Compile Include="BoundingBoxMode.cs" />
     <Compile Include="Defs\AutoSelectGroupMode.cs" />
     <Compile Include="Defs\OverlayGroupDef.cs" />

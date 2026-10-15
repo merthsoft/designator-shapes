@@ -74,13 +74,27 @@ static class Program {
   Check(FloodFill.Fill(origin,origin).Count()==0,"rock links conceal ore even without full edifices");
   map.linkGrid.Rock.Remove(origin+IntVec3.West);
   Check(FloodFill.Fill(origin,origin).Count()==1,"unlinked open face exposes ore");
+  Find.CurrentMap=new Map();map=Find.CurrentMap;config.RestrictFloodFillToRevealedCells=false;
+  var barrier=new ThingDef{defName="Conveyor"};
+  for(int z=0;z<3;z++)map.thingGrid.Cells[new(1,0,z)]=[new Thing{def=barrier}];
+  config.AdditionalFloodFillBarrierDefs.Add("Conveyor");
+  Check(FloodFill.Fill(new(0,0,1),new(0,0,1)).Count()==9,"barrier list disabled preserves default");
+  config.EnableCustomFloodFillBarriers=true;
+  Check(FloodFill.Fill(new(0,0,1),new(0,0,1)).Count()==3,"additional buildings stop ordinary region fill");
+  for(int z=0;z<3;z++)map.thingGrid.Cells[new(1,0,z)]=[new Thing{def=new ThingDef{entityDefToBuild=barrier}}];
+  Check(FloodFill.Fill(new(0,0,1),new(0,0,1)).Count()==3,"resolved blueprint or frame target stops fill");
+  barrier.designationCategory=new(){defName="Structure"};
+  Check(FloodFill.Fill(origin,origin).Count()==3,"matching wall seed exempt from added barriers");
+  map.thingGrid.Cells.Clear();ore.defName="Ore";config.AdditionalFloodFillBarrierDefs.Add("Ore");
+  for(int x=0;x<3;x++)map.thingGrid.Cells[new(x,0,1)]=[new RimWorld.Mineable{def=ore}];
+  Check(FloodFill.Fill(origin,origin).Count()==3,"matching ore seed exempt from added barriers");
   Find.CurrentMap=null;
   Check(FloodFill.Fill(origin,origin).Count()==0,"missing map returns empty");
  }
  static void Check(bool success,string name) {if(!success) throw new Exception(name); Console.WriteLine("PASS "+name);}
 }
 namespace RimWorld {public class Mineable:Verse.Thing {}}
-namespace Merthsoft.DesignatorShapes {public static class DesignatorShapes {public static Config Settings=new();} public class Config {public int FloodFillCellLimit=100; public bool RestrictFloodFillToRevealedCells=false;}}
+namespace Merthsoft.DesignatorShapes {public static class DesignatorShapes {public static Config Settings=new();} public class Config {public bool EnableCustomFloodFillBarriers=false; public List<string> AdditionalFloodFillBarrierDefs=new(); public int FloodFillCellLimit=100; public bool RestrictFloodFillToRevealedCells=false;}}
 namespace Verse {
  public record struct IntVec3(int x,int y,int z) { public static IntVec3 North=>new(0,0,1); public static IntVec3 South=>new(0,0,-1); public static IntVec3 East=>new(1,0,0); public static IntVec3 West=>new(-1,0,0); public static IntVec3 operator +(IntVec3 a,IntVec3 b)=>new(a.x+b.x,a.y+b.y,a.z+b.z); public Thing GetEdifice(Map m)=>m.thingGrid.ThingsListAtFast(this).FirstOrDefault(t=>t.def.fillPercent>0) ?? (m.linkGrid.Rock.Contains(this)&&!m.LinkedWithoutEdifice.Contains(this)?new Thing{def=new ThingDef{fillPercent=1}}:null); public bool Fogged(Map m)=>m.Fog.Contains(this); public bool InBounds(Map m)=>x>=0&&z>=0&&x<3&&z<3; public List<Thing> GetThingList(Map m)=>m.thingGrid.ThingsListAtFast(this); }
  public class Def {public string defName;}

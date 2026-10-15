@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Merthsoft.DesignatorShapes.Shapes;
 using Verse;
 
@@ -10,7 +10,7 @@ internal class Designator_Finalize
     public static void Postfix(bool somethingSucceeded)
     {
         FreeformLine.FreeMemory();
-        if (!DesignatorShapes.ShowControls)
+        if (!DesignatorShapes.UseCustomGeometry)
             return;
         HistoryManager.FinishBuilding();
     }

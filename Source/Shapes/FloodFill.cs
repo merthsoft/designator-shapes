@@ -23,6 +23,15 @@ public static class FloodFill
         // AllDesignationsAt reuses a temporary list; retain only the seed's state.
         var hasDesignationsAtMouse = map.getDesignationsAt(t).Any();
         var mineableAtMouse = map.getMineableAt(t);
+        var barrierDefs = DesignatorShapes.Settings.EnableCustomFloodFillBarriers
+            ? new HashSet<string>(DesignatorShapes.Settings.AdditionalFloodFillBarrierDefs ?? new List<string>()) : new HashSet<string>();
+        var fillDef = wallAtMouse ?? mineableAtMouse?.def;
+        bool IsAdditionalBarrier(IntVec3 cell) => barrierDefs.Count>0 && map.thingGrid.ThingsListAtFast(cell).Any(thing=>
+        {
+            var def=thing.def.entityDefToBuild as ThingDef ?? thing.def;
+            return def!=fillDef && barrierDefs.Contains(def.defName);
+        });
+        if(IsAdditionalBarrier(t))return ret;
         var floorAtMouse = map.getTerrainAt(t);
         var fertAtMouse = map.getFertilityAt(t);
 
@@ -30,7 +39,7 @@ public static class FloodFill
         cells.Enqueue(t);
         void EnqueueIfAllowed(IntVec3 cell)
         {
-            if (CanVisit(cell))
+            if (CanVisit(cell) && !IsAdditionalBarrier(cell))
                 cells.Enqueue(cell);
         }
 
@@ -38,6 +47,8 @@ public static class FloodFill
         {
             var cell = cells.Dequeue();
             if (!CanVisit(cell))
+                continue;
+            if (IsAdditionalBarrier(cell))
                 continue;
             if (ret.Contains(cell))
                 continue;

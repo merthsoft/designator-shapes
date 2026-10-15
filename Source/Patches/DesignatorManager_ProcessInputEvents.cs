@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches;
@@ -6,14 +6,11 @@ namespace Merthsoft.DesignatorShapes.Patches;
 [HarmonyPatch(typeof(DesignatorManager), "ProcessInputEvents")]
 internal static class DesignatorManager_ProcessInputEvents
 {
-    public static void Prefix(DesignatorManager __instance)
-    {
-
-    }
+    public static bool Prefix(DesignatorManager __instance) => ShapeShortcuts.Handle(__instance) && FloodFillConfirmation.BeforeInput(__instance);
 
     public static void Postfix(DesignatorManager __instance)
     {
-        if (!DesignatorShapes.ShowControls)
+        if (!DesignatorShapes.UseCustomGeometry)
             return;
         if (__instance.SelectedDesignator == null
             || DesignatorShapes.CurrentTool == null

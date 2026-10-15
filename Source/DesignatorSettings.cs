@@ -13,6 +13,14 @@ public class DesignatorSettings : ModSettings
     public bool HideCompletelyOnAltToggle = false;
     public int FloodFillCellLimit = 1500;
     public bool RestrictFloodFillToRevealedCells = false;
+    public bool RememberShapePerDesignator = false;
+    public bool CancelStrokeKeepsTool = false;
+    public bool EnableCustomFloodFillBarriers = false;
+    public bool ConfirmDestructiveFloodFill = false;
+    public List<string> AdditionalFloodFillBarrierDefs = new();
+    public Dictionary<string,KeyCode> ShapeShortcuts = new();
+    public KeyCode InterfaceToggleKey = KeyCode.LeftAlt;
+    public bool InterfaceToggleControl = false, InterfaceToggleAlt = false, InterfaceToggleShift = false;
     public bool AutoSelectShape = false;
     public bool ResetShapeOnResume = false;
     public bool DrawBackground = true;
@@ -32,7 +40,7 @@ public class DesignatorSettings : ModSettings
     public bool EnableRotationKeys = false;
 
     public bool HideCollapsedInterface => ToggleableInterface
-        && EnableKeyboardInput && RestoreAltToggle && HideCompletelyOnAltToggle;
+        && EnableKeyboardInput && RestoreAltToggle && InterfaceToggleKey != KeyCode.None && HideCompletelyOnAltToggle;
 
     public BoundingBoxMode BoundingBoxMode = BoundingBoxMode.Vanilla;
     public bool BoundingBoxBasedOnShape = false;
@@ -40,6 +48,17 @@ public class DesignatorSettings : ModSettings
     public override void ExposeData()
     {
         base.ExposeData();
+        Scribe_Values.Look(ref RememberShapePerDesignator,nameof(RememberShapePerDesignator),false);
+        Scribe_Values.Look(ref CancelStrokeKeepsTool,nameof(CancelStrokeKeepsTool),false);
+        Scribe_Values.Look(ref EnableCustomFloodFillBarriers,nameof(EnableCustomFloodFillBarriers),false);
+        Scribe_Values.Look(ref ConfirmDestructiveFloodFill,nameof(ConfirmDestructiveFloodFill),false);
+        Scribe_Values.Look(ref InterfaceToggleKey,nameof(InterfaceToggleKey),KeyCode.LeftAlt);
+        Scribe_Values.Look(ref InterfaceToggleControl,nameof(InterfaceToggleControl),false);
+        Scribe_Values.Look(ref InterfaceToggleAlt,nameof(InterfaceToggleAlt),false);
+        Scribe_Values.Look(ref InterfaceToggleShift,nameof(InterfaceToggleShift),false);
+        Scribe_Collections.Look(ref ShapeShortcuts,nameof(ShapeShortcuts),LookMode.Value,LookMode.Value);
+        Scribe_Collections.Look(ref AdditionalFloodFillBarrierDefs,nameof(AdditionalFloodFillBarrierDefs),LookMode.Value);
+        ShapeShortcuts ??= new();AdditionalFloodFillBarrierDefs ??= new();
 
         // Note: We're using strings instead of nameof() just in case we want to change
         //       the variable name in the future, it won't change the save entry.

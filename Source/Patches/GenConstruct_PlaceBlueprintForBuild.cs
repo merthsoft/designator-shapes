@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using RimWorld;
 
 namespace Merthsoft.DesignatorShapes.Patches;
@@ -8,7 +8,7 @@ internal class GenConstruct_PlaceBlueprintForBuild
 {
     public static void Postfix(Blueprint_Build __result)
     {
-        if (!DesignatorShapes.ShowControls)
+        if (!DesignatorShapes.UseCustomGeometry)
             return;
         HistoryManager.AddEntry(__result);
     }

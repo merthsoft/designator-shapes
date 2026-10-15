@@ -44,4 +44,20 @@
     <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>Add toggle to play settings.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>
     <Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells>Restrict flood fill to revealed cells</Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells>
     <Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip>When enabled, flood fill cannot start in or pass through fogged cells or concealed natural rock. Natural rock and resource ore must have a face exposed to an unfogged cell that is neither linked as rock nor fully blocked by an edifice; hidden interiors of ore veins are excluded until exposed by mining. Disabled by default to preserve the existing ore-scouting behavior.</Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip>
+    <Merthsoft_DesignatorShapes_ConfirmApply>Apply flood fill</Merthsoft_DesignatorShapes_ConfirmApply>
+    <Merthsoft_DesignatorShapes_ConfirmDestructiveText>Apply {0} to {1} cells? Cancelling keeps the tool selected and changes nothing.</Merthsoft_DesignatorShapes_ConfirmDestructiveText>
+    <Merthsoft_DesignatorShapes_ConfirmKeep>Keep map unchanged</Merthsoft_DesignatorShapes_ConfirmKeep>
+    <Merthsoft_DesignatorShapes_Settings_AdditionalBarriers>Enable additional flood-fill barriers</Merthsoft_DesignatorShapes_Settings_AdditionalBarriers>
+    <Merthsoft_DesignatorShapes_Settings_AdditionalBarriersTooltip>Selected buildings, their blueprints and frames also stop ordinary region fill. Existing barriers remain. Starting on matching walls or ore still fills that same type. Disabled by default.</Merthsoft_DesignatorShapes_Settings_AdditionalBarriersTooltip>
+    <Merthsoft_DesignatorShapes_Settings_CancelStroke>Escape or right-click cancels the current stroke while keeping the tool</Merthsoft_DesignatorShapes_Settings_CancelStroke>
+    <Merthsoft_DesignatorShapes_Settings_ConfirmDestructive>Confirm destructive flood-fill actions</Merthsoft_DesignatorShapes_Settings_ConfirmDestructive>
+    <Merthsoft_DesignatorShapes_Settings_ConfirmDestructiveTooltip>Ask once before flood-fill mining, deconstruction, cutting plants, removing floors, or cancelling designations and deleting plans. Previewing changes nothing. Disabled by default.</Merthsoft_DesignatorShapes_Settings_ConfirmDestructiveTooltip>
+    <Merthsoft_DesignatorShapes_Settings_RememberPerDesignator>Remember a shape for each designator</Merthsoft_DesignatorShapes_Settings_RememberPerDesignator>
+    <Merthsoft_DesignatorShapes_Settings_RememberPerDesignatorTooltip>Remember explicit shape choices per designator type and building or floor definition in this save (up to 512 entries). A remembered choice takes priority over auto-select; unseen tools use the existing auto-select/global fallback. Reset shape on resume also clears this memory.</Merthsoft_DesignatorShapes_Settings_RememberPerDesignatorTooltip>
+    <Merthsoft_DesignatorShapes_Settings_SearchBuildings>Search building labels to choose additional barriers:</Merthsoft_DesignatorShapes_Settings_SearchBuildings>
+    <Merthsoft_DesignatorShapes_Settings_ShapeShortcuts>Shape shortcuts (Ctrl+Alt plus a key). Search by shape name:</Merthsoft_DesignatorShapes_Settings_ShapeShortcuts>
+    <Merthsoft_DesignatorShapes_Settings_ShortcutCapture>Press a key combination (Ctrl+Alt plus a key for shape shortcuts). Escape cancels; Backspace clears. Conflicting vanilla shortcuts are not overridden.</Merthsoft_DesignatorShapes_Settings_ShortcutCapture>
+    <Merthsoft_DesignatorShapes_Settings_ShortcutConflict>That combination is already bound to another command. Choose another combination.</Merthsoft_DesignatorShapes_Settings_ShortcutConflict>
+    <Merthsoft_DesignatorShapes_Settings_ToggleBinding>Interface toggle binding</Merthsoft_DesignatorShapes_Settings_ToggleBinding>
+    <Merthsoft_DesignatorShapes_Settings_ToggleShortcut>Enable interface toggle shortcut</Merthsoft_DesignatorShapes_Settings_ToggleShortcut>
 </LanguageData>

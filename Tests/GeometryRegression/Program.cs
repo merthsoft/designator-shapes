@@ -23,6 +23,12 @@ class Program {
    }
   }
   Check(AdditionalShapes.Checkerboard(new(0,0,0),new(10000,0,10000)).Count()<=512*512,"geometry span bound");
+  for(int w=1;w<=12;w++)for(int h=1;h<=12;h++)for(int xs=1;xs<=7;xs++)for(int zs=1;zs<=7;zs++)foreach(bool inverse in new[]{false,true}){
+   var s=new IntVec3(-7,0,-11);var t=new IntVec3(s.x+w-1,0,s.z+h-1);
+   var integrated=(inverse?Primitives.InverseGrid(s,t,xs,zs,1):Primitives.Grid(s,t,xs,zs,1)).ToHashSet();
+   var extracted=Merthsoft.DesignatorShapes.Grids.Geometry.Draw(t,s,xs,zs,inverse).ToHashSet();
+   Check(integrated.SetEquals(extracted),"standalone grid extraction preserves original anchoring and edges");
+  }
   Console.WriteLine($"PASS {checks} geometry invariants against actual primitives and game value types");
  }
 }

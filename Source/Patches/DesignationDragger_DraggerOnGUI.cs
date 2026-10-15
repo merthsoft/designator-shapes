@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Merthsoft.DesignatorShapes;
 using RimWorld;
 using System;
@@ -18,7 +18,7 @@ public static class DesignationDragger_DraggerOnGUI
         if (!__instance.Dragging)
             return true;
 
-        if (DesignatorShapes.ShowControls)
+        if (DesignatorShapes.UseCustomGeometry)
         {
             DesignatorShapes.DrawDraggerOutline(__instance);
             return false;

@@ -46,6 +46,8 @@ public class DesignatorShapes : Mod
         }
     }
 
+    internal static bool UseCustomGeometry => InputOwnership.CustomOwnsRoute(ShowControls, Find.DesignatorManager?.SelectedStyle?.DrawStyleWorker?.GetType());
+
     private static DesignatorSettings settings;
 
     public static DesignatorSettings Settings => settings ??= LoadedModManager.GetMod<DesignatorShapes>().GetSettings<DesignatorSettings>();
@@ -154,7 +156,7 @@ public class DesignatorShapes : Mod
         ls.CheckboxLabeled("Merthsoft_DesignatorShapes_Settings_AllowCollapsing".Translate(), ref Settings.ToggleableInterface);
         if (Settings.ToggleableInterface && Settings.EnableKeyboardInput)
         {
-            ls.CheckboxLabeled("\t" + "Merthsoft_DesignatorShapes_Settings_AltToggle".Translate(), ref Settings.RestoreAltToggle);
+
             if (Settings.RestoreAltToggle)
                 ls.CheckboxLabeled("\t" + "Merthsoft_DesignatorShapes_Settings_HideCompletelyOnAltToggle".Translate(), ref Settings.HideCompletelyOnAltToggle);
         }
@@ -171,6 +173,7 @@ public class DesignatorShapes : Mod
                 DrawKeyInput(ls, keyIndex);
         }
 
+        AdvancedSettingsUi.Draw(ls);
         settingsViewHeight = ls.CurHeight;
         ls.End();
         Widgets.EndScrollView();
@@ -286,10 +289,20 @@ public class DesignatorShapes : Mod
             Thickness--;
     }
 
-    internal static void SelectTool(DesignatorShapeDef def)
+    internal static void SelectTool(DesignatorShapeDef def, bool remember = true)
     {
+        if (!ShapeEligibility.IsDrawable(def)) return;
         FreeformLine.FreeMemory();
+        if (remember && InputOwnership.IsStandaloneFill(Find.DesignatorManager?.SelectedStyle?.DrawStyleWorker?.GetType()))
+        {
+            var manager=Find.DesignatorManager;
+            var styles=manager.SelectedDesignator?.DrawStyleCategory?.styles;
+            var fallback=styles?.FirstOrDefault(style=>style.defName is "FilledRectangle" or "EmptyRectangle")
+                ?? styles?.FirstOrDefault(style=>!InputOwnership.IsStandaloneFill(style.DrawStyleWorker.GetType())&&!style.DrawStyleWorker.SingleCell);
+            if(fallback!=null)manager.SelectedStyle=fallback;
+        }
         var toolChanged = CurrentTool != def;
+        if (remember) ShapeMemory.Remember(Find.DesignatorManager?.SelectedDesignator, def);
         if (def != null)
             CachedTool = def;
         if (Settings.AnnounceToolSelection && toolChanged)

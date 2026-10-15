@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Verse;
 
 namespace Merthsoft.DesignatorShapes.Patches;
@@ -7,5 +7,5 @@ namespace Merthsoft.DesignatorShapes.Patches;
 internal static class Designator_DoExtraGuiControls
 {
     public static bool Prefix()
-        => !DesignatorShapes.ShowControls;
+        => !DesignatorShapes.UseCustomGeometry;
 }
