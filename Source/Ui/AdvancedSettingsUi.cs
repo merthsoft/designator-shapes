@@ -8,6 +8,37 @@ using Verse;
 
 namespace Merthsoft.DesignatorShapes.Ui;
 
+internal static class ShortcutConflicts
+{
+    internal static bool HasNativeConflict(Event e)
+        => HasNativeConflict(e, DefDatabase<KeyBindingDef>.AllDefsListForReading, KeyPrefs.KeyPrefsData);
+
+    internal static bool HasNativeConflict(Event e, IEnumerable<KeyBindingDef> defs, KeyPrefsData prefs)
+    {
+        if (e.keyCode == KeyCode.None) return false;
+        // Native bindings store a key, not a modifier chord. Our handler consumes
+        // explicit chords before native commands run, so Ctrl+Alt+A can coexist
+        // with native A. A modifier used as the key itself is still a plain binding.
+        if ((e.control && e.keyCode is not (KeyCode.LeftControl or KeyCode.RightControl))
+            || (e.alt && e.keyCode is not (KeyCode.LeftAlt or KeyCode.RightAlt))
+            || (e.shift && e.keyCode is not (KeyCode.LeftShift or KeyCode.RightShift))) return false;
+        foreach (var def in defs)
+        {
+            // Compare stored bindings without depending on live window/focus state.
+            var a = def.defaultKeyCodeA;
+            var b = def.defaultKeyCodeB;
+            if (prefs?.keyPrefs != null && prefs.keyPrefs.TryGetValue(def, out var binding))
+            { a = binding.keyBindingA; b = binding.keyBindingB; }
+            // Native bindings ignore Ctrl/Alt/Shift, but suppress Command chords
+            // unless the command itself is bound to a Command key.
+            if (e.command && a is not (KeyCode.LeftCommand or KeyCode.RightCommand)
+                && b is not (KeyCode.LeftCommand or KeyCode.RightCommand)) continue;
+            if (e.keyCode == a || e.keyCode == b) return true;
+        }
+        return false;
+    }
+}
+
 internal sealed class ShortcutCapture : Window
 {
     private readonly Action<KeyCode, bool, bool, bool> apply;
@@ -24,7 +55,7 @@ internal sealed class ShortcutCapture : Window
         if (!modifiers && e.keyCode is KeyCode.LeftAlt or KeyCode.RightAlt or KeyCode.LeftControl or KeyCode.RightControl or KeyCode.LeftShift or KeyCode.RightShift) return;
         var key = e.keyCode == KeyCode.Backspace ? KeyCode.None : e.keyCode;
         if (!modifiers && key != KeyCode.None && (!e.control || !e.alt || e.shift)) return;
-        if (key != KeyCode.None && DefDatabase<KeyBindingDef>.AllDefsListForReading.Any(d => d.KeyDownEvent))
+        if (key != KeyCode.None && ShortcutConflicts.HasNativeConflict(e))
         { Messages.Message("Merthsoft_DesignatorShapes_Settings_ShortcutConflict".Translate(), MessageTypeDefOf.RejectInput, false); e.Use(); return; }
         bool ctrl = modifiers && e.control, alt = modifiers && e.alt && key is not (KeyCode.LeftAlt or KeyCode.RightAlt), shift = modifiers && e.shift;
         var settings = DesignatorShapes.Settings;

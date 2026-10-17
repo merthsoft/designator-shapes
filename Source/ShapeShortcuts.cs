@@ -50,7 +50,7 @@ internal static class ShapeShortcuts
             DesignatorShapes.ShowControls = !DesignatorShapes.ShowControls; e.Use(); return false;
         }
         if (!DesignatorShapes.ShowControls || !e.control || !e.alt || e.shift
-            || DefDatabase<KeyBindingDef>.AllDefsListForReading.Any(d => d.KeyDownEvent)) return true;
+            || Ui.ShortcutConflicts.HasNativeConflict(e)) return true;
         var binding = settings.ShapeShortcuts.FirstOrDefault(p => p.Value != KeyCode.None && p.Value == e.keyCode);
         if (binding.Key == null) return true;
         var shape = DefDatabase<DesignatorShapeDef>.GetNamedSilentFail(binding.Key);
