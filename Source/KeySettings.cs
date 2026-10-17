@@ -12,6 +12,7 @@ public static class KeySettings
     public static int DecreaseThicknessKeyIndex = 4;
     public static int UndoKeyIndex = 5;
     public static int RedoKeyIndex = 6;
+    public static int PreviousShapeKeyIndex = 7;
 
     public static string[] KeyLabels =
     [
@@ -22,6 +23,7 @@ public static class KeySettings
         "Merthsoft_DesignatorShapes_KeyLabel_DecreaseThickness",
         "Merthsoft_DesignatorShapes_KeyLabel_Undo",
         "Merthsoft_DesignatorShapes_KeyLabel_Redo",
+        "Merthsoft_DesignatorShapes_KeyLabel_PreviousShape",
     ];
 
 

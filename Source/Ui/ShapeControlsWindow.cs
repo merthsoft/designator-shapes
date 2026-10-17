@@ -13,7 +13,8 @@ public class ShapeControlsWindow
 
     public Rect WindowRect { get; set; }
 
-    public Rect DraggingWindowRect => new(WindowRect.x - 100, WindowRect.y - 100, WindowRect.width + 200, WindowRect.height + 200);
+    public Rect VisibleRect => new(WindowRect.x, WindowRect.y, Width,
+        DesignatorShapes.ShowControls ? PanelHeight : LabelHeight);
 
     public bool IsHorizontal { get; set; }
 
@@ -32,6 +33,71 @@ public class ShapeControlsWindow
     public static int CollapseButtonSize => 20;
 
     private bool dragging;
+    private Vector2 dragOriginMouse, dragOriginWindow;
+
+    // Called before the window stack consumes input, even when the pointer leaves the panel.
+    internal void HandleDragInput(bool visible)
+    {
+        var e = Event.current;
+        if (!visible || DesignatorShapes.Settings.LockPanelInPlace
+            || Find.WindowStack.Windows.Any(w => w.absorbInputAroundWindow && w is not MainTabWindow))
+        {
+            StopDragging();
+            return;
+        }
+        if (e == null) return;
+        if (dragging)
+        {
+            // Window callbacks can consume MouseUp or use window-local event coordinates.
+            // Use the absolute UI cursor and button state, including on Repaint, instead.
+            if (e.type == EventType.MouseDown && e.button == 0)
+            {
+                StopDragging();
+                return;
+            }
+            var position = dragOriginWindow + UI.MousePositionOnUIInverted - dragOriginMouse;
+            WindowRect = new Rect(position.x, position.y, Width, PanelHeight);
+            ClampToScreen();
+            SyncInputRect();
+            if (!Input.GetMouseButton(0) || (e.rawType == EventType.MouseUp && e.button == 0))
+                StopDragging();
+            if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape)
+            {
+                StopDragging();
+                e.Use();
+            }
+            else if (e.isMouse) e.Use();
+            return;
+        }
+    }
+
+    private void BeginDragging(Vector2 mouse)
+    {
+        dragging = true;
+        dragOriginMouse = mouse;
+        dragOriginWindow = WindowRect.position;
+        GUI.FocusControl(null);
+        GUIUtility.keyboardControl = 0;
+    }
+
+    private void StopDragging()
+    {
+        if (!dragging) return;
+        dragging = false;
+        DesignatorShapes.Settings.WindowX = (int)WindowRect.x;
+        DesignatorShapes.Settings.WindowY = (int)WindowRect.y;
+        DesignatorShapes.Settings.Write();
+    }
+
+    private void SyncInputRect()
+    {
+        // ImmediateWindow normally updates its rectangle only on Repaint.
+        foreach (var window in Find.WindowStack.Windows.Where(w => w.ID == -ID))
+        {
+            window.windowRect = VisibleRect;
+            window.absorbInputAroundWindow = false;
+        }
+    }
     private int visibleRows = NumRows;
     private bool ShowSizeInputs => DesignatorShapes.CurrentTool?.Group == controller.SelectedGroup
         && DesignatorShapes.CurrentTool?.ShowSizeInputs == true;
@@ -131,7 +197,8 @@ public class ShapeControlsWindow
         }
 
         ClampToScreen();
-        Find.WindowStack.ImmediateWindow(ID, dragging ? DraggingWindowRect : WindowRect, WindowLayer.SubSuper, DoWindow, false, dragging, 0);
+        SyncInputRect();
+        Find.WindowStack.ImmediateWindow(ID, VisibleRect, WindowLayer.SubSuper, DoWindow, false, false, 0);
     }
 
     private void DrawIcon(Rect rect, ActionIcon icon, string tooltip)
@@ -160,9 +227,18 @@ public class ShapeControlsWindow
 
     private void DoWindow()
     {
-        var offset = dragging ? 100 : 0;
-
-        var rect = new Rect(offset, offset, Width, PanelHeight);
+        // Waylith dispatches clicks to the registered GUI window before the root pass.
+        // Start capture here; continue/release it globally when the pointer leaves.
+        var e = Event.current;
+        if (!DesignatorShapes.Settings.LockPanelInPlace && e.type == EventType.MouseDown && e.button == 0
+            && new Rect(0, 0, Width - CollapseButtonSize - 4, LabelHeight).Contains(e.mousePosition))
+        {
+            BeginDragging(UI.MousePositionOnUIInverted);
+            e.Use();
+        }
+        if (e.type == EventType.KeyDown && Find.CurrentMap != null)
+            ShapeShortcuts.Handle(Find.DesignatorManager);
+        var rect = new Rect(0, 0, Width, VisibleRect.height);
         if (DesignatorShapes.Settings.DrawBackground)
             Widgets.DrawWindowBackground(rect.Clone(height: DesignatorShapes.ShowControls ? PanelHeight : LabelHeight));
 
@@ -176,6 +252,7 @@ public class ShapeControlsWindow
             {
                 GUI.FocusControl(null); GUIUtility.keyboardControl = 0;
                 DesignatorShapes.ShowControls = !DesignatorShapes.ShowControls;
+                SyncInputRect();
             }
         }
 
@@ -207,24 +284,5 @@ public class ShapeControlsWindow
             }
         }
 
-        if (Event.current.isMouse)
-            switch (Event.current.type)
-            {
-                case EventType.MouseDown when !DesignatorShapes.Settings.LockPanelInPlace:
-                    dragging = true;
-                    Event.current.Use();
-                    break;
-                case EventType.MouseDrag when dragging:
-                    WindowRect = new Rect(WindowRect.x + Event.current.delta.x, WindowRect.y + Event.current.delta.y, Width, PanelHeight);
-                    Event.current.Use();
-                    break;
-                case EventType.MouseUp when dragging:
-                    dragging = false;
-                    DesignatorShapes.Settings.WindowX = (int)WindowRect.x;
-                    DesignatorShapes.Settings.WindowY = (int)WindowRect.y;
-                    DesignatorShapes.Settings.Write();
-                    Event.current.Use();
-                    break;
-            }
     }
 }

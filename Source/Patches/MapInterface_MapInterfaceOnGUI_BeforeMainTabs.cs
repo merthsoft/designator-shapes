@@ -12,12 +12,17 @@ internal static class ShapeWindowKeyboardInput
 {
     static void Prefix()
     {
-        if (Find.CurrentMap != null && Find.DesignatorManager.SelectedDesignator != null
+        bool visible = Find.CurrentMap != null && Find.DesignatorManager.SelectedDesignator != null
             && !WorldRendererUtility.WorldSelected
-            && (DesignatorShapes.ShowControls || !DesignatorShapes.Settings.HideCollapsedInterface))
+            && (DesignatorShapes.ShowControls || !DesignatorShapes.Settings.HideCollapsedInterface)
+            && (!DesignatorShapes.Settings.HideWhenNoOpenTab || Find.MainTabsRoot.OpenTab != null);
+        DesignatorShapes.ShapeControls?.HandleDragInput(visible);
+        if (visible)
         {
             DesignatorShapes.ShapeControls?.HandleKeyboardInput();
         }
+        if (Find.CurrentMap != null && !WorldRendererUtility.WorldSelected)
+            ShapeShortcuts.Handle(Find.DesignatorManager);
     }
 }
 
@@ -57,20 +62,7 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
             var key = current.keyCode;
             var keyMap = DesignatorShapes.Settings.Keys;
 
-            if (current.control)
-            {
-                if (key == keyMap[UndoKeyIndex])
-                {
-                    HistoryManager.Undo();
-                    current.Use();
-                }
-                else if (key == keyMap[RedoKeyIndex])
-                {
-                    HistoryManager.Redo();
-                    current.Use();
-                }
-            }
-            else
+            if (!(current.control || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
             {
                 if (key == keyMap[RotateLeftKeyIndex] && DesignatorShapes.Settings.EnableRotationKeys)
                 {

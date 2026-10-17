@@ -19,6 +19,7 @@ public class DesignatorShapes : Mod
     public static Texture2D BoundingBoxTexture;
 
     public static DesignatorShapeDef CurrentTool { get; set; }
+    internal static DesignatorShapeDef PreviousTool { get; private set; }
 
     private static DesignatorShapeDef cachedTool;
     public static DesignatorShapeDef CachedTool
@@ -230,6 +231,7 @@ public class DesignatorShapes : Mod
                 KeyCode.Minus,
                 KeyCode.Z,
                 KeyCode.Y,
+                KeyCode.None,
             ]);
 
             if (Settings.Keys == null)
@@ -304,6 +306,7 @@ public class DesignatorShapes : Mod
             if(fallback!=null)manager.SelectedStyle=fallback;
         }
         var toolChanged = CurrentTool != def;
+        if (toolChanged && ShapeEligibility.IsDrawable(CurrentTool)) PreviousTool = CurrentTool;
         if (remember) ShapeMemory.Remember(Find.DesignatorManager?.SelectedDesignator, def);
         if (def != null)
             CachedTool = def;

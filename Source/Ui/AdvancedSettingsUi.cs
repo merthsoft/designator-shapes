@@ -44,6 +44,7 @@ internal enum ShortcutCaptureAction { Wait, Apply, Cancel }
 internal sealed class ShortcutCaptureInput
 {
     private KeyCode pendingModifier;
+    private int heldModifierMask;
     internal KeyCode Key;
     internal bool Control, Alt, Shift;
     internal static bool IsModifier(KeyCode key) => key is KeyCode.LeftAlt or KeyCode.RightAlt
@@ -55,6 +56,45 @@ internal sealed class ShortcutCaptureInput
         KeyCode.RightShift => KeyCode.LeftShift,
         _ => key
     };
+
+    internal ShortcutCaptureAction ReadHeldModifiers(bool control, bool alt, bool shift, bool toggle)
+        => ReadHeldModifierKeys(control, false, alt, false, shift, false, toggle);
+
+    internal ShortcutCaptureAction ReadHeldModifierKeys(bool leftControl, bool rightControl, bool leftAlt, bool rightAlt,
+        bool leftShift, bool rightShift, bool toggle)
+    {
+        bool control = leftControl || rightControl, alt = leftAlt || rightAlt, shift = leftShift || rightShift;
+        int mask = (leftControl ? 1 : 0) | (rightControl ? 2 : 0) | (leftAlt ? 4 : 0)
+            | (rightAlt ? 8 : 0) | (leftShift ? 16 : 0) | (rightShift ? 32 : 0);
+        int pressed = mask & ~heldModifierMask;
+        heldModifierMask = mask;
+        if (!toggle) return ShortcutCaptureAction.Wait;
+        if (pressed != 0)
+        {
+            Key = (pressed & 8) != 0 ? KeyCode.RightAlt : (pressed & 4) != 0 ? KeyCode.LeftAlt
+                : (pressed & 32) != 0 ? KeyCode.RightShift : (pressed & 16) != 0 ? KeyCode.LeftShift
+                : (pressed & 2) != 0 ? KeyCode.RightControl : KeyCode.LeftControl;
+            Control = control && ModifierFamily(Key) != KeyCode.LeftControl;
+            Alt = alt && ModifierFamily(Key) != KeyCode.LeftAlt;
+            Shift = shift && ModifierFamily(Key) != KeyCode.LeftShift;
+            pendingModifier = Key;
+            return ShortcutCaptureAction.Wait;
+        }
+        bool pendingHeld = ModifierFamily(pendingModifier) switch
+        {
+            KeyCode.LeftControl => control,
+            KeyCode.LeftAlt => alt,
+            KeyCode.LeftShift => shift,
+            _ => true
+        };
+        if (!pendingHeld) { pendingModifier = KeyCode.None; return ShortcutCaptureAction.Apply; }
+        return ShortcutCaptureAction.Wait;
+    }
+
+    internal static Event NormalizeEvent(Event e, bool control, bool alt, bool shift)
+        => new Event { type = e.type, keyCode = e.keyCode,
+            modifiers = (control ? EventModifiers.Control : 0) | (alt ? EventModifiers.Alt : 0)
+                | (shift ? EventModifiers.Shift : 0), alt = alt, shift = shift };
 
     internal ShortcutCaptureAction Read(Event e, bool toggle)
     {
@@ -88,6 +128,8 @@ internal sealed class ShortcutCaptureInput
 
 internal sealed class ShortcutCapture : Window
 {
+    private static readonly KeyCode[] KeyboardKeys = Enum.GetValues<KeyCode>().Distinct()
+        .Where(k => k != KeyCode.None && (int)k < (int)KeyCode.Mouse0 && !ShortcutCaptureInput.IsModifier(k)).ToArray();
     private readonly Action<KeyCode, bool, bool, bool> apply;
     private readonly bool modifiers;
     private readonly string shapeDefName;
@@ -101,21 +143,38 @@ internal sealed class ShortcutCapture : Window
     {
         Widgets.Label(rect, PromptKey(modifiers).Translate());
         var e = Event.current;
-        var action = input.Read(e, modifiers);
+        bool lc = Input.GetKey(KeyCode.LeftControl), rc = Input.GetKey(KeyCode.RightControl);
+        bool la = Input.GetKey(KeyCode.LeftAlt), ra = Input.GetKey(KeyCode.RightAlt);
+        bool ls = Input.GetKey(KeyCode.LeftShift), rs = Input.GetKey(KeyCode.RightShift);
+        var captureEvent = ShortcutCaptureInput.NormalizeEvent(e, e.control || lc || rc, e.alt || la || ra, e.shift || ls || rs);
+        var action = input.Read(captureEvent, modifiers);
+        // A backend can omit the key event or its modifier flags. Poll actual keyboard
+        // presses too; exclude mouse buttons so opening the dialog cannot bind its click.
+        if (action == ShortcutCaptureAction.Wait && e.type == EventType.Repaint)
+        {
+            var pressed = KeyboardKeys.FirstOrDefault(Input.GetKeyDown);
+            if (pressed != KeyCode.None)
+            {
+                captureEvent.type = EventType.KeyDown; captureEvent.keyCode = pressed;
+                action = input.Read(captureEvent, modifiers);
+            }
+        }
+        if (action == ShortcutCaptureAction.Wait)
+            action = input.ReadHeldModifierKeys(lc, rc, la, ra, ls, rs, modifiers);
         if (action == ShortcutCaptureAction.Wait) return;
-        if (action == ShortcutCaptureAction.Cancel) { e.Use(); Close(); return; }
+        if (action == ShortcutCaptureAction.Cancel) { if (e.isKey || e.isMouse) e.Use(); Close(); return; }
         var key = input.Key;
         // A modifier tap is distinct from native held-modifier controls.
-        if (key != KeyCode.None && !(modifiers && ShortcutCaptureInput.IsModifier(key)) && ShortcutConflicts.HasNativeConflict(e))
-        { Messages.Message("Merthsoft_DesignatorShapes_Settings_ShortcutConflict".Translate(), MessageTypeDefOf.RejectInput, false); e.Use(); return; }
+        if (key != KeyCode.None && !(modifiers && ShortcutCaptureInput.IsModifier(key)) && ShortcutConflicts.HasNativeConflict(captureEvent))
+        { Messages.Message("Merthsoft_DesignatorShapes_Settings_ShortcutConflict".Translate(), MessageTypeDefOf.RejectInput, false); if (e.isKey || e.isMouse) e.Use(); return; }
         bool ctrl = input.Control, alt = input.Alt, shift = input.Shift;
         var settings = DesignatorShapes.Settings;
         bool collision = key != KeyCode.None && (modifiers
             ? ctrl && alt && !shift && settings.ShapeShortcuts.Values.Contains(key)
             : (settings.RestoreAltToggle && settings.InterfaceToggleKey == key && settings.InterfaceToggleControl && settings.InterfaceToggleAlt && !settings.InterfaceToggleShift) || settings.ShapeShortcuts.Any(p => p.Key != shapeDefName && p.Value == key));
-        if (collision) { Messages.Message("Merthsoft_DesignatorShapes_Settings_ShortcutConflict".Translate(), MessageTypeDefOf.RejectInput, false); e.Use(); return; }
+        if (collision) { Messages.Message("Merthsoft_DesignatorShapes_Settings_ShortcutConflict".Translate(), MessageTypeDefOf.RejectInput, false); if (e.isKey || e.isMouse) e.Use(); return; }
         apply(key, ctrl, alt, shift);
-        DesignatorShapes.Settings.Write(); e.Use(); Close();
+        DesignatorShapes.Settings.Write(); if (e.isKey || e.isMouse) e.Use(); Close();
     }
 }
 

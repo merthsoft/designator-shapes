@@ -119,10 +119,17 @@ internal static class SelectPaletteShape
 {
     static void Postfix(DrawStyleDef value)
     {
-        if (value is not PaletteShapeDef style) return;
+        if (DesignatorShapes.ShowControls || value is not PaletteShapeDef style) return;
         DesignatorShapes.CurrentTool = style.shape;
         DesignatorShapes.Rotation = 0;
         if (style.shape.pauseOnSelection && DesignatorShapes.Settings.PauseOnFloodFillSelect && Find.TickManager != null)
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
     }
+}
+
+[HarmonyPatch(typeof(DesignatorManager), "ChangeDrawStyle")]
+internal static class ChangeNativePaletteStyle
+{
+    // Native Q/E cycling is separate from the configurable custom rotation keys.
+    static bool Prefix() => !DesignatorShapes.UseCustomGeometry;
 }

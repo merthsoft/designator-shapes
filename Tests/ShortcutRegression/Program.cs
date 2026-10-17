@@ -90,6 +90,25 @@ Check(Read(capture,Key(KeyCode.A,EventModifiers.Control|EventModifiers.Alt|Event
 Check(Read(capture,Key(KeyCode.A,EventModifiers.Control|EventModifiers.Alt),false)=="Apply", "Shape chord applies"); Binding(capture,KeyCode.A);
 capture=Input();
 Check(Read(capture,Key(KeyCode.F12))=="Apply", "Plain toggle key applies"); Binding(capture,KeyCode.F12);
+var heldMethod=inputType.GetMethod("ReadHeldModifiers",BindingFlags.Instance|BindingFlags.NonPublic)!;
+string Held(object instance,bool ctrl,bool alt,bool shift,bool toggle=true)=>heldMethod.Invoke(instance,new object[]{ctrl,alt,shift,toggle})!.ToString()!;
+foreach(var key in new[]{KeyCode.LeftAlt,KeyCode.LeftControl,KeyCode.LeftShift}){
+    var polled=Input();bool ctrl=key==KeyCode.LeftControl,alt=key==KeyCode.LeftAlt,shift=key==KeyCode.LeftShift;
+    Check(Held(polled,ctrl,alt,shift)=="Wait","physical modifier press waits without key event: "+key);
+    Check(Held(polled,ctrl,alt,shift)=="Wait","held modifier does not apply prematurely: "+key);
+    Check(Held(polled,false,false,false)=="Apply","physical modifier release applies without key event: "+key);Binding(polled,key);
+    Check(Held(polled,false,false,false)=="Wait","released modifier applies only once: "+key);
+    polled=Input();Check(Held(polled,ctrl,alt,shift,false)=="Wait"&&Held(polled,false,false,false,false)=="Wait","shape mode ignores polled modifier tap: "+key);
+}
+var sidedMethod=inputType.GetMethod("ReadHeldModifierKeys",BindingFlags.Instance|BindingFlags.NonPublic)!;
+var modifierKeys=new[]{KeyCode.LeftControl,KeyCode.RightControl,KeyCode.LeftAlt,KeyCode.RightAlt,KeyCode.LeftShift,KeyCode.RightShift};
+for(int side=0;side<modifierKeys.Length;side++){
+    var sided=Input();var down=new object[]{false,false,false,false,false,false,true};down[side]=true;
+    Check(sidedMethod.Invoke(sided,down)!.ToString()=="Wait","sided physical modifier waits: "+modifierKeys[side]);
+    var up=new object[]{false,false,false,false,false,false,true};
+    Check(sidedMethod.Invoke(sided,up)!.ToString()=="Apply","sided physical modifier applies: "+modifierKeys[side]);
+    Binding(sided,modifierKeys[side]);
+}
 var prompt=asm.GetType("Merthsoft.DesignatorShapes.Ui.ShortcutCapture")!.GetMethod("PromptKey",flags)!;
 var togglePrompt=(string)prompt.Invoke(null,new object[]{true})!;
 var shapePrompt=(string)prompt.Invoke(null,new object[]{false})!;
@@ -97,4 +116,13 @@ var dir=new DirectoryInfo(AppContext.BaseDirectory); while(dir!=null && !Directo
 var translations=System.Xml.Linq.XDocument.Load(Path.Combine(dir!.FullName,"Languages/English/Keyed/DesignatorShapes_Keys.xml")).Root!;
 Check(!translations.Element(togglePrompt)!.Value.Contains("Ctrl+Alt") && translations.Element(togglePrompt)!.Value.Contains("press and release"), "Toggle prompt describes modifier tap without shape chord requirement");
 Check(translations.Element(shapePrompt)!.Value.Contains("Ctrl+Alt"), "Shape prompt retains required chord");
+var normalize = inputType.GetMethod("NormalizeEvent", flags)!;
+var rawChord = new Event { type = EventType.KeyDown, keyCode = KeyCode.K,
+    modifiers = EventModifiers.Control | EventModifiers.Alt };
+var normalizedChord = (Event)normalize.Invoke(null, new object[] { rawChord, true, true, false })!;
+var normalizedInput = Input();
+Check(Read(normalizedInput, normalizedChord, false) == "Apply", "Live modifier flags normalize into the separate Alt property");
+Binding(normalizedInput, KeyCode.K);
+Check(new DesignatorSettings().Keys.Count == 0, "Settings keys populated only when game defs load");
+Check(KeySettings.PreviousShapeKeyIndex == 7, "Previous shape appends without changing existing key indices");
 Console.WriteLine($"PASS {checks} shortcut checks using production DLL and actual game binding/event types; no live game or config changes");

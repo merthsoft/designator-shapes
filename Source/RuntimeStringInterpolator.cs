@@ -90,7 +90,6 @@ public static class RuntimeStringInterpolator
                             var obj = args[key];
                             var formattable = obj as IFormattable;
                             var format = formatBuffer.ToString();
-                            Console.WriteLine($"{key}:{format}");
                             builder.Append(formattable?.ToString(format, null) ?? obj);
                             interpolationBuffer.Length = 0;
                             formatBuffer.Length = 0;
