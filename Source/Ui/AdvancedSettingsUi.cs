@@ -39,25 +39,76 @@ internal static class ShortcutConflicts
     }
 }
 
+internal enum ShortcutCaptureAction { Wait, Apply, Cancel }
+
+internal sealed class ShortcutCaptureInput
+{
+    private KeyCode pendingModifier;
+    internal KeyCode Key;
+    internal bool Control, Alt, Shift;
+    internal static bool IsModifier(KeyCode key) => key is KeyCode.LeftAlt or KeyCode.RightAlt
+        or KeyCode.LeftControl or KeyCode.RightControl or KeyCode.LeftShift or KeyCode.RightShift;
+    private static KeyCode ModifierFamily(KeyCode key) => key switch
+    {
+        KeyCode.RightAlt => KeyCode.LeftAlt,
+        KeyCode.RightControl => KeyCode.LeftControl,
+        KeyCode.RightShift => KeyCode.LeftShift,
+        _ => key
+    };
+
+    internal ShortcutCaptureAction Read(Event e, bool toggle)
+    {
+        var key = e.keyCode;
+        if (e.type == EventType.KeyDown && key == KeyCode.Escape) return ShortcutCaptureAction.Cancel;
+        if (e.type == EventType.KeyDown && key == KeyCode.Backspace)
+        { Key = KeyCode.None; Control = Alt = Shift = false; return ShortcutCaptureAction.Apply; }
+        // Some backends report modifier changes without a keyCode. With no side
+        // information, use the left key (the canonical binding for either side).
+        if (toggle && key == KeyCode.None && e.type == EventType.KeyDown)
+        {
+            if (e.alt && !e.control && !e.shift) key = KeyCode.LeftAlt;
+            else if (e.control && !e.alt && !e.shift) key = KeyCode.LeftControl;
+            else if (e.shift && !e.alt && !e.control) key = KeyCode.LeftShift;
+        }
+        if (toggle && e.type == EventType.KeyUp && pendingModifier != KeyCode.None
+            && (ModifierFamily(key) == ModifierFamily(pendingModifier) || key == KeyCode.None))
+        { pendingModifier = KeyCode.None; return ShortcutCaptureAction.Apply; }
+        if (e.type != EventType.KeyDown || key == KeyCode.None) return ShortcutCaptureAction.Wait;
+        if (!toggle && (IsModifier(key) || !e.control || !e.alt || e.shift)) return ShortcutCaptureAction.Wait;
+        Key = key;
+        Control = toggle && e.control && key is not (KeyCode.LeftControl or KeyCode.RightControl);
+        Alt = toggle && e.alt && key is not (KeyCode.LeftAlt or KeyCode.RightAlt);
+        Shift = toggle && e.shift && key is not (KeyCode.LeftShift or KeyCode.RightShift);
+        if (toggle && IsModifier(key))
+        { pendingModifier = key; return ShortcutCaptureAction.Wait; }
+        pendingModifier = KeyCode.None;
+        return ShortcutCaptureAction.Apply;
+    }
+}
+
 internal sealed class ShortcutCapture : Window
 {
     private readonly Action<KeyCode, bool, bool, bool> apply;
     private readonly bool modifiers;
     private readonly string shapeDefName;
+    private readonly ShortcutCaptureInput input = new();
+    internal static string PromptKey(bool toggle) => toggle
+        ? "Merthsoft_DesignatorShapes_Settings_ToggleShortcutCapture"
+        : "Merthsoft_DesignatorShapes_Settings_ShortcutCapture";
     public override Vector2 InitialSize => new(440f, 180f);
     internal ShortcutCapture(Action<KeyCode, bool, bool, bool> apply, bool modifiers, string shapeDefName = null) { this.apply = apply; this.modifiers = modifiers; this.shapeDefName = shapeDefName; absorbInputAroundWindow = true; }
     public override void DoWindowContents(Rect rect)
     {
-        Widgets.Label(rect, "Merthsoft_DesignatorShapes_Settings_ShortcutCapture".Translate());
+        Widgets.Label(rect, PromptKey(modifiers).Translate());
         var e = Event.current;
-        if (e.type != EventType.KeyDown || e.keyCode == KeyCode.None) return;
-        if (e.keyCode == KeyCode.Escape) { e.Use(); Close(); return; }
-        if (!modifiers && e.keyCode is KeyCode.LeftAlt or KeyCode.RightAlt or KeyCode.LeftControl or KeyCode.RightControl or KeyCode.LeftShift or KeyCode.RightShift) return;
-        var key = e.keyCode == KeyCode.Backspace ? KeyCode.None : e.keyCode;
-        if (!modifiers && key != KeyCode.None && (!e.control || !e.alt || e.shift)) return;
-        if (key != KeyCode.None && ShortcutConflicts.HasNativeConflict(e))
+        var action = input.Read(e, modifiers);
+        if (action == ShortcutCaptureAction.Wait) return;
+        if (action == ShortcutCaptureAction.Cancel) { e.Use(); Close(); return; }
+        var key = input.Key;
+        // A modifier tap is distinct from native held-modifier controls.
+        if (key != KeyCode.None && !(modifiers && ShortcutCaptureInput.IsModifier(key)) && ShortcutConflicts.HasNativeConflict(e))
         { Messages.Message("Merthsoft_DesignatorShapes_Settings_ShortcutConflict".Translate(), MessageTypeDefOf.RejectInput, false); e.Use(); return; }
-        bool ctrl = modifiers && e.control, alt = modifiers && e.alt && key is not (KeyCode.LeftAlt or KeyCode.RightAlt), shift = modifiers && e.shift;
+        bool ctrl = input.Control, alt = input.Alt, shift = input.Shift;
         var settings = DesignatorShapes.Settings;
         bool collision = key != KeyCode.None && (modifiers
             ? ctrl && alt && !shift && settings.ShapeShortcuts.Values.Contains(key)

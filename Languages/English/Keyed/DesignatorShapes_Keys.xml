@@ -56,7 +56,8 @@
     <Merthsoft_DesignatorShapes_Settings_RememberPerDesignatorTooltip>Remember explicit shape choices per designator type and building or floor definition in this save (up to 512 entries). A remembered choice takes priority over auto-select; unseen tools use the existing auto-select/global fallback. Reset shape on resume also clears this memory.</Merthsoft_DesignatorShapes_Settings_RememberPerDesignatorTooltip>
     <Merthsoft_DesignatorShapes_Settings_SearchBuildings>Search building labels to choose additional barriers:</Merthsoft_DesignatorShapes_Settings_SearchBuildings>
     <Merthsoft_DesignatorShapes_Settings_ShapeShortcuts>Shape shortcuts (Ctrl+Alt plus a key). Search by shape name:</Merthsoft_DesignatorShapes_Settings_ShapeShortcuts>
-    <Merthsoft_DesignatorShapes_Settings_ShortcutCapture>Press a key combination (Ctrl+Alt plus a key for shape shortcuts). Escape cancels; Backspace clears. Conflicting vanilla shortcuts are not overridden.</Merthsoft_DesignatorShapes_Settings_ShortcutCapture>
+    <Merthsoft_DesignatorShapes_Settings_ShortcutCapture>Press Ctrl+Alt plus a key for this shape shortcut. Escape cancels; Backspace clears.</Merthsoft_DesignatorShapes_Settings_ShortcutCapture>
+    <Merthsoft_DesignatorShapes_Settings_ToggleShortcutCapture>Press a key or key combination for the interface toggle. To bind Alt, Ctrl, or Shift alone, press and release it. Escape cancels; Backspace clears.</Merthsoft_DesignatorShapes_Settings_ToggleShortcutCapture>
     <Merthsoft_DesignatorShapes_Settings_ShortcutConflict>That combination is already bound to another command. Choose another combination.</Merthsoft_DesignatorShapes_Settings_ShortcutConflict>
     <Merthsoft_DesignatorShapes_Settings_ToggleBinding>Interface toggle binding</Merthsoft_DesignatorShapes_Settings_ToggleBinding>
     <Merthsoft_DesignatorShapes_Settings_ToggleShortcut>Enable interface toggle shortcut</Merthsoft_DesignatorShapes_Settings_ToggleShortcut>
