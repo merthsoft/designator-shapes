@@ -33,32 +33,12 @@
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
-        <defName>Grids_Input</defName>
-        <label>Custom sized grids</label>
-        <description>Custom sized grids</description>
-        <parentGroupName>Grids</parentGroupName>
-        <uiIconPath>UI/Commands/Smol/grid_open</uiIconPath>
-        <closeUiIconPath>UI/Commands/Smol/grid_close</closeUiIconPath>
-        <autoSelect>false</autoSelect>
-    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
-
-    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
         <defName>Grids_Inverse</defName>
         <label>Inverse grids</label>
         <description>Inverse grids.</description>
         <parentGroupName>Rectangle</parentGroupName>
         <uiIconPath>UI/Commands/Smol/grid_inverse_open</uiIconPath>
         <closeUiIconPath>UI/Commands/Smol/grid_inverse_close</closeUiIconPath>
-    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
-
-    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
-        <defName>Grids_Inverse_Input</defName>
-        <label>Custom sized inverse grids</label>
-        <description>Custom sized inverse grids</description>
-        <parentGroupName>Grids_Inverse</parentGroupName>
-        <uiIconPath>UI/Commands/Smol/grid_inverse_open</uiIconPath>
-        <closeUiIconPath>UI/Commands/Smol/grid_inverse_close</closeUiIconPath>
-        <autoSelect>false</autoSelect>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
@@ -99,21 +79,21 @@
         <uiIconPath>UI/Commands/Smol/etc</uiIconPath>
         <closeUiIconPath>UI/Commands/Smol/etc_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
-<Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
     <defName>Octagons</defName>
     <label>Octagons</label>
     <parentGroupName>MoreShapes</parentGroupName>
     <uiIconPath>UI/Commands/Smol/Additional/octagons_open</uiIconPath>
     <closeUiIconPath>UI/Commands/Smol/Additional/octagons_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
-<Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
     <defName>Arcs</defName>
     <label>Arcs</label>
     <parentGroupName>Ellipse</parentGroupName>
     <uiIconPath>UI/Commands/Smol/Additional/arcs_open</uiIconPath>
     <closeUiIconPath>UI/Commands/Smol/Additional/arcs_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
-<Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
     <defName>Checkerboards</defName>
     <label>Checkerboards</label>
     <parentGroupName>Rectangle</parentGroupName>

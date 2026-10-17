@@ -42,7 +42,15 @@ public class ShapeControlsWindow
     public static float Width => NumButtons / NumRows * IconSize;
     public static float Height => NumRows * IconSize + LabelHeight + LineHeight * 2;
 
-    private int inputWidth = 6, inputHeight = 6;
+    // Share the existing input widget, keeping checker tiles independent of grid/fixed sizes.
+    private bool EditingCheckerboard => (DesignatorShapes.ShowControls
+        ? DesignatorShapes.CurrentTool : PaletteShapeWorker.SelectedShape)?.overlayGroup == "Checkerboards";
+    private int gridWidth = 6, gridHeight = 6;
+    private int checkerWidth = 1, checkerHeight = 1;
+    private ref int inputWidth => ref (EditingCheckerboard ? ref checkerWidth : ref gridWidth);
+    private ref int inputHeight => ref (EditingCheckerboard ? ref checkerHeight : ref gridHeight);
+    public static IntVec3 CheckerTileSize => new(DesignatorShapes.ShapeControls.checkerWidth, 0,
+        DesignatorShapes.ShapeControls.checkerHeight);
     private bool editingInput;
     private string widthBuffer = "6", heightBuffer = "6";
     private int lastWidth = 6, lastHeight = 6;

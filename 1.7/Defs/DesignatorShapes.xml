@@ -115,7 +115,7 @@
 		<description>Designate in a custom dimmensioned grid</description>
 		<uiIconPath>UI/Commands/Smol/grid_x</uiIconPath>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.Grids.SizeInput</drawMethodName>
-		<overlayGroup>Grids_Input</overlayGroup>
+		<overlayGroup>Grids</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_x</selectedUiIconPath>
 		<showSizeInputs>true</showSizeInputs>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -172,7 +172,7 @@
 		<description>Designate in a custom dimmensioned inverse grid</description>
 		<uiIconPath>UI/Commands/Smol/grid_x</uiIconPath>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.InverseGrids.SizeInput</drawMethodName>
-		<overlayGroup>Grids_Inverse_Input</overlayGroup>
+		<overlayGroup>Grids_Inverse</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/grid_x</selectedUiIconPath>
 		<showSizeInputs>true</showSizeInputs>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -400,8 +400,9 @@
     <defName>Checkerboard</defName>
     <label>Checkerboard: lower-left selected</label>
     <overlayGroup>Checkerboards</overlayGroup>
+    <showSizeInputs>true</showSizeInputs>
     <numRotations>0</numRotations>
-    <description>Alternate single cells anchored to the lower-left drag bound. Thickness does not change parity. Drag spans are limited to 512 cells per axis.</description>
+    <description>Alternate tiles (default 1x1 cells), with W/H setting each tile's dimensions, anchored to the lower-left drag bound. Thickness does not change parity. Drag spans are limited to 512 cells per axis.</description>
     <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.Checkerboard</drawMethodName>
     <uiIconPath>UI/Commands/Smol/Additional/checkerboard</uiIconPath>
     <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/checkerboard</selectedUiIconPath>
@@ -410,8 +411,9 @@
     <defName>CheckerboardInverse</defName>
     <label>Checkerboard: lower-left skipped</label>
     <overlayGroup>Checkerboards</overlayGroup>
+    <showSizeInputs>true</showSizeInputs>
     <numRotations>0</numRotations>
-    <description>Opposite parity of checkerboard, anchored to the lower-left drag bound. Drag spans are limited to 512 cells per axis.</description>
+    <description>Opposite phase of checkerboard tiles (default 1x1 cells). W/H set each tile's dimensions, anchored to the lower-left drag bound. Drag spans are limited to 512 cells per axis.</description>
     <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.CheckerboardInverse</drawMethodName>
     <uiIconPath>UI/Commands/Smol/Additional/checkerboard_inverse</uiIconPath>
     <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/checkerboard_inverse</selectedUiIconPath>
