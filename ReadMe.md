@@ -15,6 +15,7 @@ Allows you to build, mine, zone, etc. in various shapes, such as (both filled an
 - Circle, quarter arcs, and semicircles
 - Pentagon
 - Hexagon and octagon, including midpoint variants
+
 Also includes these pre-defined object shapes (both filled and outline):
 - Sun lamp
 - Orbital trade beacon
