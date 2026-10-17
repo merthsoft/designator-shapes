@@ -54,8 +54,11 @@ public static class AdditionalShapes
     private static IEnumerable<IntVec3> Checker(IntVec3 s,IntVec3 t,int phase)
     {
         var (x,z,w,h)=Bounds(s,t);
+        var tile = Ui.ShapeControlsWindow.CheckerTileSize;
+        int tileWidth = Math.Max(1, Math.Min(MaximumSpan, tile.x));
+        int tileHeight = Math.Max(1, Math.Min(MaximumSpan, tile.z));
         for(int dz=0;dz<h;dz++) for(int dx=0;dx<w;dx++)
-            if(((dx+dz)&1)==phase) yield return new IntVec3(x+dx,s.y,z+dz);
+            if(((dx / tileWidth + dz / tileHeight)&1)==phase) yield return new IntVec3(x+dx,s.y,z+dz);
     }
     public static IEnumerable<IntVec3> L(IntVec3 s,IntVec3 t) => Corner(s,t,0);
     public static IEnumerable<IntVec3> LInverse(IntVec3 s,IntVec3 t) => Corner(s,t,2);

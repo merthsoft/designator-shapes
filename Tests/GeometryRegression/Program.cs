@@ -10,6 +10,7 @@ class Program {
    var a=AdditionalShapes.Checkerboard(s,t).ToHashSet();var b=AdditionalShapes.CheckerboardInverse(s,t).ToHashSet();
    Check(!a.Overlaps(b)&&a.Count+b.Count==w*h,"checker phases partition bounds");
    Check(a.SetEquals(AdditionalShapes.Checkerboard(t,s)),"checker reverse bounds same anchor");
+   Check(a.All(p=>((p.x-s.x+p.z-s.z)&1)==0),"default checker retains single-cell parity");
    var filled=AdditionalShapes.OctagonFilled(s,t).ToHashSet();var outline=AdditionalShapes.Octagon(s,t).ToHashSet();
    Check(outline.IsSubsetOf(filled),"octagon outline within fill");
    Check(filled.All(p=>filled.Contains(new IntVec3(s.x+t.x-p.x,0,p.z))&&filled.Contains(new IntVec3(p.x,0,s.z+t.z-p.z))),"octagon reflections");
@@ -22,6 +23,18 @@ class Program {
     }
    }
   }
+  foreach(int tw in new[]{1,2,3,7,512}) foreach(int th in new[]{1,2,5,512})
+  for(int w=1;w<=13;w++) for(int h=1;h<=13;h++) {
+   Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.CheckerTileSize=new(tw,0,th);
+   var s=new IntVec3(-9,3,-12);var t=new IntVec3(s.x+w-1,3,s.z+h-1);
+   var a=AdditionalShapes.Checkerboard(s,t).ToHashSet();var b=AdditionalShapes.CheckerboardInverse(s,t).ToHashSet();
+   Check(!a.Overlaps(b)&&a.Count+b.Count==w*h,"sized checker phases partition footprint");
+   Check(a.SetEquals(AdditionalShapes.Checkerboard(t,s)),"sized checker reverse drag anchor");
+   Check(a.All(p=>p.y==3)&&a.Contains(s),"sized checker preserves plane and first phase");
+   for(int z=0;z<h;z++) for(int x=0;x<w;x++)
+    Check(a.Contains(new(s.x+x,3,s.z+z))==(((x/tw+z/th)&1)==0),"tile dimensions and clipped edge tiles");
+  }
+  Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.CheckerTileSize=new(1,0,1);
   for(int radius=0;radius<=80;radius++){
    var center=new IntVec3(80,0,23);var edge=new IntVec3(center.x+radius,0,center.z-radius/2);
    var filled=AdditionalShapes.MidpointOctagonFilled(center,edge).ToHashSet();
@@ -46,3 +59,5 @@ class Program {
  }
 }
 namespace Merthsoft.DesignatorShapes {public static class DesignatorShapes {public static int Thickness=1;public static int Rotation;public static bool FillCorners=true;}}
+
+namespace Merthsoft.DesignatorShapes.Ui { public static class ShapeControlsWindow { public static IntVec3 CheckerTileSize=new(1,0,1); } }
