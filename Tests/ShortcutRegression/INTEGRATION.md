@@ -32,11 +32,30 @@ dotnet run --project Tests/ShortcutRegression/ShortcutRegression.csproj
 
 The standalone regression runner loads the built production DLL and installed
 RimWorld `KeyBindingDef`, `KeyBindingData`, `KeyPrefsData`, and Unity Event types.
-All 691 checks passed. It checks both slots, remapping, cleared/missing preferences, all key codes with
+All 743 checks passed. It checks both slots, remapping, cleared/missing preferences, all key codes with
 and without Ctrl+Alt, standalone modifier conflicts, and Command suppression.
 Build has the pre-existing SYSLIB0051 serialization warning.
 
-Limitations: no live game input or dialog test was performed. After integration,
+Capture follow-up: modifier-only toggle binding is recorded on release, so the
+first Ctrl/Alt press of a longer chord does not prematurely close capture. Alt,
+Ctrl, and Shift exclude their own modifier bit from the persisted requirements.
+KeyDown events with no keyCode and exactly one modifier set are supported; absent
+side information stores the left key. Modifier-only capture deliberately bypasses
+native held-modifier conflicts. Plain non-modifier keys still retain real native
+conflict checks. Escape cancels and Backspace clears even with a pending modifier.
+Shape capture and toggle capture now use separate English instruction keys.
+
+Runtime integration: no further changes to ShapeShortcuts.cs in this follow-up.
+The parent's modifier-event changes must interpret stored modifier-only bindings
+with no self-modifier requirement, and canonical left bindings for keyless events.
+Apply self-modifier normalization for Ctrl and Shift as well as Alt if supporting
+those standalone toggle keys. Capture waits for release; runtime toggle timing
+remains the parent's responsibility.
+
+Limitations: no live game input or complete rendered dialog test was performed.
+The new capture state machine itself is tested with actual Unity Event objects,
+including all six sided modifiers, keyless down/up, deferred chords, shape
+restrictions, cancellation, clearing, and mode-specific translation selection. After integration,
 verify Ctrl+Alt+A can be assigned and selects its shape; plain A is still rejected
 when native A is bound; duplicate shape/toggle chords reject; Escape preserves the
 old binding; Backspace clears; shape modifier-only and Shift chords do not apply;
