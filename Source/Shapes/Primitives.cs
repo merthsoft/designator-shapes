@@ -289,6 +289,12 @@ public static class Primitives
         return fill ? Fill(ret) : ret;
     }
 
+    public static IEnumerable<IntVec3> MidpointPentagon(IntVec3 s, IntVec3 t, bool filled, int rotation, int thickness, bool fillCorners)
+    {
+        int radius = (int)Math.Min(255, Math.Max(Math.Abs((long)t.x-s.x),Math.Abs((long)t.z-s.z)));
+        return Pentagon(s.x-radius,s.y,s.z-radius,s.x+radius,s.y,s.z+radius,filled,rotation,thickness,fillCorners);
+    }
+
     public static IEnumerable<IntVec3> MidpointHexagon(IntVec3 s, IntVec3 t, bool filled, int rotation, int thickness, bool fillCorners)
     {
         var x1 = s.x;

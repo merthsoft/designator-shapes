@@ -29,6 +29,12 @@ public static class BasicShapes
     public static IEnumerable<IntVec3> PentagonFilled(IntVec3 s, IntVec3 t) =>
         Primitives.Pentagon(s.x, s.y, s.z, t.x, t.y, t.z, true, DesignatorShapes.Rotation, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 
+    public static IEnumerable<IntVec3> MidpointPentagon(IntVec3 s, IntVec3 t) =>
+        Primitives.MidpointPentagon(s,t,false,DesignatorShapes.Rotation,DesignatorShapes.Thickness,DesignatorShapes.FillCorners);
+
+    public static IEnumerable<IntVec3> MidpointPentagonFilled(IntVec3 s, IntVec3 t) =>
+        Primitives.MidpointPentagon(s,t,true,DesignatorShapes.Rotation,DesignatorShapes.Thickness,DesignatorShapes.FillCorners);
+
     public static IEnumerable<IntVec3> Hexagon(IntVec3 s, IntVec3 t) =>
         Primitives.Hexagon(s.x, s.y, s.z, t.x, t.y, t.z, false, DesignatorShapes.Rotation, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 

@@ -109,4 +109,25 @@
     <uiIconPath>UI/Commands/Smol/Additional/checkerboards_open</uiIconPath>
     <closeUiIconPath>UI/Commands/Smol/Additional/checkerboards_close</closeUiIconPath>
 </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Pentagons</defName>
+        <label>Pentagons</label>
+        <parentGroupName>MoreShapes</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/Additional/pentagons_open</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/Additional/pentagons_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>Hexagons</defName>
+        <label>Hexagons</label>
+        <parentGroupName>MoreShapes</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/Additional/hexagons_open</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/Additional/hexagons_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>CustomPolygons</defName>
+        <label>Custom polygons</label>
+        <parentGroupName>MoreShapes</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/Additional/custom_polygons_open</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/Additional/custom_polygons_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 </Defs>

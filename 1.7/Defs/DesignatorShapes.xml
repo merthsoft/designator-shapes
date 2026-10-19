@@ -258,7 +258,7 @@
 		<uiIconPath>UI/Commands/Smol/hexagon</uiIconPath>
 		<numRotations>2</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Hexagon</drawMethodName>
-		<overlayGroup>MoreShapes</overlayGroup>
+		<overlayGroup>Hexagons</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -268,7 +268,7 @@
 		<uiIconPath>UI/Commands/Smol/hexagon_filled</uiIconPath>
 		<numRotations>2</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.HexagonFilled</drawMethodName>
-		<overlayGroup>MoreShapes</overlayGroup>
+		<overlayGroup>Hexagons</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_filled</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
@@ -279,7 +279,7 @@
 		<uiIconPath>UI/Commands/Smol/hexagon_midpoint</uiIconPath>
 		<numRotations>2</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.MidpointHexagon</drawMethodName>
-		<overlayGroup>MoreShapes</overlayGroup>
+		<overlayGroup>Hexagons</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_midpoint</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -289,7 +289,7 @@
 		<uiIconPath>UI/Commands/Smol/hexagon_filled_midpoint</uiIconPath>
 		<numRotations>2</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.MidpointHexagonFilled</drawMethodName>
-		<overlayGroup>MoreShapes</overlayGroup>
+		<overlayGroup>Hexagons</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/hexagon_filled_midpoint</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
@@ -300,7 +300,7 @@
 		<uiIconPath>UI/Commands/Smol/pentagon</uiIconPath>
 		<numRotations>4</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.Pentagon</drawMethodName>
-		<overlayGroup>MoreShapes</overlayGroup>
+		<overlayGroup>Pentagons</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/pentagon</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
@@ -310,7 +310,7 @@
 		<uiIconPath>UI/Commands/Smol/pentagon_filled</uiIconPath>
 		<numRotations>4</numRotations>
 		<drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.PentagonFilled</drawMethodName>
-		<overlayGroup>MoreShapes</overlayGroup>
+		<overlayGroup>Pentagons</overlayGroup>
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/pentagon_filled</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
@@ -515,7 +515,7 @@
         <defName>CustomPolygon</defName>
         <label>custom polygon</label>
         <description>Click to add corners. Click the first corner again or press Enter to finish. Backspace removes the last corner. Escape or right-click cancels while keeping the tool selected. Supports concave polygons; limited to 128 corners and 512 cells per axis.</description>
-        <overlayGroup>MoreShapes</overlayGroup>
+        <overlayGroup>CustomPolygons</overlayGroup>
         <drawMethodName>Merthsoft.DesignatorShapes.Shapes.CustomPolygon.Outline</drawMethodName>
         <uiIconPath>UI/Commands/Smol/Additional/custom_polygon</uiIconPath>
         <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/custom_polygon</selectedUiIconPath>
@@ -524,9 +524,29 @@
         <defName>CustomPolygonFilled</defName>
         <label>filled custom polygon</label>
         <description>Click to add corners. Click the first corner again or press Enter to finish. Backspace removes the last corner. Escape or right-click cancels while keeping the tool selected. Supports concave polygons; limited to 128 corners and 512 cells per axis.</description>
-        <overlayGroup>MoreShapes</overlayGroup>
+        <overlayGroup>CustomPolygons</overlayGroup>
         <drawMethodName>Merthsoft.DesignatorShapes.Shapes.CustomPolygon.FilledPolygon</drawMethodName>
         <uiIconPath>UI/Commands/Smol/Additional/custom_polygon_filled</uiIconPath>
         <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/custom_polygon_filled</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>MidpointPentagon</defName>
+        <label>midpoint pentagon</label>
+        <description>Designate in a pentagon from the center. Drag outward to set its radius; use rotation to change its orientation.</description>
+        <overlayGroup>Pentagons</overlayGroup>
+        <numRotations>4</numRotations>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.MidpointPentagon</drawMethodName>
+        <uiIconPath>UI/Commands/Smol/Additional/midpoint_pentagon</uiIconPath>
+        <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/midpoint_pentagon</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>MidpointPentagonFilled</defName>
+        <label>filled midpoint pentagon</label>
+        <description>Designate in a filled pentagon from the center. Drag outward to set its radius; use rotation to change its orientation.</description>
+        <overlayGroup>Pentagons</overlayGroup>
+        <numRotations>4</numRotations>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.MidpointPentagonFilled</drawMethodName>
+        <uiIconPath>UI/Commands/Smol/Additional/midpoint_pentagon_filled</uiIconPath>
+        <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/midpoint_pentagon_filled</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 </Defs>

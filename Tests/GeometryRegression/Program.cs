@@ -184,6 +184,20 @@ class Program {
   Check(!poly.TryAdd(new(128,0,1))&&!poly.CanFinish,"vertex cap and collinear polygon rejection");
   poly.Clear();poly.TryAdd(new(0,0,0));Check(!poly.TryAdd(new(512,0,0))&&poly.TryAdd(new(511,0,0)),"polygon span cap rejects oversized input");
   Check(!Primitives.Polygon(new[]{new IntVec3(0,0,0),new(10000,0,0),new(0,0,10000)},true,1,true).Any(),"polygon rasterizer rejects oversized bounds");
+  State.Thickness=1;
+  for(int radius=0;radius<=60;radius++)for(int rotation=0;rotation<4;rotation++)foreach(bool corners in new[]{false,true}){
+   State.Rotation=rotation;State.FillCorners=corners;
+   var center=new IntVec3(80,3,90);var edge=new IntVec3(center.x+radius,3,center.z-radius/2);
+   var outline=BasicShapes.MidpointPentagon(center,edge).ToHashSet();
+   var filled=BasicShapes.MidpointPentagonFilled(center,edge).ToHashSet();
+   Check(outline.SetEquals(Primitives.Pentagon(center.x-radius,3,center.z-radius,center.x+radius,3,center.z+radius,false,rotation,1,corners)),"midpoint pentagon outline reuses existing pentagon drawing");
+   Check(filled.SetEquals(Primitives.Pentagon(center.x-radius,3,center.z-radius,center.x+radius,3,center.z+radius,true,rotation,1,corners)),"midpoint pentagon fill reuses existing pentagon drawing");
+   Check(filled.Contains(center)&&outline.IsSubsetOf(filled),"midpoint pentagon contains center and outline");
+   Check(filled.All(p=>p.x>=center.x-radius&&p.x<=center.x+radius&&p.z>=center.z-radius&&p.z<=center.z+radius&&p.y==3),"midpoint pentagon bounded around click center");
+   Check(filled.SetEquals(BasicShapes.MidpointPentagonFilled(center,new(center.x-radius/2,3,center.z-radius))),"midpoint pentagon radius independent of drag quadrant");
+  }
+  State.Rotation=0;
+  Check(BasicShapes.MidpointPentagonFilled(new(0,0,0),new(10000,0,-10000)).All(p=>p.x>=-255&&p.x<=255&&p.z>=-255&&p.z<=255),"midpoint pentagon radius cap");
   Console.WriteLine($"PASS {checks} geometry invariants against actual primitives and game value types");
  }
 }

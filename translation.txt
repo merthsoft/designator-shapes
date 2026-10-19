@@ -189,6 +189,10 @@ Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.DesignatorShape
   <CustomPolygon.description>Click to add corners. Click the first corner again or press Enter to finish. Backspace removes the last corner. Escape or right-click cancels while keeping the tool selected. Supports concave polygons; limited to 128 corners and 512 cells per axis.</CustomPolygon.description>
   <CustomPolygonFilled.label>filled custom polygon</CustomPolygonFilled.label>
   <CustomPolygonFilled.description>Click to add corners. Click the first corner again or press Enter to finish. Backspace removes the last corner. Escape or right-click cancels while keeping the tool selected. Supports concave polygons; limited to 128 corners and 512 cells per axis.</CustomPolygonFilled.description>
+  <MidpointPentagon.label>midpoint pentagon</MidpointPentagon.label>
+  <MidpointPentagon.description>Designate in a pentagon from the center. Drag outward to set its radius; use rotation to change its orientation.</MidpointPentagon.description>
+  <MidpointPentagonFilled.label>filled midpoint pentagon</MidpointPentagonFilled.label>
+  <MidpointPentagonFilled.description>Designate in a filled pentagon from the center. Drag outward to set its radius; use rotation to change its orientation.</MidpointPentagonFilled.description>
 </LanguageData>
 
 Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.OverlayGroupDef/OverlayGroups.xml
@@ -217,4 +221,7 @@ Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.OverlayGroupDef
   <Octagons.label>Octagons</Octagons.label>
   <Arcs.label>Arcs</Arcs.label>
   <Checkerboards.label>Checkerboards</Checkerboards.label>
+  <Pentagons.label>Pentagons</Pentagons.label>
+  <Hexagons.label>Hexagons</Hexagons.label>
+  <CustomPolygons.label>Custom polygons</CustomPolygons.label>
 </LanguageData>
