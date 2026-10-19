@@ -16,11 +16,20 @@
 
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
         <defName>Rectangle_Input</defName>
-        <label>More rectangles</label>
-        <description>Fixed-size and rounded rectangles.</description>
+        <label>Fixed rectangles</label>
+        <description>Rectangles with fixed sizes that the user determines.</description>
         <parentGroupName>Rectangle</parentGroupName>
         <uiIconPath>UI/Commands/Smol/rectangle_fixed_more</uiIconPath>
         <closeUiIconPath>UI/Commands/Smol/rectangle_fixed_close</closeUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+
+    <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
+        <defName>RoundedRectangles</defName>
+        <label>Rounded rectangles</label>
+        <description>Rounded rectangle outlines and fills with adjustable corner radius.</description>
+        <parentGroupName>Rectangle</parentGroupName>
+        <uiIconPath>UI/Commands/Smol/Additional/rounded_rectangles_open</uiIconPath>
+        <closeUiIconPath>UI/Commands/Smol/Additional/rounded_rectangles_close</closeUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
 
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
