@@ -410,22 +410,22 @@
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <defName>Checkerboard</defName>
-    <label>Checkerboard: lower-left selected</label>
+    <label>Checkerboard: starting cell selected</label>
     <overlayGroup>Checkerboards</overlayGroup>
     <showSizeInputs>true</showSizeInputs>
     <numRotations>0</numRotations>
-    <description>Alternate tiles (default 1x1 cells), with W/H setting each tile's dimensions, anchored to the lower-left drag bound. Thickness does not change parity. Drag spans are limited to 512 cells per axis.</description>
+    <description>Alternate tiles (default 1x1 cells), with W/H setting each tile's dimensions, anchored to the first clicked cell. Thickness does not change parity. Drag spans are limited to 512 cells per axis.</description>
     <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.Checkerboard</drawMethodName>
     <uiIconPath>UI/Commands/Smol/Additional/checkerboard</uiIconPath>
     <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/checkerboard</selectedUiIconPath>
     </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
     <defName>CheckerboardInverse</defName>
-    <label>Checkerboard: lower-left skipped</label>
+    <label>Checkerboard: starting cell skipped</label>
     <overlayGroup>Checkerboards</overlayGroup>
     <showSizeInputs>true</showSizeInputs>
     <numRotations>0</numRotations>
-    <description>Opposite phase of checkerboard tiles (default 1x1 cells). W/H set each tile's dimensions, anchored to the lower-left drag bound. Drag spans are limited to 512 cells per axis.</description>
+    <description>Opposite phase of checkerboard tiles (default 1x1 cells). W/H set each tile's dimensions, anchored to the first clicked cell. Drag spans are limited to 512 cells per axis.</description>
     <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.CheckerboardInverse</drawMethodName>
     <uiIconPath>UI/Commands/Smol/Additional/checkerboard_inverse</uiIconPath>
     <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/checkerboard_inverse</selectedUiIconPath>

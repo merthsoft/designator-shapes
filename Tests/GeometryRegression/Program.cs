@@ -9,7 +9,7 @@ class Program {
    var s=new IntVec3(10,0,20);var t=new IntVec3(9+w,0,19+h);
    var a=AdditionalShapes.Checkerboard(s,t).ToHashSet();var b=AdditionalShapes.CheckerboardInverse(s,t).ToHashSet();
    Check(!a.Overlaps(b)&&a.Count+b.Count==w*h,"checker phases partition bounds");
-   Check(a.SetEquals(AdditionalShapes.Checkerboard(t,s)),"checker reverse bounds same anchor");
+   Check(a.Select(p=>new IntVec3(s.x+t.x-p.x,p.y,s.z+t.z-p.z)).ToHashSet().SetEquals(AdditionalShapes.Checkerboard(t,s)),"checker reversed drag mirrors around its own start");
    Check(a.All(p=>((p.x-s.x+p.z-s.z)&1)==0),"default checker retains single-cell parity");
    var filled=AdditionalShapes.OctagonFilled(s,t).ToHashSet();var outline=AdditionalShapes.Octagon(s,t).ToHashSet();
    Check(outline.IsSubsetOf(filled),"octagon outline within fill");
@@ -29,7 +29,7 @@ class Program {
    var s=new IntVec3(-9,3,-12);var t=new IntVec3(s.x+w-1,3,s.z+h-1);
    var a=AdditionalShapes.Checkerboard(s,t).ToHashSet();var b=AdditionalShapes.CheckerboardInverse(s,t).ToHashSet();
    Check(!a.Overlaps(b)&&a.Count+b.Count==w*h,"sized checker phases partition footprint");
-   Check(a.SetEquals(AdditionalShapes.Checkerboard(t,s)),"sized checker reverse drag anchor");
+   Check(a.Select(p=>new IntVec3(s.x+t.x-p.x,p.y,s.z+t.z-p.z)).ToHashSet().SetEquals(AdditionalShapes.Checkerboard(t,s)),"sized checker reversed drag mirrors around its own start");
    Check(a.All(p=>p.y==3)&&a.Contains(s),"sized checker preserves plane and first phase");
    for(int z=0;z<h;z++) for(int x=0;x<w;x++)
     Check(a.Contains(new(s.x+x,3,s.z+z))==(((x/tw+z/th)&1)==0),"tile dimensions and clipped edge tiles");
@@ -85,6 +85,25 @@ class Program {
   Check(BasicShapes.ParallelLines(origin,tall).ToHashSet().SetEquals(Primitives.ParallelLines(origin,tall,2,3,true)),"rotation swaps vertical stripes to horizontal");
   State.Rotation=0;
   Check(BasicShapes.ParallelLines(origin,square).ToHashSet().SetEquals(Primitives.ParallelLines(origin,square,2,3,false)),"production wrapper retains vertical tie");
+  for(int w=1;w<=12;w++)for(int h=1;h<=12;h++)
+   foreach(int sx in new[]{-1,1})foreach(int sz in new[]{-1,1})
+    foreach(int tileWidth in new[]{1,2,3})foreach(int tileHeight in new[]{1,2,4}){
+     Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.CheckerTileSize=new(tileWidth,0,tileHeight);
+     var start=new IntVec3(40,3,60);var end=new IntVec3(start.x+sx*(w-1),3,start.z+sz*(h-1));
+     var selected=AdditionalShapes.Checkerboard(start,end).ToHashSet();
+     var skipped=AdditionalShapes.CheckerboardInverse(start,end).ToHashSet();
+     Check(selected.Contains(start)&&!skipped.Contains(start),"first clicked cell selects checker phase in every quadrant");
+     Check(!selected.Overlaps(skipped)&&selected.Count+skipped.Count==w*h,"both phases partition reverse bounds");
+     for(int z=0;z<h;z++)for(int x=0;x<w;x++){
+      var cell=new IntVec3(start.x+sx*x,3,start.z+sz*z);
+      Check(selected.Contains(cell)==(((x/tileWidth+z/tileHeight)&1)==0),"tile boundaries measured from first click");
+     }
+     var extended=AdditionalShapes.Checkerboard(start,new(start.x+sx*(w+2),3,start.z+sz*(h+2))).ToHashSet();
+     Check(selected.All(extended.Contains),"extending drag preserves existing checker pattern");
+    }
+  Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.CheckerTileSize=new(1,0,1);
+  var reverseLimit=AdditionalShapes.Checkerboard(new(1000,0,1000),new(-10000,0,-10000)).ToHashSet();
+  Check(reverseLimit.Contains(new(1000,0,1000))&&reverseLimit.All(p=>p.x>=489&&p.z>=489),"checker span cap remains anchored to first click");
   Console.WriteLine($"PASS {checks} geometry invariants against actual primitives and game value types");
  }
 }

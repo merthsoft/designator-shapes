@@ -26,7 +26,7 @@ Hold RimWorld's **force square dimensions** key (Ctrl by default) to constrain r
 
 Flood fill has configurable barriers and optional reveal restrictions and destructive-action confirmation. Ctrl+Z undoes and Ctrl+Y redoes designations while paused.
 
-Mod Settings supports Ctrl+Alt shape shortcuts and a configurable collapse shortcut (off by default). **Previous shape** switches between your last two shapes and is unbound by default. Custom grids are directly in their parent menus; checkerboard width/height controls set tile size. Parallel lines use Thickness and Skip inputs, follow the longer drag axis, and can be rotated.
+Mod Settings supports Ctrl+Alt shape shortcuts and a configurable collapse shortcut (off by default). **Previous shape** switches between your last two shapes and is unbound by default. Custom grids are directly in their parent menus; checkerboard width/height controls set tile size, with the selected/skipped pattern anchored to your first click. Parallel lines use Thickness and Skip inputs, follow the longer drag axis, and can be rotated.
 
 ## To use:
 - Select the task you want to do (build, mine, zone, etc.)

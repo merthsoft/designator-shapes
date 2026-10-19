@@ -160,10 +160,10 @@ Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.DesignatorShape
   <Octagon.description>Eight-sided outline fitted to the drag rectangle; thickness follows the line tool. Drag spans are limited to 512 cells per axis.</Octagon.description>
   <OctagonFilled.label>Filled octagon</OctagonFilled.label>
   <OctagonFilled.description>Eight-sided fill fitted to the drag rectangle. Drag spans are limited to 512 cells per axis.</OctagonFilled.description>
-  <Checkerboard.label>Checkerboard: lower-left selected</Checkerboard.label>
-  <Checkerboard.description>Alternate tiles (default 1x1 cells), with W/H setting each tile's dimensions, anchored to the lower-left drag bound. Thickness does not change parity. Drag spans are limited to 512 cells per axis.</Checkerboard.description>
-  <CheckerboardInverse.label>Checkerboard: lower-left skipped</CheckerboardInverse.label>
-  <CheckerboardInverse.description>Opposite phase of checkerboard tiles (default 1x1 cells). W/H set each tile's dimensions, anchored to the lower-left drag bound. Drag spans are limited to 512 cells per axis.</CheckerboardInverse.description>
+  <Checkerboard.label>Checkerboard: starting cell selected</Checkerboard.label>
+  <Checkerboard.description>Alternate tiles (default 1x1 cells), with W/H setting each tile's dimensions, anchored to the first clicked cell. Thickness does not change parity. Drag spans are limited to 512 cells per axis.</Checkerboard.description>
+  <CheckerboardInverse.label>Checkerboard: starting cell skipped</CheckerboardInverse.label>
+  <CheckerboardInverse.description>Opposite phase of checkerboard tiles (default 1x1 cells). W/H set each tile's dimensions, anchored to the first clicked cell. Drag spans are limited to 512 cells per axis.</CheckerboardInverse.description>
   <L.label>L corner</L.label>
   <L.description>Two perpendicular sides meeting at the lower-left bound. Rotate to choose another corner. Drag spans are limited to 512 cells per axis.</L.description>
   <LInverse.label>Opposite L corner</LInverse.label>
