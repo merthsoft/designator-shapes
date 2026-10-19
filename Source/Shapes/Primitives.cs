@@ -566,6 +566,67 @@ public static class Primitives
         return ret;
     }
 
+    public static IEnumerable<IntVec3> Polygon(IReadOnlyList<IntVec3> vertices, bool filled, int thickness, bool fillCorners)
+    {
+        if (vertices.Count == 0 || vertices.Count > 128) return Array.Empty<IntVec3>();
+        int minX = vertices.Min(p=>p.x), maxX = vertices.Max(p=>p.x);
+        int minZ = vertices.Min(p=>p.z), maxZ = vertices.Max(p=>p.z);
+        if ((long)maxX-minX >= 512 || (long)maxZ-minZ >= 512) return Array.Empty<IntVec3>();
+        int y = vertices[0].y;
+        var boundary = new HashSet<IntVec3>();
+        int edges = vertices.Count < 3 ? Math.Max(1,vertices.Count-1) : vertices.Count;
+        for(int i=0;i<edges;i++)
+        {
+            var a = vertices[i]; var b = vertices[(i+1)%vertices.Count];
+            // Canonical direction keeps rasterization stable when vertex order is reversed.
+            if (a.x > b.x || a.x == b.x && a.z > b.z) (a,b) = (b,a);
+            boundary.UnionWith(Line(a,b,filled ? 1 : thickness,vertices.Count < 3 && fillCorners));
+        }
+        if (vertices.Count < 3) return boundary;
+        bool Inside(IntVec3 p)
+        {
+            bool inside = false;
+            for(int i=0,j=vertices.Count-1;i<vertices.Count;j=i++)
+            {
+                var a=vertices[j];var b=vertices[i];
+                long cross=(long)(p.x-a.x)*(b.z-a.z)-(long)(p.z-a.z)*(b.x-a.x);
+                if(cross==0&&p.x>=Math.Min(a.x,b.x)&&p.x<=Math.Max(a.x,b.x)&&p.z>=Math.Min(a.z,b.z)&&p.z<=Math.Max(a.z,b.z)) return true;
+                if((a.z>p.z)!=(b.z>p.z)&&p.x<a.x+(double)(p.z-a.z)*(b.x-a.x)/(b.z-a.z)) inside=!inside;
+            }
+            return inside;
+        }
+        if (!filled)
+        {
+            if(fillCorners && thickness==1)
+                for(int i=0;i<vertices.Count;i++)
+                {
+                    var a=vertices[i];var b=vertices[(i+1)%vertices.Count];
+                    foreach(var cell in Line(a,b,1,true).Concat(Line(b,a,1,true)))
+                        if(Inside(cell)) boundary.Add(cell);
+                }
+            return boundary;
+        }
+        // Even-odd scanlines support concave polygons and avoid testing every cell against every edge.
+        var intersections = new List<double>();
+        for(int dz=0;dz<=maxZ-minZ;dz++)
+        {
+            int z=minZ+dz;
+            intersections.Clear();
+            for(int i=0,j=vertices.Count-1;i<vertices.Count;j=i++)
+            {
+                var a=vertices[j];var b=vertices[i];
+                if((a.z>z)!=(b.z>z)) intersections.Add(a.x+(double)(z-a.z)*(b.x-a.x)/(b.z-a.z));
+            }
+            intersections.Sort();
+            for(int i=0;i+1<intersections.Count;i+=2)
+            {
+                int left=(int)Math.Ceiling(intersections[i]), right=(int)Math.Floor(intersections[i+1]);
+                for(int dx=0;dx<=right-left;dx++) boundary.Add(new IntVec3(left+dx,y,z));
+            }
+        }
+        return boundary;
+    }
+
     public static bool ParallelLinesHorizontal(IntVec3 s, IntVec3 t, bool previousHorizontal)
     {
         long dx = Math.Abs((long)t.x - s.x), dz = Math.Abs((long)t.z - s.z);

@@ -65,4 +65,8 @@
     <Merthsoft_DesignatorShapes_ParallelThickness>Thickness</Merthsoft_DesignatorShapes_ParallelThickness>
     <Merthsoft_DesignatorShapes_ParallelSkip>Skip</Merthsoft_DesignatorShapes_ParallelSkip>
     <Merthsoft_DesignatorShapes_CornerRadius>Radius</Merthsoft_DesignatorShapes_CornerRadius>
+    <Merthsoft_DesignatorShapes_PolygonControls>{0} corners. Click to add; Enter or first corner to finish.
+Backspace: remove corner. Escape/right-click: cancel.</Merthsoft_DesignatorShapes_PolygonControls>
+    <Merthsoft_DesignatorShapes_PolygonNeedCorners>Add at least three non-collinear corners before finishing.</Merthsoft_DesignatorShapes_PolygonNeedCorners>
+    <Merthsoft_DesignatorShapes_PolygonLimit>Polygons support up to 128 corners and 512 cells per axis.</Merthsoft_DesignatorShapes_PolygonLimit>
 </LanguageData>

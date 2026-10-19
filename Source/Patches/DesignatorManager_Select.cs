@@ -13,6 +13,7 @@ internal class DesignatorManager_Select
     public static void Prefix(ref Designator __state)
     {
         FreeformLine.FreeMemory();
+        CustomPolygon.Clear();
         if (!DesignatorShapes.UseCustomGeometry)
             return;
         __state = Find.DesignatorManager.SelectedDesignator;

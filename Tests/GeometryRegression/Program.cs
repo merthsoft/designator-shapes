@@ -154,6 +154,36 @@ class Program {
   State.Thickness=1;
   Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.RoundedCornerRadius=10000;
   Check(AdditionalShapes.RoundedRectangleFilled(new(0,0,0),new(10000,0,10000)).Count()<=512*512,"rounded rectangle sampling bounded");
+  var box=new[]{new IntVec3(0,3,0),new(6,3,0),new(6,3,4),new(0,3,4)};
+  var boxFill=Primitives.Polygon(box,true,1,false).ToHashSet();
+  Check(boxFill.Count==35&&boxFill.All(p=>p.x>=0&&p.x<=6&&p.z>=0&&p.z<=4&&p.y==3),"polygon rectangle exact inclusive fill");
+  Check(Primitives.Polygon(box,false,1,false).Count()==20,"polygon rectangle exact outline");
+  var concave=new[]{new IntVec3(0,0,0),new(6,0,0),new(6,0,2),new(2,0,2),new(2,0,6),new(0,0,6)};
+  var lFill=Primitives.Polygon(concave,true,1,false).ToHashSet();
+  Check(lFill.Count==33&&lFill.All(p=>p.x<=2||p.z<=2),"concave polygon excludes notch");
+  var crossing=new[]{new IntVec3(0,0,0),new(6,0,6),new(0,0,6),new(6,0,0)};
+  Check(Primitives.Polygon(crossing,true,1,false).Count()==31,"crossing polygon uses even-odd fill");
+  foreach(var vertices in new[]{box,concave,crossing})foreach(bool filled in new[]{false,true})foreach(bool corners in new[]{false,true}){
+   var cells=Primitives.Polygon(vertices,filled,1,corners).ToHashSet();
+   Check(cells.SetEquals(Primitives.Polygon(vertices.Reverse().ToArray(),filled,1,corners)),"polygon vertex order does not change geometry");
+   for(int shift=1;shift<vertices.Length;shift++)
+    Check(cells.SetEquals(Primitives.Polygon(vertices.Skip(shift).Concat(vertices.Take(shift)).ToArray(),filled,1,corners)),"polygon first vertex does not alter geometry");
+   Check(vertices.All(cells.Contains),"polygon retains every corner");
+  }
+  var poly=new PolygonStroke();
+  Check(!poly.CanFinish&&!poly.Finish(true,1,true).Any(),"empty polygon cannot commit");
+  Check(poly.TryAdd(new(2,0,3))&&poly.TryAdd(new(8,0,3))&&!poly.CanFinish,"two corners cannot commit");
+  Check(!poly.TryAdd(new(8,0,3))&&poly.Vertices.Count==2,"duplicate corner ignored");
+  var version=poly.Version;var previewCells=poly.Preview(new(8,0,8),true,1,true).ToHashSet();
+  Check(poly.Version==version&&poly.Vertices.Count==2&&!poly.CanFinish&&previewCells.Count>0,"hover preview does not add or commit a corner");
+  Check(poly.TryAdd(new(8,0,8))&&poly.CanFinish,"third non-collinear corner permits closing");
+  var snapshot=poly.Finish(true,1,true).ToHashSet();poly.RemoveLast();
+  Check(!poly.CanFinish&&poly.Vertices.Count==2&&snapshot.Count>0,"backspace removes corner without mutating snapshot");
+  poly.Clear();Check(poly.Vertices.Count==0&&!poly.Preview(new(8,0,8),true,1,true).Any(),"cancel clears pending polygon and preview");
+  for(int x=0;x<128;x++)Check(poly.TryAdd(new(x,0,0)),"polygon accepts bounded vertex count");
+  Check(!poly.TryAdd(new(128,0,1))&&!poly.CanFinish,"vertex cap and collinear polygon rejection");
+  poly.Clear();poly.TryAdd(new(0,0,0));Check(!poly.TryAdd(new(512,0,0))&&poly.TryAdd(new(511,0,0)),"polygon span cap rejects oversized input");
+  Check(!Primitives.Polygon(new[]{new IntVec3(0,0,0),new(10000,0,0),new(0,0,10000)},true,1,true).Any(),"polygon rasterizer rejects oversized bounds");
   Console.WriteLine($"PASS {checks} geometry invariants against actual primitives and game value types");
  }
 }

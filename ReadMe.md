@@ -13,6 +13,7 @@ Allows you to build, mine, zone, etc. in various shapes, such as (both filled an
 - Rectangles (including rounded corners), grids, inverse grids, and checkerboards
 - Ellipse
 - Circle, quarter arcs, and semicircles
+- Custom polygons (outline and filled; click corners, then Enter or click the first corner to finish)
 - Pentagon
 - Hexagon and octagon, including midpoint variants
 
@@ -27,6 +28,8 @@ Hold RimWorld's **force square dimensions** key (Ctrl by default) to constrain r
 Flood fill has configurable barriers and optional reveal restrictions and destructive-action confirmation. Ctrl+Z undoes and Ctrl+Y redoes designations while paused.
 
 Mod Settings supports Ctrl+Alt shape shortcuts and a configurable collapse shortcut (off by default). **Previous shape** switches between your last two shapes and is unbound by default. Custom grids are directly in their parent menus; checkerboard width/height controls set tile size, with the selected/skipped pattern anchored to your first click. Parallel lines use Thickness and Skip inputs, follow the longer drag axis, and can be rotated. Rounded rectangles have a Radius input; zero gives square corners.
+
+Custom polygons are under More Shapes. Backspace removes the last corner; Escape or right-click cancels while keeping the tool selected. Nothing is designated until you finish the polygon.
 
 ## To use:
 - Select the task you want to do (build, mine, zone, etc.)

@@ -8,7 +8,7 @@ public class DesignationManager_AddDesignation
 {
     public static void Postfix(Designation newDes)
     {
-        if (!DesignatorShapes.UseCustomGeometry)
+        if (!DesignatorShapes.UseCustomGeometry && !Shapes.CustomPolygon.Committing)
             return;
         HistoryManager.AddEntry(newDes);
     }

@@ -4,15 +4,15 @@ using Merthsoft.DesignatorShapes.Shapes;
 namespace Merthsoft.DesignatorShapes.Patches;
 
 [HarmonyPatch(typeof(DesignationDragger), "StartDrag")]
-internal static class StartFreeformStroke { static void Prefix() => FreeformLine.FreeMemory(); }
+internal static class StartFreeformStroke { static void Prefix() { FreeformLine.FreeMemory();CustomPolygon.Clear(); } }
 [HarmonyPatch(typeof(DesignationDragger), "EndDrag")]
 internal static class EndFreeformStroke { static void Postfix() => FreeformLine.FreeMemory(); }
 [HarmonyPatch(typeof(DesignatorManager), "set_SelectedStyle")]
-internal static class ChangeFreeformStyle { static void Prefix() => FreeformLine.FreeMemory(); }
+internal static class ChangeFreeformStyle { static void Prefix() { FreeformLine.FreeMemory();CustomPolygon.Clear(); } }
 [HarmonyPatch(typeof(Game), "InitNewGame")]
-internal static class NewFreeformGame { static void Prefix() => FreeformLine.FreeMemory(); }
+internal static class NewFreeformGame { static void Prefix() { FreeformLine.FreeMemory();CustomPolygon.Clear(); } }
 [HarmonyPatch(typeof(Game), "LoadGame")]
-internal static class LoadFreeformGame { static void Prefix() => FreeformLine.FreeMemory(); }
+internal static class LoadFreeformGame { static void Prefix() { FreeformLine.FreeMemory();CustomPolygon.Clear(); } }
 [HarmonyPatch(typeof(DesignationDragger), "UpdateCellBuffer")]
 internal static class UpdateNativeFreeform
 {

@@ -511,4 +511,22 @@
     <uiIconPath>UI/Commands/Smol/Additional/midpoint_octagon_filled</uiIconPath>
     <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/midpoint_octagon_filled</selectedUiIconPath>
 </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>CustomPolygon</defName>
+        <label>custom polygon</label>
+        <description>Click to add corners. Click the first corner again or press Enter to finish. Backspace removes the last corner. Escape or right-click cancels while keeping the tool selected. Supports concave polygons; limited to 128 corners and 512 cells per axis.</description>
+        <overlayGroup>MoreShapes</overlayGroup>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.CustomPolygon.Outline</drawMethodName>
+        <uiIconPath>UI/Commands/Smol/Additional/custom_polygon</uiIconPath>
+        <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/custom_polygon</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>CustomPolygonFilled</defName>
+        <label>filled custom polygon</label>
+        <description>Click to add corners. Click the first corner again or press Enter to finish. Backspace removes the last corner. Escape or right-click cancels while keeping the tool selected. Supports concave polygons; limited to 128 corners and 512 cells per axis.</description>
+        <overlayGroup>MoreShapes</overlayGroup>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.CustomPolygon.FilledPolygon</drawMethodName>
+        <uiIconPath>UI/Commands/Smol/Additional/custom_polygon_filled</uiIconPath>
+        <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/custom_polygon_filled</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 </Defs>

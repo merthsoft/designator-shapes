@@ -297,6 +297,7 @@ public class DesignatorShapes : Mod
     {
         if (!ShapeEligibility.IsDrawable(def)) return;
         FreeformLine.FreeMemory();
+        CustomPolygon.Clear();
         if (remember && InputOwnership.IsStandaloneFill(Find.DesignatorManager?.SelectedStyle?.DrawStyleWorker?.GetType()))
         {
             var manager=Find.DesignatorManager;

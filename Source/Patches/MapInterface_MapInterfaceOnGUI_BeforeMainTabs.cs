@@ -12,6 +12,7 @@ internal static class ShapeWindowKeyboardInput
 {
     static void Prefix()
     {
+        Shapes.CustomPolygon.HandleKeyboard();
         bool visible = Find.CurrentMap != null && Find.DesignatorManager.SelectedDesignator != null
             && !WorldRendererUtility.WorldSelected
             && (DesignatorShapes.ShowControls || !DesignatorShapes.Settings.HideCollapsedInterface)
@@ -38,6 +39,8 @@ public static class MapInterface_MapInterfaceOnGUI_AfterMainTabs
 
         if (DesignatorShapes.ShowControls || !DesignatorShapes.Settings.HideCollapsedInterface)
             DesignatorShapes.ShapeControls?.ShapeControlsOnGUI();
+
+        Shapes.CustomPolygon.DrawControls();
 
         if (!DesignatorShapes.Settings.EnableKeyboardInput || ShapeShortcuts.InputBlocked)
             return;

@@ -67,6 +67,10 @@ Languages/<Language>/Keyed/DesignatorShapes_Keys.xml
   <Merthsoft_DesignatorShapes_ParallelThickness>Thickness</Merthsoft_DesignatorShapes_ParallelThickness>
   <Merthsoft_DesignatorShapes_ParallelSkip>Skip</Merthsoft_DesignatorShapes_ParallelSkip>
   <Merthsoft_DesignatorShapes_CornerRadius>Radius</Merthsoft_DesignatorShapes_CornerRadius>
+  <Merthsoft_DesignatorShapes_PolygonControls>{0} corners. Click to add; Enter or first corner to finish.
+Backspace: remove corner. Escape/right-click: cancel.</Merthsoft_DesignatorShapes_PolygonControls>
+  <Merthsoft_DesignatorShapes_PolygonNeedCorners>Add at least three non-collinear corners before finishing.</Merthsoft_DesignatorShapes_PolygonNeedCorners>
+  <Merthsoft_DesignatorShapes_PolygonLimit>Polygons support up to 128 corners and 512 cells per axis.</Merthsoft_DesignatorShapes_PolygonLimit>
 </LanguageData>
 
 Languages/<Language>/Keyed/PaletteSettings.xml
@@ -181,6 +185,10 @@ Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.DesignatorShape
   <MidpointOctagon.description>Draw an octagon from its center to an edge. The larger X/Z offset defines the radius, matching midpoint hexagons. Radius is limited to 255 cells to keep a symmetric odd diameter.</MidpointOctagon.description>
   <MidpointOctagonFilled.label>Filled midpoint octagon</MidpointOctagonFilled.label>
   <MidpointOctagonFilled.description>Draw an octagon from its center to an edge. The larger X/Z offset defines the radius, matching midpoint hexagons. Radius is limited to 255 cells to keep a symmetric odd diameter.</MidpointOctagonFilled.description>
+  <CustomPolygon.label>custom polygon</CustomPolygon.label>
+  <CustomPolygon.description>Click to add corners. Click the first corner again or press Enter to finish. Backspace removes the last corner. Escape or right-click cancels while keeping the tool selected. Supports concave polygons; limited to 128 corners and 512 cells per axis.</CustomPolygon.description>
+  <CustomPolygonFilled.label>filled custom polygon</CustomPolygonFilled.label>
+  <CustomPolygonFilled.description>Click to add corners. Click the first corner again or press Enter to finish. Backspace removes the last corner. Escape or right-click cancels while keeping the tool selected. Supports concave polygons; limited to 128 corners and 512 cells per axis.</CustomPolygonFilled.description>
 </LanguageData>
 
 Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.OverlayGroupDef/OverlayGroups.xml

@@ -77,6 +77,8 @@
     <Compile Include="Shapes\Primitives.cs" />
     <Compile Include="Shapes\BasicShapes.cs" />
     <Compile Include="Shapes\AdditionalShapes.cs" />
+    <Compile Include="Shapes\PolygonStroke.cs" />
+    <Compile Include="Shapes\CustomPolygon.cs" />
     <Compile Include="Shapes\SizeInputShapes.cs" />
     <Compile Include="Shapes\StampShapes.cs" />
   </ItemGroup>

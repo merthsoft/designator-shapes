@@ -8,7 +8,7 @@ namespace Merthsoft.DesignatorShapes;
 internal static class DrawingBounds
 {
     internal static bool CanSnap(DesignatorShapeDef shape) => shape != null && shape.AllowDragging
-        && shape.defName is not ("Line" or "LineFreeform" or "FreeformLine" or "Circle" or "CircleFilled")
+        && shape.defName is not ("Line" or "LineFreeform" or "FreeformLine" or "Circle" or "CircleFilled" or "CustomPolygon" or "CustomPolygonFilled")
         && !shape.defName.StartsWith("Midpoint", StringComparison.Ordinal);
 
     internal static (IntVec3 start, IntVec3 end) Constrain(DesignatorShapeDef shape, IntVec3 start, IntVec3 end, bool held)
