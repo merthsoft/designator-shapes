@@ -666,11 +666,13 @@ public static class Primitives
         if (xSpacing <= 0 || zSpacing <= 0)
             return ret;
 
-        for (var x = xStart; x <= xEnd; x += xSpacing)
+        // Keep the line phase at the initial click in every drag direction.
+        int xDirection = t.x < s.x ? -1 : 1, zDirection = t.z < s.z ? -1 : 1;
+        for (var x = s.x; x >= xStart && x <= xEnd; x += xDirection * xSpacing)
             foreach (var p in VerticalLine(x, y, zStart, zEnd, thickness, true))
                 ret.Add(p);
 
-        for (var z = zEnd; z >= zStart; z -= zSpacing)
+        for (var z = s.z; z >= zStart && z <= zEnd; z += zDirection * zSpacing)
             foreach (var p in HorizontalLine(xStart, xEnd, y, z, thickness, true))
                 ret.Add(p);
 
@@ -692,41 +694,12 @@ public static class Primitives
         if (thickness >= xSpacing || thickness >= zSpacing)
             return ret;
 
-        var xLines = new List<int>();
-        for (var x = xStart; x <= xEnd; x += xSpacing) 
-            xLines.Add(x);
-        
-        if (xLines.Count == 0 || xLines[xLines.Count - 1] != xEnd) 
-            xLines.Add(xEnd);
-
-        var zLines = new List<int>();
-
-        for (var z = zStart; z <= zEnd; z += zSpacing) 
-            zLines.Add(z);
-        
-        if (zLines.Count == 0 || zLines[zLines.Count - 1] != zEnd) 
-            zLines.Add(zEnd);
-
-        for (var xi = 0; xi < xLines.Count - 1; xi++)
-        {
-            var cellX1 = xLines[xi] + thickness;
-            var cellX2 = xLines[xi + 1] - 1; 
-
-            if (cellX1 > cellX2) 
-                continue;
-
-            for (var zi = 0; zi < zLines.Count - 1; zi++)
-            {
-                var cellZ1 = zLines[zi] + thickness;
-                var cellZ2 = zLines[zi + 1] - 1;
-
-                if (cellZ1 > cellZ2) 
-                    continue;
-
-                foreach (var p in Rectangle(cellX1, y, cellZ1, cellX2, y, cellZ2, true, rotation: 0, thickness: 1, fillCorners: true))
-                    ret.Add(p);
-            }
-        }
+        // Count channel widths away from the first click, including partial edge blocks.
+        for (var x = xStart; x <= xEnd; x++)
+            for (var z = zStart; z <= zEnd; z++)
+                if (Math.Abs(x - s.x) % xSpacing >= thickness
+                    && Math.Abs(z - s.z) % zSpacing >= thickness)
+                    ret.Add(new IntVec3(x, y, z));
 
         return ret;
     }

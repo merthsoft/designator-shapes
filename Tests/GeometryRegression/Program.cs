@@ -49,11 +49,28 @@ class Program {
   var limited=AdditionalShapes.MidpointOctagonFilled(new(0,0,0),new(10000,0,-10000)).ToHashSet();
   Check(limited.Min(p=>p.x)==-255&&limited.Max(p=>p.x)==255&&limited.Count<=511*511,"midpoint cap preserves symmetric odd diameter");
   Check(AdditionalShapes.Checkerboard(new(0,0,0),new(10000,0,10000)).Count()<=512*512,"geometry span bound");
-  for(int w=1;w<=12;w++)for(int h=1;h<=12;h++)for(int xs=1;xs<=7;xs++)for(int zs=1;zs<=7;zs++)foreach(bool inverse in new[]{false,true}){
-   var s=new IntVec3(-7,0,-11);var t=new IntVec3(s.x+w-1,0,s.z+h-1);
-   var integrated=(inverse?Primitives.InverseGrid(s,t,xs,zs,1):Primitives.Grid(s,t,xs,zs,1)).ToHashSet();
-   var extracted=Merthsoft.DesignatorShapes.Grids.Geometry.Draw(t,s,xs,zs,inverse).ToHashSet();
-   Check(integrated.SetEquals(extracted),"standalone grid extraction preserves original anchoring and edges");
+  // Grid phase follows the first click; extending any edge cannot shift existing cells.
+  for(int w=1;w<=12;w++)for(int h=1;h<=12;h++)for(int xs=1;xs<=7;xs++)for(int zs=1;zs<=7;zs++)
+   foreach(int dx in new[]{-1,1})foreach(int dz in new[]{-1,1}) {
+    var s=new IntVec3(-7,3,-11);var t=new IntVec3(s.x+dx*(w-1),3,s.z+dz*(h-1));
+    var grid=Primitives.Grid(s,t,xs,zs,1).ToHashSet();
+    var inverse=Primitives.InverseGrid(s,t,xs,zs,1).ToHashSet();
+    Check(grid.Contains(s)&&!inverse.Contains(s),"first click is grid intersection / inverse channel");
+    Check(!grid.Overlaps(inverse)&&grid.Count+inverse.Count==w*h,"grid and inverse partition bounds at thickness 1");
+    for(int x=0;x<w;x++)for(int z=0;z<h;z++) {
+     var cell=new IntVec3(s.x+dx*x,3,s.z+dz*z);
+     Check(grid.Contains(cell)==(x%xs==0||z%zs==0),"grid spacing from first click in all quadrants");
+    }
+    var extendedGrid=Primitives.Grid(s,new(t.x+dx*2,3,t.z+dz*2),xs,zs,1).ToHashSet();
+    Check(grid.SetEquals(extendedGrid.Where(p=>Math.Abs(p.x-s.x)<w&&Math.Abs(p.z-s.z)<h)),"grid phase remains stable as drag grows");
+    var extended=Primitives.InverseGrid(s,new(t.x+dx*2,3,t.z+dz*2),xs,zs,1).ToHashSet();
+    Check(inverse.SetEquals(extended.Where(p=>Math.Abs(p.x-s.x)<w&&Math.Abs(p.z-s.z)<h)),"inverse partial edge blocks remain stable as drag grows");
+   }
+  foreach(int thickness in new[]{2,3})foreach(int dx in new[]{-1,1})foreach(int dz in new[]{-1,1}) {
+   var s=new IntVec3(-3,2,-9);var t=new IntVec3(s.x+dx*11,2,s.z+dz*9);
+   var cells=Primitives.InverseGrid(s,t,5,4,thickness).ToHashSet();
+   for(int x=0;x<=11;x++)for(int z=0;z<=9;z++)
+    Check(cells.Contains(new(s.x+dx*x,2,s.z+dz*z))==(x%5>=thickness&&z%4>=thickness),"inverse channel thickness follows drag direction");
   }
   // Parallel stripes: all quadrants, partial bands, empty gaps and single-axis drags.
   for(int w=1;w<=12;w++)for(int h=1;h<=12;h++)

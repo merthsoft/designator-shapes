@@ -80,7 +80,7 @@ Arcs stretch to fit the bounds: equal width and height gives a circular quarter 
 
 Drag an area to cover it with a grid. Presets set the distance between grid lines; Custom grid lets you enter horizontal spacing (W) and vertical spacing (H). With the default one-cell thickness, spacing 3 means one grid line every three cells, leaving two cells between lines.
 
-Inverse grids select the blocks between the grid lines, leaving the channels unselected. Their W/H inputs also control spacing. Grid spacing is different from the width and height of a fixed-size shape.
+Inverse grids select the blocks between the grid lines, leaving the channels unselected. Both patterns anchor to the first clicked cell: a grid intersection for normal grids, or an unselected channel for inverse grids. Their W/H inputs also control spacing. Grid spacing is different from the width and height of a fixed-size shape.
 
 ### Checkerboards
 

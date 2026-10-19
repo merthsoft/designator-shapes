@@ -8,4 +8,4 @@ Requires the installed RimWorld 1.7 assemblies and the sibling flood-fill-shape 
 
 Freeform contributor history: Jacob Brandt (Jacbo), original freeform commit be5b5ae and later fixes eae0b4c/a53be75. The current engine preserves that feature's variable-width round-brush behavior while replacing its problematic mask bounds/path bookkeeping. Existing About.xml credit remains intact.
 
-The geometry suite also compares actual standalone Grids source at `C:\code\rimworld\grid-shape` with integrated Primitives.Grid/InverseGrid (override StandaloneGridsDir if needed). No standalone repository is modified.
+The geometry suite checks integrated grid anchoring, spacing, partial edge blocks, and inverse channel thickness in all four drag directions. Standalone Grids retains its separate implementation.
