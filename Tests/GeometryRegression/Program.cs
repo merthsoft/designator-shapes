@@ -104,6 +104,22 @@ class Program {
   Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.CheckerTileSize=new(1,0,1);
   var reverseLimit=AdditionalShapes.Checkerboard(new(1000,0,1000),new(-10000,0,-10000)).ToHashSet();
   Check(reverseLimit.Contains(new(1000,0,1000))&&reverseLimit.All(p=>p.x>=489&&p.z>=489),"checker span cap remains anchored to first click");
+  State.Thickness=1;
+  for(int width=3;width<=40;width++)for(int height=3;height<=40;height++){
+   var start=new IntVec3(-12,3,7);var end=new IntVec3(start.x+width-1,3,start.z+height-1);
+   State.FillCorners=false;var thin=AdditionalShapes.Octagon(start,end).ToHashSet();
+   State.FillCorners=true;var joined=AdditionalShapes.Octagon(start,end).ToHashSet();
+   Check(joined.SetEquals(joined.Select(p=>new IntVec3(start.x+end.x-p.x,p.y,p.z))),"octagon corner filling is horizontally symmetric");
+   Check(joined.SetEquals(joined.Select(p=>new IntVec3(p.x,p.y,start.z+end.z-p.z))),"octagon corner filling is vertically symmetric");
+   Check(thin.IsSubsetOf(joined),"corner filling preserves the thin outline");
+   var reached=new HashSet<IntVec3>();var queue=new Queue<IntVec3>();queue.Enqueue(joined.First());
+   while(queue.Count>0){var p=queue.Dequeue();if(!reached.Add(p))continue;
+    foreach(var next in new[]{new IntVec3(p.x+1,p.y,p.z),new(p.x-1,p.y,p.z),new(p.x,p.y,p.z+1),new(p.x,p.y,p.z-1)})
+     if(joined.Contains(next)&&!reached.Contains(next))queue.Enqueue(next);
+   }
+   Check(reached.SetEquals(joined),"all octagon edges are cardinally connected with corner filling");
+   Check(joined.IsSubsetOf(AdditionalShapes.OctagonFilled(start,end)),"corner filling stays inside the octagon");
+  }
   Console.WriteLine($"PASS {checks} geometry invariants against actual primitives and game value types");
  }
 }

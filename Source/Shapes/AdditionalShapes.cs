@@ -46,7 +46,15 @@ public static class AdditionalShapes
             return cells;
         }
         var outline = new HashSet<IntVec3>();
-        for(int i=0;i<vertices.Length;i++) outline.UnionWith(Primitives.Line(vertices[i],vertices[(i+1)%vertices.Length],DesignatorShapes.Thickness,DesignatorShapes.FillCorners));
+        for(int i=0;i<vertices.Length;i++)
+        {
+            var a = vertices[i]; var b = vertices[(i+1)%vertices.Length];
+            outline.UnionWith(Primitives.Line(a,b,DesignatorShapes.Thickness,DesignatorShapes.FillCorners));
+            // A line fills corners on one side depending on its direction. Sample both
+            // directions so the existing inside clip retains the inward bridge on every edge.
+            if (DesignatorShapes.FillCorners && DesignatorShapes.Thickness == 1)
+                outline.UnionWith(Primitives.Line(b,a,1,true));
+        }
         return DesignatorShapes.Thickness>0 ? outline.Where(Inside).ToList() : outline;
     }
     public static IEnumerable<IntVec3> Checkerboard(IntVec3 s, IntVec3 t) => Checker(s,t,0);
