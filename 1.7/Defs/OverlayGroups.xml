@@ -16,8 +16,8 @@
 
     <Merthsoft.DesignatorShapes.Defs.OverlayGroupDef>
         <defName>Rectangle_Input</defName>
-        <label>Fixed rectangles</label>
-        <description>Rectangles with fixed sizes that the user determines.</description>
+        <label>More rectangles</label>
+        <description>Fixed-size and rounded rectangles.</description>
         <parentGroupName>Rectangle</parentGroupName>
         <uiIconPath>UI/Commands/Smol/rectangle_fixed_more</uiIconPath>
         <closeUiIconPath>UI/Commands/Smol/rectangle_fixed_close</closeUiIconPath>

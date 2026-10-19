@@ -189,8 +189,8 @@ Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.OverlayGroupDef
 <LanguageData>
   <Line.label>Lines</Line.label>
   <Rectangle.label>Rectangles</Rectangle.label>
-  <Rectangle_Input.label>Fixed rectangles</Rectangle_Input.label>
-  <Rectangle_Input.description>Rectangles with fixed sizes that the user determines.</Rectangle_Input.description>
+  <Rectangle_Input.label>More rectangles</Rectangle_Input.label>
+  <Rectangle_Input.description>Fixed-size and rounded rectangles.</Rectangle_Input.description>
   <Grids.label>Grids</Grids.label>
   <Grids.description>Grids.</Grids.description>
   <Grids_Inverse.label>Inverse grids</Grids_Inverse.label>
