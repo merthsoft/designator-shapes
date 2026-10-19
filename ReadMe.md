@@ -46,19 +46,63 @@ Use F, or your configured corner-fill key, to toggle corner filling.
 
 Hold RimWorld's "force square dimensions" key (Ctrl by default) to constrain supported drag-based shapes to equal width and height. For example, an ellipse becomes a circle. This uses your existing RimWorld binding.
 
-## Parallel Lines
+For tools with input values, click the small "+" beside the values to edit them; "-" returns to the readout. The increase/decrease thickness bindings affect supported lines and outlines; parallel lines have their own Thickness input.
+
+## Drawing Tools
+
+### Drag Between Corners
+
+For ordinary rectangles, ellipses, pentagons, hexagons, and octagons, click and hold at one corner of the desired bounds, drag to the opposite corner, then release. Outline versions select the edge; filled versions select the interior too.
+
+### Midpoint Shapes
+
+Click and hold at the center, drag outward to set the radius, then release. The larger horizontal or vertical distance from the center sets the radius. Midpoint circles, pentagons, hexagons, and octagons use this interaction.
+
+### Fixed-Size Shapes
+
+Choose a tool under Fixed rectangles or Fixed ellipses. Enter W and H, then click to place the shape centered on that cell. These values set the whole shape's size; you don't drag out its bounds.
+
+### Freeform Lines
+
+Hold the mouse button and draw like a pen, then release to finish. The stroke follows your cursor instead of drawing a straight line between the endpoints.
+
+### L Corners
+
+Drag a bounding rectangle. L corner draws its left and bottom sides; Opposite L corner draws its top and right sides. Rotate to choose a different corner. The corner follows the bounds, so changing which end you click first doesn't change its orientation.
+
+### Arcs
+
+Drag a bounding rectangle to size the curve. By default, the quarter arc curves around the lower-left corner, joining the bottom-right and top-left corners. The semicircle arc joins the bottom-left and bottom-right corners with an arch above them. Rotate to turn either arc.
+
+Arcs stretch to fit the bounds: equal width and height gives a circular quarter arc; a circular half-arc needs bounds roughly twice as wide as they are tall. Other proportions make ellipse arcs.
+
+### Grids And Inverse Grids
+
+Drag an area to cover it with a grid. Presets set the distance between grid lines; Custom grid lets you enter horizontal spacing (W) and vertical spacing (H). With the default one-cell thickness, spacing 3 means one grid line every three cells, leaving two cells between lines.
+
+Inverse grids select the blocks between the grid lines, leaving the channels unselected. Their W/H inputs also control spacing. Grid spacing is different from the width and height of a fixed-size shape.
+
+### Checkerboards
+
+Drag an area to alternate selected and empty tiles. W/H sets each tile's width and height in cells; 1x1 gives the usual checkerboard, while 2x3 makes alternating tiles two cells wide and three tall.
+
+"Starting cell selected" includes the first clicked cell; "Starting cell skipped" leaves it empty. The pattern stays anchored to that first click in every drag direction.
+
+### Parallel Lines
 
 Drag an area to draw repeating stripes. Thickness sets how many rows or columns are selected per stripe; Skip sets how many are left empty between stripes. For example, Thickness 2 and Skip 3 selects two, skips three, and repeats. Skip can be zero.
 
 The longer drag axis determines whether the lines run horizontally or vertically. A square selection keeps the last direction. Rotation swaps the direction. The pattern stays anchored to your first click.
 
-## Rounded Rectangles And Checkerboards
+### Rounded Rectangles
 
-Rounded rectangles have a Radius input for their corners. The radius is limited to fit the dragged area; zero gives square corners.
+Choose an outline or filled tool under Rounded rectangles, set Radius, then drag the bounds. Radius sets the corner radius in cells and is limited to fit the dragged area; zero gives square corners.
 
-Checkerboard W/H inputs set the size of each tile in cells. "Starting cell selected" includes the first clicked cell; "Starting cell skipped" leaves it empty. The pattern stays anchored to that first click in every drag direction.
+### Coverage Stamps
 
-## Custom Polygons
+Choose a sun lamp or orbital trade beacon stamp, then click its center. The active designation tool is applied to that building's coverage footprint: filled selects the area, outline selects its boundary. Use the default thickness of 1 to match the normal coverage radius.
+
+### Custom Polygons
 
 1) Click to add each corner. The preview updates as you move the cursor.
 2) Click the first corner again, or press Enter, to finish.
@@ -66,6 +110,10 @@ Checkerboard W/H inputs set the size of each tile in cells. "Starting cell selec
 Backspace removes the last corner. Escape or right-click cancels the polygon while keeping the tool selected. Nothing is designated until you finish.
 
 Both outline and filled versions support concave shapes. You need at least three corners that don't all lie on one straight line. Polygons support up to 128 corners and 512 cells per axis.
+
+### Flood Fill
+
+Select flood fill and click a connected region, such as the inside of a room. Clicking a wall or mineable rock instead targets connected cells of that wall or rock type. The active designation tool still determines which cells can be selected. The fill stops at boundaries, configured barriers, or the cell limit.
 
 ## Customize The Vanilla Drawing Palette
 
@@ -93,7 +141,7 @@ In Mod Settings, you can:
 
 The Alt-key toggle is off by default. Custom polygon cancellation always keeps the tool selected.
 
-## Flood Fill
+## Flood-Fill Settings
 
 Flood fill has configurable barriers and an optional confirmation before destructive actions.
 
