@@ -101,7 +101,7 @@ public class ShapeControlsWindow
     private int visibleRows = NumRows;
     private bool ShowSizeInputs => DesignatorShapes.CurrentTool?.Group == controller.SelectedGroup
         && DesignatorShapes.CurrentTool?.ShowSizeInputs == true;
-    private float SizeInputHeight => EditingParallelLines || Width < 144 ? 56 : 28;
+    private float SizeInputHeight => EditingParallelLines || (!EditingRoundedRectangle && Width < 144) ? 56 : 28;
     private float PanelHeight => Math.Max(ShowSizeInputs ? 1 : NumRows, visibleRows) * IconSize
         + LabelHeight + LineHeight * 2 + (ShowSizeInputs ? SizeInputHeight + 6 : 0);
 
@@ -113,18 +113,29 @@ public class ShapeControlsWindow
         ? DesignatorShapes.CurrentTool : PaletteShapeWorker.SelectedShape;
     private bool EditingCheckerboard => InputShape?.overlayGroup == "Checkerboards";
     private bool EditingParallelLines => InputShape?.defName == "ParallelLines";
-    private string WidthLabel => (EditingParallelLines ? "Merthsoft_DesignatorShapes_ParallelThickness" : "Merthsoft_DesignatorShapes_SizeInputWidthLabel").Translate();
+    private bool EditingRoundedRectangle => InputShape?.defName is "RoundedRectangle" or "RoundedRectangleFilled";
+    private string WidthLabel => (EditingRoundedRectangle ? "Merthsoft_DesignatorShapes_CornerRadius" : EditingParallelLines ? "Merthsoft_DesignatorShapes_ParallelThickness" : "Merthsoft_DesignatorShapes_SizeInputWidthLabel").Translate();
     private string HeightLabel => (EditingParallelLines ? "Merthsoft_DesignatorShapes_ParallelSkip" : "Merthsoft_DesignatorShapes_SizeInputHeightLabel").Translate();
     private bool StackSizeInputs(float width) => width < (EditingParallelLines ? 240 : 112);
     private int gridWidth = 6, gridHeight = 6;
     private int checkerWidth = 1, checkerHeight = 1;
     private int parallelThickness = 1, parallelSkip = 3;
-    private ref int inputWidth => ref (EditingParallelLines ? ref parallelThickness : ref (EditingCheckerboard ? ref checkerWidth : ref gridWidth));
+    private int cornerRadius = 3;
+    private ref int inputWidth
+    {
+        get
+        {
+            if (EditingRoundedRectangle) return ref cornerRadius;
+            if (EditingParallelLines) return ref parallelThickness;
+            return ref (EditingCheckerboard ? ref checkerWidth : ref gridWidth);
+        }
+    }
     private ref int inputHeight => ref (EditingParallelLines ? ref parallelSkip : ref (EditingCheckerboard ? ref checkerHeight : ref gridHeight));
     public static IntVec3 CheckerTileSize => new(DesignatorShapes.ShapeControls.checkerWidth, 0,
         DesignatorShapes.ShapeControls.checkerHeight);
     public static IntVec3 ParallelLineSize => new(DesignatorShapes.ShapeControls.parallelThickness, 0,
         DesignatorShapes.ShapeControls.parallelSkip);
+    public static int RoundedCornerRadius => DesignatorShapes.ShapeControls.cornerRadius;
     private bool editingInput;
     private string widthBuffer = "6", heightBuffer = "6";
     private int lastWidth = 6, lastHeight = 6;
@@ -139,12 +150,12 @@ public class ShapeControlsWindow
             GUI.FocusControl(pendingSizeFocus);
             pendingSizeFocus = null;
         }
-        bool stacked = StackSizeInputs(rect.width);
-        float fieldWidth = stacked ? rect.width : (rect.width - 6) / 2;
+        bool stacked = !EditingRoundedRectangle && StackSizeInputs(rect.width);
+        float fieldWidth = EditingRoundedRectangle || stacked ? rect.width : (rect.width - 6) / 2;
         var left = new Rect(rect.x, rect.y, fieldWidth, 24);
         var right = new Rect(stacked ? rect.x : rect.x + fieldWidth + 6, stacked ? rect.y + 28 : rect.y, fieldWidth, 24);
-        DrawSizeField(left, WidthLabel, prefix + "Width", ref inputWidth, ref widthBuffer);
-        DrawSizeField(right, HeightLabel, prefix + "Height", ref inputHeight, ref heightBuffer, EditingParallelLines ? 0 : 1);
+        DrawSizeField(left, WidthLabel, prefix + "Width", ref inputWidth, ref widthBuffer, EditingRoundedRectangle ? 0 : 1);
+        if (!EditingRoundedRectangle) DrawSizeField(right, HeightLabel, prefix + "Height", ref inputHeight, ref heightBuffer, EditingParallelLines ? 0 : 1);
         lastWidth = inputWidth; lastHeight = inputHeight;
         var focused = GUI.GetNameOfFocusedControl();
         if (focused == prefix + "Width" || focused == prefix + "Height")
@@ -170,7 +181,7 @@ public class ShapeControlsWindow
         var e = Event.current;
         if (e?.type != EventType.KeyDown || e.keyCode != KeyCode.Tab
             || sizeKeyboardControl == 0 || GUIUtility.keyboardControl != sizeKeyboardControl
-            || string.IsNullOrEmpty(sizeFocus)) return;
+            || string.IsNullOrEmpty(sizeFocus) || EditingRoundedRectangle) return;
         if (sizeFocus.StartsWith("DSCustom") && (!DesignatorShapes.ShowControls || !ShowSizeInputs || !editingInput)) return;
         pendingSizeFocus = sizeFocus.EndsWith("Width")
             ? sizeFocus[..^5] + "Height" : sizeFocus[..^6] + "Width";
@@ -284,10 +295,10 @@ public class ShapeControlsWindow
                 if (editingInput) DrawSizeInputs(fields, "DSCustomSize");
                 else
                 {
-                    bool stacked = StackSizeInputs(fields.width);
-                    float width = stacked ? fields.width : (fields.width - 6) / 2;
+                    bool stacked = !EditingRoundedRectangle && StackSizeInputs(fields.width);
+                    float width = EditingRoundedRectangle || stacked ? fields.width : (fields.width - 6) / 2;
                     Widgets.Label(new Rect(fields.x, fields.y, width, 24), WidthLabel + $": {inputWidth}");
-                    Widgets.Label(new Rect(stacked ? fields.x : fields.x + width + 6, stacked ? fields.y + 28 : fields.y, width, 24),
+                    if (!EditingRoundedRectangle) Widgets.Label(new Rect(stacked ? fields.x : fields.x + width + 6, stacked ? fields.y + 28 : fields.y, width, 24),
                         HeightLabel + $": {inputHeight}");
                 }
             }

@@ -52,6 +52,28 @@
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/rectangle_filled</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>RoundedRectangle</defName>
+        <label>rounded rectangle</label>
+        <description>Drag a rounded rectangle. Radius sets the corner radius in cells and is limited to fit the dragged area. Set Radius to zero for square corners.</description>
+        <overlayGroup>Rectangle</overlayGroup>
+        <showSizeInputs>true</showSizeInputs>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.RoundedRectangle</drawMethodName>
+        <uiIconPath>UI/Commands/Smol/Additional/rounded_rectangle</uiIconPath>
+        <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/rounded_rectangle</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>RoundedRectangleFilled</defName>
+        <label>filled rounded rectangle</label>
+        <description>Drag a filled rounded rectangle. Radius sets the corner radius in cells and is limited to fit the dragged area. Set Radius to zero for square corners.</description>
+        <overlayGroup>Rectangle</overlayGroup>
+        <showSizeInputs>true</showSizeInputs>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.AdditionalShapes.RoundedRectangleFilled</drawMethodName>
+        <uiIconPath>UI/Commands/Smol/Additional/rounded_rectangle_filled</uiIconPath>
+        <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/rounded_rectangle_filled</selectedUiIconPath>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Rectangle_Input</defName>
 		<label>fixed rectangle</label>

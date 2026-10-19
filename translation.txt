@@ -66,6 +66,7 @@ Languages/<Language>/Keyed/DesignatorShapes_Keys.xml
   <Merthsoft_DesignatorShapes_KeyLabel_PreviousShape>Previous shape</Merthsoft_DesignatorShapes_KeyLabel_PreviousShape>
   <Merthsoft_DesignatorShapes_ParallelThickness>Thickness</Merthsoft_DesignatorShapes_ParallelThickness>
   <Merthsoft_DesignatorShapes_ParallelSkip>Skip</Merthsoft_DesignatorShapes_ParallelSkip>
+  <Merthsoft_DesignatorShapes_CornerRadius>Radius</Merthsoft_DesignatorShapes_CornerRadius>
 </LanguageData>
 
 Languages/<Language>/Keyed/PaletteSettings.xml
@@ -90,6 +91,10 @@ Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.DesignatorShape
   <Rectangle.description>Designate in a rectangle</Rectangle.description>
   <RectangleFilled.label>filled rectangle</RectangleFilled.label>
   <RectangleFilled.description>Designate in a filled rectangle</RectangleFilled.description>
+  <RoundedRectangle.label>rounded rectangle</RoundedRectangle.label>
+  <RoundedRectangle.description>Drag a rounded rectangle. Radius sets the corner radius in cells and is limited to fit the dragged area. Set Radius to zero for square corners.</RoundedRectangle.description>
+  <RoundedRectangleFilled.label>filled rounded rectangle</RoundedRectangleFilled.label>
+  <RoundedRectangleFilled.description>Drag a filled rounded rectangle. Radius sets the corner radius in cells and is limited to fit the dragged area. Set Radius to zero for square corners.</RoundedRectangleFilled.description>
   <Rectangle_Input.label>fixed rectangle</Rectangle_Input.label>
   <Rectangle_Input.description>Designate in a fixed rectangle with user-defined size</Rectangle_Input.description>
   <RectangleFilled_Input.label>fixed filled rectangle</RectangleFilled_Input.label>

@@ -120,9 +120,43 @@ class Program {
    Check(reached.SetEquals(joined),"all octagon edges are cardinally connected with corner filling");
    Check(joined.IsSubsetOf(AdditionalShapes.OctagonFilled(start,end)),"corner filling stays inside the octagon");
   }
+  State.Thickness=1;
+  for(int width=1;width<=24;width++)for(int height=1;height<=24;height++)foreach(int radius in new[]{0,1,2,3,6,99}){
+   Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.RoundedCornerRadius=radius;
+   var start=new IntVec3(-9,3,11);var end=new IntVec3(start.x+width-1,3,start.z+height-1);
+   var filled=AdditionalShapes.RoundedRectangleFilled(start,end).ToHashSet();
+   State.FillCorners=false;var thin=AdditionalShapes.RoundedRectangle(start,end).ToHashSet();
+   State.FillCorners=true;var joined=AdditionalShapes.RoundedRectangle(start,end).ToHashSet();
+   Check(filled.Count>0&&filled.All(p=>p.x>=start.x&&p.x<=end.x&&p.z>=start.z&&p.z<=end.z&&p.y==3),"rounded fill bounded and on correct plane");
+   Check(thin.IsSubsetOf(joined)&&joined.IsSubsetOf(filled),"rounded corner filling preserves thin outline and stays inside fill");
+   foreach(var cells in new[]{filled,thin,joined}){
+    Check(cells.SetEquals(cells.Select(p=>new IntVec3(start.x+end.x-p.x,p.y,p.z)))&&cells.SetEquals(cells.Select(p=>new IntVec3(p.x,p.y,start.z+end.z-p.z))),"rounded shape reflection symmetry");
+   }
+   Check(filled.SetEquals(AdditionalShapes.RoundedRectangleFilled(end,start)),"rounded shape reverse drag consistency");
+   var reached=new HashSet<IntVec3>();var queue=new Queue<IntVec3>();queue.Enqueue(joined.First());
+   while(queue.Count>0){var p=queue.Dequeue();if(!reached.Add(p))continue;
+    foreach(var next in new[]{new IntVec3(p.x+1,p.y,p.z),new(p.x-1,p.y,p.z),new(p.x,p.y,p.z+1),new(p.x,p.y,p.z-1)})
+     if(joined.Contains(next)&&!reached.Contains(next))queue.Enqueue(next);
+   }
+   Check(reached.SetEquals(joined),"rounded outline cardinally connected with corner filling");
+   if(radius==0)Check(filled.Count==width*height&&joined.Count==width*height-Math.Max(0,width-2)*Math.Max(0,height-2),"radius zero is an ordinary rectangle");
+   int clamped=Math.Min(radius,Math.Min((width-1)/2,(height-1)/2));
+   Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.RoundedCornerRadius=clamped;
+   Check(filled.SetEquals(AdditionalShapes.RoundedRectangleFilled(start,end)),"rounded radius clamps to available dimensions");
+  }
+  Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.RoundedCornerRadius=5;
+  foreach(int thickness in new[]{2,3,4,5}){
+   State.Thickness=1;var start=new IntVec3(0,0,0);var end=new IntVec3(19,0,13);
+   var thin=AdditionalShapes.RoundedRectangle(start,end).ToHashSet();
+   State.Thickness=thickness;var thick=AdditionalShapes.RoundedRectangle(start,end).ToHashSet();
+   Check(thin.IsSubsetOf(thick)&&thick.IsSubsetOf(AdditionalShapes.RoundedRectangleFilled(start,end)),"rounded positive thickness preserves outline and clips to fill");
+  }
+  State.Thickness=1;
+  Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.RoundedCornerRadius=10000;
+  Check(AdditionalShapes.RoundedRectangleFilled(new(0,0,0),new(10000,0,10000)).Count()<=512*512,"rounded rectangle sampling bounded");
   Console.WriteLine($"PASS {checks} geometry invariants against actual primitives and game value types");
  }
 }
 namespace Merthsoft.DesignatorShapes {public static class DesignatorShapes {public static int Thickness=1;public static int Rotation;public static bool FillCorners=true;}}
 
-namespace Merthsoft.DesignatorShapes.Ui { public static class ShapeControlsWindow { public static IntVec3 CheckerTileSize=new(1,0,1); public static IntVec3 ParallelLineSize=new(1,0,3); } }
+namespace Merthsoft.DesignatorShapes.Ui { public static class ShapeControlsWindow { public static IntVec3 CheckerTileSize=new(1,0,1); public static IntVec3 ParallelLineSize=new(1,0,3); public static int RoundedCornerRadius=3; } }

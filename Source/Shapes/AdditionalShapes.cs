@@ -14,6 +14,33 @@ public static class AdditionalShapes
             (int)Math.Min(MaximumSpan, Math.Abs((long)t.x - s.x) + 1),
             (int)Math.Min(MaximumSpan, Math.Abs((long)t.z - s.z) + 1));
 
+    public static IEnumerable<IntVec3> RoundedRectangle(IntVec3 s, IntVec3 t) => RoundedRectangleCells(s,t,false);
+    public static IEnumerable<IntVec3> RoundedRectangleFilled(IntVec3 s, IntVec3 t) => RoundedRectangleCells(s,t,true);
+    private static IEnumerable<IntVec3> RoundedRectangleCells(IntVec3 s, IntVec3 t, bool filled)
+    {
+        var (x,z,w,h) = Bounds(s,t);
+        int radius = Math.Clamp(Ui.ShapeControlsWindow.RoundedCornerRadius, 0, Math.Min((w-1)/2,(h-1)/2));
+        bool Inside(int dx, int dz)
+        {
+            if (dx < 0 || dz < 0 || dx >= w || dz >= h) return false;
+            int cx = Math.Clamp(dx,radius,w-1-radius), cz = Math.Clamp(dz,radius,h-1-radius);
+            return (dx-cx)*(dx-cx)+(dz-cz)*(dz-cz) <= radius*radius;
+        }
+        var cells = new List<IntVec3>();
+        for(int dz=0;dz<h;dz++) for(int dx=0;dx<w;dx++)
+        {
+            if (!Inside(dx,dz)) continue;
+            bool edge = filled || !Inside(dx-1,dz) || !Inside(dx+1,dz) || !Inside(dx,dz-1) || !Inside(dx,dz+1);
+            if (!edge && DesignatorShapes.FillCorners)
+                edge |= !Inside(dx-1,dz-1) || !Inside(dx-1,dz+1) || !Inside(dx+1,dz-1) || !Inside(dx+1,dz+1);
+            if (edge) cells.Add(new IntVec3(x+dx,s.y,z+dz));
+        }
+        if (filled || DesignatorShapes.Thickness == 1) return cells;
+        var outline = new HashSet<IntVec3>();
+        foreach(var cell in cells) outline.UnionWith(Primitives.Line(cell,cell,DesignatorShapes.Thickness,false));
+        return DesignatorShapes.Thickness > 0 ? outline.Where(p=>Inside(p.x-x,p.z-z)).ToList() : outline;
+    }
+
     public static IEnumerable<IntVec3> Octagon(IntVec3 s, IntVec3 t) => OctagonCells(s, t, false);
     public static IEnumerable<IntVec3> OctagonFilled(IntVec3 s, IntVec3 t) => OctagonCells(s, t, true);
     public static IEnumerable<IntVec3> MidpointOctagon(IntVec3 center, IntVec3 edge) => MidpointOctagonCells(center, edge, false);
