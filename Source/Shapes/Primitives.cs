@@ -566,6 +566,26 @@ public static class Primitives
         return ret;
     }
 
+    public static bool ParallelLinesHorizontal(IntVec3 s, IntVec3 t, bool previousHorizontal)
+    {
+        long dx = Math.Abs((long)t.x - s.x), dz = Math.Abs((long)t.z - s.z);
+        return dx == dz ? previousHorizontal : dx > dz;
+    }
+
+    public static IEnumerable<IntVec3> ParallelLines(IntVec3 s, IntVec3 t, int thickness, int skip, bool horizontal)
+    {
+        thickness = Math.Clamp(thickness, 1, 512);
+        skip = Math.Clamp(skip, 0, 512);
+        int width = (int)Math.Min(512, Math.Abs((long)t.x - s.x) + 1);
+        int height = (int)Math.Min(512, Math.Abs((long)t.z - s.z) + 1);
+        int xDirection = t.x < s.x ? -1 : 1, zDirection = t.z < s.z ? -1 : 1;
+        // Count from the drag start, so extending the drag does not shift the stripes.
+        for (int z = 0; z < height; z++)
+            for (int x = 0; x < width; x++)
+                if ((horizontal ? z : x) % (thickness + skip) < thickness)
+                    yield return new IntVec3(s.x + x * xDirection, s.y, s.z + z * zDirection);
+    }
+
     public static IEnumerable<IntVec3> Grid(IntVec3 s, IntVec3 t, int xSpacing, int zSpacing, int thickness)
     {
         var xStart = Math.Min(s.x, t.x);

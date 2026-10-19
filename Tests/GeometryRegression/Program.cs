@@ -55,9 +55,39 @@ class Program {
    var extracted=Merthsoft.DesignatorShapes.Grids.Geometry.Draw(t,s,xs,zs,inverse).ToHashSet();
    Check(integrated.SetEquals(extracted),"standalone grid extraction preserves original anchoring and edges");
   }
+  // Parallel stripes: all quadrants, partial bands, empty gaps and single-axis drags.
+  for(int w=1;w<=12;w++)for(int h=1;h<=12;h++)
+   for(int thickness=1;thickness<=4;thickness++)for(int skip=0;skip<=4;skip++)
+    foreach(int sx in new[]{-1,1})foreach(int sz in new[]{-1,1})foreach(bool horizontal in new[]{false,true}){
+     var start=new IntVec3(7,3,-9);var end=new IntVec3(start.x+sx*(w-1),3,start.z+sz*(h-1));
+     var drawn=Primitives.ParallelLines(start,end,thickness,skip,horizontal).ToList();
+     var expected=new HashSet<IntVec3>();
+     for(int z=0;z<h;z++)for(int x=0;x<w;x++)
+      if((horizontal?z:x)%(thickness+skip)<thickness)expected.Add(new(start.x+sx*x,3,start.z+sz*z));
+     Check(drawn.Count==expected.Count&&expected.SetEquals(drawn),"parallel stripe width, gaps, bounds, plane and no duplicates");
+     Check(drawn.Contains(start),"parallel stripes always begin at drag start");
+     var extended=Primitives.ParallelLines(start,new(start.x+sx*(w+2),3,start.z+sz*(h+2)),thickness,skip,horizontal).ToHashSet();
+     Check(drawn.All(extended.Contains),"extending bounds preserves stripe anchor");
+    }
+  Check(Primitives.ParallelLinesHorizontal(new(0,0,0),new(8,0,2),false),"wide drag chooses horizontal");
+  Check(!Primitives.ParallelLinesHorizontal(new(0,0,0),new(-2,0,-8),true),"tall reverse drag chooses vertical");
+  foreach(bool previous in new[]{false,true})
+   Check(Primitives.ParallelLinesHorizontal(new(0,0,0),new(-5,0,5),previous)==previous,"square drag retains last direction");
+  Check(Primitives.ParallelLines(new(0,0,0),new(10000,0,10000),1,0,true).Count()==512*512,"parallel span bounded");
+  Check(Primitives.ParallelLines(new(0,0,0),new(4,0,4),0,-1,true).Count()==25,"invalid stripe values clamp without division by zero");
+  Merthsoft.DesignatorShapes.Ui.ShapeControlsWindow.ParallelLineSize=new(2,0,3);
+  State.Rotation=0;
+  var origin=new IntVec3(0,0,0);var wide=new IntVec3(9,0,6);var tall=new IntVec3(6,0,9);var square=new IntVec3(6,0,6);
+  Check(BasicShapes.ParallelLines(origin,wide).ToHashSet().SetEquals(Primitives.ParallelLines(origin,wide,2,3,true)),"production wrapper reads independent stripe inputs");
+  Check(BasicShapes.ParallelLines(origin,square).ToHashSet().SetEquals(Primitives.ParallelLines(origin,square,2,3,true)),"production wrapper retains horizontal tie");
+  State.Rotation=1;
+  Check(BasicShapes.ParallelLines(origin,wide).ToHashSet().SetEquals(Primitives.ParallelLines(origin,wide,2,3,false)),"rotation swaps horizontal stripes to vertical");
+  Check(BasicShapes.ParallelLines(origin,tall).ToHashSet().SetEquals(Primitives.ParallelLines(origin,tall,2,3,true)),"rotation swaps vertical stripes to horizontal");
+  State.Rotation=0;
+  Check(BasicShapes.ParallelLines(origin,square).ToHashSet().SetEquals(Primitives.ParallelLines(origin,square,2,3,false)),"production wrapper retains vertical tie");
   Console.WriteLine($"PASS {checks} geometry invariants against actual primitives and game value types");
  }
 }
 namespace Merthsoft.DesignatorShapes {public static class DesignatorShapes {public static int Thickness=1;public static int Rotation;public static bool FillCorners=true;}}
 
-namespace Merthsoft.DesignatorShapes.Ui { public static class ShapeControlsWindow { public static IntVec3 CheckerTileSize=new(1,0,1); } }
+namespace Merthsoft.DesignatorShapes.Ui { public static class ShapeControlsWindow { public static IntVec3 CheckerTileSize=new(1,0,1); public static IntVec3 ParallelLineSize=new(1,0,3); } }

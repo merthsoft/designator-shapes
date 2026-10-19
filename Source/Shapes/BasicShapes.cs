@@ -8,6 +8,15 @@ public static class BasicShapes
     public static IEnumerable<IntVec3> Line(IntVec3 vert1, IntVec3 vert2) =>
         Primitives.Line(vert1, vert2, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 
+    private static bool parallelHorizontal = true;
+    public static IEnumerable<IntVec3> ParallelLines(IntVec3 s, IntVec3 t)
+    {
+        parallelHorizontal = Primitives.ParallelLinesHorizontal(s, t, parallelHorizontal);
+        var inputs = Ui.ShapeControlsWindow.ParallelLineSize;
+        return Primitives.ParallelLines(s, t, inputs.x, inputs.z,
+            parallelHorizontal != (DesignatorShapes.Rotation % 2 != 0));
+    }
+
     public static IEnumerable<IntVec3> Rectangle(IntVec3 s, IntVec3 t) =>
         Primitives.Rectangle(s.x, s.y, s.z, t.x, t.y, t.z, false, DesignatorShapes.Rotation, DesignatorShapes.Thickness, DesignatorShapes.FillCorners);
 

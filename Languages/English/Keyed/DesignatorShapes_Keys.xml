@@ -62,4 +62,6 @@
     <Merthsoft_DesignatorShapes_Settings_ToggleBinding>Interface toggle binding</Merthsoft_DesignatorShapes_Settings_ToggleBinding>
     <Merthsoft_DesignatorShapes_Settings_ToggleShortcut>Enable interface toggle shortcut</Merthsoft_DesignatorShapes_Settings_ToggleShortcut>
     <Merthsoft_DesignatorShapes_KeyLabel_PreviousShape>Previous shape</Merthsoft_DesignatorShapes_KeyLabel_PreviousShape>
+    <Merthsoft_DesignatorShapes_ParallelThickness>Thickness</Merthsoft_DesignatorShapes_ParallelThickness>
+    <Merthsoft_DesignatorShapes_ParallelSkip>Skip</Merthsoft_DesignatorShapes_ParallelSkip>
 </LanguageData>

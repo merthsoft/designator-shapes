@@ -101,22 +101,30 @@ public class ShapeControlsWindow
     private int visibleRows = NumRows;
     private bool ShowSizeInputs => DesignatorShapes.CurrentTool?.Group == controller.SelectedGroup
         && DesignatorShapes.CurrentTool?.ShowSizeInputs == true;
-    private float SizeInputHeight => Width < 144 ? 56 : 28;
+    private float SizeInputHeight => EditingParallelLines || Width < 144 ? 56 : 28;
     private float PanelHeight => Math.Max(ShowSizeInputs ? 1 : NumRows, visibleRows) * IconSize
         + LabelHeight + LineHeight * 2 + (ShowSizeInputs ? SizeInputHeight + 6 : 0);
 
     public static float Width => NumButtons / NumRows * IconSize;
     public static float Height => NumRows * IconSize + LabelHeight + LineHeight * 2;
 
-    // Share the existing input widget, keeping checker tiles independent of grid/fixed sizes.
-    private bool EditingCheckerboard => (DesignatorShapes.ShowControls
-        ? DesignatorShapes.CurrentTool : PaletteShapeWorker.SelectedShape)?.overlayGroup == "Checkerboards";
+    // Reuse the input widget while keeping each pattern's values independent.
+    private Defs.DesignatorShapeDef InputShape => DesignatorShapes.ShowControls
+        ? DesignatorShapes.CurrentTool : PaletteShapeWorker.SelectedShape;
+    private bool EditingCheckerboard => InputShape?.overlayGroup == "Checkerboards";
+    private bool EditingParallelLines => InputShape?.defName == "ParallelLines";
+    private string WidthLabel => (EditingParallelLines ? "Merthsoft_DesignatorShapes_ParallelThickness" : "Merthsoft_DesignatorShapes_SizeInputWidthLabel").Translate();
+    private string HeightLabel => (EditingParallelLines ? "Merthsoft_DesignatorShapes_ParallelSkip" : "Merthsoft_DesignatorShapes_SizeInputHeightLabel").Translate();
+    private bool StackSizeInputs(float width) => width < (EditingParallelLines ? 240 : 112);
     private int gridWidth = 6, gridHeight = 6;
     private int checkerWidth = 1, checkerHeight = 1;
-    private ref int inputWidth => ref (EditingCheckerboard ? ref checkerWidth : ref gridWidth);
-    private ref int inputHeight => ref (EditingCheckerboard ? ref checkerHeight : ref gridHeight);
+    private int parallelThickness = 1, parallelSkip = 3;
+    private ref int inputWidth => ref (EditingParallelLines ? ref parallelThickness : ref (EditingCheckerboard ? ref checkerWidth : ref gridWidth));
+    private ref int inputHeight => ref (EditingParallelLines ? ref parallelSkip : ref (EditingCheckerboard ? ref checkerHeight : ref gridHeight));
     public static IntVec3 CheckerTileSize => new(DesignatorShapes.ShapeControls.checkerWidth, 0,
         DesignatorShapes.ShapeControls.checkerHeight);
+    public static IntVec3 ParallelLineSize => new(DesignatorShapes.ShapeControls.parallelThickness, 0,
+        DesignatorShapes.ShapeControls.parallelSkip);
     private bool editingInput;
     private string widthBuffer = "6", heightBuffer = "6";
     private int lastWidth = 6, lastHeight = 6;
@@ -131,27 +139,28 @@ public class ShapeControlsWindow
             GUI.FocusControl(pendingSizeFocus);
             pendingSizeFocus = null;
         }
-        bool stacked = rect.width < 112;
+        bool stacked = StackSizeInputs(rect.width);
         float fieldWidth = stacked ? rect.width : (rect.width - 6) / 2;
         var left = new Rect(rect.x, rect.y, fieldWidth, 24);
         var right = new Rect(stacked ? rect.x : rect.x + fieldWidth + 6, stacked ? rect.y + 28 : rect.y, fieldWidth, 24);
-        DrawSizeField(left, "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate(), prefix + "Width", ref inputWidth, ref widthBuffer);
-        DrawSizeField(right, "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate(), prefix + "Height", ref inputHeight, ref heightBuffer);
+        DrawSizeField(left, WidthLabel, prefix + "Width", ref inputWidth, ref widthBuffer);
+        DrawSizeField(right, HeightLabel, prefix + "Height", ref inputHeight, ref heightBuffer, EditingParallelLines ? 0 : 1);
         lastWidth = inputWidth; lastHeight = inputHeight;
         var focused = GUI.GetNameOfFocusedControl();
         if (focused == prefix + "Width" || focused == prefix + "Height")
         { sizeFocus = focused; sizeKeyboardControl = GUIUtility.keyboardControl; }
     }
 
-    private static void DrawSizeField(Rect rect, string label, string name, ref int value, ref string buffer)
+    private static void DrawSizeField(Rect rect, string label, string name, ref int value, ref string buffer, int minimum = 1)
     {
-        Widgets.Label(new Rect(rect.x, rect.y, 20, rect.height), label + ":");
+        float labelWidth = label.Length <= 2 ? 20 : Math.Min(Text.CalcSize(label + ":").x + 4, Math.Max(20, rect.width - 26));
+        Widgets.Label(new Rect(rect.x, rect.y, labelWidth, rect.height), label + ":");
         GUI.SetNextControlName(name);
-        var next = Widgets.TextField(new Rect(rect.x + 20, rect.y, rect.width - 20, rect.height), buffer);
+        var next = Widgets.TextField(new Rect(rect.x + labelWidth, rect.y, rect.width - labelWidth, rect.height), buffer);
         if (next.Length <= 3 && next.All(char.IsDigit))
         {
             buffer = next;
-            if (int.TryParse(next, out var parsed) && parsed >= 1) value = Math.Min(parsed, 512);
+            if (int.TryParse(next, out var parsed) && parsed >= minimum) value = Math.Min(parsed, 512);
         }
     }
     private string sizeFocus, pendingSizeFocus;
@@ -275,11 +284,11 @@ public class ShapeControlsWindow
                 if (editingInput) DrawSizeInputs(fields, "DSCustomSize");
                 else
                 {
-                    bool stacked = fields.width < 112;
+                    bool stacked = StackSizeInputs(fields.width);
                     float width = stacked ? fields.width : (fields.width - 6) / 2;
-                    Widgets.Label(new Rect(fields.x, fields.y, width, 24), "Merthsoft_DesignatorShapes_SizeInputWidthLabel".Translate() + $": {inputWidth}");
+                    Widgets.Label(new Rect(fields.x, fields.y, width, 24), WidthLabel + $": {inputWidth}");
                     Widgets.Label(new Rect(stacked ? fields.x : fields.x + width + 6, stacked ? fields.y + 28 : fields.y, width, 24),
-                        "Merthsoft_DesignatorShapes_SizeInputHeightLabel".Translate() + $": {inputHeight}");
+                        HeightLabel + $": {inputHeight}");
                 }
             }
         }

@@ -19,6 +19,18 @@
 		<selectedUiIconPath>UI/Commands/Smol/Selected/Grayscale/freeform_line</selectedUiIconPath>
 	</Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 
+    <Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+        <defName>ParallelLines</defName>
+        <label>parallel lines</label>
+        <description>Drag an area to draw parallel stripes. Thickness is the number of selected cells per stripe; Skip is the number of empty cells between stripes. The longer drag axis sets the direction. Rotation swaps horizontal and vertical.</description>
+        <uiIconPath>UI/Commands/Smol/Additional/parallel_lines</uiIconPath>
+        <selectedUiIconPath>UI/Commands/Smol/Additional/Selected/parallel_lines</selectedUiIconPath>
+        <drawMethodName>Merthsoft.DesignatorShapes.Shapes.BasicShapes.ParallelLines</drawMethodName>
+        <overlayGroup>Line</overlayGroup>
+        <showSizeInputs>true</showSizeInputs>
+        <numRotations>2</numRotations>
+    </Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
+
 	<Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef>
 		<defName>Rectangle</defName>
 		<label>rectangle</label>
