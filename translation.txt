@@ -1,124 +1,205 @@
-Overlay groups, please translate the following:
-	Lines
+Designator Shapes translation reference (current 1.7 definitions).
+Translate the English text inside each XML element; keep keys and placeholders unchanged.
+Keyed files belong in Languages/<Language>/Keyed/. DefInjected paths are shown below.
+Keep XML escapes (such as &amp; and &lt;) valid. Each section is a separate file.
+This includes all English keyed entries, including retained compatibility keys.
 
-	Rectangles
+Languages/<Language>/Keyed/DesignatorShapes_Keys.xml
+----------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Merthsoft_DesignatorShapes>Designator Shapes</Merthsoft_DesignatorShapes>
+  <Merthsoft_DesignatorShapes_Settings_ShowShapeDictionary>Shape Dictionary</Merthsoft_DesignatorShapes_Settings_ShowShapeDictionary>
+  <Merthsoft_DesignatorShapes_Settings_AnnounceToolSelection>Announce tool selection.</Merthsoft_DesignatorShapes_Settings_AnnounceToolSelection>
+  <Merthsoft_DesignatorShapes_Settings_MaxCells>Maximum cells to select in flood fill.</Merthsoft_DesignatorShapes_Settings_MaxCells>
+  <Merthsoft_DesignatorShapes_Settings_AutoSelectShapes>Auto-select shapes when opening designation panels.</Merthsoft_DesignatorShapes_Settings_AutoSelectShapes>
+  <Merthsoft_DesignatorShapes_Settings_ResetShapeOnResume>Reset the shape when you resume the game.</Merthsoft_DesignatorShapes_Settings_ResetShapeOnResume>
+  <Merthsoft_DesignatorShapes_Settings_PauseOnFloodFill>Pause on flood fill selected.</Merthsoft_DesignatorShapes_Settings_PauseOnFloodFill>
+  <Merthsoft_DesignatorShapes_Settings_AllowCollapsing>Allow collapsing the interface.</Merthsoft_DesignatorShapes_Settings_AllowCollapsing>
+  <Merthsoft_DesignatorShapes_Settings_HideWhenArchitectMenuIsHidden>Hide when architect menu is hidden.</Merthsoft_DesignatorShapes_Settings_HideWhenArchitectMenuIsHidden>
+  <Merthsoft_DesignatorShapes_Settings_DrawBackground>Draw background</Merthsoft_DesignatorShapes_Settings_DrawBackground>
+  <Merthsoft_DesignatorShapes_Settings_IconSize>Icon size: {0}</Merthsoft_DesignatorShapes_Settings_IconSize>
+  <Merthsoft_DesignatorShapes_Settings_WindowPosition>Window position, set to [-1, -1] to use default location.</Merthsoft_DesignatorShapes_Settings_WindowPosition>
+  <Merthsoft_DesignatorShapes_Settings_WindowX>Window X</Merthsoft_DesignatorShapes_Settings_WindowX>
+  <Merthsoft_DesignatorShapes_Settings_WindowY>Window Y</Merthsoft_DesignatorShapes_Settings_WindowY>
+  <Merthsoft_DesignatorShapes_Settings_LockWindow>Lock the window in place to prevent mis-drags.</Merthsoft_DesignatorShapes_Settings_LockWindow>
+  <Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput>Enable keyboard inputs.</Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput>
+  <Merthsoft_DesignatorShapes_Settings_AltToggle>Allow toggling the interface with the alt-key.</Merthsoft_DesignatorShapes_Settings_AltToggle>
+  <Merthsoft_DesignatorShapes_Settings_HideCompletelyOnAltToggle>Hide the interface completely when toggled.</Merthsoft_DesignatorShapes_Settings_HideCompletelyOnAltToggle>
+  <Merthsoft_DesignatorShapes_Settings_EnableRotation>Enable rotation keys.</Merthsoft_DesignatorShapes_Settings_EnableRotation>
+  <Merthsoft_DesignatorShapes_Settings_KeyBindings>Key bindings (undo and redo always require control to be pressed):</Merthsoft_DesignatorShapes_Settings_KeyBindings>
+  <Merthsoft_DesignatorShapes_KeyLabel_RotateLeft>Rotate shape left</Merthsoft_DesignatorShapes_KeyLabel_RotateLeft>
+  <Merthsoft_DesignatorShapes_KeyLabel_RotateRight>Rotate shape right</Merthsoft_DesignatorShapes_KeyLabel_RotateRight>
+  <Merthsoft_DesignatorShapes_KeyLabel_FillCorners>Fill corners</Merthsoft_DesignatorShapes_KeyLabel_FillCorners>
+  <Merthsoft_DesignatorShapes_KeyLabel_IncreaseThickness>Increase thickness</Merthsoft_DesignatorShapes_KeyLabel_IncreaseThickness>
+  <Merthsoft_DesignatorShapes_KeyLabel_DecreaseThickness>Decrease thickness</Merthsoft_DesignatorShapes_KeyLabel_DecreaseThickness>
+  <Merthsoft_DesignatorShapes_KeyLabel_Undo>Undo</Merthsoft_DesignatorShapes_KeyLabel_Undo>
+  <Merthsoft_DesignatorShapes_KeyLabel_Redo>Redo</Merthsoft_DesignatorShapes_KeyLabel_Redo>
+  <Merthsoft_DesignatorShapes_ToolSelected>{0} selected.</Merthsoft_DesignatorShapes_ToolSelected>
+  <Merthsoft_DesignatorShapes_Shapes>Shapes</Merthsoft_DesignatorShapes_Shapes>
+  <Merthsoft_DesignatorShapes_SizeInputWidthLabel>W</Merthsoft_DesignatorShapes_SizeInputWidthLabel>
+  <Merthsoft_DesignatorShapes_SizeInputHeightLabel>H</Merthsoft_DesignatorShapes_SizeInputHeightLabel>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeToggleTooltip>Toggle using Designator Shapes shape-based bounding box.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeToggleTooltip>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode>Bounding box behavior:</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Vanilla>Mouse input (vanilla behavior).</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Vanilla>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Shape>Base bounding box on shape instead of mouse input.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Shape>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>Add toggle to play settings.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>
+  <Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells>Restrict flood fill to revealed cells</Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells>
+  <Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip>When enabled, flood fill cannot start in or pass through fogged cells or concealed natural rock. Natural rock and resource ore must have a face exposed to an unfogged cell that is neither linked as rock nor fully blocked by an edifice; hidden interiors of ore veins are excluded until exposed by mining. Disabled by default to preserve the existing ore-scouting behavior.</Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip>
+  <Merthsoft_DesignatorShapes_ConfirmApply>Apply flood fill</Merthsoft_DesignatorShapes_ConfirmApply>
+  <Merthsoft_DesignatorShapes_ConfirmDestructiveText>Apply {0} to {1} cells? Cancelling keeps the tool selected and changes nothing.</Merthsoft_DesignatorShapes_ConfirmDestructiveText>
+  <Merthsoft_DesignatorShapes_ConfirmKeep>Keep map unchanged</Merthsoft_DesignatorShapes_ConfirmKeep>
+  <Merthsoft_DesignatorShapes_Settings_AdditionalBarriers>Enable additional flood-fill barriers</Merthsoft_DesignatorShapes_Settings_AdditionalBarriers>
+  <Merthsoft_DesignatorShapes_Settings_AdditionalBarriersTooltip>Selected buildings, their blueprints and frames also stop ordinary region fill. Existing barriers remain. Starting on matching walls or ore still fills that same type. Disabled by default.</Merthsoft_DesignatorShapes_Settings_AdditionalBarriersTooltip>
+  <Merthsoft_DesignatorShapes_Settings_CancelStroke>Escape or right-click cancels the current stroke while keeping the tool</Merthsoft_DesignatorShapes_Settings_CancelStroke>
+  <Merthsoft_DesignatorShapes_Settings_ConfirmDestructive>Confirm destructive flood-fill actions</Merthsoft_DesignatorShapes_Settings_ConfirmDestructive>
+  <Merthsoft_DesignatorShapes_Settings_ConfirmDestructiveTooltip>Ask once before flood-fill mining, deconstruction, cutting plants, removing floors, or cancelling designations and deleting plans. Previewing changes nothing. Disabled by default.</Merthsoft_DesignatorShapes_Settings_ConfirmDestructiveTooltip>
+  <Merthsoft_DesignatorShapes_Settings_RememberPerDesignator>Remember a shape for each designator</Merthsoft_DesignatorShapes_Settings_RememberPerDesignator>
+  <Merthsoft_DesignatorShapes_Settings_RememberPerDesignatorTooltip>Remember explicit shape choices per designator type and building or floor definition in this save (up to 512 entries). A remembered choice takes priority over auto-select; unseen tools use the existing auto-select/global fallback. Reset shape on resume also clears this memory.</Merthsoft_DesignatorShapes_Settings_RememberPerDesignatorTooltip>
+  <Merthsoft_DesignatorShapes_Settings_SearchBuildings>Search building labels to choose additional barriers:</Merthsoft_DesignatorShapes_Settings_SearchBuildings>
+  <Merthsoft_DesignatorShapes_Settings_ShapeShortcuts>Shape shortcuts (Ctrl+Alt plus a key). Search by shape name:</Merthsoft_DesignatorShapes_Settings_ShapeShortcuts>
+  <Merthsoft_DesignatorShapes_Settings_ShortcutCapture>Press Ctrl+Alt plus a key for this shape shortcut. Escape cancels; Backspace clears.</Merthsoft_DesignatorShapes_Settings_ShortcutCapture>
+  <Merthsoft_DesignatorShapes_Settings_ToggleShortcutCapture>Press a key or key combination for the interface toggle. To bind Alt, Ctrl, or Shift alone, press and release it. Escape cancels; Backspace clears.</Merthsoft_DesignatorShapes_Settings_ToggleShortcutCapture>
+  <Merthsoft_DesignatorShapes_Settings_ShortcutConflict>That combination is already bound to another command. Choose another combination.</Merthsoft_DesignatorShapes_Settings_ShortcutConflict>
+  <Merthsoft_DesignatorShapes_Settings_ToggleBinding>Interface toggle binding</Merthsoft_DesignatorShapes_Settings_ToggleBinding>
+  <Merthsoft_DesignatorShapes_Settings_ToggleShortcut>Enable interface toggle shortcut</Merthsoft_DesignatorShapes_Settings_ToggleShortcut>
+  <Merthsoft_DesignatorShapes_KeyLabel_PreviousShape>Previous shape</Merthsoft_DesignatorShapes_KeyLabel_PreviousShape>
+  <Merthsoft_DesignatorShapes_ParallelThickness>Thickness</Merthsoft_DesignatorShapes_ParallelThickness>
+  <Merthsoft_DesignatorShapes_ParallelSkip>Skip</Merthsoft_DesignatorShapes_ParallelSkip>
+</LanguageData>
 
-	Fixed rectangles
-	Rectangles with fixed sizes that the user determines.
-	
-	Ellipses
-	Ellipses with fixed sizes that the user determines.
+Languages/<Language>/Keyed/PaletteSettings.xml
+----------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Merthsoft_DesignatorShapes_IncludeVanillaPalette>Include in vanilla palette</Merthsoft_DesignatorShapes_IncludeVanillaPalette>
+  <Merthsoft_DesignatorShapes_IncludeVanillaPaletteTooltip>Add this mod's version of the shape to compatible vanilla drawing palettes. Collapse the Shapes panel to use the vanilla palette. Changes apply immediately. Built-in shapes and standalone mods' entries are independent.</Merthsoft_DesignatorShapes_IncludeVanillaPaletteTooltip>
+</LanguageData>
 
-	More Shapes
-	More geometric shapes.
+Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.DesignatorShapeDef/DesignatorShapes.xml
+--------------------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Line.label>line</Line.label>
+  <Line.description>Designate in a line</Line.description>
+  <LineFreeform.label>freeform line</LineFreeform.label>
+  <LineFreeform.description>Designate in a freeform line, like a pen</LineFreeform.description>
+  <ParallelLines.label>parallel lines</ParallelLines.label>
+  <ParallelLines.description>Drag an area to draw parallel stripes. Thickness is the number of selected cells per stripe; Skip is the number of empty cells between stripes. The longer drag axis sets the direction. Rotation swaps horizontal and vertical.</ParallelLines.description>
+  <Rectangle.label>rectangle</Rectangle.label>
+  <Rectangle.description>Designate in a rectangle</Rectangle.description>
+  <RectangleFilled.label>filled rectangle</RectangleFilled.label>
+  <RectangleFilled.description>Designate in a filled rectangle</RectangleFilled.description>
+  <Rectangle_Input.label>fixed rectangle</Rectangle_Input.label>
+  <Rectangle_Input.description>Designate in a fixed rectangle with user-defined size</Rectangle_Input.description>
+  <RectangleFilled_Input.label>fixed filled rectangle</RectangleFilled_Input.label>
+  <RectangleFilled_Input.description>Designate in a fixed filled rectangle with user-defined size</RectangleFilled_Input.description>
+  <GridThreeByThree.label>3x3 grid</GridThreeByThree.label>
+  <GridThreeByThree.description>Designate in a 3x3 grid</GridThreeByThree.description>
+  <GridFourByFour.label>4x4 grid</GridFourByFour.label>
+  <GridFourByFour.description>Designate in a 4x4 grid</GridFourByFour.description>
+  <GridFiveByFive.label>5x5 grid</GridFiveByFive.label>
+  <GridFiveByFive.description>Designate in a 5x5 grid</GridFiveByFive.description>
+  <GridSixBySix.label>6x6 grid</GridSixBySix.label>
+  <GridSixBySix.description>Designate in a 6x6 grid</GridSixBySix.description>
+  <GridSevenBySeven.label>7x7 grid</GridSevenBySeven.label>
+  <GridSevenBySeven.description>Designate in a 7x7 grid_7</GridSevenBySeven.description>
+  <GridSizeInput.label>Custom grid</GridSizeInput.label>
+  <GridSizeInput.description>Designate in a custom dimmensioned grid</GridSizeInput.description>
+  <GridThreeByThreeInverse.label>Inverse 3x3 grid</GridThreeByThreeInverse.label>
+  <GridThreeByThreeInverse.description>Designate in an inverse 3x3 grid</GridThreeByThreeInverse.description>
+  <GridFourByFourInverse.label>Inverse 4x4 grid</GridFourByFourInverse.label>
+  <GridFourByFourInverse.description>Designate in a 4x4 Inverse grid</GridFourByFourInverse.description>
+  <GridFiveByFiveInverse.label>Inverse5x5 grid</GridFiveByFiveInverse.label>
+  <GridFiveByFiveInverse.description>Designate in a 5x5 Inverse grid</GridFiveByFiveInverse.description>
+  <GridSixBySixInverse.label>Inverse 6x6 grid</GridSixBySixInverse.label>
+  <GridSixBySixInverse.description>Designate in a 6x6 Inverse grid</GridSixBySixInverse.description>
+  <GridSevenBySevenInverse.label>Inverse 7x7 grid</GridSevenBySevenInverse.label>
+  <GridSevenBySevenInverse.description>Designate in a 7x7 Inverse grid</GridSevenBySevenInverse.description>
+  <GridSizeInputInverse.label>Custom inverse grid</GridSizeInputInverse.label>
+  <GridSizeInputInverse.description>Designate in a custom dimmensioned inverse grid</GridSizeInputInverse.description>
+  <Ellipse.label>ellipse</Ellipse.label>
+  <Ellipse.description>Designate in an ellipse</Ellipse.description>
+  <EllipseFilled.label>filled ellipse</EllipseFilled.label>
+  <EllipseFilled.description>Designate in a filled ellipse</EllipseFilled.description>
+  <Ellipse_Input.label>fixed ellipse</Ellipse_Input.label>
+  <Ellipse_Input.description>Designate in a fixed ellipse with user-defined size</Ellipse_Input.description>
+  <EllipseFilled_Input.label>fixed filled ellipse</EllipseFilled_Input.label>
+  <EllipseFilled_Input.description>Designate in a fixed filled ellipse with user-defined size</EllipseFilled_Input.description>
+  <Hexagon.label>hexagon</Hexagon.label>
+  <Hexagon.description>Designate in a hexagon</Hexagon.description>
+  <HexagonFilled.label>filled hexagon</HexagonFilled.label>
+  <HexagonFilled.description>Designate in a filled hexagon</HexagonFilled.description>
+  <MidpointHexagon.label>midpoint hexagon</MidpointHexagon.label>
+  <MidpointHexagon.description>Designate in a hexagon from the center</MidpointHexagon.description>
+  <MidpointHexagonFilled.label>midpoint filled hexagon</MidpointHexagonFilled.label>
+  <MidpointHexagonFilled.description>Designate in a filled hexagon from the center</MidpointHexagonFilled.description>
+  <Pentagon.label>pentagon</Pentagon.label>
+  <Pentagon.description>Designate in a pentagon</Pentagon.description>
+  <PentagonFilled.label>filled pentagon</PentagonFilled.label>
+  <PentagonFilled.description>Designate in a filled pentagon</PentagonFilled.description>
+  <Circle.label>circle</Circle.label>
+  <Circle.description>Designate in a circle</Circle.description>
+  <CircleFilled.label>filled circle</CircleFilled.label>
+  <CircleFilled.description>Designate in a filled circle</CircleFilled.description>
+  <FloodFill.label>flood fill</FloodFill.label>
+  <FloodFill.description>Fill between a walled-in area.</FloodFill.description>
+  <SunLamp.label>sun lamp</SunLamp.label>
+  <SunLamp.description>Designate in a sun-lamp-radius shape</SunLamp.description>
+  <SunLampOutline.label>sun lamp outline</SunLampOutline.label>
+  <SunLampOutline.description>Designate in the outline of a sun-lamp-radius shape</SunLampOutline.description>
+  <TradeBeacon.label>trade beacon</TradeBeacon.label>
+  <TradeBeacon.description>Designate in a trade-beacon-radius shape</TradeBeacon.description>
+  <TradeBeaconOutline.label>trade beacon outline</TradeBeaconOutline.label>
+  <TradeBeaconOutline.description>Designate in the outline of a trade-beacon-radius shape</TradeBeaconOutline.description>
+  <Undo.label>undo</Undo.label>
+  <Undo.description>Undo last action. Only works when the game is paused</Undo.description>
+  <Redo.label>redo</Redo.label>
+  <Redo.description>Redo last undo. Only works when the game is paused</Redo.description>
+  <Octagon.label>Octagon outline</Octagon.label>
+  <Octagon.description>Eight-sided outline fitted to the drag rectangle; thickness follows the line tool. Drag spans are limited to 512 cells per axis.</Octagon.description>
+  <OctagonFilled.label>Filled octagon</OctagonFilled.label>
+  <OctagonFilled.description>Eight-sided fill fitted to the drag rectangle. Drag spans are limited to 512 cells per axis.</OctagonFilled.description>
+  <Checkerboard.label>Checkerboard: lower-left selected</Checkerboard.label>
+  <Checkerboard.description>Alternate tiles (default 1x1 cells), with W/H setting each tile's dimensions, anchored to the lower-left drag bound. Thickness does not change parity. Drag spans are limited to 512 cells per axis.</Checkerboard.description>
+  <CheckerboardInverse.label>Checkerboard: lower-left skipped</CheckerboardInverse.label>
+  <CheckerboardInverse.description>Opposite phase of checkerboard tiles (default 1x1 cells). W/H set each tile's dimensions, anchored to the lower-left drag bound. Drag spans are limited to 512 cells per axis.</CheckerboardInverse.description>
+  <L.label>L corner</L.label>
+  <L.description>Two perpendicular sides meeting at the lower-left bound. Rotate to choose another corner. Drag spans are limited to 512 cells per axis.</L.description>
+  <LInverse.label>Opposite L corner</LInverse.label>
+  <LInverse.description>Two perpendicular sides meeting at the upper-right bound. Rotate to choose another corner. Drag spans are limited to 512 cells per axis.</LInverse.description>
+  <QuarterArc.label>Quarter ellipse arc</QuarterArc.label>
+  <QuarterArc.description>Open quarter ellipse fitted to the full drag width and height. Default center is lower-left; rotation turns its orientation. Drag spans are limited to 512 cells per axis.</QuarterArc.description>
+  <SemicircleArc.label>Semicircle / half ellipse arc</SemicircleArc.label>
+  <SemicircleArc.description>Open half ellipse fitted to the full drag rectangle. Default diameter is the bottom edge. A width of twice the height minus one gives a circular half-arc. Rotate to choose its orientation. Drag spans are limited to 512 cells per axis.</SemicircleArc.description>
+  <MidpointOctagon.label>Midpoint octagon outline</MidpointOctagon.label>
+  <MidpointOctagon.description>Draw an octagon from its center to an edge. The larger X/Z offset defines the radius, matching midpoint hexagons. Radius is limited to 255 cells to keep a symmetric odd diameter.</MidpointOctagon.description>
+  <MidpointOctagonFilled.label>Filled midpoint octagon</MidpointOctagonFilled.label>
+  <MidpointOctagonFilled.description>Draw an octagon from its center to an edge. The larger X/Z offset defines the radius, matching midpoint hexagons. Radius is limited to 255 cells to keep a symmetric odd diameter.</MidpointOctagonFilled.description>
+</LanguageData>
 
-	Flood fill
-	Fill between a walled-in area.
-
-	Etcetera
-	Predefined RimWorld shapes
-
-Shapes, please translate the following:
-	line
-	Designate in a line
-	
-	freeform line
-	Designate in a freeform line, like a pen
-	
-	rectangle
-	Designate in a rectangle
-	
-	filled rectangle
-	Designate in a filled rectangle
-	
-	fixed rectangle
-	Designate in a fixed rectangle with user-defined size
-
-	fixed filled rectangle
-	Designate in a fixed filled rectangle with user-defined size
-
-	ellipse
-	Designate in an ellipse
-	
-	filled ellipse
-	Designate in a filled ellipse
-	
-	fixed ellipse
-	Designate in a fixed ellipse with user-defined size
-
-	fixed filled ellipse
-	Designate in a fixed filled ellipse with user-defined size
-
-	circle
-	Designate in a circle
-	
-	filled circle
-	Designate in a filled circle
-
-	hexagon
-	Designate in a hexagon
-	
-	filled hexagon
-	Designate in a filled hexagon
-
-	pentagon
-	Designate in a pentagon
-	
-	filled circle
-	Designate in a filled circle
-
-	flood fill
-	Fill between a walled-in area.
-
-	sun lamp
-	Designate in a sun-lamp-radius shape
-
-	sun lamp outline
-	Designate in the outline of a sun-lamp-radius shape
-
-	trade beacon
-	Designate in a trade-beacon-radius shape
-
-	trade beacon outline
-	Designate in the outline of a trade-beacon-radius shape
-
-	undo
-	Undo last action. Only works when the game is paused
-
-	redo
-	Redo last undo. Only works when the game is paused
-
-Settings, please translate the following ({0} refers to a value that will be passed in):
-	Designator Shapes
-    Shape Dictionary
-    Announce tool selection.
-	Maximum cells to select in flood fill.
-	Use sub-menu navigation.
-	Auto-select shapes when opening designation panels.
-	Reset the shape when you resume the game.
-	Pause on flood fill selected.
-	Allow collapsing the interface.
-	Enable keyboard inputs.
-	Hide when architect menu is hidden.
-	Draw background
-	Icon size: {0}
-	Window position, set to [-1, -1] to use default location.
-	Window X:
-	Window Y:
-	Lock the window in place do prevent mis-drags.
-	Allow toggling the interface with the alt-key.
-	Enable rotation keys.
-	Key bindings (undo and redo always require control to be pressed):
-	Rotate shape left
-	Rotate shape right
-	Fill corners
-	Increase thickness
-	Decrease thickness
-	Undo
-	Redo
-	{0} selected.
-	Shapes
-
-These are intials for Width and Height, please translate the following:
-	W
-	H
+Languages/<Language>/DefInjected/Merthsoft.DesignatorShapes.Defs.OverlayGroupDef/OverlayGroups.xml
+--------------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Line.label>Lines</Line.label>
+  <Rectangle.label>Rectangles</Rectangle.label>
+  <Rectangle_Input.label>Fixed rectangles</Rectangle_Input.label>
+  <Rectangle_Input.description>Rectangles with fixed sizes that the user determines.</Rectangle_Input.description>
+  <Grids.label>Grids</Grids.label>
+  <Grids.description>Grids.</Grids.description>
+  <Grids_Inverse.label>Inverse grids</Grids_Inverse.label>
+  <Grids_Inverse.description>Inverse grids.</Grids_Inverse.description>
+  <Ellipse.label>Ellipses</Ellipse.label>
+  <Ellipse_Input.label>Fixed ellipses</Ellipse_Input.label>
+  <Ellipse_Input.description>Ellipses with fixed sizes that the user determines.</Ellipse_Input.description>
+  <MoreShapes.label>More shapes</MoreShapes.label>
+  <MoreShapes.description>More geometric shapes.</MoreShapes.description>
+  <FloodFill.label>Flood fill</FloodFill.label>
+  <FloodFill.description>Fill between a walled-in area.</FloodFill.description>
+  <Etc.label>Etcetera</Etc.label>
+  <Etc.description>Predefined RimWorld shapes</Etc.description>
+  <Octagons.label>Octagons</Octagons.label>
+  <Arcs.label>Arcs</Arcs.label>
+  <Checkerboards.label>Checkerboards</Checkerboards.label>
+</LanguageData>
