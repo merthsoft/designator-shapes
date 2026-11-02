@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LanguageData>
+  <LineFreeform.label>произвольная линия</LineFreeform.label>
+  <Hexagon.label>шестиугольник</Hexagon.label>
+  <HexagonFilled.label>шестиугольник с заливкой</HexagonFilled.label>
+  <MidpointHexagon.label>шестиугольник от центра</MidpointHexagon.label>
+  <MidpointHexagonFilled.label>шестиугольник с заливкой от центра</MidpointHexagonFilled.label>
+  <Circle.label>окружность</Circle.label>
+  <CircleFilled.label>круг с заливкой</CircleFilled.label>
+  <SunLamp.label>солнечная лампа</SunLamp.label>
+  <SunLampOutline.label>контур солнечной лампы</SunLampOutline.label>
+  <TradeBeacon.label>торговый маяк</TradeBeacon.label>
+  <TradeBeaconOutline.label>контур торгового маяка</TradeBeaconOutline.label>
+</LanguageData>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LanguageData>
+  <Line.label>линия</Line.label>
+  <Line.description>Выделить клетки по прямой линии.</Line.description>
+  <LineFreeform.label>произвольная линия</LineFreeform.label>
+  <LineFreeform.description>Выделить клетки произвольной линией, словно рисуя карандашом.</LineFreeform.description>
+  <ParallelLines.label>параллельные линии</ParallelLines.label>
+  <ParallelLines.description>Выделите область перетаскиванием, чтобы построить параллельные полосы. «Толщина» задаёт число выделенных клеток в каждой полосе, «Промежуток» — число пустых клеток между полосами. Направление определяется более длинной стороной выделения. Поворот переключает горизонтальное и вертикальное направление.</ParallelLines.description>
+  <Rectangle.label>прямоугольник</Rectangle.label>
+  <Rectangle.description>Выделить клетки по контуру прямоугольника.</Rectangle.description>
+  <RectangleFilled.label>прямоугольник с заливкой</RectangleFilled.label>
+  <RectangleFilled.description>Выделить все клетки внутри прямоугольника.</RectangleFilled.description>
+  <RoundedRectangle.label>скруглённый прямоугольник</RoundedRectangle.label>
+  <RoundedRectangle.description>Постройте прямоугольник со скруглёнными углами перетаскиванием. «Радиус» задаёт радиус скругления в клетках и ограничивается размером выделения. Нулевой радиус даёт прямые углы.</RoundedRectangle.description>
+  <RoundedRectangleFilled.label>скруглённый прямоугольник с заливкой</RoundedRectangleFilled.label>
+  <RoundedRectangleFilled.description>Постройте прямоугольник со скруглёнными углами и заливкой перетаскиванием. «Радиус» задаёт радиус скругления в клетках и ограничивается размером выделения. Нулевой радиус даёт прямые углы.</RoundedRectangleFilled.description>
+  <Rectangle_Input.label>прямоугольник заданного размера</Rectangle_Input.label>
+  <Rectangle_Input.description>Выделить контур прямоугольника заданного размера.</Rectangle_Input.description>
+  <RectangleFilled_Input.label>прямоугольник заданного размера с заливкой</RectangleFilled_Input.label>
+  <RectangleFilled_Input.description>Выделить все клетки внутри прямоугольника заданного размера.</RectangleFilled_Input.description>
+  <GridThreeByThree.label>сетка 3x3</GridThreeByThree.label>
+  <GridThreeByThree.description>Выделить клетки в виде сетки 3x3.</GridThreeByThree.description>
+  <GridFourByFour.label>сетка 4x4</GridFourByFour.label>
+  <GridFourByFour.description>Выделить клетки в виде сетки 4x4.</GridFourByFour.description>
+  <GridFiveByFive.label>сетка 5x5</GridFiveByFive.label>
+  <GridFiveByFive.description>Выделить клетки в виде сетки 5x5.</GridFiveByFive.description>
+  <GridSixBySix.label>сетка 6x6</GridSixBySix.label>
+  <GridSixBySix.description>Выделить клетки в виде сетки 6x6.</GridSixBySix.description>
+  <GridSevenBySeven.label>сетка 7x7</GridSevenBySeven.label>
+  <GridSevenBySeven.description>Выделить клетки в виде сетки 7x7.</GridSevenBySeven.description>
+  <GridSizeInput.label>сетка заданного размера</GridSizeInput.label>
+  <GridSizeInput.description>Выделить клетки в виде сетки с заданными размерами.</GridSizeInput.description>
+  <GridThreeByThreeInverse.label>обратная сетка 3x3</GridThreeByThreeInverse.label>
+  <GridThreeByThreeInverse.description>Выделить клетки в виде обратной сетки 3x3.</GridThreeByThreeInverse.description>
+  <GridFourByFourInverse.label>обратная сетка 4x4</GridFourByFourInverse.label>
+  <GridFourByFourInverse.description>Выделить клетки в виде обратной сетки 4x4.</GridFourByFourInverse.description>
+  <GridFiveByFiveInverse.label>обратная сетка 5x5</GridFiveByFiveInverse.label>
+  <GridFiveByFiveInverse.description>Выделить клетки в виде обратной сетки 5x5.</GridFiveByFiveInverse.description>
+  <GridSixBySixInverse.label>обратная сетка 6x6</GridSixBySixInverse.label>
+  <GridSixBySixInverse.description>Выделить клетки в виде обратной сетки 6x6.</GridSixBySixInverse.description>
+  <GridSevenBySevenInverse.label>обратная сетка 7x7</GridSevenBySevenInverse.label>
+  <GridSevenBySevenInverse.description>Выделить клетки в виде обратной сетки 7x7.</GridSevenBySevenInverse.description>
+  <GridSizeInputInverse.label>обратная сетка заданного размера</GridSizeInputInverse.label>
+  <GridSizeInputInverse.description>Выделить клетки в виде обратной сетки с заданными размерами.</GridSizeInputInverse.description>
+  <Ellipse.label>эллипс</Ellipse.label>
+  <Ellipse.description>Выделить клетки по контуру эллипса.</Ellipse.description>
+  <EllipseFilled.label>эллипс с заливкой</EllipseFilled.label>
+  <EllipseFilled.description>Выделить все клетки внутри эллипса.</EllipseFilled.description>
+  <Ellipse_Input.label>эллипс заданного размера</Ellipse_Input.label>
+  <Ellipse_Input.description>Выделить контур эллипса заданного размера.</Ellipse_Input.description>
+  <EllipseFilled_Input.label>эллипс заданного размера с заливкой</EllipseFilled_Input.label>
+  <EllipseFilled_Input.description>Выделить все клетки внутри эллипса заданного размера.</EllipseFilled_Input.description>
+  <Hexagon.label>шестиугольник</Hexagon.label>
+  <Hexagon.description>Выделить клетки по контуру шестиугольника.</Hexagon.description>
+  <HexagonFilled.label>шестиугольник с заливкой</HexagonFilled.label>
+  <HexagonFilled.description>Выделить все клетки внутри шестиугольника.</HexagonFilled.description>
+  <MidpointHexagon.label>шестиугольник от центра</MidpointHexagon.label>
+  <MidpointHexagon.description>Выделить контур шестиугольника, начиная от центра.</MidpointHexagon.description>
+  <MidpointHexagonFilled.label>шестиугольник с заливкой от центра</MidpointHexagonFilled.label>
+  <MidpointHexagonFilled.description>Выделить шестиугольник с заливкой, начиная от центра.</MidpointHexagonFilled.description>
+  <Pentagon.label>пятиугольник</Pentagon.label>
+  <Pentagon.description>Выделить клетки по контуру пятиугольника.</Pentagon.description>
+  <PentagonFilled.label>пятиугольник с заливкой</PentagonFilled.label>
+  <PentagonFilled.description>Выделить все клетки внутри пятиугольника.</PentagonFilled.description>
+  <Circle.label>окружность</Circle.label>
+  <Circle.description>Выделить клетки по окружности.</Circle.description>
+  <CircleFilled.label>круг с заливкой</CircleFilled.label>
+  <CircleFilled.description>Выделить все клетки внутри круга.</CircleFilled.description>
+  <FloodFill.label>заливка области</FloodFill.label>
+  <FloodFill.description>Заполнить выделением область, ограниченную стенами.</FloodFill.description>
+  <SunLamp.label>солнечная лампа</SunLamp.label>
+  <SunLamp.description>Выделить область освещения солнечной лампы.</SunLamp.description>
+  <SunLampOutline.label>контур солнечной лампы</SunLampOutline.label>
+  <SunLampOutline.description>Выделить контур области освещения солнечной лампы.</SunLampOutline.description>
+  <TradeBeacon.label>торговый маяк</TradeBeacon.label>
+  <TradeBeacon.description>Выделить область действия торгового маяка.</TradeBeacon.description>
+  <TradeBeaconOutline.label>контур торгового маяка</TradeBeaconOutline.label>
+  <TradeBeaconOutline.description>Выделить контур области действия торгового маяка.</TradeBeaconOutline.description>
+  <Undo.label>отменить</Undo.label>
+  <Undo.description>Отменить последнее действие. Работает только на паузе.</Undo.description>
+  <Redo.label>повторить</Redo.label>
+  <Redo.description>Повторить последнее отменённое действие. Работает только на паузе.</Redo.description>
+  <Octagon.label>контур восьмиугольника</Octagon.label>
+  <Octagon.description>Контур восьмиугольника, вписанный в прямоугольник выделения. Толщина задаётся как у инструмента линии. Размер выделения ограничен 512 клетками по каждой оси.</Octagon.description>
+  <OctagonFilled.label>восьмиугольник с заливкой</OctagonFilled.label>
+  <OctagonFilled.description>Восьмиугольник с заливкой, вписанный в прямоугольник выделения. Размер выделения ограничен 512 клетками по каждой оси.</OctagonFilled.description>
+  <Checkerboard.label>Шахматный узор: первая клетка выбрана</Checkerboard.label>
+  <Checkerboard.description>Чередование плиток в шахматном порядке (по умолчанию 1x1 клетка). Поля «Ш» и «В» задают размеры каждой плитки. Начало узора привязано к первой выбранной клетке. Толщина не меняет порядок чередования. Размер выделения ограничен 512 клетками по каждой оси.</Checkerboard.description>
+  <CheckerboardInverse.label>Шахматный узор: первая клетка пропущена</CheckerboardInverse.label>
+  <CheckerboardInverse.description>Обратное чередование плиток в шахматном порядке (по умолчанию 1x1 клетка). Поля «Ш» и «В» задают размеры каждой плитки. Начало узора привязано к первой выбранной клетке. Размер выделения ограничен 512 клетками по каждой оси.</CheckerboardInverse.description>
+  <L.label>Г-образный угол</L.label>
+  <L.description>Две перпендикулярные стороны, сходящиеся в нижнем левом углу выделения. Поворотом можно выбрать другой угол. Размер выделения ограничен 512 клетками по каждой оси.</L.description>
+  <LInverse.label>противоположный Г-образный угол</LInverse.label>
+  <LInverse.description>Две перпендикулярные стороны, сходящиеся в верхнем правом углу выделения. Поворотом можно выбрать другой угол. Размер выделения ограничен 512 клетками по каждой оси.</LInverse.description>
+  <QuarterArc.label>дуга в четверть эллипса</QuarterArc.label>
+  <QuarterArc.description>Незамкнутая дуга в четверть эллипса, занимающая всю ширину и высоту выделения. По умолчанию центр находится внизу слева; поворот меняет ориентацию. Размер выделения ограничен 512 клетками по каждой оси.</QuarterArc.description>
+  <SemicircleArc.label>полуокружность / дуга в половину эллипса</SemicircleArc.label>
+  <SemicircleArc.description>Незамкнутая дуга в половину эллипса, вписанная в прямоугольник выделения. По умолчанию диаметр лежит на нижней стороне. Если ширина равна удвоенной высоте минус одна клетка, получится полуокружность. Поворот меняет ориентацию. Размер выделения ограничен 512 клетками по каждой оси.</SemicircleArc.description>
+  <MidpointOctagon.label>контур восьмиугольника от центра</MidpointOctagon.label>
+  <MidpointOctagon.description>Постройте восьмиугольник от центра к краю. Как и у шестиугольника от центра, радиус задаётся большим из смещений по осям X и Z. Радиус ограничен 255 клетками, чтобы диаметр оставался нечётным, а фигура — симметричной.</MidpointOctagon.description>
+  <MidpointOctagonFilled.label>восьмиугольник с заливкой от центра</MidpointOctagonFilled.label>
+  <MidpointOctagonFilled.description>Постройте восьмиугольник от центра к краю. Как и у шестиугольника от центра, радиус задаётся большим из смещений по осям X и Z. Радиус ограничен 255 клетками, чтобы диаметр оставался нечётным, а фигура — симметричной.</MidpointOctagonFilled.description>
+  <CustomPolygon.label>произвольный многоугольник</CustomPolygon.label>
+  <CustomPolygon.description>Щёлкайте, чтобы добавлять вершины. Для завершения щёлкните по первой вершине ещё раз или нажмите Enter. Backspace удаляет последнюю вершину. Escape или правая кнопка мыши отменяет построение, сохраняя выбранный инструмент. Поддерживаются вогнутые многоугольники; предел — 128 вершин и 512 клеток по каждой оси.</CustomPolygon.description>
+  <CustomPolygonFilled.label>произвольный многоугольник с заливкой</CustomPolygonFilled.label>
+  <CustomPolygonFilled.description>Щёлкайте, чтобы добавлять вершины. Для завершения щёлкните по первой вершине ещё раз или нажмите Enter. Backspace удаляет последнюю вершину. Escape или правая кнопка мыши отменяет построение, сохраняя выбранный инструмент. Поддерживаются вогнутые многоугольники; предел — 128 вершин и 512 клеток по каждой оси.</CustomPolygonFilled.description>
+  <MidpointPentagon.label>пятиугольник от центра</MidpointPentagon.label>
+  <MidpointPentagon.description>Выделить контур пятиугольника, начиная от центра. Перетаскивание наружу задаёт радиус; поворот меняет ориентацию.</MidpointPentagon.description>
+  <MidpointPentagonFilled.label>пятиугольник с заливкой от центра</MidpointPentagonFilled.label>
+  <MidpointPentagonFilled.description>Выделить пятиугольник с заливкой, начиная от центра. Перетаскивание наружу задаёт радиус; поворот меняет ориентацию.</MidpointPentagonFilled.description>
+</LanguageData>

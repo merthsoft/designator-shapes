@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LanguageData>
+  <Line.label>Линии</Line.label>
+  <Rectangle.label>Прямоугольники</Rectangle.label>
+  <Rectangle_Input.label>Прямоугольники заданного размера</Rectangle_Input.label>
+  <Rectangle_Input.description>Прямоугольники с размерами, заданными пользователем.</Rectangle_Input.description>
+  <RoundedRectangles.label>Скруглённые прямоугольники</RoundedRectangles.label>
+  <RoundedRectangles.description>Контуры и заливки прямоугольников с регулируемым радиусом скругления углов.</RoundedRectangles.description>
+  <Grids.label>Сетки</Grids.label>
+  <Grids.description>Сетки.</Grids.description>
+  <Grids_Inverse.label>Обратные сетки</Grids_Inverse.label>
+  <Grids_Inverse.description>Обратные сетки.</Grids_Inverse.description>
+  <Ellipse.label>Эллипсы</Ellipse.label>
+  <Ellipse_Input.label>Эллипсы заданного размера</Ellipse_Input.label>
+  <Ellipse_Input.description>Эллипсы с размерами, заданными пользователем.</Ellipse_Input.description>
+  <MoreShapes.label>Другие фигуры</MoreShapes.label>
+  <MoreShapes.description>Дополнительные геометрические фигуры.</MoreShapes.description>
+  <FloodFill.label>Заливка области</FloodFill.label>
+  <FloodFill.description>Заполнить выделением область, ограниченную стенами.</FloodFill.description>
+  <Etc.label>Прочее</Etc.label>
+  <Etc.description>Готовые формы RimWorld.</Etc.description>
+  <Octagons.label>Восьмиугольники</Octagons.label>
+  <Arcs.label>Дуги</Arcs.label>
+  <Checkerboards.label>Шахматные узоры</Checkerboards.label>
+  <Pentagons.label>Пятиугольники</Pentagons.label>
+  <Hexagons.label>Шестиугольники</Hexagons.label>
+  <CustomPolygons.label>Произвольные многоугольники</CustomPolygons.label>
+</LanguageData>

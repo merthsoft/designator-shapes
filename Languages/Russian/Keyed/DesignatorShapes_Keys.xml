@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LanguageData>
+  <Merthsoft_DesignatorShapes>Designator Shapes</Merthsoft_DesignatorShapes>
+  <Merthsoft_DesignatorShapes_Settings_ShowShapeDictionary>Справочник фигур</Merthsoft_DesignatorShapes_Settings_ShowShapeDictionary>
+  <Merthsoft_DesignatorShapes_Settings_AnnounceToolSelection>Сообщать о выборе инструмента.</Merthsoft_DesignatorShapes_Settings_AnnounceToolSelection>
+  <Merthsoft_DesignatorShapes_Settings_MaxCells>Максимальное число клеток для заливки.</Merthsoft_DesignatorShapes_Settings_MaxCells>
+  <Merthsoft_DesignatorShapes_Settings_AutoSelectShapes>Автоматически выбирать фигуры при открытии панелей приказов.</Merthsoft_DesignatorShapes_Settings_AutoSelectShapes>
+  <Merthsoft_DesignatorShapes_Settings_ResetShapeOnResume>Сбрасывать фигуру при возвращении в игру.</Merthsoft_DesignatorShapes_Settings_ResetShapeOnResume>
+  <Merthsoft_DesignatorShapes_Settings_PauseOnFloodFill>Ставить игру на паузу при выборе заливки.</Merthsoft_DesignatorShapes_Settings_PauseOnFloodFill>
+  <Merthsoft_DesignatorShapes_Settings_AllowCollapsing>Разрешить сворачивать интерфейс.</Merthsoft_DesignatorShapes_Settings_AllowCollapsing>
+  <Merthsoft_DesignatorShapes_Settings_HideWhenArchitectMenuIsHidden>Скрывать вместе с меню строительства.</Merthsoft_DesignatorShapes_Settings_HideWhenArchitectMenuIsHidden>
+  <Merthsoft_DesignatorShapes_Settings_DrawBackground>Отображать фон</Merthsoft_DesignatorShapes_Settings_DrawBackground>
+  <Merthsoft_DesignatorShapes_Settings_IconSize>Размер значков: {0}</Merthsoft_DesignatorShapes_Settings_IconSize>
+  <Merthsoft_DesignatorShapes_Settings_WindowPosition>Положение окна. Значение [-1, -1] использует положение по умолчанию.</Merthsoft_DesignatorShapes_Settings_WindowPosition>
+  <Merthsoft_DesignatorShapes_Settings_WindowX>Положение X</Merthsoft_DesignatorShapes_Settings_WindowX>
+  <Merthsoft_DesignatorShapes_Settings_WindowY>Положение Y</Merthsoft_DesignatorShapes_Settings_WindowY>
+  <Merthsoft_DesignatorShapes_Settings_LockWindow>Закрепить окно, чтобы не перетаскивать его случайно.</Merthsoft_DesignatorShapes_Settings_LockWindow>
+  <Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput>Включить управление с клавиатуры.</Merthsoft_DesignatorShapes_Settings_EnableKeyboardInput>
+  <Merthsoft_DesignatorShapes_Settings_AltToggle>Разрешить переключать интерфейс клавишей Alt.</Merthsoft_DesignatorShapes_Settings_AltToggle>
+  <Merthsoft_DesignatorShapes_Settings_HideCompletelyOnAltToggle>Полностью скрывать интерфейс при переключении.</Merthsoft_DesignatorShapes_Settings_HideCompletelyOnAltToggle>
+  <Merthsoft_DesignatorShapes_Settings_EnableRotation>Включить клавиши поворота.</Merthsoft_DesignatorShapes_Settings_EnableRotation>
+  <Merthsoft_DesignatorShapes_Settings_KeyBindings>Назначение клавиш (для отмены и повтора всегда нужно удерживать Ctrl):</Merthsoft_DesignatorShapes_Settings_KeyBindings>
+  <Merthsoft_DesignatorShapes_KeyLabel_RotateLeft>Повернуть фигуру влево</Merthsoft_DesignatorShapes_KeyLabel_RotateLeft>
+  <Merthsoft_DesignatorShapes_KeyLabel_RotateRight>Повернуть фигуру вправо</Merthsoft_DesignatorShapes_KeyLabel_RotateRight>
+  <Merthsoft_DesignatorShapes_KeyLabel_FillCorners>Заполнять углы</Merthsoft_DesignatorShapes_KeyLabel_FillCorners>
+  <Merthsoft_DesignatorShapes_KeyLabel_IncreaseThickness>Увеличить толщину</Merthsoft_DesignatorShapes_KeyLabel_IncreaseThickness>
+  <Merthsoft_DesignatorShapes_KeyLabel_DecreaseThickness>Уменьшить толщину</Merthsoft_DesignatorShapes_KeyLabel_DecreaseThickness>
+  <Merthsoft_DesignatorShapes_KeyLabel_Undo>Отменить</Merthsoft_DesignatorShapes_KeyLabel_Undo>
+  <Merthsoft_DesignatorShapes_KeyLabel_Redo>Повторить</Merthsoft_DesignatorShapes_KeyLabel_Redo>
+  <Merthsoft_DesignatorShapes_ToolSelected>Выбран инструмент: {0}.</Merthsoft_DesignatorShapes_ToolSelected>
+  <Merthsoft_DesignatorShapes_Shapes>Фигуры</Merthsoft_DesignatorShapes_Shapes>
+  <Merthsoft_DesignatorShapes_SizeInputWidthLabel>Ш</Merthsoft_DesignatorShapes_SizeInputWidthLabel>
+  <Merthsoft_DesignatorShapes_SizeInputHeightLabel>В</Merthsoft_DesignatorShapes_SizeInputHeightLabel>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeToggleTooltip>Переключить определение границ выделения по фигуре Designator Shapes.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeToggleTooltip>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode>Границы рамки выделения:</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Vanilla>По движению мыши (как в обычной игре).</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Vanilla>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Shape>Определять границы по фигуре, а не по движению мыши.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Shape>
+  <Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>Добавить переключатель в игровые настройки.</Merthsoft_DesignatorShapes_BoundingBoxBasedOnShapeMode_Toggle>
+  <Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells>Ограничивать заливку открытыми клетками</Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCells>
+  <Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip>Заливка не может начинаться в тумане войны или скрытой природной породе и не может проходить через них. У природной породы и руды должна быть грань, соседствующая с открытой клеткой, которая не соединена с ними как порода и не полностью занята постройкой. Скрытые части рудных жил исключаются, пока их не вскроют добычей. По умолчанию отключено, чтобы сохранить прежнюю возможность разведки руды.</Merthsoft_DesignatorShapes_Settings_RestrictFloodFillToRevealedCellsTooltip>
+  <Merthsoft_DesignatorShapes_ConfirmApply>Применить заливку</Merthsoft_DesignatorShapes_ConfirmApply>
+  <Merthsoft_DesignatorShapes_ConfirmDestructiveText>Применить действие «{0}» к {1} клеткам? Отмена сохранит выбранный инструмент и ничего не изменит.</Merthsoft_DesignatorShapes_ConfirmDestructiveText>
+  <Merthsoft_DesignatorShapes_ConfirmKeep>Не изменять карту</Merthsoft_DesignatorShapes_ConfirmKeep>
+  <Merthsoft_DesignatorShapes_Settings_AdditionalBarriers>Дополнительные преграды для заливки</Merthsoft_DesignatorShapes_Settings_AdditionalBarriers>
+  <Merthsoft_DesignatorShapes_Settings_AdditionalBarriersTooltip>Выбранные постройки, их чертежи и каркасы также останавливают обычную заливку области. Прежние преграды сохраняются. Если начать со стены или руды, заливка по-прежнему охватывает этот же тип. По умолчанию отключено.</Merthsoft_DesignatorShapes_Settings_AdditionalBarriersTooltip>
+  <Merthsoft_DesignatorShapes_Settings_CancelStroke>Escape или правая кнопка мыши отменяет текущее построение, сохраняя выбранный инструмент</Merthsoft_DesignatorShapes_Settings_CancelStroke>
+  <Merthsoft_DesignatorShapes_Settings_ConfirmDestructive>Подтверждать разрушительные действия заливкой</Merthsoft_DesignatorShapes_Settings_ConfirmDestructive>
+  <Merthsoft_DesignatorShapes_Settings_ConfirmDestructiveTooltip>Запрашивать подтверждение перед заливкой приказами на добычу, разборку, срезание растений, удаление полов, отмену приказов или удаление планов. Предпросмотр ничего не меняет. По умолчанию отключено.</Merthsoft_DesignatorShapes_Settings_ConfirmDestructiveTooltip>
+  <Merthsoft_DesignatorShapes_Settings_RememberPerDesignator>Запоминать фигуру для каждого инструмента</Merthsoft_DesignatorShapes_Settings_RememberPerDesignator>
+  <Merthsoft_DesignatorShapes_Settings_RememberPerDesignatorTooltip>В этом сохранении запоминать явно выбранную фигуру для каждого типа инструмента, постройки или пола (до 512 записей). Запомненный выбор важнее автоматического; для новых инструментов действует прежний автоматический выбор или общая фигура. Сброс фигуры при возвращении в игру также очищает эту память.</Merthsoft_DesignatorShapes_Settings_RememberPerDesignatorTooltip>
+  <Merthsoft_DesignatorShapes_Settings_SearchBuildings>Поиск построек для выбора дополнительных преград:</Merthsoft_DesignatorShapes_Settings_SearchBuildings>
+  <Merthsoft_DesignatorShapes_Settings_ShapeShortcuts>Клавиши фигур (Ctrl+Alt и клавиша). Поиск по названию:</Merthsoft_DesignatorShapes_Settings_ShapeShortcuts>
+  <Merthsoft_DesignatorShapes_Settings_ShortcutCapture>Нажмите Ctrl+Alt и клавишу для этой фигуры. Escape — отменить, Backspace — очистить.</Merthsoft_DesignatorShapes_Settings_ShortcutCapture>
+  <Merthsoft_DesignatorShapes_Settings_ToggleShortcutCapture>Нажмите клавишу или сочетание для переключения интерфейса. Чтобы назначить только Alt, Ctrl или Shift, нажмите и отпустите её. Escape — отменить, Backspace — очистить.</Merthsoft_DesignatorShapes_Settings_ToggleShortcutCapture>
+  <Merthsoft_DesignatorShapes_Settings_ShortcutConflict>Это сочетание уже назначено другой команде. Выберите другое.</Merthsoft_DesignatorShapes_Settings_ShortcutConflict>
+  <Merthsoft_DesignatorShapes_Settings_ToggleBinding>Клавиша переключения интерфейса</Merthsoft_DesignatorShapes_Settings_ToggleBinding>
+  <Merthsoft_DesignatorShapes_Settings_ToggleShortcut>Включить клавишу переключения интерфейса</Merthsoft_DesignatorShapes_Settings_ToggleShortcut>
+  <Merthsoft_DesignatorShapes_KeyLabel_PreviousShape>Предыдущая фигура</Merthsoft_DesignatorShapes_KeyLabel_PreviousShape>
+  <Merthsoft_DesignatorShapes_ParallelThickness>Толщина</Merthsoft_DesignatorShapes_ParallelThickness>
+  <Merthsoft_DesignatorShapes_ParallelSkip>Промежуток</Merthsoft_DesignatorShapes_ParallelSkip>
+  <Merthsoft_DesignatorShapes_CornerRadius>Радиус</Merthsoft_DesignatorShapes_CornerRadius>
+  <Merthsoft_DesignatorShapes_PolygonControls>Вершин: {0}. Щелчок — добавить; Enter или первая вершина — завершить.
+Backspace — удалить вершину; Escape или правая кнопка — отменить.</Merthsoft_DesignatorShapes_PolygonControls>
+  <Merthsoft_DesignatorShapes_PolygonNeedCorners>Перед завершением добавьте хотя бы три вершины, не лежащие на одной прямой.</Merthsoft_DesignatorShapes_PolygonNeedCorners>
+  <Merthsoft_DesignatorShapes_PolygonLimit>Многоугольники могут иметь не более 128 вершин и занимать до 512 клеток по каждой оси.</Merthsoft_DesignatorShapes_PolygonLimit>
+</LanguageData>
